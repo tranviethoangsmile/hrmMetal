@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "@types/sequelize": "^4.28.14",
     "authenticator": "^1.1.5",
     "axios": "^1.2.2",
@@ -33,6 +34,7 @@
     "@types/authenticator": "^1.1.1",
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.15",
+    "@types/hapi__joi": "^17.1.9",
     "@types/jsonwebtoken": "^9.0.0",
     "@types/multer": "^1.4.7",
     "@types/nodemailer": "^6.4.7",
