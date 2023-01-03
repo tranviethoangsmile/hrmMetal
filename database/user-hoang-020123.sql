@@ -1,0 +1,21 @@
+CREATE TABLE users (
+  id VARCHAR(36) PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  dob DATE NOT NULL DEFAULT NOW(),
+  employee_id INTEGER NOT NULL,
+  is_active BOOLEAN NOT NULL DEFAULT false,
+  is_admin BOOLEAN NOT NULL DEFAULT false,
+  role VARCHAR(255) NOT NULL DEFAULT 'USER',
+  position VARCHAR(255) NOT NULL DEFAULT 'STAFF',
+  department_id VARCHAR(36) NOT NULL,
+  FOREIGN KEY (department_id) REFERENCES departments(id)
+);
+
+
+
+CREATE TABLE departments (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255)
+);
