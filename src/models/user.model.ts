@@ -10,6 +10,7 @@ class User extends Model {
     public dob!: string;
     public phone!: string;
     public avatar!: string;
+    public ic_id!: string;
     public employee_id!: number;
     public is_active!: boolean;
     public is_admin!: boolean;
@@ -50,6 +51,11 @@ User.init(
         avatar: {
             type: DataTypes.STRING,
             allowNull: true,
+        },
+        ic_id: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            unique: true,
         },
         employee_id: {
             type: DataTypes.INTEGER,

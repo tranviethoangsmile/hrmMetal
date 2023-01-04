@@ -1,18 +1,26 @@
 import { Department, User } from '../models';
 
 const createDepartment = async (data: any) => {
-    const new_department =  await Department.create({
-        name: data.name,
-    });
-
-    if(new_department) {
-        return new_department;
-    }else {
-        return {
-            success: false,
-            message: 'create department error'
+    try {
+        const new_department =  await Department.create({
+            name: data.name,
+        });
+    
+        if(new_department) {
+            return new_department;
+        }else {
+            return {
+                success: false,
+                message: 'create department error'
+            }
         }
+    } catch (error) {
+        return {
+            error: true,
+            message: 'data error',
+        };
     }
+   
 };
 
 const departmentList = async () => {

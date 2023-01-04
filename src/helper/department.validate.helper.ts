@@ -1,7 +1,7 @@
 import Joi from '@hapi/joi';
 
 const schema_department_create = Joi.object({
-    name: Joi.string().min(5).max(100).required(),
+    name: Joi.string().min(2).max(100).required(),
 });
 
 const schema_department_find_by_id = Joi.string().guid();

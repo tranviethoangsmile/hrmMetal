@@ -1,8 +1,12 @@
-import { createNewUser } from '../useCases/user.useCase';
+import { createNewUser, updateUser } from '../useCases/user.useCase';
 import { User } from '../models';
 
 const createUser = async (user: User) => {
     return createNewUser(user);
 }
 
-export { createUser };
+const userUpdate = async (user: User) => {
+    return updateUser(user);
+}
+
+export { createUser, userUpdate };

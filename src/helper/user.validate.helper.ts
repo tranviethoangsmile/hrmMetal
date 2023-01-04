@@ -7,7 +7,8 @@ const schema_user_create = Joi.object({
     dob:Joi.date().required(),
     phone: Joi.string().min(10).max(11),
     avatar: Joi.string(),
-    employee_id: Joi.number().required(),
+    ic_id: Joi.string(),
+    employee_id: Joi.number().integer().min(4).max(6).required(),
     is_active: Joi.boolean().default(false),
     is_admin: Joi.boolean().default(false),
     role: Joi.string().default('USER'),
@@ -15,9 +16,31 @@ const schema_user_create = Joi.object({
     department_id: Joi.string().guid(),
 });
 
+
+const schema_user_update = Joi.object({
+    id: Joi.string().guid(),
+    name: Joi.string().min(5).max(99),
+    email: Joi.string().email(),
+    password: Joi.string().min(5).max(99),
+    dob:Joi.date(),
+    phone: Joi.string().min(10).max(11),
+    avatar: Joi.string(),
+    ic_id: Joi.string(),
+    employee_id: Joi.number().integer().min(4),
+    is_active: Joi.boolean().default(false),
+    is_admin: Joi.boolean().default(false),
+    role: Joi.string().default('USER'),
+    possition: Joi.string().default('STAFF'),
+    department_id: Joi.string().guid(),
+})
+
 const valid_user_create = (data: any) => {
     return schema_user_create.validate(data)
 }
 
+const valid_user_update = (data: any) => {
+    return schema_user_update.validate(data)
+}
 
-export { valid_user_create };
+
+export { valid_user_create, valid_user_update };

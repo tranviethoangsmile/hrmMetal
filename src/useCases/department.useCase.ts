@@ -7,16 +7,30 @@ import { Department } from '../models';
 import { validation_department_create, validation_department_find_by_id } from '../helper/department.validate.helper';
 
 const departmentCreate = async (department: Department) => {
-    const data = await validation_department_create(department);
-    console.log(data);
+    try {
+        const data = await validation_department_create(department);
     if (!data.error) {
         const newDepartment = await createDepartment(data.value);
+        if(newDepartment) {
+            return newDepartment;
+        }else {
+            return {
+                error: "nothing error"
+            }
+        }
     } else {
         return {
             error: true,
             message: 'data error',
         };
     }
+    } catch (error) {
+        return {
+            error: true,
+            message: 'create department error',
+        };
+    }
+    
 };
 
 const getDepartmentList = async () => {
