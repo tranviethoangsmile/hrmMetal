@@ -1,7 +1,20 @@
-import { departmentCreate } from '../useCases/department.useCase'
+import {
+    departmentCreate,
+    getDepartmentList,
+    getDepById
+} from '../useCases/department.useCase';
 import { Department } from '../models';
 
-
-export const createDep = async (department: Department) => {
+const createDep = async (department: Department) => {
     return await departmentCreate(department);
-};   
+};
+
+const departmentList = async () => {
+    return getDepartmentList();
+};
+
+const getDepartmentById = async (id: string) => {
+    return await getDepById(id);
+}
+
+export { createDep, departmentList, getDepartmentById };

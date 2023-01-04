@@ -1,9 +1,28 @@
-import { Department } from '../models';
+import { Department, User } from '../models';
 
-export const createDepartment = async (data : any) => {
+const createDepartment = async (data: any) => {
     return await Department.create({
         name: data.name,
     });
 };
 
-module.exports = { createDepartment };
+const departmentList = async () => {
+    return await Department.findAll();
+};
+
+const getDepartmentById = async (id: string) => {
+    return await Department.findOne({
+        where: {
+            id : id,
+        },
+        include: [
+            {
+                model: User,
+                as: 'users',
+                attributes: ['id', 'name', 'dob', 'phone','email', 'avatar']
+            }
+        ]
+    });
+}
+
+export { createDepartment, departmentList, getDepartmentById };

@@ -4,6 +4,8 @@ CREATE TABLE users (
   email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   dob DATE NOT NULL DEFAULT NOW(),
+  phone VARCHAR(11) NULL,
+  avatar VARCHAR(255) NULL,
   employee_id INTEGER NOT NULL,
   is_active BOOLEAN NOT NULL DEFAULT false,
   is_admin BOOLEAN NOT NULL DEFAULT false,
@@ -16,6 +18,6 @@ CREATE TABLE users (
 
 
 CREATE TABLE departments (
-  id SERIAL PRIMARY KEY,
+  id VARCHAR PRIMARY KEY,
   name VARCHAR(255)
 );

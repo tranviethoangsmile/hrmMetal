@@ -1,5 +1,4 @@
 import express, { Application, Request, Response, NextFunction, urlencoded } from 'express';
-import { User, Department } from './models';
 import cors from 'cors';
 import router from './routers';
 
