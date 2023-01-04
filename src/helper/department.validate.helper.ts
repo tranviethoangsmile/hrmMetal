@@ -14,4 +14,6 @@ const validation_department_find_by_id = (data : string) => {
     return schema_department_find_by_id.validate(data);
 }
 
+
+
 export { validation_department_create, validation_department_find_by_id }

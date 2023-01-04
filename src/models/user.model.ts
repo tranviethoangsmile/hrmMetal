@@ -54,6 +54,7 @@ User.init(
         employee_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            unique: true,
         },
         is_active: {
             type: DataTypes.BOOLEAN,
@@ -84,7 +85,7 @@ User.init(
         sequelize: db,
         modelName: 'users',
         tableName: 'users',
-        timestamps: true,
+        timestamps: false,
     },
 );
 

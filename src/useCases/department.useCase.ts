@@ -4,7 +4,7 @@ import {
     getDepartmentById
 } from '../repositorys/department.repository';
 import { Department } from '../models';
-import { validation_department_create, validation_department_find_by_id } from '../helper/validate.helper';
+import { validation_department_create, validation_department_find_by_id } from '../helper/department.validate.helper';
 
 const departmentCreate = async (department: Department) => {
     const data = await validation_department_create(department);

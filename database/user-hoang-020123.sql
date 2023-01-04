@@ -6,7 +6,7 @@ CREATE TABLE users (
   dob DATE NOT NULL DEFAULT NOW(),
   phone VARCHAR(11) NULL,
   avatar VARCHAR(255) NULL,
-  employee_id INTEGER NOT NULL,
+  employee_id INTEGER NOT NULL UNIQUE,
   is_active BOOLEAN NOT NULL DEFAULT false,
   is_admin BOOLEAN NOT NULL DEFAULT false,
   role VARCHAR(255) NOT NULL DEFAULT 'USER',
