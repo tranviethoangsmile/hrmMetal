@@ -1,43 +1,18 @@
 import { User, Department } from '../models/index';
 import { getDepartmentById } from './department.repository';
+import { UpdateField, CreateField } from '../interfaces/user.interface';
+import { Op } from 'sequelize';
 
-interface UpdateField {
-     id: number;
-     name?: string;
-     email?: string;
-     password?: string;
-     dob?: string;
-     phone?: string;
-     avatar?: string;
-     ic_id?: string;
-     employee_id?: number;
-     is_active?: boolean;
-     is_admin?: boolean;
-     role?: string;
-     position?: string;
-     department_id?: string;
-
-     department?: Department;
-}
 const userCreate = async (user: any) => {
     try {
         const departmentOfUser = await getDepartmentById(user.department_id);
         if (departmentOfUser) {
-            const new_user = await User.create({
-                name: user.name,
-                email: user.email,
-                password: user.password,
-                dob: user.dob,
-                phone: user.phone,
-                avatar: user.avatar,
-                ic_id: user.ic_id,
-                employee_id: user.employee_id,
-                is_active: user.is_active,
-                is_admin: user.is_admin,
-                role: user.role,
-                possition: user.position,
-                department_id: user.department_id,
+            const createField: CreateField = {
+                ...user,
                 department: departmentOfUser,
+            };
+            const new_user = await User.create({
+                ...createField,
             });
             if (new_user) {
                 return new_user;
@@ -70,62 +45,148 @@ const userUpdate = async (user: any) => {
         };
         const new_user_updated = await User.update(updateFields, {
             where: {
-                id: user.id
-            }
-        })
+                id: user.id,
+            },
+        });
         if (new_user_updated) {
             return new_user_updated;
-            } else {
+        } else {
             return {
                 success: false,
                 message: 'update user error',
             };
         }
-        
     } catch (error) {
         return {
             error: true,
-            message: 'update error',
-        }
+            message: error,
+        };
     }
-    // try {
-    //     const departmentOfUser = await getDepartmentById(user.department_id);
-    //     const new_user_updated = await User.update(
-    //         {
-    //             name: user.name,
-    //             email: user.email,
-    //             password: user.password,
-    //             dob: user.dob,
-    //             phone: user.phone,
-    //             avatar: user.avatar,
-    //             ic_id: user.ic_id,
-    //             employee_id: user.employee_id,
-    //             is_active: user.is_active,
-    //             is_admin: user.is_admin,
-    //             role: user.role,
-    //             possition: user.position,
-    //             department_id: user.department_id,
-    //             department: departmentOfUser,
-    //         },
-    //         {
-    //             where: {
-    //                 id: user.id,
-    //             },
-    //         },
-    //     );
-    //     if (new_user_updated) {
-    //         return new_user_updated;
-    //     } else {
-    //         return {
-    //             success: false,
-    //             message: 'update user error',
-    //         };
-    //     }
-    // } catch (error) {
-    //     return {
-    //         error: true,
-    //     };
-    // }
 };
 
-export { userCreate, userUpdate };
+const userDelete = async (id: string) => {
+    try {
+        const userDel = await User.destroy({
+            where: {
+                id: id,
+            },
+        });
+        if (userDel === 1) {
+            return userDel;
+        } else {
+            return {
+                success: false,
+                message: 'delete user error repo',
+            };
+        }
+    } catch {
+        return {
+            error: true,
+            message: 'delete user error',
+        };
+    }
+};
+
+const userFindById = async (id: string) => {
+    try {
+        const user = await User.findByPk(id, {
+            attributes: [
+                'name',
+                'user_name',
+                'email',
+                'dob',
+                'phone',
+                'employee_id',
+                'department_id',
+                'is_active',
+                'position',
+                'is_admin',
+            ],
+        });
+        if (user) {
+            return user;
+        } else {
+            return {
+                success: false,
+                message: 'not found user',
+            };
+        }
+    } catch (error) {
+        return {
+            message: error,
+        };
+    }
+};
+
+const userFindByName = async (name: string) => {
+    try {
+        const user = await User.findAll({
+            where: {
+                name: {
+                    [Op.like]: `%${name}%`,
+                },
+            },
+            attributes: [
+                'name',
+                'user_name',
+                'email',
+                'dob',
+                'phone',
+                'employee_id',
+                'department_id',
+                'is_active',
+                'position',
+                'is_admin',
+            ],
+        });
+        console.log('user >>', user);
+        if (user) {
+            return user;
+        } else {
+            return {
+                success: false,
+                message: 'not found user',
+            };
+        }
+    } catch (error) {
+        return {
+            message: error,
+        };
+    }
+};
+
+const userFindAll =  async () => {
+    try {
+        const users = await User.findAll({
+            attributes: [
+                'name',
+                'user_name',
+                'email',
+                'dob',
+                'phone',
+                'employee_id',
+                'department_id',
+                'is_active',
+                'position',
+                'is_admin',
+            ]
+        })
+        if(users.length > 0) {
+            return {
+                success: true,
+                data: users,
+            }
+        }else {
+            return {
+                success: false,
+                message: 'not found user',
+            };
+        }
+    } catch (error) {
+        return {
+            message: error,
+        };
+    }
+}
+
+export { userCreate, userUpdate, userDelete, userFindById, userFindByName, userFindAll };

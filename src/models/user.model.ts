@@ -5,6 +5,7 @@ import Department from './department.model';
 class User extends Model {
     public id!: number;
     public name!: string;
+    public user_name!: string;
     public email!: string;
     public password!: string;
     public dob!: string;
@@ -29,6 +30,10 @@ User.init(
             primaryKey: true,
         },
         name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        user_name: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -69,7 +74,7 @@ User.init(
         },
         is_admin: {
             type: DataTypes.BOOLEAN,
-            allowNull: false,
+            allowNull: true,
             defaultValue: false,
         },
         role: {
@@ -79,7 +84,7 @@ User.init(
         },
         position: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
             defaultValue: 'STAFF',
         },
         department_id: {
@@ -92,6 +97,7 @@ User.init(
         modelName: 'users',
         tableName: 'users',
         timestamps: false,
+        paranoid: true,
     },
 );
 

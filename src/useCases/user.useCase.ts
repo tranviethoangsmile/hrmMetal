@@ -1,56 +1,69 @@
-import { userCreate, userUpdate } from '../repositorys/user.repository';
-import { valid_user_create, valid_user_update } from '../helper/user.validate.helper'
-import { User } from '../models'
-import  bcrypt  from 'bcrypt'
+import bcrypt from 'bcrypt';
+import {
+    userCreate,
+    userUpdate,
+    userDelete,
+    userFindById,
+    userFindByName,
+    userFindAll
+} from '../repositorys/user.repository';
+import {
+    valid_user_create,
+    valid_user_update,
+} from '../helper/user.validate.helper';
+import { User } from '../models';
+import { validation_id } from '../helper';
 
 const createNewUser = async (user: User) => {
-        const valid = valid_user_create(user)
-        console.log(valid)
-        if (!valid.error) {
-            const passBcrypt = await bcrypt.hash(user.password, 10)
-            const userBcrypted = {
-                ...user,
-                password: passBcrypt
-            }
-            const new_user = await userCreate(userBcrypted)
-            if(new_user) {
-                return new_user
-            }else {
-                return {
-                    error: true,
-                    message: 'User create faild'
-                }
-            }
-        }else {
+    const valid = valid_user_create(user);
+    if (!valid.error) {
+        const passBcrypt = await bcrypt.hash(user.password, 10);
+        const userBcrypted = {
+            ...user,
+            password: passBcrypt,
+        };
+        const new_user = await userCreate(userBcrypted);
+        if (new_user) {
+            return new_user;
+        } else {
             return {
                 error: true,
-                message: 'data error',
+                message: 'User create faild',
             };
         }
+    } else {
+        return {
+            error: true,
+            message: 'data error',
+        };
+    }
 };
 
 const updateUser = async (user: User) => {
     try {
-        const valid = valid_user_update(user)
+        const valid = valid_user_update(user);
         console.log(valid);
         if (!valid.error) {
-            if(user.password) {
-                const passBcrypt = await bcrypt.hash(user.password, 10)
+            if (user.password) {
+                const passBcrypt = await bcrypt.hash(user.password, 10);
                 const userBcrypted = {
-                   ...user,
-                   password: passBcrypt
-                }
-                const new_user = await userUpdate(userBcrypted)
-                if(new_user) {
-                    return new_user
-                }else {
+                    ...user,
+                    password: passBcrypt,
+                };
+                const new_user = await userUpdate(userBcrypted);
+                if (new_user.toString() === '1') {
+                    return {
+                        error: false,
+                        message: 'User updated',
+                    }
+                } else {
                     return {
                         error: true,
-                        message: 'User update faild'
-                    }
+                        message: 'User update faild',
+                    };
                 }
             }
-        }else {
+        } else {
             return {
                 error: true,
                 message: 'data error',
@@ -59,10 +72,130 @@ const updateUser = async (user: User) => {
     } catch (error) {
         return {
             error: true,
-            message: 'User can\'t update ',
+            message: "User can't update ",
+        };
+    }
+};
+
+const deleteUser = async (id: string) => {
+    try {
+        const valid_id = validation_id(id);
+        if (!valid_id.error) {
+            const user = await userFindById(id);
+            if (user) {
+                const deleted_user = await userDelete(id);
+                if (deleted_user === 1) {
+                    return {
+                        error: false,
+                        message: 'User deleted',
+                    };
+                } else {
+                    return {
+                        error: true,
+                        message: 'User delete faild',
+                    };
+                }
+            } else {
+                return {
+                    error: true,
+                    message: 'user not exist',
+                };
+            }
+        } else {
+            return {
+                error: true,
+                message: 'id wrong...!!',
+            };
+        }
+    } catch (error) {
+        return {
+            error: true,
+            message: 'User delete error ',
+        };
+    }
+};
+
+const findUserById = async (userId: string) => {
+    try {
+        const valid_id = validation_id(userId);
+        console.log(valid_id);
+        if (!valid_id.error) {
+            const user = await userFindById(userId);
+            if (user) {
+                return {
+                    error: false,
+                    data: user,
+                };
+            } else {
+                return {
+                    error: true,
+                    message: 'User not found',
+                };
+            }
+        } else {
+            return {
+                error: true,
+                message: 'id wrong...!!',
+            };
+        }
+    } catch (error) {
+        return {
+            error: true,
+            message: 'id not valid',
+        };
+    }
+};
+
+const findUserByName = async (name: string) => {
+    try {
+        if (name !== '') {
+            const user = await userFindByName(name);
+            if (user) {
+                return {
+                    error: false,
+                    data: user,
+                };
+            }else {
+                return {
+                    error: true,
+                    message: 'User not found',
+                };
+            }
+        }else {
+            return {
+                error: true,
+                message: 'name wrong...!!',
+            };
+        }
+    } catch (error) {
+        return {
+            error: true,
+            message: 'User not found',
         }
     }
-       
 }
 
-export { createNewUser, updateUser }
+const findAllUser = async () => {
+    try {
+        const users = await userFindAll();
+        if(users?.success) {
+            return {
+                error: false,
+                data: users.data,
+            }
+        }else {
+            return {
+                error: true,
+                message: users?.message,
+            };
+        }
+    } catch (error) {
+        return {
+            error: true,
+            message: 'User find wrong...!',
+        }
+    }
+   }
+
+
+export { createNewUser, updateUser, deleteUser, findUserById, findUserByName, findAllUser };

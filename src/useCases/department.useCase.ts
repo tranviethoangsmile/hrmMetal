@@ -4,7 +4,8 @@ import {
     getDepartmentById
 } from '../repositorys/department.repository';
 import { Department } from '../models';
-import { validation_department_create, validation_department_find_by_id } from '../helper/department.validate.helper';
+import { validation_department_create } from '../helper/department.validate.helper';
+import { validation_id } from '../helper';
 
 const departmentCreate = async (department: Department) => {
     try {
@@ -46,7 +47,7 @@ const getDepartmentList = async () => {
 };
 
 const getDepById = async (id: string) => {
-    const validId = await validation_department_find_by_id(id);
+    const validId = await validation_id(id);
     if (!validId.error) {
         const dep = await getDepartmentById(id);
         return dep;
