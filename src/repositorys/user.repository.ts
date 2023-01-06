@@ -1,4 +1,4 @@
-import { User, Department } from '../models/index';
+import { User, Department } from '../models';
 import { getDepartmentById } from './department.repository';
 import { UpdateField, CreateField } from '../interfaces/user.interface';
 import { Op } from 'sequelize';
@@ -29,7 +29,7 @@ const userCreate = async (user: any) => {
             };
         }
     } catch (error) {
-        return error
+        return error;
     }
 };
 
@@ -63,13 +63,16 @@ const userUpdate = async (user: any) => {
 
 const userDelete = async (id: string) => {
     try {
-        const userBeforeDelete = await User.update({
-            is_active: false,
-        },{
-            where: {
-                id:id
+        const userBeforeDelete = await User.update(
+            {
+                is_active: false,
             },
-        })
+            {
+                where: {
+                    id: id,
+                },
+            },
+        );
         if (userBeforeDelete) {
             const userDel = await User.destroy({
                 where: {
@@ -84,7 +87,7 @@ const userDelete = async (id: string) => {
                     message: 'delete user error repo',
                 };
             }
-        }else {
+        } else {
             return {
                 success: false,
                 message: 'delete user error',
@@ -117,12 +120,11 @@ const userFindById = async (id: string) => {
                 {
                     model: Department,
                     as: 'department',
-                    attributes: [
-                        'name',
-                    ]
-                }
-            ]
+                    attributes: ['name'],
+                },
+            ],
         });
+        console.log(user);
         if (user) {
             return user;
         } else {
@@ -175,7 +177,7 @@ const userFindByName = async (name: string) => {
     }
 };
 
-const userFindAll =  async () => {
+const userFindAll = async () => {
     try {
         const users = await User.findAll({
             attributes: [
@@ -193,18 +195,16 @@ const userFindAll =  async () => {
                 {
                     model: Department,
                     as: 'department',
-                    attributes: [
-                        'name',
-                    ],
-                }
-            ]
-        })
-        if(users.length > 0) {
+                    attributes: ['name'],
+                },
+            ],
+        });
+        if (users.length > 0) {
             return {
                 success: true,
                 data: users,
-            }
-        }else {
+            };
+        } else {
             return {
                 success: false,
                 message: 'not found user',
@@ -215,6 +215,13 @@ const userFindAll =  async () => {
             message: error,
         };
     }
-}
+};
 
-export { userCreate, userUpdate, userDelete, userFindById, userFindByName, userFindAll };
+export {
+    userCreate,
+    userUpdate,
+    userDelete,
+    userFindById,
+    userFindByName,
+    userFindAll,
+};

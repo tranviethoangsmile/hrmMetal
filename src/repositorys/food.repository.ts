@@ -34,7 +34,6 @@ const find_food_by_id = async (id: string) => {
 
         if(food) {
             return {
-                success: true,
                 food,
             }
         }else {

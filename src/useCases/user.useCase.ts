@@ -118,9 +118,9 @@ const deleteUser = async (id: string) => {
 const findUserById = async (userId: string) => {
     try {
         const valid_id = validation_id(userId);
-        console.log(valid_id);
         if (!valid_id.error) {
             const user = await userFindById(userId);
+            console.log('usercase',user)
             if (user) {
                 return {
                     error: false,
