@@ -1,14 +1,37 @@
-// import db from "../db/db";
-// import { DataTypes, Model } from "sequelize";
-// import User from './user.model';
+import db from "../db/db";
+import { DataTypes, Model } from "sequelize";
 
-// class Canteen extends Model {
-//     public id!: string;
-//     public factory_name!: string;
-//     public description!: string;
-//     public day_time!: Date;
-//     public user_id!: string;
+class Canteen extends Model {
+    public id!: string;
+    public factory_name!: string;
+    public description!: string;
+}
 
 
-//     public User !: User;
-// }
+Canteen.init(
+    {
+        id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            primaryKey: true,
+        },
+        factory_name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        description: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+    }, {
+        sequelize: db,
+        modelName: 'Canteen',
+        tableName: 'canteens',
+        timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+        deletedAt: 'deleted_at',
+        paranoid: true,
+    })
+
+    export default Canteen;

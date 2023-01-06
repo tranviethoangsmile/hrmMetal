@@ -14,6 +14,9 @@ CREATE TABLE users (
   role VARCHAR(255) NOT NULL DEFAULT 'USER',
   position VARCHAR(255) NOT NULL DEFAULT 'STAFF',
   department_id VARCHAR(36) NOT NULL,
+  created_at DATE NOT NULL,
+  updated_at DATE NOT NULL,
+  deleted_at DATE NULL,
   FOREIGN KEY (department_id) REFERENCES departments(id)
 );
 

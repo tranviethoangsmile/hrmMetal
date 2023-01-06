@@ -29,10 +29,7 @@ const userCreate = async (user: any) => {
             };
         }
     } catch (error) {
-        return {
-            error: true,
-            message: 'user exists',
-        };
+        return error
     }
 };
 
@@ -66,17 +63,31 @@ const userUpdate = async (user: any) => {
 
 const userDelete = async (id: string) => {
     try {
-        const userDel = await User.destroy({
+        const userBeforeDelete = await User.update({
+            is_active: false,
+        },{
             where: {
-                id: id,
+                id:id
             },
-        });
-        if (userDel === 1) {
-            return userDel;
-        } else {
+        })
+        if (userBeforeDelete) {
+            const userDel = await User.destroy({
+                where: {
+                    id: id,
+                },
+            });
+            if (userDel === 1) {
+                return userDel;
+            } else {
+                return {
+                    success: false,
+                    message: 'delete user error repo',
+                };
+            }
+        }else {
             return {
                 success: false,
-                message: 'delete user error repo',
+                message: 'delete user error',
             };
         }
     } catch {
@@ -102,6 +113,15 @@ const userFindById = async (id: string) => {
                 'position',
                 'is_admin',
             ],
+            include: [
+                {
+                    model: Department,
+                    as: 'department',
+                    attributes: [
+                        'name',
+                    ]
+                }
+            ]
         });
         if (user) {
             return user;
@@ -165,10 +185,18 @@ const userFindAll =  async () => {
                 'dob',
                 'phone',
                 'employee_id',
-                'department_id',
                 'is_active',
                 'position',
                 'is_admin',
+            ],
+            include: [
+                {
+                    model: Department,
+                    as: 'department',
+                    attributes: [
+                        'name',
+                    ],
+                }
             ]
         })
         if(users.length > 0) {

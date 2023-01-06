@@ -70,7 +70,7 @@ User.init(
         is_active: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue: false,
+            defaultValue: true,
         },
         is_admin: {
             type: DataTypes.BOOLEAN,
@@ -96,8 +96,11 @@ User.init(
         sequelize: db,
         modelName: 'users',
         tableName: 'users',
-        timestamps: false,
+        timestamps: true,
         paranoid: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+        deletedAt: 'deleted_at',
     },
 );
 
