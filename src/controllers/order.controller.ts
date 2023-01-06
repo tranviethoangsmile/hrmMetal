@@ -1,4 +1,4 @@
-import { create_order, find_all, search_order } from '../useCases/order.useCase';
+import { create_order, find_all, search_order, delete_order_by_id } from '../useCases/order.useCase';
 
 const create = async (order: any) => {
     return await create_order(order);
@@ -12,4 +12,8 @@ const search_orders = async (order: any) => {
     return await search_order(order);
 }
 
-export { create, find_all_order, search_orders };
+const delete_order = async (id: any) => {
+    return await delete_order_by_id(id);
+}
+
+export { create, find_all_order, search_orders, delete_order };

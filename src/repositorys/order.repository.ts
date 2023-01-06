@@ -76,8 +76,8 @@ const find_order = async (field: any) => {
         const orders = await Order.findAll({
             where: {
                 ...field,
-            }, 
-            attributes: ['created_at',],
+            },
+            attributes: ['created_at'],
             include: [
                 {
                     model: User,
@@ -115,10 +115,44 @@ const find_order = async (field: any) => {
         }
     } catch (error) {
         return {
-            success: false,
             error,
         };
     }
 };
 
-export { create, find_all_order, find_order };
+const delete_order = async (id: string) => {
+    try {
+        const order = await Order.findOne({
+            where: {
+                id,
+            },
+        });
+        if(order != null) {
+            const result = await Order.destroy({
+                where: {
+                    id,
+                },
+            });
+            if (result === 1) {
+                return {
+                    success: true,
+                };
+            } else {
+                return {
+                    success: false,
+                    error: 'delete order failed',
+                };
+            }
+        }else {
+            return {
+                success: false,
+                error: 'Order not exist',
+            };
+        }
+       
+    } catch (error) {
+        return error;
+    }
+};
+
+export { create, find_all_order, find_order, delete_order };

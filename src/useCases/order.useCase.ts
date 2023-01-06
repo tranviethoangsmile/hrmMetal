@@ -1,12 +1,19 @@
-import { create, find_all_order, find_order } from '../repositorys/order.repository';
 import {
-    validate_create_order, validate_search_order
+    create,
+    find_all_order,
+    find_order,
+    delete_order,
+} from '../repositorys/order.repository';
+import {
+    validate_create_order,
+    validate_search_order,
 } from '../helper/order.validate.helper';
 import { validation_id } from '../helper';
-import { search_order } from '../interfaces/order.interface'
+import { search_order } from '../interfaces/order.interface';
 import { userFindById } from '../repositorys/user.repository';
 import { find_food_by_id } from '../repositorys/food.repository';
 import { find_canteen_by_id } from '../repositorys/canteen.repository';
+import e from 'cors';
 const create_order = async (order: any) => {
     try {
         const valid = validate_create_order(order);
@@ -74,7 +81,7 @@ const find_all = async () => {
 };
 
 const search_order = async (order: search_order) => {
-    try {   
+    try {
         const valid = validate_search_order(order);
         if (!valid.error) {
             const orders = await find_order(order);
@@ -82,20 +89,19 @@ const search_order = async (order: search_order) => {
                 return {
                     success: true,
                     orders,
-                }
-            }else {
-                return{
+                };
+            } else {
+                return {
                     success: false,
                     message: 'order not found',
-                }
+                };
             }
-        }else {
+        } else {
             return {
                 success: false,
                 message: 'data not valid',
             };
         }
-
     } catch (error) {
         return {
             error: true,
@@ -104,4 +110,31 @@ const search_order = async (order: search_order) => {
     }
 };
 
-export { create_order, find_all, search_order };
+const delete_order_by_id = async (id: string) => {
+    try {
+        const valid = await validation_id(id);
+        if (!valid.error) {
+            const result = await delete_order(id);
+            if (result) {
+                return {
+                    success: true,
+                };
+            }else {
+                return {
+                    success: false,
+                    message: 'delete failed',
+                };
+            }
+        }else {
+            return {
+                success: false,
+                message: 'id not valid',
+            };
+        }
+    } catch (error) {
+        return error;
+    }
+   
+};
+
+export { create_order, find_all, search_order, delete_order_by_id };
