@@ -2,10 +2,10 @@ import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 dotenv.config();
 const ENV = process.env;
-const DATABASE_NAME = ENV.DATABASE_NAME || 'hrmMetal';
-const DB_USER_NAME = ENV.DB_USER_NAME || 'postgres';
-const DB_PASSWORD = ENV.DB_PASSWORD || '0000';
-const DB_HOST = ENV.DB_HOST || 'localhost';
+const DATABASE_NAME = ENV.DATABASE_NAME || '';
+const DB_USER_NAME = ENV.DB_USER_NAME || '';
+const DB_PASSWORD = ENV.DB_PASSWORD || '';
+const DB_HOST = ENV.DB_HOST || '';
 const DB_DIALECT = ENV.DB_DIALECT || 'postgres';
 
 const db = new Sequelize(DATABASE_NAME, DB_USER_NAME, DB_PASSWORD, {

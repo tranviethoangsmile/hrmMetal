@@ -1,7 +1,8 @@
 import {Request, Response, NextFunction } from "express";
-
-const LIMIT_HOURS_ORDER_FROM = 8;
-const LIMIT_HOURS_ORDER_TO = 10;
+import dotenv from 'dotenv'
+dotenv.config();
+const LIMIT_HOURS_ORDER_FROM = process.env.LIMIT_HOURS_ORDER_FROM || 0;
+const LIMIT_HOURS_ORDER_TO = process.env.LIMIT_HOURS_ORDER_TO || 24;
 const timeOrderLimit = (req: Request, res: Response ,next: NextFunction) => {
     const currentHour: number = new Date().getHours();
     if(currentHour > LIMIT_HOURS_ORDER_FROM && currentHour <= LIMIT_HOURS_ORDER_TO){
