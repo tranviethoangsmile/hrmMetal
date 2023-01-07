@@ -29,11 +29,12 @@ findRouter.post('/', async (req, res) => {
             const new_value = new Date(Date.parse(value.created_at));
             const data = {
                 ...value,
-                created_at: new_value,
+                created_at: new_value.toISOString(),
             };
             const orders = await search_orders(data);
+            res.status(200).json(orders);
             if (orders?.success) {
-                res.status(200).json(search_orders);
+                res.status(200).json(orders);
             } else {
                 res.status(400).json(orders);
             }

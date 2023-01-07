@@ -127,7 +127,7 @@ const delete_order = async (id: string) => {
                 id,
             },
         });
-        if(order != null) {
+        if (order != null) {
             const result = await Order.destroy({
                 where: {
                     id,
@@ -143,13 +143,12 @@ const delete_order = async (id: string) => {
                     error: 'delete order failed',
                 };
             }
-        }else {
+        } else {
             return {
                 success: false,
                 error: 'Order not exist',
             };
         }
-       
     } catch (error) {
         return error;
     }

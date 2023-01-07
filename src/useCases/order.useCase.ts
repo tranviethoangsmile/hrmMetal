@@ -85,6 +85,7 @@ const search_order = async (order: search_order) => {
         const valid = validate_search_order(order);
         if (!valid.error) {
             const orders = await find_order(order);
+            console.log(orders);
             if (orders != null) {
                 return {
                     success: true,
