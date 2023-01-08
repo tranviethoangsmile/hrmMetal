@@ -19,7 +19,6 @@ const create_order = async (order: any) => {
         const valid = validate_create_order(order);
         if (!valid.error) {
             const user = await userFindById(order.user_id);
-            console.log(user);
             const canteen = await find_canteen_by_id(order.canteen_id);
             const food = await find_food_by_id(order.food_id);
             if (user != null && canteen != null && food != null) {
@@ -63,7 +62,6 @@ const create_order = async (order: any) => {
 const find_all = async () => {
     try {
         const orders = await find_all_order();
-        console.log(orders);
         if (orders?.success) {
             return orders;
         } else {
@@ -85,7 +83,6 @@ const search_order = async (order: search_order) => {
         const valid = validate_search_order(order);
         if (!valid.error) {
             const orders = await find_order(order);
-            console.log(orders);
             if (orders != null) {
                 return {
                     success: true,

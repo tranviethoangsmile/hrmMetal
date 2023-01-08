@@ -5,7 +5,7 @@ import { very_token_order } from '../middlewares/veryTokenOrder.middleware';
 
 const orderRouter = Router();
 
-orderRouter.post('/', very_token_order ,async (req: Request, res: Response) => {
+orderRouter.post('/', very_token_order, timeOrderLimit ,async (req: Request, res: Response) => {
     try {
         const order_data = req.body;
         const new_order = await create(order_data);
