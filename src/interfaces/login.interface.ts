@@ -5,6 +5,7 @@ interface login_data {
 
 interface token_payload {
     id: string;
+    name: string;
     user_name: string;
     position: string;
     role: string;

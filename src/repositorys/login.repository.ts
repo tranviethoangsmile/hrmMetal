@@ -16,6 +16,7 @@ const login = async (user: any) => {
             },
             attributes: [
                 'id',
+                'name',
                 'user_name',
                 'password',
                 'position',
@@ -25,24 +26,25 @@ const login = async (user: any) => {
         });
        
         if(user_login != null) {
+            const pass = await bcrypt.compare(password, user_login.password);
             const user_payload: token_payload = {
                 id: user_login?.dataValues.id,
+                name: user_login?.dataValues.name,
                 user_name: user_login?.dataValues.user_name,
                 position: user_login?.dataValues.ppsition,
                 role: user_login?.dataValues.role,
                 is_admin: user_login?.dataValues.is_admin
             }; 
-            const pass = await bcrypt.compare(password, user_login.password);
             if(pass) {
                 const secret = crypto.createHash('sha256').update(SECRET).digest('hex')
                 const payload = {
                     ...user_payload,
                 };
                 const token = jwt.sign(payload, secret);
-                console.log(token);
                 return {
                     success: true,
-                    token,
+                    data: payload,
+                    token: token
                 }
             }else {
                 return {

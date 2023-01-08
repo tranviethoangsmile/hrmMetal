@@ -5,15 +5,15 @@ import findRouter  from './find.router';
 import foodRouter from './food.router';
 import canteenRouter from './canteen.router';
 import orderRouter from './order.router';
-import loginRouter from './login.router';
+import loginRouter from './login.router'
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response, next:NextFunction) => {
-    res.json({
-        message: "Hello World"
-    });
-
+    res.send({
+        message: 'Hello World'
+    })
 })
+
 router.use('/department', departmentRouters )
 router.use('/user', userRouters);
 router.use('/find', findRouter)

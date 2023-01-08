@@ -8,9 +8,9 @@ loginRouter.post('/', async (req: Request, res: Response) => {
         const user = req.body;
         const token = await login(user);
         if(token?.success) {
-            res.status(200).send(token?.data);
+            res.status(200).send(token);
         }else {
-            res.status(404).send(token?.message);
+            res.status(201).send(token?.message);
         }
     } catch (error) {
         res.status(500).send({

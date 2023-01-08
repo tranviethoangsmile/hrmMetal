@@ -10,7 +10,8 @@ const login_user = async (user: login_data ) => {
             if(login_data?.success) {
                 return {
                     success: true,
-                    data: login_data.token,
+                    user: login_data?.data,
+                    token: login_data?.token
                 }
             }else {
                 return {
