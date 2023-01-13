@@ -15,6 +15,6 @@ App.use(bodyParser.json());
 App.use(express.static('public'));
 App.use(router);
 
-App.listen(3000,HOTNAME,() => {
+App.listen(3030,() => {
     console.warn(`server runing on port ${PORT}`);
 });

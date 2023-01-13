@@ -77,7 +77,7 @@ const find_order = async (field: any) => {
             where: {
                 ...field,
             },
-            attributes: ['created_at'],
+            attributes: ['date'],
             include: [
                 {
                     model: User,

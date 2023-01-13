@@ -1,5 +1,6 @@
 interface search_order {
     id?: string;
+    date?: string;
     user_id?: string;
     canteen_id?: string;
     food_id?: string;

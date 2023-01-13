@@ -80,12 +80,12 @@ User.init(
         role: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: 'USER',
+            defaultValue: 'STAFF',
         },
         position: {
             type: DataTypes.STRING,
             allowNull: true,
-            defaultValue: 'STAFF',
+            defaultValue: 'HINO',
         },
         department_id: {
             type: DataTypes.STRING,

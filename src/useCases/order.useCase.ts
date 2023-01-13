@@ -28,6 +28,7 @@ const create_order = async (order: any) => {
                     canteen: canteen,
                     food: food,
                 };
+                console.log(order_data.date);
                 const created_order = await create(order_data);
                 if (created_order) {
                     return {

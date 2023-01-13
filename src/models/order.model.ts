@@ -6,6 +6,7 @@ import Canteen from './canteen.model';
 
 class Order extends Model {
     public id!: string;
+    public date!: string;
     public user_id!: string;
     public food_id!: string;
     public canteen_id!: string;
@@ -23,6 +24,10 @@ Order.init(
             allowNull: false,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
+        },
+        date: {
+            type: DataTypes.STRING,
+            allowNull: false,
         },
         user_id: {
             type: DataTypes.UUID,
