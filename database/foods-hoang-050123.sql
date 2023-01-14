@@ -3,7 +3,7 @@ CREATE TABLE foods (
   name VARCHAR(255) NOT NULL,
   description VARCHAR(255) NOT NULL,
   price INTEGER NOT NULL,
-  createdAt DATE NULL,
-  updatedAt DATE NULL,
-  deletedAt DATE NULL
+  created_at DATE NULL,
+  updated_at DATE NULL,
+  deleted_at DATE NULL
 );

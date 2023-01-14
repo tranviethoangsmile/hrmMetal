@@ -1,0 +1,10 @@
+version: '3'
+services:
+  hoangdev:
+    image: tranviethoangsmile/hrm:latest
+    ports:
+      - 54323:5432
+    environment:
+      POSTGRES_USER: hoangdev
+    volumes:
+      - /Users/imac/Desktop/docker-data:/var/lib/postgresql/data

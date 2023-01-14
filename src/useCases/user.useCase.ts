@@ -34,7 +34,7 @@ const createNewUser = async (user: User) => {
     } else {
         return {
             error: true,
-            message: 'data error',
+            message: valid.error.message,
         };
     }
 };

@@ -8,10 +8,11 @@ const DB_PASSWORD = ENV.DB_PASSWORD || '';
 const DB_HOST = ENV.DB_HOST || '';
 const DB_DIALECT = ENV.DB_DIALECT || 'postgres';
 
-const db = new Sequelize(DATABASE_NAME, DB_USER_NAME, DB_PASSWORD, {
+const db = new Sequelize('hoangdev', 'hoangdev','0000', {
     dialect: 'postgres',
-    host: DB_HOST,
+    host: 'localhost',
     logging: false,
+    port: 54323,
 });
 
 db.authenticate()
