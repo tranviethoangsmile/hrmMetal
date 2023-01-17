@@ -110,6 +110,7 @@ const userFindById = async (id: string) => {
                 'email',
                 'dob',
                 'phone',
+                'role',
                 'employee_id',
                 'department_id',
                 'is_active',
@@ -183,6 +184,7 @@ const userFindAll = async () => {
             attributes: [
                 'name',
                 'user_name',
+                'role',
                 'email',
                 'dob',
                 'phone',

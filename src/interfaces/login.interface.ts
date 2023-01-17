@@ -10,6 +10,7 @@ interface token_payload {
     position: string;
     role: string;
     is_admin: boolean;
+    department: object;
 }
 
 export { login_data, token_payload }

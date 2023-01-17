@@ -1,7 +1,8 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
 import db from '../db/db';
 import Department from './department.model';
-
+import { Role } from '../enum/Role.enum';
+import { Position } from '../enum/Position.enum';
 class User extends Model {
     public id!: number;
     public name!: string;
@@ -15,8 +16,8 @@ class User extends Model {
     public employee_id!: number;
     public is_active!: boolean;
     public is_admin!: boolean;
-    public role!: string;
-    public position!: string;
+    public role!: Enumerator;
+    public position!: Enumerator;
     public department_id!: string;
 
     public department!: Department;
@@ -78,14 +79,12 @@ User.init(
             defaultValue: false,
         },
         role: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            defaultValue: 'STAFF',
+            type: DataTypes.ENUM,
+            values:  Object.values(Role).map(value => value.toString()),
         },
         position: {
-            type: DataTypes.STRING,
-            allowNull: true,
-            defaultValue: 'HINO',
+            type: DataTypes.ENUM,
+            values:  Object.values(Position).map(value => value.toString()),
         },
         department_id: {
             type: DataTypes.STRING,

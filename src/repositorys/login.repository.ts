@@ -1,9 +1,9 @@
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
-import { User } from '../models';
-import jwt  from 'jsonwebtoken';
-import { token_payload } from '../interfaces/login.interface'
+import { Department, User } from '../models';
+import jwt from 'jsonwebtoken';
+import { token_payload } from '../interfaces/login.interface';
 dotenv.config();
 const SECRET: string = process.env.SECRET || 'secret';
 const login = async (user: any) => {
@@ -18,25 +18,36 @@ const login = async (user: any) => {
                 'id',
                 'name',
                 'user_name',
+                'role',
                 'password',
                 'position',
                 'role',
                 'is_admin',
+            ],
+            include: [
+                {
+                    model: Department,
+                    as: 'department',
+                    attributes: ['name']
+                }
             ]
         });
-       
-        if(user_login != null) {
+        if (user_login != null) {
             const pass = await bcrypt.compare(password, user_login.password);
             const user_payload: token_payload = {
                 id: user_login?.dataValues.id,
                 name: user_login?.dataValues.name,
                 user_name: user_login?.dataValues.user_name,
-                position: user_login?.dataValues.ppsition,
+                position: user_login?.dataValues.position,
                 role: user_login?.dataValues.role,
-                is_admin: user_login?.dataValues.is_admin
-            }; 
-            if(pass) {
-                const secret = crypto.createHash('sha256').update(SECRET).digest('hex')
+                is_admin: user_login?.dataValues.is_admin,
+                department: user_login?.dataValues.department
+            };
+            if (pass) {
+                const secret = crypto
+                    .createHash('sha256')
+                    .update(SECRET)
+                    .digest('hex');
                 const payload = {
                     ...user_payload,
                 };
@@ -44,25 +55,25 @@ const login = async (user: any) => {
                 return {
                     success: true,
                     data: payload,
-                    token: token
-                }
-            }else {
+                    token: token,
+                };
+            } else {
                 return {
                     success: false,
-                    message: 'Password wrong...'
-                }
+                    message: 'Password wrong...',
+                };
             }
-        }else {
+        } else {
             return {
                 success: false,
-                message: 'user not found'
-            }
+                message: 'user not found',
+            };
         }
     } catch (error) {
         return {
             success: false,
-        }
+        };
     }
-}
+};
 
-export { login }
+export { login };

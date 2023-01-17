@@ -12,8 +12,8 @@ const schema_user_create = Joi.object({
     employee_id: Joi.number().integer().min(1000).max(999999).required(),
     is_active: Joi.boolean().default(false),
     is_admin: Joi.boolean().default(false),
-    role: Joi.string().default('STAFF'),
-    possition: Joi.string().default('HINO'),
+    role: Joi.string().required(),
+    position: Joi.string().required(),
     department_id: Joi.string().guid(),
 });
 
@@ -31,8 +31,8 @@ const schema_user_update = Joi.object({
     employee_id: Joi.number().integer().min(1000).max(999999).required(),
     is_active: Joi.boolean().default(false),
     is_admin: Joi.boolean().default(false),
-    role: Joi.string().default('USER'),
-    possition: Joi.string().default('STAFF'),
+    role: Joi.string(),
+    position: Joi.string(),
     department_id: Joi.string().guid(),
 })
 

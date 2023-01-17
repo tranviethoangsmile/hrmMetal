@@ -13,24 +13,34 @@ import {
 } from '../helper/user.validate.helper';
 import { User } from '../models';
 import { validation_id } from '../helper';
-
+import { Role } from '../enum/Role.enum';
+import { Position } from '../enum/Position.enum';
 const createNewUser = async (user: User) => {
     const valid = valid_user_create(user);
     if (!valid.error) {
-        const passBcrypt = await bcrypt.hash(user.password, 10);
-        const userBcrypted = {
-            ...user,
-            password: passBcrypt,
-        };
-        const new_user = await userCreate(userBcrypted);
-        if (new_user) {
-            return new_user;
-        } else {
+        if(typeof user.role === 'string' && Object.values(Role).includes(user.role) && typeof user.position === 'string' && Object.values(Position).includes(user.position)) {
+            const passBcrypt = await bcrypt.hash(user.password, 10);
+            const userBcrypted = {
+                ...user,
+                password: passBcrypt,
+            };
+            const new_user = await userCreate(userBcrypted);
+            if (new_user) {
+                return new_user;
+            } else {
+                return {
+                    error: true,
+                    message: 'User create faild',
+                };
+            }
+        }else {
             return {
                 error: true,
-                message: 'User create faild',
-            };
+                message: 'User create failed Role or Position not available', 
+            }
         }
+        
+      
     } else {
         return {
             error: true,
