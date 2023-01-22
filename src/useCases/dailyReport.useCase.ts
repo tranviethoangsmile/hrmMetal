@@ -1,10 +1,8 @@
-import { create_code_err } from '../repositorys/codeError.repository';
-import { daily_report_create } from '../repositorys/dailyReport.repository';
+import { daily_report_create, find_report_all } from '../repositorys/dailyReport.repository';
 import { create_daily_report } from '../interfaces/dailyReport.interface';
 import { valid_create_daily_report } from '../helper/dailyReport.validate.helper';
 import { DailyReport } from '../models';
 import { Product } from '../enum/product.enum';
-import db from '../db/db';
 import { create_err_for_report } from './codeError.useCase';
 const create_daily_report = async (data: any) => {
     try {
@@ -68,4 +66,26 @@ const create_daily_report = async (data: any) => {
     }
 };
 
-export { create_daily_report };
+const find_all_rp = async () => {
+    try {
+        const errs = await find_report_all();
+        console.log(errs);
+        if(errs?.success) {
+            return {
+               success: true,
+               data: errs
+            }
+        }else {
+            return {
+                success: false,
+                message: 'not found Reports',
+             }
+        }
+    } catch (error) {
+        return{ 
+            error,
+        }
+    }
+}
+
+export { create_daily_report, find_all_rp };

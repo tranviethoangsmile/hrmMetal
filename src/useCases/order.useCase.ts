@@ -1,3 +1,8 @@
+import { validation_id } from '../helper';
+import { search_order } from '../interfaces/order.interface';
+import { userFindById } from '../repositorys/user.repository';
+import { find_food_by_id } from '../repositorys/food.repository';
+import { find_canteen_by_id } from '../repositorys/canteen.repository';
 import {
     create,
     find_all_order,
@@ -8,12 +13,6 @@ import {
     validate_create_order,
     validate_search_order,
 } from '../helper/order.validate.helper';
-import { validation_id } from '../helper';
-import { search_order } from '../interfaces/order.interface';
-import { userFindById } from '../repositorys/user.repository';
-import { find_food_by_id } from '../repositorys/food.repository';
-import { find_canteen_by_id } from '../repositorys/canteen.repository';
-import e from 'cors';
 const create_order = async (order: any) => {
     try {
         const valid = validate_create_order(order);
@@ -118,13 +117,13 @@ const delete_order_by_id = async (id: string) => {
                 return {
                     success: true,
                 };
-            }else {
+            } else {
                 return {
                     success: false,
                     message: 'delete failed',
                 };
             }
-        }else {
+        } else {
             return {
                 success: false,
                 message: 'id not valid',
@@ -133,7 +132,6 @@ const delete_order_by_id = async (id: string) => {
     } catch (error) {
         return error;
     }
-   
 };
 
 export { create_order, find_all, search_order, delete_order_by_id };

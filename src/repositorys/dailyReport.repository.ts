@@ -1,8 +1,10 @@
-import { DailyReport, User } from '../models';
+import { CodeError, DailyReport, User } from '../models';
 import { create_daily_report } from '../interfaces/dailyReport.interface';
 import { userFindById } from './user.repository';
 import { assert } from '@hapi/joi';
-const daily_report_create = async (data: DailyReport ) => {
+import Department from '../models/department.model';
+
+const daily_report_create = async (data: DailyReport) => {
     try {
         const user = await userFindById(data.user_id);
         if (user) {
@@ -26,6 +28,60 @@ const daily_report_create = async (data: DailyReport ) => {
         }
     } catch (error) {
         return error;
+    }
+};
+
+const find_report_all = async () => {
+    try {
+        const reports = await DailyReport.findAll({
+            attributes: [
+                'product',
+                'date',
+                'shift',
+                'quantity',
+                'operated_time',
+                'shutdown_time',
+                'active_time',
+                'operator_history',
+            ],
+            include: [
+                {
+                    model: User,
+                    attributes: ['name'],
+                    include: [
+                        {
+                            model: Department,
+                            as: 'department',
+                            attributes: ['name'],
+                        },
+                    ],
+                },
+                {
+                    model: CodeError,
+                    attributes: [
+                        'code',
+                        'description',
+                        'shutdown_time',
+                        'daily_report_id',
+                    ],
+                },
+            ],
+        });
+        console.log(reports);
+        if (reports.length != null) {
+            return {
+                success: true,
+                reports,
+            };
+        } else {
+            return {
+                success: false
+            };
+        }
+    } catch (error) {
+        return {
+            error,
+        };
     }
 };
 
@@ -86,4 +142,4 @@ const find_daily_report_by_id = async (id: string) => {
     // }
 };
 
-export { daily_report_create, find_daily_report_by_id };
+export { daily_report_create, find_daily_report_by_id, find_report_all };

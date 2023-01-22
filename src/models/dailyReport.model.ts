@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import { User } from './index';
+import { CodeError, User } from './index';
 import { Product } from '../enum/product.enum';
 import db from '../db/db';
 
@@ -16,6 +16,7 @@ class DailyReport extends Model {
     public active_time!: number;
 //
     public user!: User;
+    public codeError!: CodeError[];
 }
 
 DailyReport.init(

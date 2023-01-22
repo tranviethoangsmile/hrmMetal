@@ -13,7 +13,9 @@ Order.belongsTo(Food, { foreignKey: 'food_id', as: 'food'});
 Food.hasMany(Order, { foreignKey: 'food_id', as: 'food'});
 Order.belongsTo(Canteen, { foreignKey: 'canteen_id', as:'canteen'});
 Canteen.hasMany(Order, { foreignKey: 'canteen_id', as:'order'});
-CodeError.belongsTo(DailyReport, { foreignKey: 'daily_report_id', as: 'dailyReport' });
-DailyReport.hasMany(CodeError, {foreignKey: 'daily_report_id', as: 'codeError'})
+CodeError.belongsTo(DailyReport, { foreignKey: 'daily_report_id'});
+DailyReport.hasMany(CodeError, {foreignKey: 'daily_report_id'})
+User.hasMany(DailyReport, {foreignKey: 'user_id'});
+DailyReport.belongsTo(User, {foreignKey: 'user_id'})
 
 export { User, Department, Canteen, Food, Order, DailyReport, CodeError };
