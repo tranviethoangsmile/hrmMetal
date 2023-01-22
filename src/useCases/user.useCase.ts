@@ -130,7 +130,6 @@ const findUserById = async (userId: string) => {
         const valid_id = validation_id(userId);
         if (!valid_id.error) {
             const user = await userFindById(userId);
-            console.log('usercase',user)
             if (user) {
                 return {
                     error: false,

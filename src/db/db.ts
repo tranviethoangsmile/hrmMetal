@@ -7,17 +7,19 @@ const DB_USER_NAME = ENV.DB_USER_NAME || '';
 const DB_PASSWORD = ENV.DB_PASSWORD || '';
 const DB_HOST = ENV.DB_HOST || '';
 const DB_DIALECT = ENV.DB_DIALECT || 'postgres';
-
-const db = new Sequelize('hoangdev', 'hoangdev','0000', {
+const TIMEZONE=ENV.TIMEZONE
+const db = new Sequelize('hoangdev', 'hoangdev', '0000', {
     dialect: 'postgres',
     host: 'localhost',
     logging: false,
     port: 54323,
+    timezone: TIMEZONE
 });
 
 db.authenticate()
     .then(() => console.log('Connection into database hrmMetal successfully.'))
-    .catch(err => console.error('Unable to connect to the database:', err.message));
-
+    .catch(err =>
+        console.error('Unable to connect to the database:', err.message),
+    );
 
 export default db;
