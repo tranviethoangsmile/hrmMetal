@@ -2,6 +2,7 @@ interface create_daily_report {
     product : string,
     user_id : string,
     date: string,
+    shift: string,
     quantity : number,
     operated_time: number,
     shutdown_time: number,

@@ -4,6 +4,7 @@ CREATE TABLE dailyReports
     product VARCHAR NOT NULL,
     user_id VARCHAR(255) NOT NULL,
     date DATE NOT NULL,
+    shift VARCHAR NOT NULL,
     quantity INTEGER NOT NULL,
     operator_history VARCHAR(255),
     operated_time INTEGER NOT NULL,

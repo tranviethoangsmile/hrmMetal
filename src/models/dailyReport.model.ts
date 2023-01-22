@@ -8,6 +8,7 @@ class DailyReport extends Model {
     public product!: Enumerator;
     public user_id!: string;
     public date!: string;
+    public shift!: string;
     public quantity!: number;
     public operator_history!: string;
     public operated_time!: number;
@@ -35,6 +36,10 @@ DailyReport.init(
         date: {
             type: DataTypes.DATE,
             allowNull: false,
+        },
+        shift: {
+            type: DataTypes.STRING,
+            allowNull: false
         },
         quantity: {
             type: DataTypes.NUMBER,
