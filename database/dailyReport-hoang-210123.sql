@@ -15,3 +15,7 @@ CREATE TABLE dailyReports
     deleted_at DATE NULL,
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
+
+-- create unique for report;
+ALTER TABLE dailyreports 
+ADD CONSTRAINT unique_product_user_date UNIQUE (product, user_id, date);

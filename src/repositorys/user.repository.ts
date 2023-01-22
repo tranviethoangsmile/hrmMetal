@@ -125,7 +125,6 @@ const userFindById = async (id: string) => {
                 },
             ],
         });
-        console.log(user);
         if (user) {
             return user;
         } else {
@@ -162,7 +161,6 @@ const userFindByName = async (name: string) => {
                 'is_admin',
             ],
         });
-        console.log('user >>', user);
         if (user) {
             return user;
         } else {

@@ -1,9 +1,39 @@
-import { daily_report_create, find_report_all } from '../repositorys/dailyReport.repository';
-import { create_daily_report } from '../interfaces/dailyReport.interface';
-import { valid_create_daily_report } from '../helper/dailyReport.validate.helper';
+import { daily_report_create, find_report_all, find_report } from '../repositorys/dailyReport.repository';
+import { create_daily_report, search_report } from '../interfaces/dailyReport.interface';
+import { valid_create_daily_report, valid_search_daily_report } from '../helper/dailyReport.validate.helper';
 import { DailyReport } from '../models';
 import { Product } from '../enum/product.enum';
 import { create_err_for_report } from './codeError.useCase';
+
+const search_daily_report = async (data:search_report) => {
+    try {
+        const valid = await valid_search_daily_report (data);
+        if(!valid?.error) {
+            const reports = await find_report(data);
+            if(reports?.success) {
+                return {
+                    success: true,
+                    data: reports?.data
+                }
+            }else {
+                return {
+                    success: false,
+                    message: 'report not found'
+                }
+            }
+        }else {
+            return {
+                Error: true,
+                message: 'data not valid',
+            }
+        }
+    } catch (error) {
+        return {
+            error
+        }
+    }
+}
+
 const create_daily_report = async (data: any) => {
     try {
         const rp_field_create: DailyReport = data.rp;
@@ -69,7 +99,6 @@ const create_daily_report = async (data: any) => {
 const find_all_rp = async () => {
     try {
         const errs = await find_report_all();
-        console.log(errs);
         if(errs?.success) {
             return {
                success: true,
@@ -88,4 +117,4 @@ const find_all_rp = async () => {
     }
 }
 
-export { create_daily_report, find_all_rp };
+export { create_daily_report, find_all_rp, search_daily_report };

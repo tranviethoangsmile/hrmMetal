@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { daily_report_create, find_all_report } from '../controllers/dailyReport.controler'
+import dailyRpRouter from "./moduleReportRouter/dailyReport.router";
 const rpRouter = Router();
 
 rpRouter.post('/', async (req: Request, res: Response) => {
@@ -35,5 +36,7 @@ rpRouter.get('/', async (req: Request, res: Response) => {
         })
     }
 })
+
+rpRouter.use('/search', dailyRpRouter )
 
 export default rpRouter;

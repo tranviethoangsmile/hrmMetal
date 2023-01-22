@@ -10,4 +10,11 @@ interface create_daily_report {
     operator_history : string,
  }
 
- export { create_daily_report }
+ interface search_report {
+    product?: string, 
+    user_id ?: string,
+    date?: string,
+    shift?: string,
+ }
+
+ export { create_daily_report, search_report }

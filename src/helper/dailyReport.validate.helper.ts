@@ -12,8 +12,19 @@ const schame_create_daily_report = Joi.object({
     operator_history : Joi.string().required(),
 })
 
+const schame_search_daily_report = Joi.object({
+    product : Joi.string(),
+    user_id : Joi.string(),
+    date : Joi.date(),
+    shift: Joi.string(),
+})
+
 const valid_create_daily_report = (data: any ) => {
     return schame_create_daily_report.validate(data);
 }
 
-export { valid_create_daily_report };
+const valid_search_daily_report = (data: any) => {
+    return schame_search_daily_report.validate(data);
+}
+
+export { valid_create_daily_report, valid_search_daily_report };

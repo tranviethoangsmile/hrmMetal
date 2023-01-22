@@ -31,6 +31,62 @@ const daily_report_create = async (data: DailyReport) => {
     }
 };
 
+const find_report = async (data: any) => {
+    try {
+        const reports = await DailyReport.findAll({
+            where: {
+                ...data
+            },
+            attributes: [
+                'product',
+                'date',
+                'shift',
+                'quantity',
+                'operated_time',
+                'shutdown_time',
+                'active_time',
+                'operator_history',
+            ],
+            include: [
+                {
+                    model: User,
+                    attributes: ['name'],
+                    include: [
+                        {
+                            model: Department,
+                            as: 'department',
+                            attributes: ['name'],
+                        },
+                    ],
+                },
+                {
+                    model: CodeError,
+                    attributes: [
+                        'code',
+                        'description',
+                        'shutdown_time',
+                        'daily_report_id',
+                    ],
+                },
+            ],
+        });
+        if(reports != null) {
+            return {
+                success: true,
+                data: reports,
+            };
+        }else {
+            return {
+                success: false
+            };
+        }
+    } catch (error) {
+        return {
+            error,
+        }
+    }
+}
+
 const find_report_all = async () => {
     try {
         const reports = await DailyReport.findAll({
@@ -67,7 +123,6 @@ const find_report_all = async () => {
                 },
             ],
         });
-        console.log(reports);
         if (reports.length != null) {
             return {
                 success: true,
@@ -142,4 +197,4 @@ const find_daily_report_by_id = async (id: string) => {
     // }
 };
 
-export { daily_report_create, find_daily_report_by_id, find_report_all };
+export { daily_report_create, find_daily_report_by_id, find_report_all, find_report };

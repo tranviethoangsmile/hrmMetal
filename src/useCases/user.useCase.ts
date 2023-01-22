@@ -52,7 +52,6 @@ const createNewUser = async (user: User) => {
 const updateUser = async (user: User) => {
     try {
         const valid = valid_user_update(user);
-        console.log(valid);
         if (!valid.error) {
             if (user.password) {
                 const passBcrypt = await bcrypt.hash(user.password, 10);

@@ -5,7 +5,6 @@ import { validation_id } from '../helper/'
 
 const create = async (data: createCanteen) => {
     const valid = validate_create_canteen(data);
-    console.log(valid);
     if (!valid.error) {
         const new_canteen = await create_canteen({
             ...data,
