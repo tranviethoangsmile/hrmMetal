@@ -1,6 +1,7 @@
 import { Order, User, Food, Canteen } from '../models';
 import Department from '../models/department.model';
-
+import moment from 'moment-timezone';
+import { Op } from 'sequelize';
 const create = async (order: any) => {
     try {
         const new_order = await Order.create({
@@ -154,4 +155,37 @@ const delete_order = async (id: string) => {
     }
 };
 
-export { create, find_all_order, find_order, delete_order };
+
+// building....
+const search_order_for_user = (data : any) => {
+    try {
+        const month = moment(data.date).format('DD');
+        const year = moment(data.date).format('YYYY');
+        console.log(month, year);
+        const orders = Order.findAll({
+            where: {
+                [Op.and]: [
+                    {
+                        user_id: data.user_id,
+                    }, 
+                    {
+                        date: {
+                            [Op.gte]: new Date(`S{year}/${month}/01`)
+                        }
+                    },
+                    {
+                        date: {
+                            [Op.lt]: new Date (`${year}/${month}/31`)
+                        },
+                    },
+                ]
+            }
+        })
+    } catch (error) {
+        return {
+            error
+        }
+    }
+}
+
+export { create, find_all_order, find_order, delete_order, search_order_for_user };

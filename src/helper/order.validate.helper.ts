@@ -14,6 +14,11 @@ const schema_search_order = Joi.object({
     created_at: Joi.date(),
     updated_at: Joi.date(),
     deleted_at: Joi.date(),
+});
+
+const schema_search_order_for_user = Joi.object({
+    user_id: Joi.string().required(),
+    date: Joi.date().required()
 })
 
 const validate_create_order = (data: any ) => {
@@ -24,4 +29,8 @@ const validate_search_order = (data: any ) => {
     return schema_search_order.validate(data)
 }
 
-export { validate_create_order, validate_search_order };
+const validate_search_order_for_user = (data: any) => {
+    return schema_search_order_for_user.validate(data);
+}
+
+export { validate_create_order, validate_search_order, validate_search_order_for_user };

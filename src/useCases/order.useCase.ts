@@ -62,7 +62,9 @@ const find_all = async () => {
     try {
         const orders = await find_all_order();
         if (orders?.success) {
-            return orders;
+            return {
+                orders
+            };
         } else {
             return {
                 success: false,
