@@ -8,7 +8,8 @@ dailyRpRouter.post('/', async (req: Request, res: Response) => {
     try {
         const data = req.body;
         if(data?.date != null) {
-            data.date = moment().toDate();
+            const date = moment(data.date,"YYYY/MM/DD")
+            data.date = date.toISOString();
         }
         const reports = await find_report(data);
         if(reports?.success) {

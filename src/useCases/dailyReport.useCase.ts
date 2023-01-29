@@ -2,7 +2,7 @@ import { daily_report_create, find_report_all, find_report } from '../repository
 import { create_daily_report, search_report } from '../interfaces/dailyReport.interface';
 import { valid_create_daily_report, valid_search_daily_report } from '../helper/dailyReport.validate.helper';
 import { DailyReport } from '../models';
-import { Product } from '../enum/product.enum';
+import { Products } from '../enum/product.enum';
 import { create_err_for_report } from './codeError.useCase';
 
 const search_daily_report = async (data:search_report) => {
@@ -40,7 +40,7 @@ const create_daily_report = async (data: any) => {
         const valid = valid_create_daily_report(rp_field_create);
         const errors: [] = data.err;
         if (!valid.error) {
-            if(typeof rp_field_create.product === 'string' && Object.values(Product).includes(rp_field_create.product)){
+            if(typeof rp_field_create.product === 'string' && Object.values(Products).includes(rp_field_create.product)){
                 const rep_rp = await daily_report_create(rp_field_create);
                 if (rep_rp) {
                     if (errors != null) {

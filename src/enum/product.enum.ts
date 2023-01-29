@@ -1,4 +1,4 @@
-export enum Product {
+export enum Products {
     DK05RR_1,
     DK05RR_2,
     DF93_4,
