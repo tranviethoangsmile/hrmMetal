@@ -5,22 +5,23 @@ const create_food = async (food: createFoodInterface) => {
         const new_food = await Food.create({
             ...food
         });
-        if(new_food) {
+        console.log('ok',new_food);
+
+        if(new_food != null) {
             return {
                 success: true,
-                new_food,
+                data: new_food,
             }
         }else {
             return {
                 success: false,
-                message: 'message',
+                message: 'create food failed',
             }
         }
     } catch (error) {
-        return {
-            error: true,
-            message: error,
-        }
+       return {
+        error
+       }
     }
 }
 

@@ -9,14 +9,16 @@ const createFood = async (food: createFoodInterface) => {
             const new_food = await create_food({
                 ...food,
             });
+            console.log(new_food);
             if (new_food?.success) {
                 return {
-                    new_food,
+                   success: true,
+                   data: new_food?.data
                 };
             } else {
                 return {
                     success: false,
-                    message: 'Something went wrong',
+                    message: new_food?.message,
                 };
             }
         } else {

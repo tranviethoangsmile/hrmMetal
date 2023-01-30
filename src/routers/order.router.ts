@@ -2,6 +2,7 @@ import { Router, Request, Response} from 'express';
 import { create, find_all_order, delete_order} from '../controllers/order.controller';
 import { timeOrderLimit } from '../middlewares/timeOrderLimit.middleware'
 import { very_token_order } from '../middlewares/veryTokenOrder.middleware';
+import orderRouterModule from './moduleOrderRouter/order.router';
 
 const orderRouter = Router();
 
@@ -57,4 +58,5 @@ orderRouter.post('/:id', very_token_order, timeOrderLimit,  async (req: Request,
    }
 });
 
+orderRouter.use('/user', very_token_order ,orderRouterModule)
 export default orderRouter;

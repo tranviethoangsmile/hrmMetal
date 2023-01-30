@@ -157,16 +157,15 @@ const delete_order = async (id: string) => {
 
 
 // building....
-const search_order_for_user = (data : any) => {
+const search_order_for_user = async (id : string) => {
     try {
-        const month = moment(data.date).format('DD');
-        const year = moment(data.date).format('YYYY');
-        console.log(month, year);
-        const orders = Order.findAll({
+        const year = moment().format('YYYY');
+        const month = moment().format('MM');
+        const orders = await Order.findAll({
             where: {
                 [Op.and]: [
                     {
-                        user_id: data.user_id,
+                        user_id: id,
                     }, 
                     {
                         date: {
@@ -181,6 +180,18 @@ const search_order_for_user = (data : any) => {
                 ]
             }
         })
+
+        if(orders.length > 0) {
+            return {
+                success: true,
+                data: orders
+            }
+        }else {
+            return {
+                success: false,
+                message: 'order not found'
+            }
+        }
     } catch (error) {
         return {
             error

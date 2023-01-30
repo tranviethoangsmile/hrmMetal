@@ -1,7 +1,7 @@
 import Joi from '@hapi/joi';
 
 const schema_food_create = Joi.object({
-    name: Joi.string().min(5).max(100).required(),
+    name: Joi.string().required(),
     description: Joi.string().min(5).max(255).required(),
     price: Joi.number().integer().min(100).max(10000).required(),
 });

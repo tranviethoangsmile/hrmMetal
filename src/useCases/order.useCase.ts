@@ -8,6 +8,7 @@ import {
     find_all_order,
     find_order,
     delete_order,
+    search_order_for_user
 } from '../repositorys/order.repository';
 import {
     validate_create_order,
@@ -131,8 +132,39 @@ const delete_order_by_id = async (id: string) => {
             };
         }
     } catch (error) {
-        return error;
+        return {
+            error
+        };
     }
 };
 
-export { create_order, find_all, search_order, delete_order_by_id };
+const search_order_user = async (id: string) => {
+    try {
+        const valid = await validation_id(id)
+        if(!valid.error) {
+            const orders = await search_order_for_user(id);
+            if(orders?.success) {
+                return {
+                    success: true,
+                    data: orders?.data
+                }
+            }else {
+                return {
+                    success: false,
+                    message: orders?.message
+                }
+            }
+        }else {
+            return {
+                Error: true,
+                message: 'Id not valid'
+            }
+        }
+    } catch (error) {
+        return {
+            error
+        }
+    }
+}
+
+export { create_order, find_all, search_order, delete_order_by_id, search_order_user };

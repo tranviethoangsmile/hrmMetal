@@ -32,10 +32,10 @@ Food.init(
         modelName: 'food',
         tableName: 'foods',
         timestamps: true,
-        createdAt: 'createdat',
-        updatedAt: 'updatedat',
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
         paranoid: false,
-        deletedAt: 'deletedat',
+        deletedAt: 'deleted_at',
     },
 );
 

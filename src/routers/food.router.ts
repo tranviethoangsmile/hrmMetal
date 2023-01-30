@@ -5,14 +5,24 @@ const foodRouter = Router();
 foodRouter.post('/', async (req: Request, res: Response) => {
     try {   
         const data = req.body
-        const food = await create(data);
-        if( food ) {
-            res.status(201).json(food);
+        if(data != null) {
+            const food = await create(data);
+            console.log(food);
+            if(food?.success) {
+                res.status(201).json({
+                    success: true,
+                    data: food?.data
+                });
+            }else {
+                res.status(200).json({
+                    success: false,
+                    message: 'Food create failed',
+                });
+            }
         }else {
-            res.status(400).json({
-                success: false,
-                message: 'Food create failed',
-            });
+            res.status(400).send ({
+                message: 'data not empty',
+            })
         }
         
     } catch (err) {
