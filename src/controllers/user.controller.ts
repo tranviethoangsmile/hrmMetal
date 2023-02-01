@@ -1,11 +1,9 @@
 import { createNewUser, updateUser, deleteUser, findUserById, findUserByName, findAllUser  } from '../useCases/user.useCase';
-import { User } from '../models';
-
-const create = async (user: User) => {
+const create = async (user: any) => {
     return await createNewUser(user);
 }
 
-const update = async (user: User) => {
+const update = async (user: any) => {
     return await updateUser(user);
 }
 

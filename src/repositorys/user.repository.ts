@@ -1,52 +1,44 @@
 import { User, Department } from '../models';
-import { getDepartmentById } from './department.repository';
-import { UpdateField, CreateField } from '../interfaces/user.interface';
 import { Op } from 'sequelize';
 
 const userCreate = async (user: any) => {
     try {
-        const departmentOfUser = await getDepartmentById(user.department_id);
-        if (departmentOfUser) {
-            const createField: CreateField = {
-                ...user,
-                department: departmentOfUser,
+        const new_user = await User.create({
+            ...user
+        });
+        if (new_user) {
+            return {
+                success: true,
+                data: new_user,
             };
-            const new_user = await User.create({
-                ...createField,
-            });
-            if (new_user) {
-                return new_user;
-            } else {
-                return {
-                    success: false,
-                    message: 'create user error',
-                };
-            }
         } else {
             return {
                 success: false,
-                message: 'department not exists',
+                message: 'create user error',
             };
         }
     } catch (error) {
-        return error;
+        return {
+            success: false,
+            message: error,
+        };
     }
 };
 
 const userUpdate = async (user: any) => {
     try {
-        const departmentOfUser = await getDepartmentById(user.department_id);
-        const updateFields: UpdateField = {
+        const updateFields = {
             ...user,
-            department: departmentOfUser,
         };
         const new_user_updated = await User.update(updateFields, {
             where: {
-                id: user.id,
+                id: updateFields.id,
             },
         });
-        if (new_user_updated) {
-            return new_user_updated;
+        if (new_user_updated.toString() === '1') {
+            return {
+                success: true,
+            };
         } else {
             return {
                 success: false,
@@ -55,7 +47,7 @@ const userUpdate = async (user: any) => {
         }
     } catch (error) {
         return {
-            error: true,
+            success: false,
             message: error,
         };
     }
@@ -80,7 +72,10 @@ const userDelete = async (id: string) => {
                 },
             });
             if (userDel === 1) {
-                return userDel;
+                return {
+                    success: true,
+                    data: userDel,
+                };
             } else {
                 return {
                     success: false,
@@ -93,10 +88,9 @@ const userDelete = async (id: string) => {
                 message: 'delete user error',
             };
         }
-    } catch {
+    } catch (error) {
         return {
-            error: true,
-            message: 'delete user error',
+            error,
         };
     }
 };
@@ -126,7 +120,10 @@ const userFindById = async (id: string) => {
             ],
         });
         if (user) {
-            return user;
+            return {
+                success: true,
+                data: user,
+            };
         } else {
             return {
                 success: false,
@@ -135,7 +132,7 @@ const userFindById = async (id: string) => {
         }
     } catch (error) {
         return {
-            message: error,
+            error,
         };
     }
 };
@@ -162,7 +159,10 @@ const userFindByName = async (name: string) => {
             ],
         });
         if (user) {
-            return user;
+            return {
+                success: true,
+                data: user,
+            };
         } else {
             return {
                 success: false,
@@ -171,7 +171,7 @@ const userFindByName = async (name: string) => {
         }
     } catch (error) {
         return {
-            message: error,
+            error,
         };
     }
 };
@@ -212,7 +212,7 @@ const userFindAll = async () => {
         }
     } catch (error) {
         return {
-            message: error,
+            error,
         };
     }
 };

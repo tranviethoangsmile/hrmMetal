@@ -45,6 +45,7 @@ Order.init(
     {
         sequelize: db,
         modelName: 'order',
+        tableName: 'orders',
         timestamps: true,
         paranoid: true,
         createdAt: 'created_at',

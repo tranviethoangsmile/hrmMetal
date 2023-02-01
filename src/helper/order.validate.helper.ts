@@ -7,6 +7,7 @@ const schema_create_order = Joi.object({
 })
 
 const schema_search_order = Joi.object({
+    id: Joi.string(),
     user_id: Joi.string(),
     date: Joi.string(),
     food_id: Joi.string(),

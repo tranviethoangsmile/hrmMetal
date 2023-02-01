@@ -28,18 +28,32 @@ const departmentList = async () => {
 };
 
 const getDepartmentById = async (id: string) => {
-    return await Department.findOne({
-        where: {
-            id : id,
-        },
-        include: [
-            {
-                model: User,
-                as: 'users',
-                attributes: ['id', 'name', 'dob', 'phone','email', 'avatar']
+    try {
+
+        const dep:  Department | null = await Department.findOne({
+            where: {
+                id : id,
+            },
+            attributes: ['name']
+        });
+        if(dep != null) {
+            return {
+                success: true,
+                data: dep
             }
-        ]
-    });
+        }else {
+            return {
+                success: false,
+                message: 'department not found'
+            }
+        }
+        
+    } catch (error) {
+        return {
+            success: false,
+            message: error
+        }
+    }
 }
 
 export { createDepartment, departmentList, getDepartmentById };

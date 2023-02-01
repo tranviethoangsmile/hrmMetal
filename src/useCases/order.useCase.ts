@@ -8,7 +8,7 @@ import {
     find_all_order,
     find_order,
     delete_order,
-    search_order_for_user
+    search_order_for_user_in_month
 } from '../repositorys/order.repository';
 import {
     validate_create_order,
@@ -85,15 +85,15 @@ const search_order = async (order: search_order) => {
         const valid = validate_search_order(order);
         if (!valid.error) {
             const orders = await find_order(order);
-            if (orders != null) {
+            if (orders.success) {
                 return {
                     success: true,
-                    orders,
+                    data: orders?.data,
                 };
             } else {
                 return {
                     success: false,
-                    message: 'order not found',
+                    message: orders?.message,
                 };
             }
         } else {
@@ -104,31 +104,31 @@ const search_order = async (order: search_order) => {
         }
     } catch (error) {
         return {
-            error: true,
-            message: 'Error searching orders',
+            error
         };
     }
 };
 
 const delete_order_by_id = async (id: string) => {
     try {
-        const valid = await validation_id(id);
+        const valid = validation_id(id);
         if (!valid.error) {
             const result = await delete_order(id);
-            if (result) {
+            console.log(result);
+            if (result?.success) {
                 return {
                     success: true,
                 };
             } else {
                 return {
                     success: false,
-                    message: 'delete failed',
+                    message: result?.message,
                 };
             }
         } else {
             return {
                 success: false,
-                message: 'id not valid',
+                message: 'id not valid delete',
             };
         }
     } catch (error) {
@@ -138,11 +138,12 @@ const delete_order_by_id = async (id: string) => {
     }
 };
 
-const search_order_user = async (id: string) => {
+const search_order_user = async (id: any) => {
     try {
-        const valid = await validation_id(id)
+        const valid = validation_id(id.user_id)
+        console.log(valid.error?.message);
         if(!valid.error) {
-            const orders = await search_order_for_user(id);
+            const orders = await search_order_for_user_in_month(id);
             if(orders?.success) {
                 return {
                     success: true,
@@ -157,7 +158,7 @@ const search_order_user = async (id: string) => {
         }else {
             return {
                 Error: true,
-                message: 'Id not valid'
+                message: 'Id not valid search'
             }
         }
     } catch (error) {

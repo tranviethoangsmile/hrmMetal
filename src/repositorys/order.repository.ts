@@ -33,7 +33,7 @@ const find_all_order = async () => {
                 {
                     model: User,
                     as: 'user',
-                    attributes: ['name', 'employee_id'],
+                    attributes: ['id','name', 'employee_id'],
                     include: [
                         {
                             model: Department,
@@ -54,6 +54,8 @@ const find_all_order = async () => {
                 },
             ],
         });
+
+        console.log(orders)
         if (orders.length > 0) {
             return {
                 success: true,
@@ -106,12 +108,13 @@ const find_order = async (field: any) => {
         });
         if (orders.length > 0) {
             return {
-                orders,
+                success: true,
+                data: orders,
             };
         } else {
             return {
                 success: false,
-                error: 'Order not found',
+                message: 'Order not found',
             };
         }
     } catch (error) {
@@ -125,13 +128,13 @@ const delete_order = async (id: string) => {
     try {
         const order = await Order.findOne({
             where: {
-                id,
+                id: id
             },
         });
         if (order != null) {
             const result = await Order.destroy({
                 where: {
-                    id,
+                    id:id,
                 },
             });
             if (result === 1) {
@@ -141,23 +144,25 @@ const delete_order = async (id: string) => {
             } else {
                 return {
                     success: false,
-                    error: 'delete order failed',
+                    message: 'delete order failed',
                 };
             }
         } else {
             return {
                 success: false,
-                error: 'Order not exist',
+                message: 'Order not exist',
             };
         }
     } catch (error) {
-        return error;
+        return {
+            error
+        };
     }
 };
 
 
 // building....
-const search_order_for_user = async (id : string) => {
+const search_order_for_user_in_month = async (id : any) => {
     try {
         const year = moment().format('YYYY');
         const month = moment().format('MM');
@@ -165,38 +170,38 @@ const search_order_for_user = async (id : string) => {
             where: {
                 [Op.and]: [
                     {
-                        user_id: id,
+                        user_id: id.user_id,
                     }, 
                     {
                         date: {
-                            [Op.gte]: new Date(`S{year}/${month}/01`)
+                            [Op.gte]: moment().format(`${year}/${month}/01`)
                         }
                     },
                     {
                         date: {
-                            [Op.lt]: new Date (`${year}/${month}/31`)
+                            [Op.lt]: moment().format(`${year}/${month}/31`)
                         },
                     },
                 ]
             }
         })
-
-        if(orders.length > 0) {
+        console.log(orders.length)
+        if (orders.length > 0) {
             return {
                 success: true,
-                data: orders
-            }
-        }else {
+                data: orders,
+            };
+        } else {
             return {
                 success: false,
-                message: 'order not found'
-            }
+                message: 'Order not found',
+            };
         }
     } catch (error) {
         return {
-            error
-        }
+            error,
+        };
     }
 }
 
-export { create, find_all_order, find_order, delete_order, search_order_for_user };
+export { create, find_all_order, find_order, delete_order, search_order_for_user_in_month };

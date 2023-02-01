@@ -19,7 +19,7 @@ const schema_user_create = Joi.object({
 
 
 const schema_user_update = Joi.object({
-    id: Joi.string().guid(),
+    id: Joi.string().guid().required(),
     name: Joi.string().min(5).max(99),
     user_name: Joi.string().min(5).max(99),
     email: Joi.string().email(),
@@ -28,7 +28,7 @@ const schema_user_update = Joi.object({
     phone: Joi.string().regex(/^[0-9]{10}$/),
     avatar: Joi.string(),
     ic_id: Joi.string(),
-    employee_id: Joi.number().integer().min(1000).max(999999).required(),
+    employee_id: Joi.number().integer().min(1000).max(999999),
     is_active: Joi.boolean().default(false),
     is_admin: Joi.boolean().default(false),
     role: Joi.string(),

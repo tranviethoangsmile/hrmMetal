@@ -6,6 +6,7 @@ import {
 import { Department } from '../models';
 import { validation_department_create } from '../helper/department.validate.helper';
 import { validation_id } from '../helper';
+import { DataTypes } from 'sequelize';
 
 const departmentCreate = async (department: Department) => {
     try {
@@ -47,14 +48,24 @@ const getDepartmentList = async () => {
 };
 
 const getDepById = async (id: string) => {
-    const validId = await validation_id(id);
+    const validId = validation_id(id);
     if (!validId.error) {
         const dep = await getDepartmentById(id);
-        return dep;
+        if(dep?.success) {
+            return {
+                success: true,
+                data: dep?.data
+            }
+        }else {
+            return {
+                success: false,
+                message: dep?.message
+            }
+        }
     }else {
         return {
-            error: true,
-            message: 'id error',
+            success: true,
+            message: validId.error.message,
         };
     }
 }

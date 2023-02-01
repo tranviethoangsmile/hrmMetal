@@ -5,7 +5,7 @@ import {
     userDelete,
     userFindById,
     userFindByName,
-    userFindAll
+    userFindAll,
 } from '../repositorys/user.repository';
 import {
     valid_user_create,
@@ -15,73 +15,94 @@ import { User } from '../models';
 import { validation_id } from '../helper';
 import { Role } from '../enum/Role.enum';
 import { Position } from '../enum/Position.enum';
-const createNewUser = async (user: User) => {
+import {
+    getDepartmentById
+} from '../controllers/department.controller';
+import { UpdateField, CreateField } from '../interfaces/user.interface';
+import Department from '../models/department.model';
+const createNewUser = async (user: any) => {
     const valid = valid_user_create(user);
     if (!valid.error) {
-        if(typeof user.role === 'string' && Object.values(Role).includes(user.role) && typeof user.position === 'string' && Object.values(Position).includes(user.position)) {
-            const passBcrypt = await bcrypt.hash(user.password, 10);
-            const userBcrypted = {
-                ...user,
-                password: passBcrypt,
-            };
-            const new_user = await userCreate(userBcrypted);
-            if (new_user) {
-                return new_user;
-            } else {
-                return {
-                    error: true,
-                    message: 'User create faild',
+        if (
+            typeof user.role === 'string' &&
+            Object.values(Role).includes(user.role) &&
+            typeof user.position === 'string' &&
+            Object.values(Position).includes(user.position)
+        ) {
+            const department = await getDepartmentById(user.department_id)
+            if(department?.success) {
+                const passBcrypt = await bcrypt.hash(user.password, 10);
+                const userBcrypted: CreateField  = {
+                    ...user,
+                    password: passBcrypt,
                 };
+                const new_user = await userCreate(userBcrypted);
+                if (new_user?.success) {
+                    return {
+                        success: true,
+                        data: new_user?.data,
+                    };
+                } else {
+                    return {
+                        success: false,
+                        message: new_user?.message,
+                    };
+                }
+            }else {
+                return {
+                    succsess: false,
+                    message: department?.message
+                }
             }
-        }else {
+            
+        } else {
             return {
-                error: true,
-                message: 'User create failed Role or Position not available', 
-            }
+                success: false,
+                message: 'User create failed Role or Position not available',
+            };
         }
-        
-      
     } else {
         return {
-            error: true,
+            success: false,
             message: valid.error.message,
         };
     }
 };
 
-const updateUser = async (user: User) => {
+const updateUser = async (user: any) => {
     try {
         const valid = valid_user_update(user);
         if (!valid.error) {
+
             if (user.password) {
                 const passBcrypt = await bcrypt.hash(user.password, 10);
-                const userBcrypted = {
+                const userBcrypted: UpdateField = {
                     ...user,
                     password: passBcrypt,
                 };
                 const new_user = await userUpdate(userBcrypted);
-                if (new_user.toString() === '1') {
+                if (new_user?.success) {
                     return {
-                        error: false,
+                        success: true,
                         message: 'User updated',
-                    }
+                    };
                 } else {
                     return {
-                        error: true,
-                        message: 'User update faild',
+                        success: false,
+                        message: new_user?.message,
                     };
                 }
             }
         } else {
             return {
-                error: true,
-                message: 'data error',
+                success: false,
+                message: valid.error?.message,
             };
         }
     } catch (error) {
         return {
-            error: true,
-            message: "User can't update ",
+            success: false,
+            message: error,
         };
     }
 };
@@ -93,33 +114,33 @@ const deleteUser = async (id: string) => {
             const user = await userFindById(id);
             if (user) {
                 const deleted_user = await userDelete(id);
-                if (deleted_user === 1) {
+                if (deleted_user?.data === 1) {
                     return {
-                        error: false,
+                        success: true,
                         message: 'User deleted',
                     };
                 } else {
                     return {
-                        error: true,
+                        success: false,
                         message: 'User delete faild',
                     };
                 }
             } else {
                 return {
-                    error: true,
+                    success: false,
                     message: 'user not exist',
                 };
             }
         } else {
             return {
-                error: true,
+                success: false,
                 message: 'id wrong...!!',
             };
         }
     } catch (error) {
         return {
-            error: true,
-            message: 'User delete error ',
+            success: false,
+            message: error,
         };
     }
 };
@@ -131,25 +152,24 @@ const findUserById = async (userId: string) => {
             const user = await userFindById(userId);
             if (user) {
                 return {
-                    error: false,
+                    success: false,
                     data: user,
                 };
             } else {
                 return {
-                    error: true,
+                    success: true,
                     message: 'User not found',
                 };
             }
         } else {
             return {
-                error: true,
+                success: true,
                 message: 'id wrong...!!',
             };
         }
     } catch (error) {
         return {
-            error: true,
-            message: 'id not valid',
+            error,
         };
     }
 };
@@ -160,50 +180,55 @@ const findUserByName = async (name: string) => {
             const user = await userFindByName(name);
             if (user) {
                 return {
-                    error: false,
+                    success: true,
                     data: user,
                 };
-            }else {
+            } else {
                 return {
-                    error: true,
+                    success: false,
                     message: 'User not found',
                 };
             }
-        }else {
+        } else {
             return {
-                error: true,
+                success: true,
                 message: 'name wrong...!!',
             };
         }
     } catch (error) {
         return {
-            error: true,
-            message: 'User not found',
-        }
+            error,
+        };
     }
-}
+};
 
 const findAllUser = async () => {
     try {
         const users = await userFindAll();
-        if(users?.success) {
+        if (users?.success) {
             return {
-                error: false,
+                success: true,
                 data: users.data,
-            }
-        }else {
+            };
+        } else {
             return {
-                error: true,
+                success: false,
                 message: users?.message,
             };
         }
     } catch (error) {
         return {
-            error: true,
+            success: false,
             message: 'User find wrong...!',
-        }
+        };
     }
-   }
+};
 
-
-export { createNewUser, updateUser, deleteUser, findUserById, findUserByName, findAllUser };
+export {
+    createNewUser,
+    updateUser,
+    deleteUser,
+    findUserById,
+    findUserByName,
+    findAllUser,
+};

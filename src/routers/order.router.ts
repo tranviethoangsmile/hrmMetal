@@ -37,26 +37,28 @@ orderRouter.get('/', async (req: Request, res: Response) => {
     }
 });
 
-orderRouter.post('/:id', very_token_order, timeOrderLimit,  async (req: Request, res: Response) => {
-   try {
-        const order_id = req.params.id;
-        const order = await delete_order(order_id);
-        if (order) {
-            res.status(200).send({
-                success: true,
-            })
-        }else {
-            res.status(400).json({
-                success: false,
-            })
-        }
+// orderRouter.post('/:id',  async (req: Request, res: Response) => {
+//    try {
+//         const order_id = req.params.id;
+//         const order = await delete_order(order_id);
+//         if (order.success) {
+//             res.status(200).send({
+//                 success: true,
+//             })
+//         }else {
+//             res.status(400).json({
+//                 success: false,
+//             })
+//         }
     
-   } catch (error) {
-        return res.status(500).json({
-            message: 'server error',
-        })
-   }
-});
+//    } catch (error) {
+//         return res.status(500).json({
+//             message: 'server error',
+//         })
+//    }
+// });
 
-orderRouter.use('/user', very_token_order ,orderRouterModule)
+orderRouter.use('/user',orderRouterModule)
+
+
 export default orderRouter;
