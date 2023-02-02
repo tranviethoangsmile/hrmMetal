@@ -5,7 +5,7 @@ import {
 } from '../useCases/department.useCase';
 import { Department } from '../models';
 
-const createDep = async (department: Department) => {
+const createDep = async (department: any) => {
     return await departmentCreate(department);
 };
 

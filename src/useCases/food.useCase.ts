@@ -9,7 +9,6 @@ const createFood = async (food: createFoodInterface) => {
             const new_food = await create_food({
                 ...food,
             });
-            console.log(new_food);
             if (new_food?.success) {
                 return {
                    success: true,
@@ -30,7 +29,7 @@ const createFood = async (food: createFoodInterface) => {
     } catch (error) {
         return {
             success: false,
-            message: 'create Food failed useCase',
+            message: error,
         };
     }
 };
@@ -43,12 +42,12 @@ const findFoodById = async (id: string) => {
             if (food?.success) {
                 return {
                     success: true,
-                    food,
+                    data: food?.data,
                 };
             } else {
                 return {
                     success: false,
-                    message: 'food not found',
+                    message: food?.message,
                 };
             }
         } else {
@@ -60,7 +59,7 @@ const findFoodById = async (id: string) => {
     } catch (error) {
         return {
             success: false,
-            message: 'find Food error',
+            message: error,
         };
     }
 };

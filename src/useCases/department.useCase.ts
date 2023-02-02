@@ -1,41 +1,61 @@
 import {
     createDepartment,
     departmentList,
-    getDepartmentById
+    getDepartmentById,
 } from '../repositorys/department.repository';
-import { Department } from '../models';
 import { validation_department_create } from '../helper/department.validate.helper';
 import { validation_id } from '../helper';
-import { DataTypes } from 'sequelize';
 
-const departmentCreate = async (department: Department) => {
+const departmentCreate = async (data: any ) => {
     try {
-        const data = await validation_department_create(department);
-    if (!data.error) {
-        const newDepartment = await createDepartment(data.value);
-        if(newDepartment) {
-            return newDepartment;
-        }else {
-            return {
-                error: "nothing error"
+        const valid = await validation_department_create(data);
+        if (!valid.error) {
+            const newDepartment = await createDepartment(data);
+            if (newDepartment?.success) {
+                return {
+                    success: true,
+                    data: newDepartment?.data,
+                };
+            } else {
+                return {
+                    success: false,
+                    message: newDepartment?.message,
+                };
             }
+        } else {
+            return {
+                success: false,
+                message: 'data error',
+            };
         }
-    } else {
-        return {
-            error: true,
-            message: 'data error',
-        };
-    }
     } catch (error) {
         return {
-            error: true,
-            message: 'create department error',
+            success: false,
+            message: error,
         };
     }
-    
 };
 
 const getDepartmentList = async () => {
+    try {
+        const departments = await departmentList();
+        if(departments?.success) {
+            return {
+                success: true,
+                data: departments?.data
+            }
+        }else {
+            return {
+                success: false,
+                message: departments?.message
+            }
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error
+        }
+    }
     const allDep = await departmentList();
     if (allDep) {
         return allDep;
@@ -48,26 +68,33 @@ const getDepartmentList = async () => {
 };
 
 const getDepById = async (id: string) => {
-    const validId = validation_id(id);
-    if (!validId.error) {
-        const dep = await getDepartmentById(id);
-        if(dep?.success) {
-            return {
-                success: true,
-                data: dep?.data
+    try {
+        const validId = validation_id(id);
+        if (!validId.error) {
+            const department = await getDepartmentById(id);
+            if (department?.success) {
+                return {
+                    success: true,
+                    data: department?.data,
+                };
+            } else {
+                return {
+                    success: false,
+                    message: department?.message,
+                };
             }
-        }else {
+        } else {
             return {
                 success: false,
-                message: dep?.message
-            }
+                message: validId.error.message,
+            };
         }
-    }else {
+    } catch (error) {
         return {
-            success: true,
-            message: validId.error.message,
-        };
+            success: false,
+            message: error 
+        }
     }
-}
+};
 
 export { departmentCreate, getDepartmentList, getDepById };

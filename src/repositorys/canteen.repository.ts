@@ -2,11 +2,14 @@ import { Canteen } from '../models';
 
 const create_canteen = async (data: any) => {
     try {
-        const new_canteen = await Canteen.create({
+        const new_canteen: Canteen | null = await Canteen.create({
             ...data,
         });
-        if (new_canteen) {
-            return new_canteen;
+        if (new_canteen != null) {
+            return {
+                success: true,
+                data: new_canteen,
+            };
         } else {
             return {
                 success: false,
@@ -16,34 +19,36 @@ const create_canteen = async (data: any) => {
     } catch (error) {
         return {
             success: false,
-            error,
+            message: error,
         };
     }
 };
 
 const find_canteen_by_id = async (id: string) => {
     try {
-        const canteen = await Canteen.findOne ({
+        const canteen: Canteen | null = await Canteen.findOne({
             where: {
-                id: id
-            }
-        })
-       if( canteen ) {
-            return canteen
-       }else {
+                id: id,
+            },
+            attributes: ['factory_name', 'description'],
+        });
+        if (canteen != null) {
+            return {
+                success: true,
+                data: canteen,
+            };
+        } else {
             return {
                 success: false,
-                message: 'find canteen by id failed',
+                message: 'canteen not found',
             };
-        } 
+        }
     } catch (error) {
         return {
             success: false,
-            error,
+            message: error,
         };
     }
-} 
-
-
+};
 
 export { create_canteen, find_canteen_by_id };

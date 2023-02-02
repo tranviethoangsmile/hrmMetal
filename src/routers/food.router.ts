@@ -4,10 +4,9 @@ const foodRouter = Router();
 
 foodRouter.post('/', async (req: Request, res: Response) => {
     try {   
-        const data = req.body
+        const data: object | null = req.body
         if(data != null) {
             const food = await create(data);
-            console.log(food);
             if(food?.success) {
                 res.status(201).json({
                     success: true,
@@ -16,17 +15,18 @@ foodRouter.post('/', async (req: Request, res: Response) => {
             }else {
                 res.status(200).json({
                     success: false,
-                    message: 'Food create failed',
+                    message: food?.message,
                 });
             }
         }else {
             res.status(400).send ({
+                success: false,
                 message: 'data not empty',
             })
         }
-        
     } catch (err) {
         return res.status(500).send({
+            success: false,
             message: 'server error'
         })
     }
@@ -34,18 +34,29 @@ foodRouter.post('/', async (req: Request, res: Response) => {
 
 foodRouter.get('/:id', async (req: Request, res: Response) => {
     try {
-        const id = req.params.id;
-        const food = await find(id);
-        if( food ) {
-            res.status(200).json(food);
+        const id: string | null = req.params.id;
+        if(id != null) {
+            const food = await find(id);
+            if( food?.success ) {
+                res.status(201).json({
+                    success: true,
+                    data: food?.data,
+                });
+            }else {
+                res.status(200).json({
+                    success: false,
+                    message: food?.message,
+                });
+            }
         }else {
-            res.status(404).json({
+            res.status(400).json({
                 success: false,
-                message: 'Food not found',
+                message: 'id not empty',
             });
         }
     } catch (error) {
         return res.status(500).send({
+            success: false,
             message: 'server error'
         })
     }

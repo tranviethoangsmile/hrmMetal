@@ -3,36 +3,82 @@ const router: Router = express.Router();
 import {
     createDep,
     departmentList,
-    getDepartmentById
+    getDepartmentById,
 } from '../controllers/department.controller';
 
 router.get('/', async (req: Request, res: Response) => {
-    const departments = await departmentList();
-    if (departments) {
-        return res.status(200).json(departments);
-    } else {
-        return res.status(404).json({ message: 'department not found' });
+    try {
+        const departments = await departmentList();
+        if (departments?.success) {
+            res.status(201).send({
+                success: true,
+                data: departments?.data,
+            });
+        } else {
+            res.status(200).send({
+                success: false,
+                message: departments?.message,
+            });
+        }
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: 'server error',
+        });
     }
 });
 
 router.post('/', async (req: Request, res: Response) => {
-    const department = req.body;
-    const data = await createDep(department);
-    if (data) {
-        res.status(201).send(data);
-    } else {
-        res.status(400).json({ message: 'Invalid Data' });
+    try {
+        const dep: object | null = req.body;
+        if(dep != null) {
+            const department = await createDep(dep);
+            if (department?.success) {
+                res.status(201).send({
+                    success: true,
+                    data: department?.data,
+                });
+            } else {
+                res.status(200).json({
+                    success: false,
+                    message: department?.message,
+                });
+            }
+        }else {
+            res.status(200).json({
+                success: false,
+                message: 'data not empty',
+            });
+        }
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            messgae: 'server error',
+        });
     }
 });
 
 router.get('/:id', async (req: Request, res: Response) => {
-    const id = req.params.id;
-    const data = await getDepartmentById(id);
-    if (data) {
-        res.status(200).send(data);
-    }else {
-        res.status(404).json({ message: 'department not found' });
+    try {
+        const id = req.params.id;
+        const department = await getDepartmentById(id);
+        if (department?.success) {
+            res.status(201).send({
+                success: true,
+                data: department?.data,
+            });
+        } else {
+            res.status(200).send({
+                success: false,
+                message: department?.message,
+            });
+        }
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: 'server error',
+        });
     }
-})
+});
 
 export default router;

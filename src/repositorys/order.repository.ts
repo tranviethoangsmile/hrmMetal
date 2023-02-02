@@ -4,24 +4,24 @@ import moment from 'moment-timezone';
 import { Op } from 'sequelize';
 const create = async (order: any) => {
     try {
-        const new_order = await Order.create({
+        const new_order: Order | null = await Order.create({
             ...order,
         });
-        if (new_order) {
+        if (new_order != null) {
             return {
                 success: true,
-                new_order,
+                data: new_order,
             };
         } else {
             return {
                 success: false,
-                error: 'Error creating order',
+                messgae: 'create order failed',
             };
         }
     } catch (error) {
         return {
             success: false,
-            error,
+            message: error,
         };
     }
 };

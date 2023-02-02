@@ -1,13 +1,15 @@
-import { Department, User } from '../models';
+import { Department} from '../models';
+
 
 const createDepartment = async (data: any) => {
     try {
         const new_department =  await Department.create({
             name: data.name,
-        });
-    
+        });  
         if(new_department) {
-            return new_department;
+            return {
+                success: true,
+                data: new_department};
         }else {
             return {
                 success: false,
@@ -16,15 +18,38 @@ const createDepartment = async (data: any) => {
         }
     } catch (error) {
         return {
-            error: true,
-            message: 'data error',
+            success: true,
+            message: error,
         };
     }
    
 };
 
+// fix
 const departmentList = async () => {
-    return await Department.findAll();
+    try {
+        const departments: Department[] | null = await Department.findAll({
+            attributes: ['name']
+        });
+
+        if(departments != null) {
+            return {
+                success: true,
+                data: departments
+            }
+        }else {
+            return {
+                success: false,
+                message: 'departments not found'
+            }
+        }
+
+    } catch (error) {
+        return {
+            success: false,
+            messgae: error
+        }
+    }
 };
 
 const getDepartmentById = async (id: string) => {

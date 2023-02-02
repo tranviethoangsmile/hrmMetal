@@ -8,12 +8,13 @@ import {
     find_all_order,
     find_order,
     delete_order,
-    search_order_for_user_in_month
+    search_order_for_user_in_month,
 } from '../repositorys/order.repository';
 import {
     validate_create_order,
     validate_search_order,
 } from '../helper/order.validate.helper';
+import { User } from '../models';
 const create_order = async (order: any) => {
     try {
         const valid = validate_create_order(order);
@@ -21,22 +22,17 @@ const create_order = async (order: any) => {
             const user = await userFindById(order.user_id);
             const canteen = await find_canteen_by_id(order.canteen_id);
             const food = await find_food_by_id(order.food_id);
-            if (user != null && canteen != null && food != null) {
-                const order_data = {
-                    ...order,
-                    user: user,
-                    canteen: canteen,
-                    food: food,
-                };
-                const created_order = await create(order_data);
-                if (created_order) {
+            if (user?.success && canteen?.success && food?.success) {
+                const created_order = await create(order);
+                if (created_order?.success) {
                     return {
-                        created_order,
+                        success: true,
+                        data: created_order?.data,
                     };
                 } else {
                     return {
                         success: false,
-                        message: 'create order failed',
+                        message: created_order?.message,
                     };
                 }
             } else {
@@ -53,8 +49,8 @@ const create_order = async (order: any) => {
         }
     } catch (error) {
         return {
-            error: true,
-            message: 'Error creating order',
+            success: false,
+            message: error,
         };
     }
 };
@@ -64,7 +60,7 @@ const find_all = async () => {
         const orders = await find_all_order();
         if (orders?.success) {
             return {
-                orders
+                orders,
             };
         } else {
             return {
@@ -104,7 +100,7 @@ const search_order = async (order: search_order) => {
         }
     } catch (error) {
         return {
-            error
+            error,
         };
     }
 };
@@ -133,39 +129,45 @@ const delete_order_by_id = async (id: string) => {
         }
     } catch (error) {
         return {
-            error
+            error,
         };
     }
 };
 
 const search_order_user = async (id: any) => {
     try {
-        const valid = validation_id(id.user_id)
+        const valid = validation_id(id.user_id);
         console.log(valid.error?.message);
-        if(!valid.error) {
+        if (!valid.error) {
             const orders = await search_order_for_user_in_month(id);
-            if(orders?.success) {
+            if (orders?.success) {
                 return {
                     success: true,
-                    data: orders?.data
-                }
-            }else {
+                    data: orders?.data,
+                };
+            } else {
                 return {
                     success: false,
-                    message: orders?.message
-                }
+                    message: orders?.message,
+                };
             }
-        }else {
+        } else {
             return {
                 Error: true,
-                message: 'Id not valid search'
-            }
+                message: 'Id not valid search',
+            };
         }
     } catch (error) {
         return {
-            error
-        }
+            error,
+        };
     }
-}
+};
 
-export { create_order, find_all, search_order, delete_order_by_id, search_order_user };
+export {
+    create_order,
+    find_all,
+    search_order,
+    delete_order_by_id,
+    search_order_user,
+};
