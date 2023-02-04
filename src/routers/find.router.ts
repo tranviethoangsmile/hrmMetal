@@ -8,16 +8,22 @@ findRouter.get('/:name', async (req: Request, res: Response) => {
         const name = req.params.name;
         if (name) {
             const data = await findByName(name);
-            if (!data?.error) {
-                res.status(200).send(data?.data);
+            if (!data?.success) {
+                res.status(201).send({
+                    success: true,
+                    data: data?.data,
+                });
             } else {
-                res.status(400).json({ message: 'Invalid Data' });
+                res.status(200).send({
+                    success: false,
+                    message: data?.message,
+                });
             }
         }
     } catch (error) {
         return {
-            error: true,
-            message: 'Error: trying get user by name ',
+            success: false,
+            message: 'server error: ' + error,
         };
     }
 });
@@ -25,24 +31,34 @@ findRouter.get('/:name', async (req: Request, res: Response) => {
 findRouter.post('/', async (req: Request, res: Response) => {
     try {
         const value = req.body;
-        if (value.created_at != null){
-            const new_value = new Date(Date.parse(value.created_at));
-              value.created_at =  new_value.toISOString(); 
+        if (value != null) {
+            if (value.created_at != null) {
+                const new_value = new Date(Date.parse(value.created_at));
+                value.created_at = new_value.toISOString();
+            }
+            const orders = await search_orders(value);
+
+            if (orders?.success) {
+                res.status(201).send({
+                    success: true,
+                    data: orders?.data,
+                });
+            } else {
+                res.status(200).send({
+                    success: false,
+                    message: orders?.message,
+                });
+            }
+        } else {
+            res.status(400).send({
+                success: false,
+                message: 'value not empty',
+            });
         }
-        const orders = await search_orders(value);
-           
-       if(orders?.success){
-            res.status(201).send({
-                orders
-            })
-       }else {
-            res.status(200).send({
-                message: 'orders not found'
-            })
-       }
     } catch (error) {
         res.status(500).json({
-            message: 'server error',
+            success: false,
+            message: 'server error: ' + error,
         });
     }
 });

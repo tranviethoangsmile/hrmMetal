@@ -1,20 +1,20 @@
 import { Product, User, Department } from "../models";
 const create_product = async (data : any) => {
     try {
-        const user = await User.findOne({
+        const user: User | null = await User.findOne({
             where: {
                 id: data.user_id
             }
         })
         if(user != null) {
-            const product = await Product.create({
+            const product: Product | null = await Product.create({
                 ...data
             })
 
             if(product != null) {
                 return {
                     success: true,
-                    product
+                    data: product
                 }
             }else {
                 return {
@@ -29,9 +29,10 @@ const create_product = async (data : any) => {
             }
         }  
         
-    } catch (err) {
+    } catch (error) {
         return {
-            err
+            success: false,
+            message: error
         }
     }
 }
@@ -39,7 +40,7 @@ const create_product = async (data : any) => {
 
 const search_product = async (data: any) => {
     try {
-        const products = await Product.findAll({
+        const products: Product[] | null = await Product.findAll({
             where: {
                 ...data
             },
@@ -57,7 +58,7 @@ const search_product = async (data: any) => {
                 }
             ]
         });
-        if(products.length > 0) {
+        if(products != null) {
             return {
                 success: true,
                 data: products
@@ -70,7 +71,8 @@ const search_product = async (data: any) => {
         }
     } catch (error) {
         return {
-            error
+            success: false,
+            message: error
         }
     }
 } 

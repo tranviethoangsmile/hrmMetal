@@ -3,10 +3,10 @@ import { Op } from 'sequelize';
 
 const userCreate = async (user: any) => {
     try {
-        const new_user = await User.create({
+        const new_user: User | null = await User.create({
             ...user
         });
-        if (new_user) {
+        if (new_user != null) {
             return {
                 success: true,
                 data: new_user,
@@ -30,7 +30,7 @@ const userUpdate = async (user: any) => {
         const updateFields = {
             ...user,
         };
-        const new_user_updated = await User.update(updateFields, {
+        const new_user_updated= await User.update(updateFields, {
             where: {
                 id: updateFields.id,
             },
@@ -65,7 +65,7 @@ const userDelete = async (id: string) => {
                 },
             },
         );
-        if (userBeforeDelete) {
+        if (userBeforeDelete.toString() === '1') {
             const userDel = await User.destroy({
                 where: {
                     id: id,
@@ -90,14 +90,15 @@ const userDelete = async (id: string) => {
         }
     } catch (error) {
         return {
-            error,
+            success: false,
+            message: error,
         };
     }
 };
 
 const userFindById = async (id: string) => {
     try {
-        const user = await User.findByPk(id, {
+        const user: User | null = await User.findByPk(id, {
             attributes: [
                 'name',
                 'user_name',
@@ -119,7 +120,7 @@ const userFindById = async (id: string) => {
                 },
             ],
         });
-        if (user) {
+        if (user != null) {
             return {
                 success: true,
                 data: user,
@@ -132,14 +133,15 @@ const userFindById = async (id: string) => {
         }
     } catch (error) {
         return {
-            error,
+            success: false,
+            message: error,
         };
     }
 };
 
 const userFindByName = async (name: string) => {
     try {
-        const user = await User.findAll({
+        const user: User [] | null = await User.findAll({
             where: {
                 name: {
                     [Op.like]: `%${name}%`,
@@ -158,7 +160,7 @@ const userFindByName = async (name: string) => {
                 'is_admin',
             ],
         });
-        if (user) {
+        if (user != null) {
             return {
                 success: true,
                 data: user,
@@ -171,14 +173,15 @@ const userFindByName = async (name: string) => {
         }
     } catch (error) {
         return {
-            error,
+            success: false,
+            message: error,
         };
     }
 };
 
 const userFindAll = async () => {
     try {
-        const users = await User.findAll({
+        const users: User[] | null = await User.findAll({
             attributes: [
                 'name',
                 'user_name',
@@ -199,7 +202,7 @@ const userFindAll = async () => {
                 },
             ],
         });
-        if (users.length > 0) {
+        if (users != null) {
             return {
                 success: true,
                 data: users,
@@ -212,7 +215,8 @@ const userFindAll = async () => {
         }
     } catch (error) {
         return {
-            error,
+            success: false,
+            message: error,
         };
     }
 };

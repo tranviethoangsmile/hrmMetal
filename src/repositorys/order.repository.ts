@@ -28,12 +28,12 @@ const create = async (order: any) => {
 
 const find_all_order = async () => {
     try {
-        const orders = await Order.findAll({
+        const orders: Order[] | null = await Order.findAll({
             include: [
                 {
                     model: User,
                     as: 'user',
-                    attributes: ['id','name', 'employee_id'],
+                    attributes: ['id', 'name', 'employee_id'],
                     include: [
                         {
                             model: Department,
@@ -54,29 +54,28 @@ const find_all_order = async () => {
                 },
             ],
         });
-
-        console.log(orders)
-        if (orders.length > 0) {
+        if (orders != null) {
             return {
                 success: true,
-                orders,
+                data: orders,
             };
         } else {
             return {
                 success: false,
-                error: 'Order not found',
+                message: 'Order not found',
             };
         }
     } catch (error) {
         return {
-            error,
+            success: true,
+            message: error,
         };
     }
 };
 
 const find_order = async (field: any) => {
     try {
-        const orders = await Order.findAll({
+        const orders: Order[] | null = await Order.findAll({
             where: {
                 ...field,
             },
@@ -106,7 +105,7 @@ const find_order = async (field: any) => {
                 },
             ],
         });
-        if (orders.length > 0) {
+        if (orders != null) {
             return {
                 success: true,
                 data: orders,
@@ -119,22 +118,23 @@ const find_order = async (field: any) => {
         }
     } catch (error) {
         return {
-            error,
+            success: false,
+            message: error,
         };
     }
 };
 
 const delete_order = async (id: string) => {
     try {
-        const order = await Order.findOne({
+        const order: Order | null = await Order.findOne({
             where: {
-                id: id
+                id: id,
             },
         });
         if (order != null) {
             const result = await Order.destroy({
                 where: {
-                    id:id,
+                    id: id,
                 },
             });
             if (result === 1) {
@@ -155,38 +155,37 @@ const delete_order = async (id: string) => {
         }
     } catch (error) {
         return {
-            error
+            success: false,
+            message: error,
         };
     }
 };
 
-
-// building....
-const search_order_for_user_in_month = async (id : any) => {
+const search_order_for_user_in_month = async (id: any) => {
     try {
         const year = moment().format('YYYY');
         const month = moment().format('MM');
-        const orders = await Order.findAll({
+        const orders: Order[] | null = await Order.findAll({
             where: {
                 [Op.and]: [
                     {
                         user_id: id.user_id,
-                    }, 
-                    {
-                        date: {
-                            [Op.gte]: moment().format(`${year}/${month}/01`)
-                        }
                     },
                     {
                         date: {
-                            [Op.lt]: moment().format(`${year}/${month}/31`)
+                            [Op.gte]: moment().format(`${year}/${month}/01`),
                         },
                     },
-                ]
-            }
-        })
-        console.log(orders.length)
-        if (orders.length > 0) {
+                    {
+                        date: {
+                            [Op.lt]: moment().format(`${year}/${month}/31`),
+                        },
+                    },
+                ],
+            },
+        });
+
+        if (orders != null) {
             return {
                 success: true,
                 data: orders,
@@ -199,9 +198,16 @@ const search_order_for_user_in_month = async (id : any) => {
         }
     } catch (error) {
         return {
-            error,
+            success: false,
+            message: error,
         };
     }
-}
+};
 
-export { create, find_all_order, find_order, delete_order, search_order_for_user_in_month };
+export {
+    create,
+    find_all_order,
+    find_order,
+    delete_order,
+    search_order_for_user_in_month,
+};

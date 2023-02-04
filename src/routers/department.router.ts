@@ -28,6 +28,26 @@ router.get('/', async (req: Request, res: Response) => {
     }
 });
 
+/**
+ * @openapi
+ * /department:
+ * post:
+ *  tags:
+ *      -Department
+ *  summary: Create Department
+ *  reqestBody: 
+ *      requied: true
+ *      content: 
+ *          application/json:
+ *              schema: 
+ *                  $ref: 
+ *          responses: 
+ *              201: 
+ *                  description: success
+ *              200: 
+ *                  description: success
+ * 
+ */
 router.post('/', async (req: Request, res: Response) => {
     try {
         const dep: object | null = req.body;

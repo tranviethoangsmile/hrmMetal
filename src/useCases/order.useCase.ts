@@ -60,18 +60,19 @@ const find_all = async () => {
         const orders = await find_all_order();
         if (orders?.success) {
             return {
-                orders,
+                success: true,
+                data: orders?.data,
             };
         } else {
             return {
                 success: false,
-                message: 'order not found',
+                message: orders?.message,
             };
         }
     } catch (error) {
         return {
-            error: true,
-            message: 'Error finding orders',
+            success: false,
+            message: error,
         };
     }
 };
@@ -100,7 +101,8 @@ const search_order = async (order: search_order) => {
         }
     } catch (error) {
         return {
-            error,
+            success: false,
+            message: error,
         };
     }
 };
@@ -129,7 +131,8 @@ const delete_order_by_id = async (id: string) => {
         }
     } catch (error) {
         return {
-            error,
+            success: false,
+            message: error,
         };
     }
 };
@@ -137,7 +140,6 @@ const delete_order_by_id = async (id: string) => {
 const search_order_user = async (id: any) => {
     try {
         const valid = validation_id(id.user_id);
-        console.log(valid.error?.message);
         if (!valid.error) {
             const orders = await search_order_for_user_in_month(id);
             if (orders?.success) {
@@ -153,13 +155,14 @@ const search_order_user = async (id: any) => {
             }
         } else {
             return {
-                Error: true,
+                success: false,
                 message: 'Id not valid search',
             };
         }
     } catch (error) {
         return {
-            error,
+            success: false,
+            message: error,
         };
     }
 };

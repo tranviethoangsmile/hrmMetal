@@ -5,8 +5,8 @@ const orderRouterModule = Router();
 
 orderRouterModule.post('/', async (req: Request, res: Response) => {
     try {
-        const id = req.body;
-        if (id) {
+        const id: Object | null = req.body;
+        if (id != null) {
             const orders = await search_order_of_user(id);
             if (orders?.success) {
                 res.status(201).send({
@@ -21,11 +21,13 @@ orderRouterModule.post('/', async (req: Request, res: Response) => {
             }
         } else {
             res.status(400).json({
-                message: 'data is required',
+                success: false,
+                message: 'id not empty',
             });
         }
     } catch (error) {
         res.status(500).send({
+            success: false,
             message: 'server error',
         });
     }

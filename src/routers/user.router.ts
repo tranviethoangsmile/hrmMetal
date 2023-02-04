@@ -24,7 +24,8 @@ userRouters.get('/', async (req: Request, res: Response) => {
         }
     } catch (error) {
         return res.status(500).send({
-            message: 'Server error',
+            success: false,
+            message: 'server error: ' + error,
         });
     }
 });
@@ -37,20 +38,24 @@ userRouters.post('/', async (req: Request, res: Response) => {
             if (data?.success) {
                 res.status(201).send({
                     success: true,
-                    data: data?.data
+                    data: data?.data,
                 });
             } else {
                 res.status(200).send({
                     success: false,
-                    message: data?.message
-                })
+                    message: data?.message,
+                });
             }
         } else {
-            res.status(400).json({ message: 'data not valid' });
+            res.status(400).json({
+                success: false,
+                message: 'data not empty',
+            });
         }
     } catch (error) {
         return {
-            message: 'Error: trying create user ',
+            success: false,
+            message: 'server error: ' + error,
         };
     }
 });
@@ -63,27 +68,28 @@ userRouters.put('/', async (req: Request, res: Response) => {
             if (data?.success) {
                 res.status(201).send({
                     success: true,
-                    });
+                });
             } else {
-                res.status(200).send({ 
+                res.status(200).send({
                     success: false,
-                    message: data?.message
+                    message: data?.message,
                 });
             }
-        }else {
-            res.status(400).send({ 
+        } else {
+            res.status(400).send({
                 success: false,
-                messgae: 'data update not empty'
+                message: 'data update not empty',
             });
         }
     } catch (error) {
-        res.status(500).send({ 
-            message: 'server error'
+        res.status(500).send({
+            success: false,
+            message: 'server error' + error,
         });
     }
 });
 
-userRouters.post('/:id', async (req: Request, res: Response) => {
+userRouters.delete('/:id', async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
         if (id != null) {
@@ -91,24 +97,24 @@ userRouters.post('/:id', async (req: Request, res: Response) => {
             if (data?.success) {
                 res.status(201).send({
                     success: true,
-                    message: 'deleted'
+                    message: 'deleted',
                 });
             } else {
-                res.status(200).json({ 
+                res.status(200).json({
                     success: false,
-                    message: 'delete failed'
-                 });
+                    message: 'delete failed',
+                });
             }
-        }else {
-            res.status(200).json({ 
+        } else {
+            res.status(200).json({
                 success: false,
-                message: 'id not empty'
-             });
+                message: 'id not empty',
+            });
         }
     } catch (error) {
         return {
             success: true,
-            message: 'server error',
+            message: 'server error: ' + error,
         };
     }
 });
@@ -118,17 +124,23 @@ userRouters.get('/:id', async (req: Request, res: Response) => {
         const id = req.params.id;
         if (id) {
             const data = await findById(id);
-            if (!data?.error) {
-                res.status(200).send(data?.data);
+            if (data?.success) {
+                res.status(201).send({
+                    success: true,
+                    data: data?.data,
+                });
             } else {
-                res.status(400).json({ message: 'Invalid Data' });
+                res.status(200).json({
+                    success: false,
+                    message: data?.message,
+                });
             }
         }
     } catch (error) {
-        return {
-            error: true,
-            message: 'Error: trying get user by id ',
-        };
+        res.status(500).send({
+            success: false,
+            message: 'server error: ' + error,
+        });
     }
 });
 

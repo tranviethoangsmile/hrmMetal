@@ -11,60 +11,63 @@ import {
     valid_user_create,
     valid_user_update,
 } from '../helper/user.validate.helper';
-import { User } from '../models';
 import { validation_id } from '../helper';
 import { Role } from '../enum/Role.enum';
 import { Position } from '../enum/Position.enum';
-import {
-    getDepartmentById
-} from '../controllers/department.controller';
+import { getDepartmentById } from '../controllers/department.controller';
 import { UpdateField, CreateField } from '../interfaces/user.interface';
-import Department from '../models/department.model';
 const createNewUser = async (user: any) => {
-    const valid = valid_user_create(user);
-    if (!valid.error) {
-        if (
-            typeof user.role === 'string' &&
-            Object.values(Role).includes(user.role) &&
-            typeof user.position === 'string' &&
-            Object.values(Position).includes(user.position)
-        ) {
-            const department = await getDepartmentById(user.department_id)
-            if(department?.success) {
-                const passBcrypt = await bcrypt.hash(user.password, 10);
-                const userBcrypted: CreateField  = {
-                    ...user,
-                    password: passBcrypt,
-                };
-                const new_user = await userCreate(userBcrypted);
-                if (new_user?.success) {
-                    return {
-                        success: true,
-                        data: new_user?.data,
+    try {
+        const valid = valid_user_create(user);
+        if (!valid.error) {
+            if (
+                typeof user.role === 'string' &&
+                Object.values(Role).includes(user.role) &&
+                typeof user.position === 'string' &&
+                Object.values(Position).includes(user.position)
+            ) {
+                const department = await getDepartmentById(user.department_id);
+                if (department?.success) {
+                    const passBcrypt = await bcrypt.hash(user.password, 10);
+                    const userBcrypted: CreateField = {
+                        ...user,
+                        password: passBcrypt,
                     };
+                    const new_user = await userCreate(userBcrypted);
+                    if (new_user?.success) {
+                        return {
+                            success: true,
+                            data: new_user?.data,
+                        };
+                    } else {
+                        return {
+                            success: false,
+                            message: new_user?.message,
+                        };
+                    }
                 } else {
                     return {
-                        success: false,
-                        message: new_user?.message,
+                        succsess: false,
+                        message: department?.message,
                     };
                 }
-            }else {
+            } else {
                 return {
-                    succsess: false,
-                    message: department?.message
-                }
+                    success: false,
+                    message:
+                        'User create failed Role or Position not available',
+                };
             }
-            
         } else {
             return {
                 success: false,
-                message: 'User create failed Role or Position not available',
+                message: valid.error.message,
             };
         }
-    } else {
+    } catch (error) {
         return {
             success: false,
-            message: valid.error.message,
+            message: error,
         };
     }
 };
@@ -73,7 +76,6 @@ const updateUser = async (user: any) => {
     try {
         const valid = valid_user_update(user);
         if (!valid.error) {
-
             if (user.password) {
                 const passBcrypt = await bcrypt.hash(user.password, 10);
                 const userBcrypted: UpdateField = {
@@ -164,12 +166,13 @@ const findUserById = async (userId: string) => {
         } else {
             return {
                 success: true,
-                message: 'id wrong...!!',
+                message: valid_id?.error.message,
             };
         }
     } catch (error) {
         return {
-            error,
+            success: false,
+            message: error,
         };
     }
 };
@@ -192,12 +195,13 @@ const findUserByName = async (name: string) => {
         } else {
             return {
                 success: true,
-                message: 'name wrong...!!',
+                message: 'name not empty',
             };
         }
     } catch (error) {
         return {
-            error,
+            success: false,
+            message: error,
         };
     }
 };
@@ -219,7 +223,7 @@ const findAllUser = async () => {
     } catch (error) {
         return {
             success: false,
-            message: 'User find wrong...!',
+            message: error,
         };
     }
 };

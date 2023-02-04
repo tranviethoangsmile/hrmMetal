@@ -10,12 +10,13 @@ const product_create = async (data: product_field_create) => {
                 const product = await create_product(data);
                 if(product?.success) {
                     return {
-                        product
+                        success: true,
+                        data: product?.data
                     }
                 }else {
                     return {
                         success: false,
-                        message: 'create product failed',
+                        message: product?.message,
                     };
                 }
             }else {
@@ -26,14 +27,15 @@ const product_create = async (data: product_field_create) => {
             }
         }else {
             return {
-                Error: true,
+                success: false,
                 message: valid.error.message
             }
         }
         
     } catch (error) {
         return {
-            error
+            success: false,
+            message: error
         }
     }
 }
@@ -56,13 +58,14 @@ const product_search = async (data : product_field_search ) => {
             }
         }else {
             return {
-                Error: true,
+                success: false,
                 message: valid.error.message
             }
         }
     } catch (error) {
         return {
-            error
+            success: false,
+            message: error
         }
     }
 
