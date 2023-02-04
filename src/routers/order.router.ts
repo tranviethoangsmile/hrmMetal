@@ -62,7 +62,7 @@ orderRouter.get('/', async (req: Request, res: Response) => {
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: error,
+            message: 'server error: ' + error,
         });
     }
 });
@@ -91,7 +91,7 @@ orderRouter.delete('/:id', async (req: Request, res: Response) => {
         }
     } catch (error) {
         return res.status(500).json({
-            message: 'server error',
+            message: 'server error: ' + error,
         });
     }
 });

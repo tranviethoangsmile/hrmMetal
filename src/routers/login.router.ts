@@ -6,15 +6,30 @@ const loginRouter = Router();
 loginRouter.post('/', async (req: Request, res: Response) => {
     try {
         const user = req.body;
-        const token = await login(user);
-        if(token?.success) {
-            res.status(200).send(token);
-        }else {
-            res.status(201).send(token?.message);
+        if (user != null) {
+            const token = await login(user);
+            if (token?.success) {
+                res.status(201).send({
+                    success: true,
+                    data: token?.data,
+                    token: token?.token,
+                });
+            } else {
+                res.status(200).send({
+                    success: false,
+                    message: token?.message,
+                });
+            }
+        } else {
+            res.status(400).send({
+                success: false,
+                message: 'data not empty',
+            });
         }
     } catch (error) {
         res.status(500).send({
-            message: 'server error',
+            success: false,
+            message: 'server error: ' + error,
         });
     }
 });

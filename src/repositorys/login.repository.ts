@@ -10,7 +10,7 @@ const login = async (user: any) => {
     try {
         const user_name = user.user_name;
         const password = user.password;
-        const user_login = await User.findOne({
+        const user_login: User | null = await User.findOne({
             where: {
                 user_name: user_name,
             },
@@ -72,6 +72,7 @@ const login = async (user: any) => {
     } catch (error) {
         return {
             success: false,
+            message: error
         };
     }
 };
