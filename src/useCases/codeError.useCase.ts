@@ -1,16 +1,24 @@
 import { create_code_err } from '../repositorys/codeError.repository';
 import { create_code_error } from '../interfaces/codeError.interface';
 import { CodeError } from '../enum/codeError.enum';
+import { find_rp_by_id } from '../useCases/dailyReport.useCase';
 const create_err_for_report = async (data: any) => {
     try {
         const errs: create_code_error[] = data;
         var check: boolean = false;
+        var rp_id: string;
         for (let i = 0; i < errs.length; i++) {
             if (
                 typeof errs[i].code === 'string' &&
                 Object.values(CodeError).includes(errs[i].code)
             ) {
-                check = true;
+                rp_id = errs[i].daily_report_id;
+                const report = await find_rp_by_id(rp_id);
+                if (report?.success) {
+                    check = true;
+                } else {
+                    check = false;
+                }
             } else {
                 check = false;
             }

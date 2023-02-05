@@ -39,7 +39,7 @@ orderRouter.post(
         } catch (error) {
             res.status(500).json({
                 success: false,
-                message: 'server error',
+                message: 'server error: ' + error,
             });
         }
     },

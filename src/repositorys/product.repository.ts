@@ -44,6 +44,7 @@ const search_product = async (data: any) => {
             where: {
                 ...data
             },
+            attributes: ['name', 'ic_card', 'shift', 'date', 'quantity', 'day_code'],
             include: [
                 {
                     model: User,

@@ -23,7 +23,7 @@ router.get('/', async (req: Request, res: Response) => {
     } catch (error) {
         res.status(500).send({
             success: false,
-            message: 'server error',
+            message: 'server error: ' + error,
         });
     }
 });
@@ -35,23 +35,23 @@ router.get('/', async (req: Request, res: Response) => {
  *  tags:
  *      -Department
  *  summary: Create Department
- *  reqestBody: 
+ *  reqestBody:
  *      requied: true
- *      content: 
+ *      content:
  *          application/json:
- *              schema: 
- *                  $ref: 
- *          responses: 
- *              201: 
+ *              schema:
+ *                  $ref:
+ *          responses:
+ *              201:
  *                  description: success
- *              200: 
+ *              200:
  *                  description: success
- * 
+ *
  */
 router.post('/', async (req: Request, res: Response) => {
     try {
         const dep: object | null = req.body;
-        if(dep != null) {
+        if (dep != null) {
             const department = await createDep(dep);
             if (department?.success) {
                 res.status(201).send({
@@ -64,7 +64,7 @@ router.post('/', async (req: Request, res: Response) => {
                     message: department?.message,
                 });
             }
-        }else {
+        } else {
             res.status(200).json({
                 success: false,
                 message: 'data not empty',
@@ -73,7 +73,7 @@ router.post('/', async (req: Request, res: Response) => {
     } catch (error) {
         res.status(500).send({
             success: false,
-            messgae: 'server error',
+            message: 'server error: ' + error,
         });
     }
 });
@@ -96,7 +96,7 @@ router.get('/:id', async (req: Request, res: Response) => {
     } catch (error) {
         res.status(500).send({
             success: false,
-            message: 'server error',
+            message: 'server error: ' + error,
         });
     }
 });

@@ -24,10 +24,10 @@ foodRouter.post('/', async (req: Request, res: Response) => {
                 message: 'data not empty',
             })
         }
-    } catch (err) {
+    } catch (error) {
         return res.status(500).send({
             success: false,
-            message: 'server error'
+            message: 'server error: ' + error, 
         })
     }
 })
@@ -57,7 +57,7 @@ foodRouter.get('/:id', async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(500).send({
             success: false,
-            message: 'server error'
+            message: 'server error: ' + error, 
         })
     }
 });

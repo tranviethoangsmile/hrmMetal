@@ -1,23 +1,25 @@
 import { CodeError, DailyReport, User } from '../models';
-import { create_daily_report } from '../interfaces/dailyReport.interface';
 import { userFindById } from './user.repository';
-import { assert } from '@hapi/joi';
 import Department from '../models/department.model';
 
-const daily_report_create = async (data: DailyReport) => {
+const daily_report_create = async (data: any) => {
     try {
         const user = await userFindById(data.user_id);
-        if (user) {
-            const new_daily_report = await DailyReport.create({
-                ...data,
-                user,
-            });
-            if (new_daily_report) {
-                return new_daily_report?.dataValues;
+        if (user?.success) {
+            const new_daily_report: DailyReport | null =
+                await DailyReport.create({
+                    ...data,
+                    user,
+                });
+            if (new_daily_report != null) {
+                return {
+                    success: true,
+                    data: new_daily_report,
+                };
             } else {
                 return {
                     success: false,
-                    message: 'create not success',
+                    message: 'create daily report failed',
                 };
             }
         } else {
@@ -27,15 +29,18 @@ const daily_report_create = async (data: DailyReport) => {
             };
         }
     } catch (error) {
-        return error;
+        return {
+            success: false,
+            message: error,
+        };
     }
 };
 
 const find_report = async (data: any) => {
     try {
-        const reports = await DailyReport.findAll({
+        const reports: DailyReport[] | null = await DailyReport.findAll({
             where: {
-                ...data
+                ...data,
             },
             attributes: [
                 'product',
@@ -70,26 +75,28 @@ const find_report = async (data: any) => {
                 },
             ],
         });
-        if(reports != null) {
+        if (reports != null) {
             return {
                 success: true,
                 data: reports,
             };
-        }else {
+        } else {
             return {
-                success: false
+                success: false,
+                message: 'daily report not found',
             };
         }
     } catch (error) {
         return {
-            error,
-        }
+            success: false,
+            message: error,
+        };
     }
-}
+};
 
 const find_report_all = async () => {
     try {
-        const reports = await DailyReport.findAll({
+        const reports: DailyReport[] | null = await DailyReport.findAll({
             attributes: [
                 'product',
                 'date',
@@ -123,78 +130,79 @@ const find_report_all = async () => {
                 },
             ],
         });
-        if (reports.length != null) {
+        if (reports != null) {
             return {
                 success: true,
-                reports,
+                data: reports,
             };
         } else {
             return {
-                success: false
+                success: false,
+                message: 'daily report not found',
             };
         }
     } catch (error) {
         return {
-            error,
+            success: false,
+            message: error,
         };
     }
 };
 
-const find_daily_report_by_id = async (id: string) => {
-    const rp = await DailyReport.findOne({
-        where: {
-            id,
-        },
-        include: [
-            {
-                model: User,
-                as: 'user',
-                attributes: ['name'],
+const find_daily_report_by_id = async (id: any) => {
+    try {
+        const report: DailyReport | null = await DailyReport.findOne({
+            where: {
+                id: id,
             },
-        ],
-    });
-    assert(rp, 'not found');
-    return rp;
-    // return await DailyReport.findOne({
-    //     where: {
-    //         id: id
-    //     },
-    //     include: [
-    //         {
-    //             model: User,
-    //             as: 'user',
-    //             attributes: [
-    //                 'name'
-    //             ]
-    //         }
-    //     ]
-    // })
-    // try {
-    //     const rp = await DailyReport.findOne({
-    //         where: {
-    //             id: id
-    //         },
-    //         include: [
-    //             {
-    //                 model: User,
-    //                 as: 'user',
-    //                     attributes: [
-    //                         'name'
-    //                     ]
-    //             }
-    //         ]
-    //     })
-    //     if(rp) {
-    //         return rp;
-    //     }else {
-    //         return({
-    //             success: false,
-    //             message: 'not found'
-    //         })
-    //     }
-    // } catch (error) {
-    //     return error
-    // }
+            attributes: [
+                'product',
+                'date',
+                'shift',
+                'quantity',
+                'operator_history',
+                'operated_time',
+                'shutdown_time',
+                'active_time',
+            ],
+            include: [
+                {
+                    model: User,
+                    attributes: ['name'],
+                    as: 'user',
+                    include: [
+                        {
+                            model: Department,
+                            as:'department',
+                            attributes: ['name'],
+                        }
+                    ]
+                }
+            ]
+        });
+
+        if (report != null) {
+            return {
+                success: true,
+                data: report,
+            };
+        } else {
+            return {
+                success: false,
+                message: 'Report not found',
+            };
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error,
+        };
+    }
 };
 
-export { daily_report_create, find_daily_report_by_id, find_report_all, find_report };
+export {
+    daily_report_create,
+    find_daily_report_by_id,
+    find_report_all,
+    find_report,
+};
