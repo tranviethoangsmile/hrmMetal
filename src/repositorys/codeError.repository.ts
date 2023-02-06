@@ -1,6 +1,5 @@
+import { when } from '@hapi/joi';
 import { CodeError, DailyReport } from '../models/index';
-import { create_code_error } from '../interfaces/codeError.interface';
-import { find_daily_report_by_id } from './dailyReport.repository';
 const create_code_err = async (data: any) => {
     try {
         const errs = await CodeError.bulkCreate(data);
@@ -16,8 +15,40 @@ const create_code_err = async (data: any) => {
             };
         }
     } catch (error) {
-        return error;
+        return {
+            success: false,
+            message: error
+        };
     }
 };
 
-export { create_code_err };
+const find_err_of_report = async (field : any) => {
+        try {
+            const errs: CodeError [] | null = await CodeError.findAll(
+                {
+                    where: {
+                        ...field
+                    },
+                    attributes: ['code', 'description', 'shutdown_time']
+                }
+            )
+            if(errs != null) {
+                return {
+                    success: true,
+                    data: errs
+                }
+            }else {
+                return {
+                    success: false,
+                    message: 'error of report not found'
+                }
+            }
+        } catch (error) {
+            return {
+                success: false,
+                message: error
+            }
+        }
+}
+
+export { create_code_err, find_err_of_report };

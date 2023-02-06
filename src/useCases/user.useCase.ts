@@ -10,8 +10,8 @@ import {
 import {
     valid_user_create,
     valid_user_update,
-} from '../helper/user.validate.helper';
-import { validation_id } from '../helper';
+} from '../validates/user.validate';
+import { validation_id } from '../validates';
 import { Role } from '../enum/Role.enum';
 import { Position } from '../enum/Position.enum';
 import { getDepartmentById } from '../controllers/department.controller';

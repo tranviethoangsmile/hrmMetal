@@ -12,8 +12,8 @@ import { create_code_error } from '../interfaces/codeError.interface';
 import {
     valid_create_daily_report,
     valid_search_daily_report,
-} from '../helper/dailyReport.validate.helper';
-import { validation_id } from '../helper';
+} from '../validates/dailyReport.validate';
+import { validation_id } from '../validates';
 import { DailyReport } from '../models';
 import { Products } from '../enum/product.enum';
 import { create_err_for_report } from './codeError.useCase';

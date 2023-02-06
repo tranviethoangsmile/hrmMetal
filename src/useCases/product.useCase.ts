@@ -1,6 +1,6 @@
 import { create_product, search_product } from '../repositorys/product.repository';
 import { product_field_create, product_field_search } from '../interfaces/product.interface';
-import { valid_create_product, valid_search_product } from '../helper/product.validate.helper';
+import { valid_create_product, valid_search_product } from '../validates/product.validate';
 import { Products } from '../enum/product.enum'
 const product_create = async (data: product_field_create) => {
     try {

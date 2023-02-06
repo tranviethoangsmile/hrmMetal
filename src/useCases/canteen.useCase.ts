@@ -1,7 +1,7 @@
 import { createCanteen, updateCanteen } from '../interfaces/canteen.interface'
 import { create_canteen, find_canteen_by_id } from '../repositorys/canteen.repository';
-import { validate_create_canteen, validate_update_canteen } from '../helper/canteen.validate.helper'
-import { validation_id } from '../helper/'
+import { validate_create_canteen, validate_update_canteen } from '../validates/canteen.validate'
+import { validation_id } from '../validates'
 
 const create = async (data: any) => {
     try {
@@ -23,7 +23,7 @@ const create = async (data: any) => {
             }
         } else {
             return {
-                error: true,
+                success: false,
                 message: valid.error.message
             }
         }

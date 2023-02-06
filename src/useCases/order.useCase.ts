@@ -1,4 +1,4 @@
-import { validation_id } from '../helper';
+import { validation_id } from '../validates';
 import { search_order } from '../interfaces/order.interface';
 import { userFindById } from '../repositorys/user.repository';
 import { find_food_by_id } from '../repositorys/food.repository';
@@ -13,7 +13,7 @@ import {
 import {
     validate_create_order,
     validate_search_order,
-} from '../helper/order.validate.helper';
+} from '../validates/order.validate';
 import { User } from '../models';
 const create_order = async (order: any) => {
     try {

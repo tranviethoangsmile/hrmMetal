@@ -3,8 +3,8 @@ import {
     departmentList,
     getDepartmentById,
 } from '../repositorys/department.repository';
-import { validation_department_create } from '../helper/department.validate.helper';
-import { validation_id } from '../helper';
+import { validation_department_create } from '../validates/department.validate';
+import { validation_id } from '../validates';
 
 const departmentCreate = async (data: any ) => {
     try {
@@ -25,7 +25,7 @@ const departmentCreate = async (data: any ) => {
         } else {
             return {
                 success: false,
-                message: 'data error',
+                message: valid?.error.message,
             };
         }
     } catch (error) {

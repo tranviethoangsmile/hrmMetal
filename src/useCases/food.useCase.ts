@@ -1,7 +1,7 @@
 import { createFoodInterface } from '../interfaces/food.interface';
 import { create_food, find_food_by_id } from '../repositorys/food.repository';
-import { validate_food_create } from '../helper/food.validate.hepler';
-import { validation_id } from '../helper/';
+import { validate_food_create } from '../validates/food.validate';
+import { validation_id } from '../validates';
 const createFood = async (food: createFoodInterface) => {
     try {
         const foodCreateField = await validate_food_create(food);

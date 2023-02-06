@@ -1,6 +1,6 @@
 import { login } from '../repositorys/login.repository';
 import { login_data } from '../interfaces/login.interface';
-import { validate_login } from '../helper/login.validate.helper';
+import { validate_login } from '../validates/login.validate';
 
 const login_user = async (user: login_data) => {
     try {

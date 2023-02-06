@@ -8,6 +8,7 @@ import orderRouter from './order.router';
 import loginRouter from './login.router'
 import rpRouter from './dailyReport.router';
 import productRouter from './product.router';
+import errOfRpRouter from './errorOfReport.router'
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response, next:NextFunction) => {
@@ -25,5 +26,6 @@ router.use('/order', orderRouter)
 router.use('/login', loginRouter)
 router.use('/dailyreport', rpRouter)
 router.use('/product', productRouter )
+router.use('/err', errOfRpRouter )
 
 export default router;
