@@ -1,5 +1,5 @@
 import { createCanteen, updateCanteen } from '../interfaces/canteen.interface'
-import { create_canteen, find_canteen_by_id } from '../repositorys/canteen.repository';
+import { create_canteen, find_canteen_by_id, get_all_canteen } from '../repositorys/canteen.repository';
 import { validate_create_canteen, validate_update_canteen } from '../validates/canteen.validate'
 import { validation_id } from '../validates'
 
@@ -65,4 +65,27 @@ const find_canteen = async (id: string) => {
     }
 }
 
-export { create, find_canteen };
+const find_all_canteen = async () => {
+    try {
+        const canteens = await get_all_canteen();
+
+        if( canteens?.success ) {
+            return {
+                success: true,
+                data: canteens?.data
+            }
+        }else {
+            return {
+                success: false,
+                message: canteens?.message
+            }
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error,
+        }
+    }
+}
+
+export { create, find_canteen, find_all_canteen };

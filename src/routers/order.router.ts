@@ -90,7 +90,7 @@ orderRouter.delete('/:id', async (req: Request, res: Response) => {
             });
         }
     } catch (error) {
-        return res.status(500).json({
+        res.status(500).json({
             message: 'server error: ' + error,
         });
     }

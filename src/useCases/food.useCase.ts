@@ -1,5 +1,9 @@
 import { createFoodInterface } from '../interfaces/food.interface';
-import { create_food, find_food_by_id } from '../repositorys/food.repository';
+import {
+    create_food,
+    find_food_by_id,
+    get_all_food,
+} from '../repositorys/food.repository';
 import { validate_food_create } from '../validates/food.validate';
 import { validation_id } from '../validates';
 const createFood = async (food: createFoodInterface) => {
@@ -11,8 +15,8 @@ const createFood = async (food: createFoodInterface) => {
             });
             if (new_food?.success) {
                 return {
-                   success: true,
-                   data: new_food?.data
+                    success: true,
+                    data: new_food?.data,
                 };
             } else {
                 return {
@@ -64,4 +68,26 @@ const findFoodById = async (id: string) => {
     }
 };
 
-export { createFood, findFoodById };
+const find_all_food = async () => {
+    try {
+        const foods = await get_all_food();
+        if (foods?.success) {
+            return {
+                success: true,
+                data: foods?.data,
+            };
+        } else {
+            return {
+                success: false,
+                message: foods?.message,
+            };
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error,
+        };
+    }
+};
+
+export { createFood, findFoodById, find_all_food };

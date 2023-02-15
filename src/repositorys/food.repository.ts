@@ -49,4 +49,26 @@ const find_food_by_id = async (id: string) => {
     }
 };
 
-export { create_food, find_food_by_id };
+const get_all_food = async () => {
+    try {
+        const foods: Food [] | null = await Food.findAll();
+        if( foods != null) {
+            return {
+                success: true,
+                data: foods
+            }
+        }else {
+            return {
+                success: false,
+                message: 'food not found',
+            };
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error,
+        };
+    }
+}
+
+export { create_food, find_food_by_id, get_all_food };

@@ -51,4 +51,26 @@ const find_canteen_by_id = async (id: string) => {
     }
 };
 
-export { create_canteen, find_canteen_by_id };
+const get_all_canteen = async () => {
+    try {
+        const canteens: Canteen[] | null = await Canteen.findAll();
+        if(canteens != null) {
+            return {
+                success: true,
+                data: canteens
+            }
+        }else {
+            return {
+                success: false,
+                message: 'canteen not found'
+            }
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error,
+        };
+    }
+};
+
+export { create_canteen, find_canteen_by_id, get_all_canteen };
