@@ -73,13 +73,65 @@ const find_all_order = async () => {
     }
 };
 
+const find_one_order = async (id: any) => {
+    try {
+        const order: Order | null = await Order.findOne({
+            where: {
+                id: id,
+            },
+            attributes: ['id', 'date'],
+            include: [
+                {
+                    model: User,
+                    as: 'user',
+                    attributes: ['id', 'name', 'employee_id'],
+                    include: [
+                        {
+                            model: Department,
+                            as: 'department',
+                            attributes: ['name'],
+                        },
+                    ],
+                },
+                {
+                    model: Food,
+                    as: 'food',
+                    attributes: ['name'],
+                },
+                {
+                    model: Canteen,
+                    as: 'canteen',
+                    attributes: ['id', 'factory_name'],
+                },
+            ],
+        });
+
+        if (order != null) {
+            return {
+                success: true,
+                data: order,
+            };
+        } else {
+            return {
+                success: false,
+                message: 'Order not found',
+            };
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error,
+        };
+    }
+};
+
 const find_order = async (field: any) => {
     try {
         const orders: Order[] | null = await Order.findAll({
             where: {
                 ...field,
             },
-            attributes: ['date'],
+            attributes: ['id', 'date'],
             include: [
                 {
                     model: User,
@@ -126,31 +178,20 @@ const find_order = async (field: any) => {
 
 const delete_order = async (id: string) => {
     try {
-        const order: Order | null = await Order.findOne({
+        const result = await Order.destroy({
             where: {
                 id: id,
             },
         });
-        if (order != null) {
-            const result = await Order.destroy({
-                where: {
-                    id: id,
-                },
-            });
-            if (result === 1) {
-                return {
-                    success: true,
-                };
-            } else {
-                return {
-                    success: false,
-                    message: 'delete order failed',
-                };
-            }
+        if (result === 1) {
+            return {
+                success: true,
+                message: 'delete order was successful',
+            };
         } else {
             return {
                 success: false,
-                message: 'Order not exist',
+                message: 'delete order failed',
             };
         }
     } catch (error) {
@@ -210,4 +251,5 @@ export {
     find_order,
     delete_order,
     search_order_for_user_in_month,
+    find_one_order,
 };

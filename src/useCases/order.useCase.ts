@@ -9,6 +9,7 @@ import {
     find_order,
     delete_order,
     search_order_for_user_in_month,
+    find_one_order,
 } from '../repositorys/order.repository';
 import {
     validate_create_order,
@@ -111,16 +112,42 @@ const delete_order_by_id = async (id: string) => {
     try {
         const valid = validation_id(id);
         if (!valid.error) {
-            const result = await delete_order(id);
-            console.log(result);
-            if (result?.success) {
-                return {
-                    success: true,
-                };
+            const order = await find_one_order(id);
+            if (order?.success) {
+                const date_of_order = order?.data?.date;
+                if (date_of_order != undefined) {
+                    const orderDate = new Date(date_of_order);
+                    const currentDate = new Date();
+                    if (orderDate.getTime() > currentDate.getTime()) {
+                        const result = await delete_order(id);
+                        if (result?.success) {
+                            return {
+                                success: true,
+                                message: result?.message,
+                            };
+                        } else {
+                            return {
+                                success: false,
+                                message: result?.message,
+                            };
+                        }
+                    } else {
+                        return {
+                            success: false,
+                            message:
+                                'order delete failed because it was confirmed',
+                        };
+                    }
+                } else {
+                    return {
+                        success: false,
+                        message: 'order delete failed',
+                    };
+                }
             } else {
                 return {
                     success: false,
-                    message: result?.message,
+                    message: 'order not avaliable',
                 };
             }
         } else {

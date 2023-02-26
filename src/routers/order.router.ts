@@ -75,7 +75,7 @@ orderRouter.delete('/:id', async (req: Request, res: Response) => {
             if (order.success) {
                 res.status(201).send({
                     success: true,
-                    message: 'deleted',
+                    message: order?.message,
                 });
             } else {
                 res.status(200).send({

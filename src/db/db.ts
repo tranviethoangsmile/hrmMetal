@@ -7,13 +7,13 @@ const DB_USER_NAME = ENV.DB_USER_NAME || '';
 const DB_PASSWORD = ENV.DB_PASSWORD || '';
 const DB_HOST = ENV.DB_HOST || '';
 const DB_DIALECT = ENV.DB_DIALECT || 'postgres';
-const TIMEZONE=ENV.TIMEZONE
+// const TIMEZONE=ENV.TIMEZONE
 const db = new Sequelize('hoangdev', 'hoangdev', '0000', {
     dialect: 'postgres',
     host: 'localhost',
     logging: false,
     port: 54323,
-    timezone: TIMEZONE
+    // timezone: TIMEZONE
 });
 
 db.authenticate()
