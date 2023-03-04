@@ -28,7 +28,7 @@ const options: swaggerJSDoc.Options =  {
 }
 
 const specs = swaggerJSDoc(options);
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3030;
 const HOTNAME: string = '192.168.0.103';
 const App = express();
 const server = http.createServer(App);
