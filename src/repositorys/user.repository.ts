@@ -17,10 +17,10 @@ const userCreate = async (user: any) => {
                 message: 'create user error',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error.message,
         };
     }
 };
