@@ -11,11 +11,11 @@ import productRouter from './product.router';
 import errOfRpRouter from './errorOfReport.router'
 const router = express.Router();
 
-router.get('/', (req: Request, res: Response, next:NextFunction) => {
-    res.send({
-        message: 'Hello World'
-    })
-})
+// router.get('/', (req: Request, res: Response, next:NextFunction) => {
+//     res.send({
+//         message: 'Hello World'
+//     })
+// })
 
 router.use('/department', departmentRouters )
 router.use('/user', userRouters);

@@ -22,10 +22,10 @@ userRouters.get('/', async (req: Request, res: Response) => {
                 message: users?.message,
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         return res.status(500).send({
             success: false,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error.mesage,
         });
     }
 });
@@ -52,10 +52,10 @@ userRouters.post('/', async (req: Request, res: Response) => {
                 message: 'data not empty',
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error. message,
         };
     }
 });
@@ -81,10 +81,10 @@ userRouters.put('/', async (req: Request, res: Response) => {
                 message: 'data update not empty',
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).send({
             success: false,
-            message: 'server error' + error,
+            message: 'server error' + error.massage,
         });
     }
 });
@@ -111,10 +111,10 @@ userRouters.delete('/:id', async (req: Request, res: Response) => {
                 message: 'id not empty',
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: true,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error.massage,
         };
     }
 });
@@ -136,10 +136,10 @@ userRouters.get('/:id', async (req: Request, res: Response) => {
                 });
             }
         }
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).send({
             success: false,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error.message,
         });
     }
 });

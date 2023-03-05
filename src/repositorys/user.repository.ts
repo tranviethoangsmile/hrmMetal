@@ -18,7 +18,7 @@ const userCreate = async (user: any) => {
             };
         }
     } catch (error: any) {
-        return {
+        return { 
             success: false,
             message: error.message,
         };

@@ -64,10 +64,10 @@ const createNewUser = async (user: any) => {
                 message: valid.error.message,
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error.message,
         };
     }
 };
