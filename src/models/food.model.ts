@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import db from '../db/db';
+import db from '../dbs/db';
 class Food extends Model {
     public id!: string;
     public name!: string;

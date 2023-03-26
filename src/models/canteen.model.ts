@@ -1,12 +1,11 @@
-import db from "../db/db";
-import { DataTypes, Model } from "sequelize";
+import db from '../dbs/db';
+import { DataTypes, Model } from 'sequelize';
 
 class Canteen extends Model {
     public id!: string;
     public factory_name!: string;
     public description!: string;
 }
-
 
 Canteen.init(
     {
@@ -23,7 +22,8 @@ Canteen.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
-    }, {
+    },
+    {
         sequelize: db,
         modelName: 'Canteen',
         tableName: 'canteens',
@@ -32,6 +32,7 @@ Canteen.init(
         updatedAt: 'updated_at',
         deletedAt: 'deleted_at',
         paranoid: true,
-    })
+    },
+);
 
-    export default Canteen;
+export default Canteen;

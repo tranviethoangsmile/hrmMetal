@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import db from '../db/db';
+import db from '../dbs/db';
 import User from './user.model';
 import Food from './food.model';
 import Canteen from './canteen.model';
@@ -40,7 +40,7 @@ Order.init(
         canteen_id: {
             type: DataTypes.UUID,
             allowNull: false,
-        }
+        },
     },
     {
         sequelize: db,

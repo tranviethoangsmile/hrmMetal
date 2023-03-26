@@ -1,5 +1,5 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
-import db from '../db/db';
+import db from '../dbs/db';
 import Department from './department.model';
 import { Role } from '../enum/Role.enum';
 import { Position } from '../enum/Position.enum';
@@ -80,11 +80,11 @@ User.init(
         },
         role: {
             type: DataTypes.ENUM,
-            values:  Object.values(Role).map(value => value.toString()),
+            values: Object.values(Role).map(value => value.toString()),
         },
         position: {
             type: DataTypes.ENUM,
-            values:  Object.values(Position).map(value => value.toString()),
+            values: Object.values(Position).map(value => value.toString()),
         },
         department_id: {
             type: DataTypes.STRING,

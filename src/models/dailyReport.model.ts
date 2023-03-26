@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { CodeError, User } from './index';
 import { Products } from '../enum/product.enum';
-import db from '../db/db';
+import db from '../dbs/db';
 
 class DailyReport extends Model {
     public id!: string;
@@ -14,7 +14,7 @@ class DailyReport extends Model {
     public operated_time!: number;
     public shutdown_time!: number;
     public active_time!: number;
-//
+    //
     public user!: User;
     public codeError!: CodeError[];
 }
@@ -24,11 +24,11 @@ DailyReport.init(
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV1,
-            primaryKey: true
+            primaryKey: true,
         },
         product: {
             type: DataTypes.ENUM,
-            values:  Object.values(Products).map(value => value.toString()),
+            values: Object.values(Products).map(value => value.toString()),
         },
         user_id: {
             type: DataTypes.STRING,
@@ -40,11 +40,11 @@ DailyReport.init(
         },
         shift: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
         },
         quantity: {
             type: DataTypes.NUMBER,
-            allowNull: false
+            allowNull: false,
         },
         operator_history: {
             type: DataTypes.STRING,
@@ -60,9 +60,9 @@ DailyReport.init(
         },
         active_time: {
             type: DataTypes.NUMBER,
-            allowNull: false
-        }
-    }, 
+            allowNull: false,
+        },
+    },
     {
         sequelize: db,
         modelName: 'dailyreport',
@@ -72,8 +72,7 @@ DailyReport.init(
         createdAt: 'created_at',
         updatedAt: 'updated_at',
         deletedAt: 'deleted_at',
-    }
-
+    },
 );
 
-export default DailyReport
+export default DailyReport;

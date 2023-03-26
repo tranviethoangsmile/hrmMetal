@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import db from '../db/db';
+import db from '../dbs/db';
 import { User } from './index';
 import { Products } from '../enum/product.enum';
 class Product extends Model {
@@ -12,8 +12,8 @@ class Product extends Model {
     public quantity!: number;
     public day_code!: string;
 
-    // 
-    public user !: User
+    //
+    public user!: User;
 }
 
 Product.init(

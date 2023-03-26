@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
-import db from '../db/db';
+import db from '../dbs/db';
 import { DailyReport } from './index';
-import { CodeError as codeErrors } from '../enum/codeError.enum'
+import { CodeError as codeErrors } from '../enum/codeError.enum';
 class CodeError extends Model {
     public id!: string;
     public code!: Enumerator;
@@ -21,7 +21,7 @@ CodeError.init(
         },
         code: {
             type: DataTypes.ENUM,
-            values: Object.values(codeErrors).map(value => value.toString())
+            values: Object.values(codeErrors).map(value => value.toString()),
         },
         description: {
             type: DataTypes.STRING,
@@ -32,9 +32,8 @@ CodeError.init(
             allowNull: false,
         },
         daily_report_id: {
-            type: DataTypes.STRING
-        }
-
+            type: DataTypes.STRING,
+        },
     },
     {
         sequelize: db,
