@@ -1,18 +1,12 @@
+'use strict';
 import { Sequelize } from 'sequelize';
-import dotenv from 'dotenv';
-dotenv.config();
-const ENV = process.env;
-const DATABASE_NAME = ENV.DATABASE_NAME || '';
-const DB_USER_NAME = ENV.DB_USER_NAME || '';
-const DB_PASSWORD = ENV.DB_PASSWORD || '';
-const DB_HOST = ENV.DB_HOST || '';
-const DB_DIALECT = ENV.DB_DIALECT || 'postgres';
-// const TIMEZONE=ENV.TIMEZONE
-const db = new Sequelize('hoangdev', 'hoangdev', '0000', {
-    dialect: 'postgres',
-    host: 'localhost',
+import config from '../configs/config.system';
+const CONFIG = config.db;
+const db = new Sequelize(CONFIG.name, CONFIG.username, CONFIG.password, {
+    dialect: CONFIG.dialect,
+    host: CONFIG.host,
     logging: false,
-    port: 54323,
+    port: CONFIG.port,
     // timezone: TIMEZONE
 });
 
