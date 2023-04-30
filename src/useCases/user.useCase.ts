@@ -152,20 +152,20 @@ const findUserById = async (userId: string) => {
         const valid_id = validation_id(userId);
         if (!valid_id.error) {
             const user = await userFindById(userId);
-            if (user) {
+            if (user?.success) {
                 return {
-                    success: false,
+                    success: true,
                     data: user,
                 };
             } else {
                 return {
-                    success: true,
+                    success: false,
                     message: 'User not found',
                 };
             }
         } else {
             return {
-                success: true,
+                success: false,
                 message: valid_id?.error.message,
             };
         }
