@@ -1,50 +1,55 @@
-import { Product, User, Department } from "../models";
-const create_product = async (data : any) => {
+import { Product, User, Department } from '../models';
+const create_product = async (data: any) => {
     try {
         const user: User | null = await User.findOne({
             where: {
-                id: data.user_id
-            }
-        })
-        if(user != null) {
+                id: data.user_id,
+            },
+        });
+        if (user != null) {
             const product: Product | null = await Product.create({
-                ...data
-            })
+                ...data,
+            });
 
-            if(product != null) {
+            if (product != null) {
                 return {
                     success: true,
-                    data: product
-                }
-            }else {
+                    data: product,
+                };
+            } else {
                 return {
                     success: false,
-                    message: 'create product failed' 
-                }
+                    message: 'create product failed',
+                };
             }
-        }else {
+        } else {
             return {
                 success: false,
                 message: 'create product failed, user not exist',
-            }
-        }  
-        
-    } catch (error) {
+            };
+        }
+    } catch (error: any) {
         return {
             success: false,
-            message: error
-        }
+            message: error?.message,
+        };
     }
-}
-
+};
 
 const search_product = async (data: any) => {
     try {
         const products: Product[] | null = await Product.findAll({
             where: {
-                ...data
+                ...data,
             },
-            attributes: ['name', 'ic_card', 'shift', 'date', 'quantity', 'day_code'],
+            attributes: [
+                'name',
+                'ic_card',
+                'shift',
+                'date',
+                'quantity',
+                'day_code',
+            ],
             include: [
                 {
                     model: User,
@@ -54,28 +59,28 @@ const search_product = async (data: any) => {
                             model: Department,
                             as: 'department',
                             attributes: ['name'],
-                        }
-                    ]
-                }
-            ]
+                        },
+                    ],
+                },
+            ],
         });
-        if(products != null) {
+        if (products != null) {
             return {
                 success: true,
-                data: products
-            }
-        }else {
+                data: products,
+            };
+        } else {
             return {
                 success: false,
-                message: 'product not found'
-            }
+                message: 'product not found',
+            };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error
-        }
+            message: error?.message,
+        };
     }
-} 
+};
 
-export { create_product, search_product }
+export { create_product, search_product };

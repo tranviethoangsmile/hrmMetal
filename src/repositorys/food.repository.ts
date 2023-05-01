@@ -15,10 +15,10 @@ const create_food = async (food: any) => {
                 message: 'create food failed',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -41,34 +41,34 @@ const find_food_by_id = async (id: string) => {
                 message: 'food not found',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
 
 const get_all_food = async () => {
     try {
-        const foods: Food [] | null = await Food.findAll();
-        if( foods != null) {
+        const foods: Food[] | null = await Food.findAll();
+        if (foods != null) {
             return {
                 success: true,
-                data: foods
-            }
-        }else {
+                data: foods,
+            };
+        } else {
             return {
                 success: false,
                 message: 'food not found',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
-}
+};
 
 export { create_food, find_food_by_id, get_all_food };

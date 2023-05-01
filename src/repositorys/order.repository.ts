@@ -65,10 +65,10 @@ const find_all_order = async () => {
                 message: 'Order not found',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: true,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -117,10 +117,10 @@ const find_one_order = async (id: any) => {
                 message: 'Order not found',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -168,10 +168,10 @@ const find_order = async (field: any) => {
                 message: 'Order not found',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -194,10 +194,10 @@ const delete_order = async (id: string) => {
                 message: 'delete order failed',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -237,10 +237,10 @@ const search_order_for_user_in_month = async (id: any) => {
                 message: 'Order not found',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };

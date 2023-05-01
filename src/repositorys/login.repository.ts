@@ -28,9 +28,9 @@ const login = async (user: any) => {
                 {
                     model: Department,
                     as: 'department',
-                    attributes: ['name']
-                }
-            ]
+                    attributes: ['name'],
+                },
+            ],
         });
         if (user_login != null) {
             const pass = await bcrypt.compare(password, user_login.password);
@@ -41,7 +41,7 @@ const login = async (user: any) => {
                 position: user_login?.dataValues.position,
                 role: user_login?.dataValues.role,
                 is_admin: user_login?.dataValues.is_admin,
-                department: user_login?.dataValues.department
+                department: user_login?.dataValues.department,
             };
             if (pass) {
                 const secret = crypto
@@ -69,10 +69,10 @@ const login = async (user: any) => {
                 message: 'user not found',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error
+            message: error?.message,
         };
     }
 };

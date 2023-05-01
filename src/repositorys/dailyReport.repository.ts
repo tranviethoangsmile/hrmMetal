@@ -28,10 +28,10 @@ const daily_report_create = async (data: any) => {
                 message: 'user not found in daily report',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -86,10 +86,10 @@ const find_report = async (data: any) => {
                 message: 'daily report not found',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error.message,
         };
     }
 };
@@ -141,10 +141,10 @@ const find_report_all = async () => {
                 message: 'daily report not found',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -173,12 +173,12 @@ const find_daily_report_by_id = async (id: any) => {
                     include: [
                         {
                             model: Department,
-                            as:'department',
+                            as: 'department',
                             attributes: ['name'],
-                        }
-                    ]
-                }
-            ]
+                        },
+                    ],
+                },
+            ],
         });
 
         if (report != null) {
@@ -192,10 +192,10 @@ const find_daily_report_by_id = async (id: any) => {
                 message: 'Report not found',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };

@@ -4,7 +4,7 @@ import { Op } from 'sequelize';
 const userCreate = async (user: any) => {
     try {
         const new_user: User | null = await User.create({
-            ...user
+            ...user,
         });
         if (new_user != null) {
             return {
@@ -18,7 +18,7 @@ const userCreate = async (user: any) => {
             };
         }
     } catch (error: any) {
-        return { 
+        return {
             success: false,
             message: error.message,
         };
@@ -30,7 +30,7 @@ const userUpdate = async (user: any) => {
         const updateFields = {
             ...user,
         };
-        const new_user_updated= await User.update(updateFields, {
+        const new_user_updated = await User.update(updateFields, {
             where: {
                 id: updateFields.id,
             },
@@ -88,10 +88,10 @@ const userDelete = async (id: string) => {
                 message: 'delete user error',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -131,17 +131,17 @@ const userFindById = async (id: string) => {
                 message: 'not found user',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
 
 const userFindByName = async (name: string) => {
     try {
-        const user: User [] | null = await User.findAll({
+        const user: User[] | null = await User.findAll({
             where: {
                 name: {
                     [Op.like]: `%${name}%`,
@@ -171,10 +171,10 @@ const userFindByName = async (name: string) => {
                 message: 'not found user',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -213,10 +213,10 @@ const userFindAll = async () => {
                 message: 'not found user',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };

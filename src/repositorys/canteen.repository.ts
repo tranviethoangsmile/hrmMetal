@@ -16,10 +16,10 @@ const create_canteen = async (data: any) => {
                 message: 'create canteen failed',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -43,10 +43,10 @@ const find_canteen_by_id = async (id: string) => {
                 message: 'canteen not found',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -54,21 +54,21 @@ const find_canteen_by_id = async (id: string) => {
 const get_all_canteen = async () => {
     try {
         const canteens: Canteen[] | null = await Canteen.findAll();
-        if(canteens != null) {
+        if (canteens != null) {
             return {
                 success: true,
-                data: canteens
-            }
-        }else {
+                data: canteens,
+            };
+        } else {
             return {
                 success: false,
-                message: 'canteen not found'
-            }
+                message: 'canteen not found',
+            };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
