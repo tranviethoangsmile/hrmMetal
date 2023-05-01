@@ -8,8 +8,14 @@ const schema_trainning = Joi.object({
     user_id: Joi.string().required(),
 });
 
+const schema_search_trainning = Joi.string();
+
 const validate_schema_trainning = (data: any) => {
     return schema_trainning.validate(data);
 };
 
-export { validate_schema_trainning };
+const validate_schema_search_trainning = (data: any) => {
+    return schema_search_trainning.validate(data);
+};
+
+export { validate_schema_trainning, validate_schema_search_trainning };

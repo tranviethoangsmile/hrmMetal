@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import {
     create_canteen,
     find_canteen_by_id,
-    get_all_canteen
+    get_all_canteen,
 } from '../controllers/canteen.controller';
 const canteenRouter = Router();
 
@@ -28,10 +28,10 @@ canteenRouter.post('/', async (req: Request, res: Response) => {
                 message: 'data not empty',
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).json({
             success: false,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error?.message,
         });
     }
 });
@@ -58,10 +58,10 @@ canteenRouter.get('/:id', async (req: Request, res: Response) => {
                 message: 'id not empty',
             });
         }
-    } catch (error) {
-       res.status(500).json({
+    } catch (error: any) {
+        res.status(500).json({
             success: false,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error?.message,
         });
     }
 });
@@ -69,22 +69,22 @@ canteenRouter.get('/:id', async (req: Request, res: Response) => {
 canteenRouter.get('/', async (req: Request, res: Response) => {
     try {
         const canteens = await get_all_canteen();
-        if( canteens?.success ) {
+        if (canteens?.success) {
             res.status(201).json({
                 success: true,
                 data: canteens?.data,
             });
-        }else {
+        } else {
             res.status(200).json({
                 success: false,
                 message: canteens?.message,
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).json({
             success: false,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error?.message,
         });
     }
-})
+});
 export default canteenRouter;

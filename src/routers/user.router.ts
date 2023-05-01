@@ -55,7 +55,7 @@ userRouters.post('/', async (req: Request, res: Response) => {
     } catch (error: any) {
         return {
             success: false,
-            message: 'server error: ' + error. message,
+            message: 'server error: ' + error.message,
         };
     }
 });

@@ -45,7 +45,7 @@ const departmentList = async () => {
     } catch (error: any) {
         return {
             success: false,
-            messgae: error?.message,
+            message: error?.message,
         };
     }
 };

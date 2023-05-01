@@ -30,10 +30,10 @@ const createFood = async (food: createFoodInterface) => {
                 message: 'data not valid',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -60,10 +60,10 @@ const findFoodById = async (id: string) => {
                 message: 'id not valid',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -82,10 +82,10 @@ const find_all_food = async () => {
                 message: foods?.message,
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };

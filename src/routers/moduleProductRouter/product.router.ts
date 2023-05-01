@@ -23,10 +23,10 @@ productModuleRouter.post('/', async (req: Request, res: Response) => {
                 message: products?.message,
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).send({
             success: false,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error?.message,
         });
     }
 });

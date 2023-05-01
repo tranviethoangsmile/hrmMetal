@@ -5,3 +5,8 @@ export interface Trainning {
     media_path: [];
     user_id: string;
 }
+
+export interface Search_trainning {
+    trainning_name?: string;
+    product_name?: string;
+}

@@ -15,7 +15,6 @@ import {
     validate_create_order,
     validate_search_order,
 } from '../validates/order.validate';
-import { User } from '../models';
 const create_order = async (order: any) => {
     try {
         const valid = validate_create_order(order);
@@ -48,10 +47,10 @@ const create_order = async (order: any) => {
                 message: 'data not valid',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -70,10 +69,10 @@ const find_all = async () => {
                 message: orders?.message,
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -100,10 +99,10 @@ const search_order = async (order: search_order) => {
                 message: 'data not valid',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -156,10 +155,10 @@ const delete_order_by_id = async (id: string) => {
                 message: 'id not valid delete',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -186,10 +185,10 @@ const search_order_user = async (id: any) => {
                 message: 'Id not valid search',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };

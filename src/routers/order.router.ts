@@ -36,10 +36,10 @@ orderRouter.post(
                     message: 'data not empty',
                 });
             }
-        } catch (error) {
+        } catch (error: any) {
             res.status(500).json({
                 success: false,
-                message: 'server error: ' + error,
+                message: 'server error: ' + error?.message,
             });
         }
     },
@@ -59,10 +59,10 @@ orderRouter.get('/', async (req: Request, res: Response) => {
                 message: orders?.message,
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).json({
             success: false,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error?.message,
         });
     }
 });
@@ -89,9 +89,9 @@ orderRouter.delete('/:id', async (req: Request, res: Response) => {
                 message: 'id not empty',
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).json({
-            message: 'server error: ' + error,
+            message: 'server error: ' + error?.message,
         });
     }
 });

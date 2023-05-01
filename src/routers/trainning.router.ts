@@ -1,9 +1,10 @@
 import express, { Request, Response, Router } from 'express';
-import { create } from '../controllers/trainning.controller';
+import { create, get_all_trainning } from '../controllers/trainning.controller';
 import { create_media_path } from '../middlewares/createTrainning.middleware';
+import TrainningRouter from './moduleTrainningRouter/trainning.router';
 import multer from 'multer';
 
-const trainingRouter: Router = express.Router();
+const trainningRouter: Router = express.Router();
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -15,7 +16,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-trainingRouter.post(
+trainningRouter.post(
     '/',
     upload.array('media'),
     create_media_path,
@@ -24,7 +25,7 @@ trainingRouter.post(
             const media = req.body;
             const new_media = await create(media);
             if (new_media.success) {
-                res.status(200).json({
+                res.status(201).json({
                     success: true,
                     data: new_media?.data,
                 });
@@ -43,4 +44,28 @@ trainingRouter.post(
     },
 );
 
-export default trainingRouter;
+trainningRouter.get('/', async (req: Request, res: Response) => {
+    try {
+        const trainnings = await get_all_trainning();
+        if (trainnings?.success) {
+            res.status(201).json({
+                success: true,
+                data: trainnings?.data,
+            });
+        } else {
+            res.status(200).json({
+                success: false,
+                message: trainnings.message,
+            });
+        }
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: 'server error: ' + error.mesage,
+        });
+    }
+});
+
+trainningRouter.use('/search', TrainningRouter);
+
+export default trainningRouter;

@@ -25,10 +25,10 @@ const login_user = async (user: login_data) => {
                 message: valid?.error.message,
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };

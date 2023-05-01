@@ -1,8 +1,15 @@
-import { Create_trainning } from '../repositorys/trainning.repository';
+import {
+    Create_trainning,
+    find_all_trainning,
+    search_trainning,
+} from '../repositorys/trainning.repository';
 import { findUserById } from './user.useCase';
-import { Trainning } from '../interfaces/trainning.interface';
-import { Products } from '../enum/product.enum';
-import { validate_schema_trainning } from '../validates/trainning.validate';
+import { Trainning, Search_trainning } from '../interfaces/trainning.interface';
+import { Products } from '../enum/Product.enum';
+import {
+    validate_schema_trainning,
+    validate_schema_search_trainning,
+} from '../validates/trainning.validate';
 const Create = async (trainning: Trainning) => {
     try {
         const valid = validate_schema_trainning(trainning);
@@ -52,4 +59,56 @@ const Create = async (trainning: Trainning) => {
     }
 };
 
-export { Create };
+const Get_all_trainning = async () => {
+    try {
+        const trainnings = await find_all_trainning();
+        if (trainnings?.success) {
+            return {
+                success: true,
+                data: trainnings?.data,
+            };
+        } else {
+            return {
+                success: false,
+                message: trainnings?.message,
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.message,
+        };
+    }
+};
+
+const Search_all_trainning = async (data: Search_trainning) => {
+    try {
+        const valid = validate_schema_search_trainning(data);
+        if (!valid?.error) {
+            const trainnings = await search_trainning(data);
+            if (trainnings?.success) {
+                return {
+                    success: true,
+                    data: trainnings?.data,
+                };
+            } else {
+                return {
+                    success: false,
+                    message: trainnings?.message,
+                };
+            }
+        } else {
+            return {
+                success: false,
+                message: valid?.error.message,
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
+
+export { Create, Get_all_trainning, Search_all_trainning };

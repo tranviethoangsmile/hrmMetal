@@ -28,10 +28,10 @@ productRouter.post('/', async (req: Request, res: Response) => {
                 message: 'data not empty',
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).send({
             success: false,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error?.message,
         });
     }
 });

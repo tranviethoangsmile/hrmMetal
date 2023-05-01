@@ -1,7 +1,14 @@
-import { createCanteen, updateCanteen } from '../interfaces/canteen.interface'
-import { create_canteen, find_canteen_by_id, get_all_canteen } from '../repositorys/canteen.repository';
-import { validate_create_canteen, validate_update_canteen } from '../validates/canteen.validate'
-import { validation_id } from '../validates'
+import { createCanteen, updateCanteen } from '../interfaces/canteen.interface';
+import {
+    create_canteen,
+    find_canteen_by_id,
+    get_all_canteen,
+} from '../repositorys/canteen.repository';
+import {
+    validate_create_canteen,
+    validate_update_canteen,
+} from '../validates/canteen.validate';
+import { validation_id } from '../validates';
 
 const create = async (data: any) => {
     try {
@@ -14,26 +21,26 @@ const create = async (data: any) => {
                 return {
                     success: true,
                     data: new_canteen?.data,
-                }
-            }else {
+                };
+            } else {
                 return {
                     success: false,
                     message: new_canteen?.message,
-                }
+                };
             }
         } else {
             return {
                 success: false,
-                message: valid.error.message
-            }
+                message: valid.error.message,
+            };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
-        }
+            message: error?.message,
+        };
     }
-}
+};
 
 const find_canteen = async (id: string) => {
     try {
@@ -43,49 +50,49 @@ const find_canteen = async (id: string) => {
             if (canteen?.success) {
                 return {
                     success: true,
-                    data: canteen?.data
-                }
-            }else {
+                    data: canteen?.data,
+                };
+            } else {
                 return {
                     success: false,
                     message: canteen?.message,
-                }
+                };
             }
-        }else {
+        } else {
             return {
                 success: false,
-                message: 'id not valid'
-            }
+                message: 'id not valid',
+            };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
-        }
+            message: error?.message,
+        };
     }
-}
+};
 
 const find_all_canteen = async () => {
     try {
         const canteens = await get_all_canteen();
 
-        if( canteens?.success ) {
+        if (canteens?.success) {
             return {
                 success: true,
-                data: canteens?.data
-            }
-        }else {
+                data: canteens?.data,
+            };
+        } else {
             return {
                 success: false,
-                message: canteens?.message
-            }
+                message: canteens?.message,
+            };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
-        }
+            message: error?.massage,
+        };
     }
-}
+};
 
 export { create, find_canteen, find_all_canteen };

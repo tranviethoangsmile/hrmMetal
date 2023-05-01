@@ -20,10 +20,10 @@ router.get('/', async (req: Request, res: Response) => {
                 message: departments?.message,
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).send({
             success: false,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error?.message,
         });
     }
 });
@@ -70,10 +70,10 @@ router.post('/', async (req: Request, res: Response) => {
                 message: 'data not empty',
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).send({
             success: false,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error?.message,
         });
     }
 });
@@ -93,10 +93,10 @@ router.get('/:id', async (req: Request, res: Response) => {
                 message: department?.message,
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).send({
             success: false,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error?.message,
         });
     }
 });

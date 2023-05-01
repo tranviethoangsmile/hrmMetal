@@ -6,7 +6,7 @@ import {
 import { validation_department_create } from '../validates/department.validate';
 import { validation_id } from '../validates';
 
-const departmentCreate = async (data: any ) => {
+const departmentCreate = async (data: any) => {
     try {
         const valid = await validation_department_create(data);
         if (!valid.error) {
@@ -28,10 +28,10 @@ const departmentCreate = async (data: any ) => {
                 message: valid?.error.message,
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -39,30 +39,21 @@ const departmentCreate = async (data: any ) => {
 const getDepartmentList = async () => {
     try {
         const departments = await departmentList();
-        if(departments?.success) {
+        if (departments?.success) {
             return {
                 success: true,
-                data: departments?.data
-            }
-        }else {
+                data: departments?.data,
+            };
+        } else {
             return {
                 success: false,
-                message: departments?.message
-            }
+                message: departments?.message,
+            };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error
-        }
-    }
-    const allDep = await departmentList();
-    if (allDep) {
-        return allDep;
-    } else {
-        return {
-            error: true,
-            message: 'data error',
+            message: error?.message,
         };
     }
 };
@@ -89,11 +80,11 @@ const getDepById = async (id: string) => {
                 message: validId.error.message,
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error 
-        }
+            message: error?.message,
+        };
     }
 };
 

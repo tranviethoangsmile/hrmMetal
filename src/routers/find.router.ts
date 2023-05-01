@@ -20,10 +20,10 @@ findRouter.get('/:name', async (req: Request, res: Response) => {
                 });
             }
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error?.message,
         };
     }
 });
@@ -55,10 +55,10 @@ findRouter.post('/', async (req: Request, res: Response) => {
                 message: 'value not empty',
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).json({
             success: false,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error?.message,
         });
     }
 });

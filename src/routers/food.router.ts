@@ -24,10 +24,10 @@ foodRouter.post('/', async (req: Request, res: Response) => {
                 message: 'data not empty',
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         return res.status(500).send({
             success: false,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error?.message,
         });
     }
 });
@@ -54,33 +54,33 @@ foodRouter.get('/:id', async (req: Request, res: Response) => {
                 message: 'id not empty',
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).send({
             success: false,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error?.message,
         });
     }
 });
 
 foodRouter.get('/', async (req: Request, res: Response) => {
     try {
-        const foods = await find_all ();
+        const foods = await find_all();
 
-        if(foods?.success) {
+        if (foods?.success) {
             res.status(201).json({
                 success: true,
                 data: foods?.data,
-            }); 
-        }else {
+            });
+        } else {
             res.status(200).json({
                 success: false,
                 message: foods?.message,
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).send({
             success: false,
-            message: 'server error: ' + error,
+            message: 'server error: ' + error?.message,
         });
     }
 });

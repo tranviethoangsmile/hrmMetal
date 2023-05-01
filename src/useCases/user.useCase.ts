@@ -139,10 +139,10 @@ const deleteUser = async (id: string) => {
                 message: 'id wrong...!!',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -169,10 +169,10 @@ const findUserById = async (userId: string) => {
                 message: valid_id?.error.message,
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -198,10 +198,10 @@ const findUserByName = async (name: string) => {
                 message: 'name not empty',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };
@@ -220,10 +220,10 @@ const findAllUser = async () => {
                 message: users?.message,
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };

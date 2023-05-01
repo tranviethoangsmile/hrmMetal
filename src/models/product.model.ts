@@ -1,7 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '../dbs/db';
 import { User } from './index';
-import { Products } from '../enum/product.enum';
+import { Products } from '../enum/Product.enum';
 class Product extends Model {
     public id!: string;
     public name!: Enumerator;
