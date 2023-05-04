@@ -1,8 +1,7 @@
-
 export enum Role {
-    EMPLOYEE, 
+    STAFF,
     LEADER,
     SUPERVISOR,
     MANAGER,
-    ADMIN
+    ADMIN,
 }

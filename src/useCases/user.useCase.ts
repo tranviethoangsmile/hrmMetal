@@ -155,7 +155,7 @@ const findUserById = async (userId: string) => {
             if (user?.success) {
                 return {
                     success: true,
-                    data: user,
+                    data: user?.data,
                 };
             } else {
                 return {

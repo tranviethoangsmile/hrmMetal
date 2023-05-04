@@ -31,7 +31,6 @@ const create_media_path = async (
                 const urls = results.map(result => result.secure_url);
                 urlMedias.push(urls);
                 req.body.media_path = urlMedias;
-                req.body.user_id = 'b33c18b6-5ca6-4ce8-8178-6f03ababcefd';
                 next();
             })
             .catch(error => {
