@@ -18,6 +18,7 @@ const login = async (user: any) => {
                 'id',
                 'name',
                 'user_name',
+                'avatar',
                 'role',
                 'password',
                 'position',
@@ -38,6 +39,7 @@ const login = async (user: any) => {
                 id: user_login?.dataValues.id,
                 name: user_login?.dataValues.name,
                 user_name: user_login?.dataValues.user_name,
+                avatar: user_login?.dataValues.avatar,
                 position: user_login?.dataValues.position,
                 role: user_login?.dataValues.role,
                 is_admin: user_login?.dataValues.is_admin,
@@ -60,7 +62,7 @@ const login = async (user: any) => {
             } else {
                 return {
                     success: false,
-                    message: 'Password wrong...',
+                    message: 'Password wrong...!!!',
                 };
             }
         } else {

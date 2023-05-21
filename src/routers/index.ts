@@ -11,6 +11,7 @@ import productRouter from './product.router';
 import errOfRpRouter from './errorOfReport.router';
 import trainningRouter from './trainning.router';
 import mediaRouter from './media.router';
+import chatRouter from './chat.router';
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
@@ -33,5 +34,6 @@ router.use('/product', productRouter);
 router.use('/err', errOfRpRouter);
 router.use('/trainning', trainningRouter);
 router.use('/media', mediaRouter);
+router.use('/chat', chatRouter);
 
 export default router;

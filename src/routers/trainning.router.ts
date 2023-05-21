@@ -40,7 +40,7 @@ trainningRouter.post(
         } catch (error: any) {
             res.status(500).json({
                 success: false,
-                message: 'server error: ' + error.mesage,
+                message: 'server error: ' + error.message,
             });
         }
     },

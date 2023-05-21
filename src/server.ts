@@ -1,4 +1,4 @@
-import express, { Application, application } from 'express';
+import express, { Application, application, Request, Response } from 'express';
 import cors from 'cors';
 import router from './routers';
 import dotenv from 'dotenv';
@@ -11,6 +11,7 @@ require('./dbs/db.mongo');
 dotenv.config();
 const PORT = config.app.port;
 const App = express();
+
 App.use(cors());
 App.use(morgan('combined'));
 App.use(helmet());
