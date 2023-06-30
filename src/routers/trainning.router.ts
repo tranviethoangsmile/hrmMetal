@@ -1,7 +1,7 @@
 import express, { Request, Response, Router } from 'express';
 import { create, get_all_trainning } from '../controllers/trainning.controller';
 import { create_media_path } from '../middlewares/createTrainning.middleware';
-import very_role from '../middlewares/veryRoleUploadTrainning.middleware';
+import very_role from '../middlewares/veryRoleUpdate.middleware';
 import TrainningRouter from './moduleTrainningRouter/trainning.router';
 import multer from 'multer';
 

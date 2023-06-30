@@ -18,10 +18,10 @@ const create = async (order: any) => {
                 messgae: 'create order failed',
             };
         }
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: error?.message,
         };
     }
 };

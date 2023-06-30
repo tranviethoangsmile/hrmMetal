@@ -7,6 +7,7 @@ import DailyReport from './dailyReport.model';
 import CodeError from './codeError.model';
 import Product from './product.model';
 import Trainning from './trainning.model';
+import PaidLeaveRequest from './paidLeaveRequest.model';
 User.belongsTo(Department, { foreignKey: 'department_id', as: 'department' });
 Department.hasMany(User, { foreignKey: 'department_id', as: 'users' });
 Order.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
@@ -23,6 +24,10 @@ Product.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(Product, { foreignKey: 'user_id' });
 Trainning.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(Trainning, { foreignKey: 'user_id' });
+User.hasMany(PaidLeaveRequest, { foreignKey: 'staff_id' });
+User.hasMany(PaidLeaveRequest, { foreignKey: 'leader_id' });
+PaidLeaveRequest.belongsTo(User, { foreignKey: 'staff_id', as: 'staff' });
+PaidLeaveRequest.belongsTo(User, { foreignKey: 'leader_id', as: 'leader' });
 
 export {
     User,
@@ -34,4 +39,5 @@ export {
     CodeError,
     Product,
     Trainning,
+    PaidLeaveRequest,
 };

@@ -44,7 +44,7 @@ const create_order = async (order: any) => {
         } else {
             return {
                 success: false,
-                message: 'data not valid',
+                message: valid?.error.message,
             };
         }
     } catch (error: any) {

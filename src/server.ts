@@ -10,6 +10,7 @@ import config from './configs/config.system';
 require('./dbs/db.mongo');
 dotenv.config();
 const PORT = config.app.port;
+const HOSTNAME = '192.168.1.21';
 const App = express();
 
 App.use(cors());

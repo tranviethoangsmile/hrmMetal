@@ -12,6 +12,7 @@ import errOfRpRouter from './errorOfReport.router';
 import trainningRouter from './trainning.router';
 import mediaRouter from './media.router';
 import chatRouter from './chat.router';
+import paidLeaveRouter from './paidLeaveRequest.router';
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
@@ -35,5 +36,6 @@ router.use('/err', errOfRpRouter);
 router.use('/trainning', trainningRouter);
 router.use('/media', mediaRouter);
 router.use('/chat', chatRouter);
+router.use('/paidleave', paidLeaveRouter);
 
 export default router;

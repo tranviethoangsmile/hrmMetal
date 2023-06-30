@@ -183,6 +183,7 @@ const userFindAll = async () => {
     try {
         const users: User[] | null = await User.findAll({
             attributes: [
+                'id',
                 'name',
                 'user_name',
                 'role',

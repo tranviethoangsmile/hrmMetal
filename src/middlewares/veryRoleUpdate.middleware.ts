@@ -4,7 +4,6 @@ const very_role = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user_id: string = req.body.user_id;
         const user = await findById(user_id);
-        console.log(user);
         if (user?.data?.role.toString() !== 'STAFF') {
             next();
         } else {
