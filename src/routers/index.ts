@@ -13,15 +13,8 @@ import trainningRouter from './trainning.router';
 import mediaRouter from './media.router';
 import chatRouter from './chat.router';
 import paidLeaveRouter from './paidLeaveRequest.router';
+import conversationRouter from './conversation.router';
 const router = express.Router();
-
-router.get('/', (req: Request, res: Response, next: NextFunction) => {
-    const str: string = 'hellooo';
-    res.status(200).json({
-        message: str,
-        data: str.repeat(1000000),
-    });
-});
 
 router.use('/department', departmentRouters);
 router.use('/user', userRouters);
@@ -37,5 +30,5 @@ router.use('/trainning', trainningRouter);
 router.use('/media', mediaRouter);
 router.use('/chat', chatRouter);
 router.use('/paidleave', paidLeaveRouter);
-
+router.use('/conversations', conversationRouter);
 export default router;

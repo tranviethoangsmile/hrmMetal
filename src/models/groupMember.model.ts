@@ -1,14 +1,15 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '../dbs/db';
+import Message from './message.model';
 
-class Message extends Model {
+class GroupMember extends Model {
     public id!: string;
-    public conten!: string;
-    public sender_id!: string;
+    public user_id!: string;
     public conversation_id!: string;
+    public joined_datetime!: string;
 }
 
-Message.init(
+GroupMember.init(
     {
         id: {
             type: DataTypes.UUID,
@@ -16,23 +17,23 @@ Message.init(
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
-        content: {
+        user_id: {
             type: DataTypes.STRING,
-            allowNull: false,
-        },
-        sender_id: {
-            type: DataTypes.UUID,
             allowNull: false,
         },
         conversation_id: {
             type: DataTypes.UUID,
             allowNull: false,
         },
+        joined_datetime: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
     },
     {
         sequelize: db,
-        modelName: 'message',
-        tableName: 'messages',
+        modelName: 'groupmember',
+        tableName: 'groupmembers',
         timestamps: true,
         paranoid: true,
         createdAt: 'created_at',
@@ -41,4 +42,4 @@ Message.init(
     },
 );
 
-export default Message;
+export default GroupMember;
