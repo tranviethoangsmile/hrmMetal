@@ -26,12 +26,12 @@ const create_group_member = async (data: any) => {
 
 const find_group_member = async (data: any) => {
     try {
-        const group_member: GroupMember | null = await GroupMember.findOne({
+        const group_member: GroupMember[] = await GroupMember.findAll({
             where: {
                 ...data,
             },
         });
-        if (group_member != null) {
+        if (group_member.length > 0) {
             return {
                 success: true,
                 data: group_member,

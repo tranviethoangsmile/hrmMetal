@@ -14,6 +14,7 @@ import mediaRouter from './media.router';
 import chatRouter from './chat.router';
 import paidLeaveRouter from './paidLeaveRequest.router';
 import conversationRouter from './conversation.router';
+import messageRouter from './message.router';
 const router = express.Router();
 
 router.use('/department', departmentRouters);
@@ -31,4 +32,5 @@ router.use('/media', mediaRouter);
 router.use('/chat', chatRouter);
 router.use('/paidleave', paidLeaveRouter);
 router.use('/conversations', conversationRouter);
+router.use('/mess', messageRouter);
 export default router;
