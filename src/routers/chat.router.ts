@@ -12,7 +12,6 @@ const openai = new OpenAIApi(config);
 chatRouter.post('/', async (req: Request, res: Response) => {
     try {
         const chat = req.body.chat;
-        console.log(chat);
         const response = await openai.createChatCompletion({
             model: 'gpt-3.5-turbo',
             messages: [{ role: 'user', content: chat }],
