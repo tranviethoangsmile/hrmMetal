@@ -24,7 +24,7 @@ chatRouter.post('/', async (req: Request, res: Response) => {
                 for (let i = 0; i < botResponse.length; i++) {
                     setTimeout(() => {
                         io.emit('messgpt', botResponse[i]);
-                    }, 50 * i);
+                    }, 5 * i);
                 }
             }
             res.status(201).json({
