@@ -1,7 +1,7 @@
 import db from '../dbs/db';
 import { DataTypes, Model } from 'sequelize';
 import User from './user.model';
-import { Products } from '../enum/Product.enum';
+import { Products } from '../enum/product.enum';
 class Trainning extends Model {
     public id!: string;
     public trainning_name!: string;

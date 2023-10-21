@@ -12,8 +12,8 @@ import {
     valid_user_update,
 } from '../validates/user.validate';
 import { validation_id } from '../validates';
-import { Role } from '../enum/Role.enum';
-import { Position } from '../enum/Position.enum';
+import { Role } from '../enum/role.enum';
+import { Position } from '../enum/position.enum';
 import { getDepartmentById } from '../controllers/department.controller';
 import { UpdateField, CreateField } from '../interfaces/user.interface';
 const createNewUser = async (user: any) => {
