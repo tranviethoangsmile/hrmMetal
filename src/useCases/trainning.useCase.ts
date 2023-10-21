@@ -5,7 +5,7 @@ import {
 } from '../repositorys/trainning.repository';
 import { findUserById } from './user.useCase';
 import { Trainning, Search_trainning } from '../interfaces/trainning.interface';
-import { Products } from '../enum/Product.enum';
+import { Products } from '../enum/product.enum';
 import {
     validate_schema_trainning,
     validate_schema_search_trainning,
