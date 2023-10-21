@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { CodeError, User } from './index';
-import { Products } from '../enum/product.enum';
+import { Products } from '../enum/Product.enum';
 import db from '../dbs/db';
 
 class DailyReport extends Model {

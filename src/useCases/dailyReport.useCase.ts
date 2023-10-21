@@ -15,7 +15,7 @@ import {
 } from '../validates/dailyReport.validate';
 import { validation_id } from '../validates';
 import { DailyReport } from '../models';
-import { Products } from '../enum/product.enum';
+import { Products } from '../enum/Product.enum';
 import { create_err_for_report } from './codeError.useCase';
 
 const search_daily_report = async (data: search_report) => {
