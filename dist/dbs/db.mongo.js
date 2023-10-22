@@ -7,7 +7,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const check_connect_1 = require("../heplpers/check.connect");
 dotenv_1.default.config();
-const MONGO_URL = process.env.MONGO_URL;
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017';
 const MONGO_DATABASE_NAME = process.env.MONGO_DATABASE_NAME;
 class Database {
     constructor() {
