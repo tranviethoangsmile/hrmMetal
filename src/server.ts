@@ -11,7 +11,7 @@ import { init } from './socket/socketIO';
 import config from './configs/config.system';
 require('./dbs/db.mongo');
 dotenv.config();
-const PORT = config.app.port;
+const PORT = config.app.port || 3000;
 const HOSTNAME = '192.168.0.108';
 const app: Application = express();
 const server = http.createServer(app);
