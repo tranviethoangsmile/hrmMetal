@@ -16,7 +16,7 @@ const socketIO_1 = require("./socket/socketIO");
 const config_system_1 = __importDefault(require("./configs/config.system"));
 require('./dbs/db.mongo');
 dotenv_1.default.config();
-const PORT = config_system_1.default.app.port || 3000;
+const PORT = config_system_1.default.app.port || 4000;
 const HOSTNAME = '192.168.0.108';
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);

@@ -3,8 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv_1 = __importDefault(require("dotenv"));
 const dialect_enum_1 = require("../enum/dialect.enum");
+const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const ENV = process.env;
 console.log(ENV.PRO_DB_PASSWORD);
