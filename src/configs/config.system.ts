@@ -14,7 +14,7 @@ interface DbConfig {
     username: string;
     password: string;
 }
-
+console.log(ENV.PRO_DB_USERNAME, ENV.PRO_DB_PASSWORD);
 interface Config {
     app: AppConfig;
     db: DbConfig;
