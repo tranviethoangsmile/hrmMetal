@@ -8,6 +8,7 @@ const dialect_enum_1 = require("../enum/dialect.enum");
 dotenv_1.default.config();
 const ENV = process.env;
 console.log(ENV.PRO_DB_PASSWORD);
+console.log(process.env.PRO_DB_PASSWORD);
 const pro = {
     app: {
         port: parseInt(ENV.PRO_PORT),
