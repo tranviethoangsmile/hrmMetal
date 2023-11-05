@@ -9,7 +9,7 @@ import compression from 'compression';
 import http from 'http';
 import { init } from './socket/socketIO';
 import config from './configs/config.system';
-require('./dbs/db.mongo');
+// require('./dbs/db.mongo');
 dotenv.config();
 const PORT = config.app.port || 4000;
 const HOSTNAME = '192.168.0.108';

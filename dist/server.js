@@ -14,7 +14,7 @@ const compression_1 = __importDefault(require("compression"));
 const http_1 = __importDefault(require("http"));
 const socketIO_1 = require("./socket/socketIO");
 const config_system_1 = __importDefault(require("./configs/config.system"));
-require('./dbs/db.mongo');
+// require('./dbs/db.mongo');
 dotenv_1.default.config();
 const PORT = config_system_1.default.app.port || 4000;
 const HOSTNAME = '192.168.0.108';
