@@ -30,7 +30,6 @@ app.use(express_1.default.json());
 app.use(body_parser_1.default.json());
 app.use(express_1.default.static('public'));
 app.use(routers_1.default);
-console.log(PORT);
 server.listen(PORT, () => {
     console.warn(`server runing on port ${PORT}`);
 });

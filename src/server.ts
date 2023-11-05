@@ -25,7 +25,6 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(router);
-console.log(PORT);
 server.listen(PORT, () => {
     console.warn(`server runing on port ${PORT}`);
 });

@@ -2,8 +2,6 @@ import { Dialect } from '../enum/dialect.enum';
 import dotenv from 'dotenv';
 dotenv.config();
 const ENV = process.env;
-console.log(ENV.PRO_DB_PASSWORD);
-console.log(process.env.PRO_DB_PASSWORD);
 interface AppConfig {
     port: number;
 }
