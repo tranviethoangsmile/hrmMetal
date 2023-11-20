@@ -6,6 +6,6 @@ services:
       - 54323:5432
     environment:
       POSTGRES_USER: hoangdev
-      POSTGRES_PASSWORD: 0000
+      POSTGRES_PASSWORD: '0000'
     volumes:
       - /Users/imac/Desktop/docker-data:/var/lib/postgresql/data   
