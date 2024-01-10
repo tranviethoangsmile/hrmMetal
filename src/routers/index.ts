@@ -18,7 +18,7 @@ import messageRouter from './message.router';
 const router = express.Router();
 
 router.use('/department', departmentRouters);
-router.use('/user', userRouters);
+router.use('/users', userRouters);
 router.use('/find', findRouter);
 router.use('/food', foodRouter);
 router.use('/canteen', canteenRouter);

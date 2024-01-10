@@ -5,7 +5,7 @@ import { Department, User } from '../models';
 import jwt from 'jsonwebtoken';
 import { token_payload } from '../interfaces/login.interface';
 dotenv.config();
-const SECRET: string = process.env.SECRET || 'secret';
+const SECRET: string = process.env.SECRET || '';
 const login = async (user: any) => {
     try {
         const user_name = user.user_name;

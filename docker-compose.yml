@@ -8,4 +8,4 @@ services:
       POSTGRES_USER: hoangdev
       POSTGRES_PASSWORD: ${PRO_DB_PASSWORD}
     volumes:
-      - /Users/imac/Desktop/docker-data:/var/lib/postgresql/data   
+      - /Users/hoangdev/Desktop/docker-data:/var/lib/postgresql/data   

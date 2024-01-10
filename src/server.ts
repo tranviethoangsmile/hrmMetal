@@ -11,8 +11,8 @@ import { init } from './socket/socketIO';
 import config from './configs/config.system';
 // require('./dbs/db.mongo');
 dotenv.config();
-const PORT = config.app.port || 4000;
-const HOSTNAME = '192.168.0.108';
+const PORT = config.app.port;
+const HOSTNAME = '192.168.0.101';
 const app: Application = express();
 const server = http.createServer(app);
 init(server);
@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(router);
-server.listen(PORT, () => {
+server.listen(PORT, HOSTNAME, () => {
     console.warn(`server runing on port ${PORT}`);
 });
 
