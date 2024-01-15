@@ -19,7 +19,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const models_1 = require("../models");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 dotenv_1.default.config();
-const SECRET = process.env.SECRET || 'secret';
+const SECRET = process.env.SECRET || '';
 const login = (user) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user_name = user.user_name;

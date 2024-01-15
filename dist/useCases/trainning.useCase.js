@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Search_all_trainning = exports.Get_all_trainning = exports.Create = void 0;
 const trainning_repository_1 = require("../repositorys/trainning.repository");
 const user_useCase_1 = require("./user.useCase");
-const Product_enum_1 = require("../enum/Product.enum");
+const product_enum_1 = require("../enum/product.enum");
 const trainning_validate_1 = require("../validates/trainning.validate");
 const Create = (trainning) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -22,7 +22,7 @@ const Create = (trainning) => __awaiter(void 0, void 0, void 0, function* () {
             const user = yield (0, user_useCase_1.findUserById)(trainning.user_id);
             if (user.success) {
                 if (typeof trainning.product_name === 'string' &&
-                    Object.values(Product_enum_1.Products).includes(trainning.product_name)) {
+                    Object.values(product_enum_1.Products).includes(trainning.product_name)) {
                     const new_trainning = yield (0, trainning_repository_1.Create_trainning)(trainning);
                     if (new_trainning === null || new_trainning === void 0 ? void 0 : new_trainning.success) {
                         return {

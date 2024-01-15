@@ -12,13 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.product_search = exports.product_create = void 0;
 const product_repository_1 = require("../repositorys/product.repository");
 const product_validate_1 = require("../validates/product.validate");
-const Product_enum_1 = require("../enum/Product.enum");
+const product_enum_1 = require("../enum/product.enum");
 const product_create = (data) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const valid = yield (0, product_validate_1.valid_create_product)(data);
         if (!valid.error) {
             if (typeof data.name === 'string' &&
-                Object.values(Product_enum_1.Products).includes(data.name)) {
+                Object.values(product_enum_1.Products).includes(data.name)) {
                 const product = yield (0, product_repository_1.create_product)(data);
                 if (product === null || product === void 0 ? void 0 : product.success) {
                     return {

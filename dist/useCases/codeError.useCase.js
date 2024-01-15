@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.find_error_of_report = exports.create_err_for_report = void 0;
 const codeError_repository_1 = require("../repositorys/codeError.repository");
-const CodeError_enum_1 = require("../enum/CodeError.enum");
+const codeError_enum_1 = require("../enum/codeError.enum");
 const codeError_validate_1 = require("../validates/codeError.validate");
 const dailyReport_useCase_1 = require("../useCases/dailyReport.useCase");
 const create_err_for_report = (data) => __awaiter(void 0, void 0, void 0, function* () {
@@ -21,7 +21,7 @@ const create_err_for_report = (data) => __awaiter(void 0, void 0, void 0, functi
         var rp_id;
         for (let i = 0; i < errs.length; i++) {
             if (typeof errs[i].code === 'string' &&
-                Object.values(CodeError_enum_1.CodeError).includes(errs[i].code)) {
+                Object.values(codeError_enum_1.CodeError).includes(errs[i].code)) {
                 rp_id = errs[i].daily_report_id;
                 const report = yield (0, dailyReport_useCase_1.find_rp_by_id)(rp_id);
                 if (report === null || report === void 0 ? void 0 : report.success) {

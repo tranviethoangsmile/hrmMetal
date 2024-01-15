@@ -10,7 +10,7 @@ import {
     valid_create_product,
     valid_search_product,
 } from '../validates/product.validate';
-import { Products } from '../enum/Product.enum';
+import { Products } from '../enum/product.enum';
 const product_create = async (data: product_field_create) => {
     try {
         const valid = await valid_create_product(data);

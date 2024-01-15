@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const db_1 = __importDefault(require("../dbs/db"));
-const CodeError_enum_1 = require("../enum/CodeError.enum");
+const codeError_enum_1 = require("../enum/codeError.enum");
 class CodeError extends sequelize_1.Model {
 }
 CodeError.init({
@@ -16,7 +16,7 @@ CodeError.init({
     },
     code: {
         type: sequelize_1.DataTypes.ENUM,
-        values: Object.values(CodeError_enum_1.CodeError).map(value => value.toString()),
+        values: Object.values(codeError_enum_1.CodeError).map(value => value.toString()),
     },
     description: {
         type: sequelize_1.DataTypes.STRING,

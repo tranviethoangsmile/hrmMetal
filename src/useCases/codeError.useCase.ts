@@ -6,7 +6,7 @@ import {
     create_code_error,
     search_code_error,
 } from '../interfaces/codeError.interface';
-import { CodeError } from '../enum/CodeError.enum';
+import { CodeError } from '../enum/codeError.enum';
 import { valid_search_err } from '../validates/codeError.validate';
 import { find_rp_by_id } from '../useCases/dailyReport.useCase';
 const create_err_for_report = async (data: any) => {

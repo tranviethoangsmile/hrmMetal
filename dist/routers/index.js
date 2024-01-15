@@ -22,7 +22,7 @@ const conversation_router_1 = __importDefault(require("./conversation.router"));
 const message_router_1 = __importDefault(require("./message.router"));
 const router = express_1.default.Router();
 router.use('/department', department_router_1.default);
-router.use('/user', user_router_1.default);
+router.use('/users', user_router_1.default);
 router.use('/find', find_router_1.default);
 router.use('/food', food_router_1.default);
 router.use('/canteen', canteen_router_1.default);

@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = __importDefault(require("../dbs/db"));
 const sequelize_1 = require("sequelize");
-const Product_enum_1 = require("../enum/Product.enum");
+const product_enum_1 = require("../enum/product.enum");
 class Trainning extends sequelize_1.Model {
 }
 Trainning.init({
@@ -24,7 +24,7 @@ Trainning.init({
     },
     product_name: {
         type: sequelize_1.DataTypes.ENUM,
-        values: Object.values(Product_enum_1.Products).map(value => value.toString()),
+        values: Object.values(product_enum_1.Products).map(value => value.toString()),
     },
     media_path: {
         type: sequelize_1.DataTypes.ARRAY(sequelize_1.DataTypes.STRING),

@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
-const Product_enum_1 = require("../enum/Product.enum");
+const product_enum_1 = require("../enum/product.enum");
 const db_1 = __importDefault(require("../dbs/db"));
 class DailyReport extends sequelize_1.Model {
 }
@@ -16,7 +16,7 @@ DailyReport.init({
     },
     product: {
         type: sequelize_1.DataTypes.ENUM,
-        values: Object.values(Product_enum_1.Products).map(value => value.toString()),
+        values: Object.values(product_enum_1.Products).map(value => value.toString()),
     },
     user_id: {
         type: sequelize_1.DataTypes.STRING,

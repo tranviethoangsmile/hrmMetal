@@ -13,7 +13,7 @@ exports.find_rp_by_id = exports.search_daily_report = exports.find_all_rp = expo
 const dailyReport_repository_1 = require("../repositorys/dailyReport.repository");
 const dailyReport_validate_1 = require("../validates/dailyReport.validate");
 const validates_1 = require("../validates");
-const Product_enum_1 = require("../enum/Product.enum");
+const product_enum_1 = require("../enum/product.enum");
 const codeError_useCase_1 = require("./codeError.useCase");
 const search_daily_report = (data) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -56,7 +56,7 @@ const create_daily_report = (data) => __awaiter(void 0, void 0, void 0, function
         const errors = data.err;
         if (!valid.error) {
             if (typeof rp_field_create.product === 'string' &&
-                Object.values(Product_enum_1.Products).includes(rp_field_create.product)) {
+                Object.values(product_enum_1.Products).includes(rp_field_create.product)) {
                 const rep_rp = yield (0, dailyReport_repository_1.daily_report_create)(rp_field_create);
                 if (rep_rp === null || rep_rp === void 0 ? void 0 : rep_rp.success) {
                     if (errors != null) {
