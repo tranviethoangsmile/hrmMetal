@@ -21,8 +21,7 @@ const create_order = async (order: any) => {
         if (!valid.error) {
             const user = await userFindById(order.user_id);
             const canteen = await find_canteen_by_id(order.canteen_id);
-            const food = await find_food_by_id(order.food_id);
-            if (user?.success && canteen?.success && food?.success) {
+            if (user?.success && canteen?.success) {
                 const created_order = await create(order);
                 if (created_order?.success) {
                     return {
@@ -38,7 +37,7 @@ const create_order = async (order: any) => {
             } else {
                 return {
                     success: false,
-                    message: 'User or Canteen or Food not found',
+                    message: 'User or Canteen not found',
                 };
             }
         } else {

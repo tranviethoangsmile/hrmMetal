@@ -3,7 +3,6 @@ interface search_order {
     date?: string;
     user_id?: string;
     canteen_id?: string;
-    food_id?: string;
     created_at?: Date;
     updated_at?: Date;
 }

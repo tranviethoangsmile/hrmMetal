@@ -1,4 +1,4 @@
-import { Order, User, Food, Canteen } from '../models';
+import { Order, User, Canteen } from '../models';
 import Department from '../models/department.model';
 import moment from 'moment-timezone';
 import { Op } from 'sequelize';
@@ -41,11 +41,6 @@ const find_all_order = async () => {
                             attributes: ['name'],
                         },
                     ],
-                },
-                {
-                    model: Food,
-                    as: 'food',
-                    attributes: ['name'],
                 },
                 {
                     model: Canteen,
@@ -94,11 +89,6 @@ const find_one_order = async (id: any) => {
                     ],
                 },
                 {
-                    model: Food,
-                    as: 'food',
-                    attributes: ['name'],
-                },
-                {
                     model: Canteen,
                     as: 'canteen',
                     attributes: ['id', 'factory_name'],
@@ -144,11 +134,6 @@ const find_order = async (field: any) => {
                             attributes: ['name'],
                         },
                     ],
-                },
-                {
-                    model: Food,
-                    as: 'food',
-                    attributes: ['name'],
                 },
                 {
                     model: Canteen,

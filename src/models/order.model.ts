@@ -1,19 +1,16 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '../dbs/db';
 import User from './user.model';
-import Food from './food.model';
 import Canteen from './canteen.model';
 
 class Order extends Model {
     public id!: string;
     public date!: string;
     public user_id!: string;
-    public food_id!: string;
     public canteen_id!: string;
 
     // associate with model
     public user!: User;
-    public food!: Food;
     public canteen!: Canteen;
 }
 
@@ -29,11 +26,11 @@ Order.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        user_id: {
-            type: DataTypes.UUID,
+        dayOrNight: {
+            type: DataTypes.STRING,
             allowNull: false,
         },
-        food_id: {
+        user_id: {
             type: DataTypes.UUID,
             allowNull: false,
         },

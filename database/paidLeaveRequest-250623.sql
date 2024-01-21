@@ -5,11 +5,9 @@ CREATE TABLE paidleaverequests
     reason VARCHAR NOT NULL,
     staff_id VARCHAR(36) NOT NULL REFERENCES users(id),
     leader_id VARCHAR(36) NOT NULL REFERENCES users(id),
+    is_active BOOLEAN DEFAULT false,
     created_at DATE NOT NULL,
     updated_at DATE NOT NULL,
     deleted_at DATE NULL,
     UNIQUE (staff_id, date)
 );
-
-ALTER TABLE paidleaverequests
-ADD COLUMN is_active BOOLEAN DEFAULT false;
