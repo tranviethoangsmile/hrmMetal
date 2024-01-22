@@ -7,6 +7,7 @@ class Order extends Model {
     public id!: string;
     public date!: string;
     public user_id!: string;
+    public dayOrNight!: string;
     public position!: string;
 
     // associate with model
