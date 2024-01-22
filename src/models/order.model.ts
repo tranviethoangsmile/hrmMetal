@@ -33,11 +33,11 @@ Order.init(
         user_id: {
             type: DataTypes.UUID,
             allowNull: false,
-            defaultValue: false,
         },
         isConfirmed: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
+            defaultValue: false,
         },
         position: {
             type: DataTypes.ENUM,
