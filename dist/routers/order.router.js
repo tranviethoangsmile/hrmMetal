@@ -17,10 +17,12 @@ const order_controller_1 = require("../controllers/order.controller");
 const timeOrderLimit_middleware_1 = require("../middlewares/timeOrderLimit.middleware");
 const veryTokenOrder_middleware_1 = require("../middlewares/veryTokenOrder.middleware");
 const order_router_1 = __importDefault(require("./moduleOrderRouter/order.router"));
+const addPosition_middleware_1 = __importDefault(require("../middlewares/addPosition.middleware"));
 const orderRouter = (0, express_1.Router)();
-orderRouter.post('/', veryTokenOrder_middleware_1.very_token_order, timeOrderLimit_middleware_1.timeOrderLimit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+orderRouter.post('/', veryTokenOrder_middleware_1.very_token_order, timeOrderLimit_middleware_1.timeOrderLimit, addPosition_middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const order_data = req.body;
+        console.log(order_data);
         if (order_data && Object.keys(order_data).length !== 0) {
             const new_order = yield (0, order_controller_1.create)(order_data);
             if (new_order === null || new_order === void 0 ? void 0 : new_order.success) {

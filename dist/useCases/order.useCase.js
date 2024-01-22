@@ -12,8 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.search_order_user = exports.delete_order_by_id = exports.search_order = exports.find_all = exports.create_order = void 0;
 const validates_1 = require("../validates");
 const user_repository_1 = require("../repositorys/user.repository");
-const food_repository_1 = require("../repositorys/food.repository");
-const canteen_repository_1 = require("../repositorys/canteen.repository");
 const order_repository_1 = require("../repositorys/order.repository");
 const order_validate_1 = require("../validates/order.validate");
 const create_order = (order) => __awaiter(void 0, void 0, void 0, function* () {
@@ -21,9 +19,7 @@ const create_order = (order) => __awaiter(void 0, void 0, void 0, function* () {
         const valid = (0, order_validate_1.validate_create_order)(order);
         if (!valid.error) {
             const user = yield (0, user_repository_1.userFindById)(order.user_id);
-            const canteen = yield (0, canteen_repository_1.find_canteen_by_id)(order.canteen_id);
-            const food = yield (0, food_repository_1.find_food_by_id)(order.food_id);
-            if ((user === null || user === void 0 ? void 0 : user.success) && (canteen === null || canteen === void 0 ? void 0 : canteen.success) && (food === null || food === void 0 ? void 0 : food.success)) {
+            if (user === null || user === void 0 ? void 0 : user.success) {
                 const created_order = yield (0, order_repository_1.create)(order);
                 if (created_order === null || created_order === void 0 ? void 0 : created_order.success) {
                     return {
@@ -41,7 +37,7 @@ const create_order = (order) => __awaiter(void 0, void 0, void 0, function* () {
             else {
                 return {
                     success: false,
-                    message: 'User or Canteen or Food not found',
+                    message: 'User not found',
                 };
             }
         }

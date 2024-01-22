@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.validate_update_canteen = exports.validate_create_canteen = void 0;
 const joi_1 = __importDefault(require("@hapi/joi"));
 const schema_create_canteen = joi_1.default.object({
-    factory_name: joi_1.default.string().min(10).max(255).required(),
-    description: joi_1.default.string().min(10).max(255).required(),
+    factory_name: joi_1.default.string().min(4).max(255).required(),
+    description: joi_1.default.string().min(4).max(255).required(),
 });
 const validate_create_canteen = (data) => {
     return schema_create_canteen.validate(data);

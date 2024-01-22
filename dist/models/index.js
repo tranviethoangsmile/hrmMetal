@@ -34,10 +34,6 @@ user_model_1.default.belongsTo(department_model_1.default, { foreignKey: 'depart
 department_model_1.default.hasMany(user_model_1.default, { foreignKey: 'department_id', as: 'users' });
 order_model_1.default.belongsTo(user_model_1.default, { foreignKey: 'user_id', as: 'user' });
 user_model_1.default.hasMany(order_model_1.default, { foreignKey: 'user_id', as: 'order' });
-order_model_1.default.belongsTo(food_model_1.default, { foreignKey: 'food_id', as: 'food' });
-food_model_1.default.hasMany(order_model_1.default, { foreignKey: 'food_id', as: 'food' });
-order_model_1.default.belongsTo(canteen_model_1.default, { foreignKey: 'canteen_id', as: 'canteen' });
-canteen_model_1.default.hasMany(order_model_1.default, { foreignKey: 'canteen_id', as: 'order' });
 codeError_model_1.default.belongsTo(dailyReport_model_1.default, { foreignKey: 'daily_report_id' });
 dailyReport_model_1.default.hasMany(codeError_model_1.default, { foreignKey: 'daily_report_id' });
 user_model_1.default.hasMany(dailyReport_model_1.default, { foreignKey: 'user_id' });

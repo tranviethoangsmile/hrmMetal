@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const db_1 = __importDefault(require("../dbs/db"));
+const Position_enum_1 = require("../enum/Position.enum");
 class Order extends sequelize_1.Model {
 }
 Order.init({
@@ -18,24 +19,24 @@ Order.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
+    dayOrNight: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
     user_id: {
         type: sequelize_1.DataTypes.UUID,
         allowNull: false,
     },
-    food_id: {
-        type: sequelize_1.DataTypes.UUID,
-        allowNull: false,
-    },
-    canteen_id: {
-        type: sequelize_1.DataTypes.UUID,
-        allowNull: false,
+    position: {
+        type: sequelize_1.DataTypes.ENUM,
+        values: Object.values(Position_enum_1.Position).map(value => value.toString()),
     },
 }, {
     sequelize: db_1.default,
     modelName: 'order',
     tableName: 'orders',
     timestamps: true,
-    // paranoid: true,
+    paranoid: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     deletedAt: 'deleted_at',
