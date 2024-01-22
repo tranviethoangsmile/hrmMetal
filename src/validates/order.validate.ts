@@ -1,9 +1,9 @@
 import Joi from '@hapi/joi';
 const schema_create_order = Joi.object({
-    date: Joi.string().min(8).max(11).required(),
+    date: Joi.string().min(8).max(12).required(),
     dayOrNight: Joi.string().min(3).max(5).required(),
     user_id: Joi.string().guid().required(),
-    canteen_id: Joi.string().guid().required(),
+    position: Joi.string().min(3).max(10).required(),
 });
 
 const schema_search_order = Joi.object({

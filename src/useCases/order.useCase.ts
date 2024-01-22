@@ -1,8 +1,6 @@
 import { validation_id } from '../validates';
 import { search_order } from '../interfaces/order.interface';
 import { userFindById } from '../repositorys/user.repository';
-import { find_food_by_id } from '../repositorys/food.repository';
-import { find_canteen_by_id } from '../repositorys/canteen.repository';
 import {
     create,
     find_all_order,
@@ -20,8 +18,7 @@ const create_order = async (order: any) => {
         const valid = validate_create_order(order);
         if (!valid.error) {
             const user = await userFindById(order.user_id);
-            const canteen = await find_canteen_by_id(order.canteen_id);
-            if (user?.success && canteen?.success) {
+            if (user?.success) {
                 const created_order = await create(order);
                 if (created_order?.success) {
                     return {
@@ -37,7 +34,7 @@ const create_order = async (order: any) => {
             } else {
                 return {
                     success: false,
-                    message: 'User or Canteen not found',
+                    message: 'User not found',
                 };
             }
         } else {

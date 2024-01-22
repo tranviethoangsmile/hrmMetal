@@ -1,17 +1,16 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '../dbs/db';
 import User from './user.model';
-import Canteen from './canteen.model';
+import { Position } from '../enum/Position.enum';
 
 class Order extends Model {
     public id!: string;
     public date!: string;
     public user_id!: string;
-    public canteen_id!: string;
+    public position!: string;
 
     // associate with model
     public user!: User;
-    public canteen!: Canteen;
 }
 
 Order.init(
@@ -34,9 +33,9 @@ Order.init(
             type: DataTypes.UUID,
             allowNull: false,
         },
-        canteen_id: {
-            type: DataTypes.UUID,
-            allowNull: false,
+        position: {
+            type: DataTypes.ENUM,
+            values: Object.values(Position).map(value => value.toString()),
         },
     },
     {
@@ -44,7 +43,7 @@ Order.init(
         modelName: 'order',
         tableName: 'orders',
         timestamps: true,
-        // paranoid: true,
+        paranoid: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
         deletedAt: 'deleted_at',

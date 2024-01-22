@@ -7,6 +7,7 @@ import {
 import { timeOrderLimit } from '../middlewares/timeOrderLimit.middleware';
 import { very_token_order } from '../middlewares/veryTokenOrder.middleware';
 import orderRouterModule from './moduleOrderRouter/order.router';
+import addPosition from '../middlewares/addPosition.middleware';
 
 const orderRouter = Router();
 
@@ -14,9 +15,11 @@ orderRouter.post(
     '/',
     very_token_order,
     timeOrderLimit,
+    addPosition,
     async (req: Request, res: Response) => {
         try {
             const order_data: Object | null = req.body;
+            console.log(order_data);
             if (order_data && Object.keys(order_data).length !== 0) {
                 const new_order = await create(order_data);
                 if (new_order?.success) {
