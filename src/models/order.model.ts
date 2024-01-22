@@ -9,7 +9,7 @@ class Order extends Model {
     public user_id!: string;
     public dayOrNight!: string;
     public position!: string;
-
+    public isConfirmed!: boolean;
     // associate with model
     public user!: User;
 }
@@ -32,6 +32,11 @@ Order.init(
         },
         user_id: {
             type: DataTypes.UUID,
+            allowNull: false,
+            defaultValue: false,
+        },
+        isConfirmed: {
+            type: DataTypes.BOOLEAN,
             allowNull: false,
         },
         position: {
