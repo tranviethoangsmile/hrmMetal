@@ -4,7 +4,7 @@ import {
     find_canteen_by_id,
     get_all_canteen,
 } from '../controllers/canteen.controller';
-const canteenRouter = Router();
+const canteenRouter: Router = Router();
 
 canteenRouter.post('/', async (req: Request, res: Response) => {
     try {

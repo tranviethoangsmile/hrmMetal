@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { create } from '../controllers/message.controller';
-const messageRouter = Router();
+const messageRouter: Router = Router();
 
 messageRouter.post('/', async (req: Request, res: Response) => {
     try {

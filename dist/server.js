@@ -17,7 +17,7 @@ const config_system_1 = __importDefault(require("./configs/config.system"));
 // require('./dbs/db.mongo');
 dotenv_1.default.config();
 const PORT = config_system_1.default.app.port;
-const HOSTNAME = '192.168.0.112';
+const HOSTNAME = process.env.PORT_SERVER || '';
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
 (0, socketIO_1.init)(server);
@@ -30,7 +30,7 @@ app.use(express_1.default.json());
 app.use(body_parser_1.default.json());
 app.use(express_1.default.static('public'));
 app.use(routers_1.default);
-server.listen(PORT, HOSTNAME, () => {
+server.listen(PORT, () => {
     console.warn(`server runing on port ${PORT}`);
 });
 process.on('SIGINT', () => {

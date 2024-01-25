@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { login } from '../controllers/login.controller';
 
-const loginRouter = Router();
+const loginRouter: Router = Router();
 
 loginRouter.post('/', async (req: Request, res: Response) => {
     try {

@@ -1,5 +1,5 @@
-import express, { Request, Response, Router } from 'express';
-const router: Router = express.Router();
+import { Request, Response, Router } from 'express';
+const router: Router = Router();
 import {
     createDep,
     departmentList,

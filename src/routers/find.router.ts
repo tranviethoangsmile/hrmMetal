@@ -1,7 +1,7 @@
-import express, { Request, Response, Router } from 'express';
+import { Request, Response, Router } from 'express';
 import { findByName } from '../controllers/user.controller';
 import { search_orders } from '../controllers/order.controller';
-const findRouter = Router();
+const findRouter: Router = Router();
 
 findRouter.get('/:name', async (req: Request, res: Response) => {
     try {

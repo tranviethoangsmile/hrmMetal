@@ -1,8 +1,8 @@
-import express, { Request, Response, Router } from 'express';
+import { Request, Response, Router } from 'express';
 import { Configuration, OpenAIApi } from 'openai';
 import { io } from '../socket/socketIO';
 
-const chatRouter = Router();
+const chatRouter: Router = Router();
 const config = new Configuration({
     apiKey: process.env.CHAT_KEY,
 });

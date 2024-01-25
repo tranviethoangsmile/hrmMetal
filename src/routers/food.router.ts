@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { create, find, find_all } from '../controllers/food.controller';
-const foodRouter = Router();
+const foodRouter: Router = Router();
 
 foodRouter.post('/', async (req: Request, res: Response) => {
     try {

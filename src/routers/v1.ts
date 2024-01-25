@@ -1,0 +1,37 @@
+import express, { Router } from 'express';
+
+const v1Router: Router = express.Router();
+import userRouters from './user.router';
+import departmentRouters from './department.router';
+import findRouter from './find.router';
+import foodRouter from './food.router';
+import canteenRouter from './canteen.router';
+import orderRouter from './order.router';
+import loginRouter from './login.router';
+import rpRouter from './dailyReport.router';
+import productRouter from './product.router';
+import errOfRpRouter from './errorOfReport.router';
+import trainningRouter from './trainning.router';
+import mediaRouter from './media.router';
+import chatRouter from './chat.router';
+import paidLeaveRouter from './paidLeaveRequest.router';
+import conversationRouter from './conversation.router';
+import messageRouter from './message.router';
+v1Router.use('/department', departmentRouters);
+v1Router.use('/users', userRouters);
+v1Router.use('/find', findRouter);
+v1Router.use('/food', foodRouter);
+v1Router.use('/canteen', canteenRouter);
+v1Router.use('/order', orderRouter);
+v1Router.use('/login', loginRouter);
+v1Router.use('/dailyreport', rpRouter);
+v1Router.use('/product', productRouter);
+v1Router.use('/err', errOfRpRouter);
+v1Router.use('/trainning', trainningRouter);
+v1Router.use('/media', mediaRouter);
+v1Router.use('/chat', chatRouter);
+v1Router.use('/paidleave', paidLeaveRouter);
+v1Router.use('/conversations', conversationRouter);
+v1Router.use('/mess', messageRouter);
+
+export default v1Router;

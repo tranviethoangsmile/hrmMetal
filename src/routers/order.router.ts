@@ -9,7 +9,7 @@ import { very_token_order } from '../middlewares/veryTokenOrder.middleware';
 import orderRouterModule from './moduleOrderRouter/order.router';
 import addPosition from '../middlewares/addPosition.middleware';
 
-const orderRouter = Router();
+const orderRouter: Router = Router();
 
 orderRouter.post(
     '/',

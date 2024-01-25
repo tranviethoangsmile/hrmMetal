@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { create_conversation } from '../controllers/conversation.controller';
 import { io } from '../socket/socketIO';
-const conversationRouter = Router();
+const conversationRouter: Router = Router();
 
 conversationRouter.post('/', async (req: Request, res: Response) => {
     try {

@@ -1,10 +1,7 @@
 import { Router, Request, Response } from 'express';
-import {
-    create_product,
-    search_product,
-} from '../controllers/product.controller';
+import { create_product } from '../controllers/product.controller';
 import productModuleRouter from './moduleProductRouter/product.router';
-const productRouter = Router();
+const productRouter: Router = Router();
 
 productRouter.post('/', async (req: Request, res: Response) => {
     try {

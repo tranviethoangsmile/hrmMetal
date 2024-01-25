@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { find_err_of_report } from '../controllers/errorOfReport.controller';
 
-const errOfRpRouter = Router();
+const errOfRpRouter: Router = Router();
 
 errOfRpRouter.post('/', async (req: Request, res: Response) => {
     try {

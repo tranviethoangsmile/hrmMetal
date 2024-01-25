@@ -8,13 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
+const express_1 = require("express");
 const user_controller_1 = require("../controllers/user.controller");
-const userRouters = express_1.default.Router();
+const userRouters = (0, express_1.Router)();
 userRouters.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const users = yield (0, user_controller_1.findAll)();

@@ -5,7 +5,7 @@ import {
     find_report_by_id,
 } from '../controllers/dailyReport.controler';
 import dailyRpRouter from './moduleReportRouter/dailyReport.router';
-const rpRouter = Router();
+const rpRouter: Router = Router();
 
 rpRouter.post('/', async (req: Request, res: Response) => {
     try {

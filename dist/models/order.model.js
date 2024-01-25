@@ -27,6 +27,11 @@ Order.init({
         type: sequelize_1.DataTypes.UUID,
         allowNull: false,
     },
+    isConfirmed: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    },
     position: {
         type: sequelize_1.DataTypes.ENUM,
         values: Object.values(Position_enum_1.Position).map(value => value.toString()),

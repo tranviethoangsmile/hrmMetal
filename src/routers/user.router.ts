@@ -1,4 +1,4 @@
-import express, { Request, Response, Router } from 'express';
+import { Request, Response, Router } from 'express';
 import {
     create,
     update,
@@ -6,7 +6,7 @@ import {
     findById,
     findAll,
 } from '../controllers/user.controller';
-const userRouters: Router = express.Router();
+const userRouters: Router = Router();
 
 userRouters.get('/', async (req: Request, res: Response) => {
     try {

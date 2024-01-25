@@ -1,6 +1,6 @@
-import express, { Request, Response, Router } from 'express';
+import { Request, Response, Router } from 'express';
 
-const mediaRouter = express.Router();
+const mediaRouter: Router = Router();
 
 mediaRouter.get('/uploads/:filename', (req: Request, res: Response) => {
     const filename: string = req.params.filename;

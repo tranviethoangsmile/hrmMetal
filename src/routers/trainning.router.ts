@@ -1,11 +1,11 @@
-import express, { Request, Response, Router } from 'express';
+import { Request, Response, Router } from 'express';
 import { create, get_all_trainning } from '../controllers/trainning.controller';
 import { create_media_path } from '../middlewares/createTrainning.middleware';
 import very_role from '../middlewares/veryRoleUpdate.middleware';
 import TrainningRouter from './moduleTrainningRouter/trainning.router';
 import multer from 'multer';
 
-const trainningRouter: Router = express.Router();
+const trainningRouter: Router = Router();
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {

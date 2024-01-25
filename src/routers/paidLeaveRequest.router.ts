@@ -1,4 +1,4 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response } from 'express';
 import {
     create,
     get_all,
@@ -6,7 +6,7 @@ import {
 } from '../controllers/paidLeaveRequest.controller';
 
 import very_role from '../middlewares/veryRoleUpdate.middleware';
-const paidLeaveRouter = Router();
+const paidLeaveRouter: Router = Router();
 
 paidLeaveRouter.post('/', async (req: Request, res: Response) => {
     try {

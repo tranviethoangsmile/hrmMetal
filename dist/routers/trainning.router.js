@@ -12,13 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
+const express_1 = require("express");
 const trainning_controller_1 = require("../controllers/trainning.controller");
 const createTrainning_middleware_1 = require("../middlewares/createTrainning.middleware");
 const veryRoleUpdate_middleware_1 = __importDefault(require("../middlewares/veryRoleUpdate.middleware"));
 const trainning_router_1 = __importDefault(require("./moduleTrainningRouter/trainning.router"));
 const multer_1 = __importDefault(require("multer"));
-const trainningRouter = express_1.default.Router();
+const trainningRouter = (0, express_1.Router)();
 const storage = multer_1.default.diskStorage({
     destination: function (req, file, cb) {
         return cb(null, './public/media/uploads/');
