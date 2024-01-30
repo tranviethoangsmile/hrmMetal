@@ -13,7 +13,6 @@ class DailyReport extends Model {
     public operator_history!: string;
     public operated_time!: number;
     public shutdown_time!: number;
-    public active_time!: number;
     //
     public user!: User;
     public codeError!: CodeError[];
@@ -55,10 +54,6 @@ DailyReport.init(
             allowNull: false,
         },
         shutdown_time: {
-            type: DataTypes.NUMBER,
-            allowNull: false,
-        },
-        active_time: {
             type: DataTypes.NUMBER,
             allowNull: false,
         },

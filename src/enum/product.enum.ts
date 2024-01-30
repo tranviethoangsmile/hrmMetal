@@ -6,7 +6,11 @@ export enum Products {
     D66_5,
     D66_6,
     D042,
-    DK05FR,
+    DK05FR_1,
+    DK05FR_2,
     D61F,
     D67CTC,
+    C84N,
+    D14KRR,
+    D14KFR,
 }
