@@ -13,7 +13,7 @@ const init = (server: any) => {
             if (respon?.success) {
                 // for (let i = 0; i < respon?.message.length; i++) {
                 // setTimeout(() => {
-                socket.emit('messgpt', respon.message);
+                io.emit('messgpt', respon.message);
                 //         }, 5 * i);
                 //     }
             }
