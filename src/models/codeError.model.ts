@@ -6,10 +6,6 @@ class CodeError extends Model {
     public id!: string;
     public code!: Enumerator;
     public description!: string;
-    public shutdown_time!: number;
-    public daily_report_id!: string;
-
-    public dailyReport!: DailyReport;
 }
 
 CodeError.init(
@@ -26,13 +22,6 @@ CodeError.init(
         description: {
             type: DataTypes.STRING,
             allowNull: false,
-        },
-        shutdown_time: {
-            type: DataTypes.NUMBER,
-            allowNull: false,
-        },
-        daily_report_id: {
-            type: DataTypes.STRING,
         },
     },
     {

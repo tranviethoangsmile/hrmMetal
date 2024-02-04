@@ -10,6 +10,7 @@ class Order extends Model {
     public dayOrNight!: string;
     public position!: string;
     public isConfirmed!: boolean;
+    public isPicked!: boolean;
     // associate with model
     public user!: User;
 }
@@ -35,6 +36,11 @@ Order.init(
             allowNull: false,
         },
         isConfirmed: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+        },
+        isPicked: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false,

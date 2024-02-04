@@ -42,11 +42,6 @@ const find_all_order = async () => {
                         },
                     ],
                 },
-                {
-                    model: Canteen,
-                    as: 'canteen',
-                    attributes: ['id', 'factory_name'],
-                },
             ],
         });
         if (orders != null) {
@@ -87,11 +82,6 @@ const find_one_order = async (id: any) => {
                             attributes: ['name'],
                         },
                     ],
-                },
-                {
-                    model: Canteen,
-                    as: 'canteen',
-                    attributes: ['id', 'factory_name'],
                 },
             ],
         });
@@ -134,11 +124,6 @@ const find_order = async (field: any) => {
                             attributes: ['name'],
                         },
                     ],
-                },
-                {
-                    model: Canteen,
-                    as: 'canteen',
-                    attributes: ['id', 'factory_name'],
                 },
             ],
         });

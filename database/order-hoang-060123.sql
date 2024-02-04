@@ -6,6 +6,7 @@ CREATE TABLE "orders"
   "dayOrNight" VARCHAR(10) NOT NULL,
   "isConfirmed" BOOLEAN DEFAULT false,
   "position" VARCHAR(10) NOT NULL,
+  "isPicked" BOOLEAN DEFAULT false,
   "created_at" DATE NOT NULL,
   "updated_at" DATE NOT NULL,
   "deleted_at" DATE NULL,
