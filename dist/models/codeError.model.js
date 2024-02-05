@@ -22,13 +22,6 @@ CodeError.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
-    shutdown_time: {
-        type: sequelize_1.DataTypes.NUMBER,
-        allowNull: false,
-    },
-    daily_report_id: {
-        type: sequelize_1.DataTypes.STRING,
-    },
 }, {
     sequelize: db_1.default,
     modelName: 'codeerrors',

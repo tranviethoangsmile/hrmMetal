@@ -13,7 +13,6 @@ const schame_create_daily_report = joi_1.default.object({
     quantity: joi_1.default.number().min(0).max(999).required(),
     operated_time: joi_1.default.number().min(0).max(999).required(),
     shutdown_time: joi_1.default.number().min(0).max(999).required(),
-    active_time: joi_1.default.number().min(0).max(999).required(),
     operator_history: joi_1.default.string().required(),
 });
 const schame_search_daily_report = joi_1.default.object({

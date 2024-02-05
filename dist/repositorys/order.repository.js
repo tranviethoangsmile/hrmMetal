@@ -57,11 +57,6 @@ const find_all_order = () => __awaiter(void 0, void 0, void 0, function* () {
                         },
                     ],
                 },
-                {
-                    model: models_1.Canteen,
-                    as: 'canteen',
-                    attributes: ['id', 'factory_name'],
-                },
             ],
         });
         if (orders != null) {
@@ -105,11 +100,6 @@ const find_one_order = (id) => __awaiter(void 0, void 0, void 0, function* () {
                         },
                     ],
                 },
-                {
-                    model: models_1.Canteen,
-                    as: 'canteen',
-                    attributes: ['id', 'factory_name'],
-                },
             ],
         });
         if (order != null) {
@@ -150,11 +140,6 @@ const find_order = (field) => __awaiter(void 0, void 0, void 0, function* () {
                             attributes: ['name'],
                         },
                     ],
-                },
-                {
-                    model: models_1.Canteen,
-                    as: 'canteen',
-                    attributes: ['id', 'factory_name'],
                 },
             ],
         });

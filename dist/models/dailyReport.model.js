@@ -46,10 +46,6 @@ DailyReport.init({
         type: sequelize_1.DataTypes.NUMBER,
         allowNull: false,
     },
-    active_time: {
-        type: sequelize_1.DataTypes.NUMBER,
-        allowNull: false,
-    },
 }, {
     sequelize: db_1.default,
     modelName: 'dailyreport',
