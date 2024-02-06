@@ -1,5 +1,5 @@
 import { Server, Socket } from 'socket.io';
-import { handleMessage } from '../utils/handleMessage';
+import { handleMessage } from '../utils/handleMessageChatAi';
 let io: Server;
 
 const init = (server: any) => {

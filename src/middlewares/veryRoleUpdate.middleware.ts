@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { findById } from '../controllers/user.controller';
+import { findById } from '../controllers/user/user.controller';
 const very_role = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user_id: string = req.body.user_id;
