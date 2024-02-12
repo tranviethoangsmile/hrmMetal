@@ -8,10 +8,12 @@ import {
     delete_order,
     search_order_for_user_in_month,
     find_one_order,
+    checkin_picked_order,
 } from '../../repositorys/order/order.repository';
 import {
     validate_create_order,
     validate_search_order,
+    validate_checkin_picked_order,
 } from '../../validates/order/order.validate';
 const create_order = async (order: any) => {
     try {
@@ -189,11 +191,40 @@ const search_order_user = async (id: any) => {
         };
     }
 };
-
+const checkin_picked = async (field: any) => {
+    try {
+        const valid = validate_checkin_picked_order(field);
+        if (!valid.error) {
+            const picked_order = await checkin_picked_order(field);
+            if (picked_order.success) {
+                return {
+                    success: picked_order?.success,
+                    message: picked_order?.message,
+                };
+            } else {
+                return {
+                    success: picked_order?.success,
+                    message: picked_order?.message,
+                };
+            }
+        } else {
+            return {
+                success: false,
+                message: 'value not valid',
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
 export {
     create_order,
     find_all,
     search_order,
     delete_order_by_id,
     search_order_user,
+    checkin_picked,
 };

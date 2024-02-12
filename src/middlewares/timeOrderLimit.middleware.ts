@@ -33,7 +33,7 @@ const timeOrderLimit = (req: Request, res: Response, next: NextFunction) => {
     } else {
         res.status(200).json({
             success: false,
-            message: 'time',
+            message: 'Order time has expired',
         });
     }
 };

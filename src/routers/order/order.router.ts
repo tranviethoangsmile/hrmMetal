@@ -19,7 +19,6 @@ orderRouter.post(
     async (req: Request, res: Response) => {
         try {
             const order_data: Object | null = req.body;
-            console.log(order_data);
             if (order_data && Object.keys(order_data).length !== 0) {
                 const new_order = await create(order_data);
                 if (new_order?.success) {

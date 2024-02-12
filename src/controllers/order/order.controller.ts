@@ -4,6 +4,7 @@ import {
     search_order,
     delete_order_by_id,
     search_order_user,
+    checkin_picked,
 } from '../../useCases/order/order.useCase';
 
 const create = async (order: any) => {
@@ -25,6 +26,9 @@ const delete_order = async (id: any) => {
 const search_order_of_user = async (id: any) => {
     return await search_order_user(id);
 };
+const check_picked_order = async (field: any) => {
+    return await checkin_picked(field);
+};
 
 export {
     create,
@@ -32,4 +36,5 @@ export {
     search_orders,
     delete_order,
     search_order_of_user,
+    check_picked_order,
 };
