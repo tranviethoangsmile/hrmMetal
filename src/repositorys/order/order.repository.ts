@@ -214,6 +214,37 @@ const search_order_for_user_in_month = async (id: any) => {
         };
     }
 };
+const checkin_picked_order = async (field: any) => {
+    try {
+        const order_picked = await Order.update(
+            {
+                isPicked: true,
+            },
+            {
+                where: {
+                    user_id: field.user_id,
+                    date: field.date,
+                },
+            },
+        );
+        if (order_picked[0] > 0) {
+            return {
+                success: true,
+                message: 'picked success',
+            };
+        } else {
+            return {
+                success: false,
+                message: 'not success',
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
 
 export {
     create,
@@ -222,4 +253,5 @@ export {
     delete_order,
     search_order_for_user_in_month,
     find_one_order,
+    checkin_picked_order,
 };
