@@ -110,7 +110,6 @@ const delete_order_by_id = async (id: string) => {
         const valid = validation_id(id);
         if (!valid.error) {
             const order = await find_one_order(id);
-            console.log(order);
             if (order?.success) {
                 const date_of_order = order?.data?.date;
                 if (date_of_order != undefined) {
