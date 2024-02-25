@@ -2,12 +2,14 @@ import {
     create_checkin,
     update_checkin,
     isChecked,
+    search_checkin_of_user_in_month,
 } from '../../repositorys/checkin/checkin.repo';
 import {
     create_checkin_interface,
     update_checkin_interface,
     is_Checked_interface,
 } from '../../interfaces/checkin/checkin.interface';
+import { validation_id } from '../../validates';
 import {
     create_checkin_validate,
     update_checkin_validate,
@@ -95,4 +97,39 @@ const update_checkin_use = async (field: update_checkin_interface) => {
     }
 };
 
-export { create_checkin_use, update_checkin_use, is_checked };
+const search_checkin_of_user_in_month_useCase = async (id: string) => {
+    try {
+        const isIdValid = validation_id(id);
+        if (!isIdValid.error) {
+            const checkins = await search_checkin_of_user_in_month(id);
+            if (checkins?.success) {
+                return {
+                    success: checkins?.success,
+                    data: checkins?.data,
+                };
+            } else {
+                return {
+                    success: checkins?.success,
+                    message: checkins?.message,
+                };
+            }
+        } else {
+            return {
+                success: false,
+                message: isIdValid?.error?.message,
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.message,
+        };
+    }
+};
+
+export {
+    create_checkin_use,
+    update_checkin_use,
+    is_checked,
+    search_checkin_of_user_in_month_useCase,
+};

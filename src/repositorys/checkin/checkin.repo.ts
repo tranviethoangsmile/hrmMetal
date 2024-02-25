@@ -1,4 +1,6 @@
 import { Checkin } from '../../models';
+import moment from 'moment-timezone';
+import { Op } from 'sequelize';
 
 const create_checkin = async (data: any) => {
     try {
@@ -80,4 +82,59 @@ const isChecked = async (field: any) => {
     }
 };
 
-export { create_checkin, update_checkin, isChecked };
+const search_checkin_of_user_in_month = async (id: any) => {
+    try {
+        const year = moment().format('YYYY');
+        const month = moment().format('MM');
+        const checkins: Array<Checkin> | null = await Checkin.findAll({
+            where: {
+                user_id: id,
+                [Op.and]: [
+                    {
+                        date: {
+                            [Op.gte]: moment().format(`${year}/${month}/01`),
+                        },
+                    },
+                    {
+                        date: {
+                            [Op.lt]: moment().format(`${year}/${month}/31`),
+                        },
+                    },
+                ],
+            },
+            attributes: [
+                'id',
+                'date',
+                'user_id',
+                'time_in',
+                'work_shift',
+                'time_out',
+                'work_time',
+                'over_time',
+            ],
+        });
+        if (checkins != null) {
+            return {
+                success: true,
+                data: checkins,
+            };
+        } else {
+            return {
+                success: false,
+                message: 'this is user not have any check-in in this month',
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.message,
+        };
+    }
+};
+
+export {
+    create_checkin,
+    update_checkin,
+    isChecked,
+    search_checkin_of_user_in_month,
+};
