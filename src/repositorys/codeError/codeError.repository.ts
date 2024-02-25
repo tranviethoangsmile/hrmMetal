@@ -1,4 +1,3 @@
-import { when } from '@hapi/joi';
 import { CodeError, DailyReport } from '../../models/index';
 const create_code_err = async (data: any) => {
     try {
