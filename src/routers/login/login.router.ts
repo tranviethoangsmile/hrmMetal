@@ -6,7 +6,6 @@ const loginRouter: Router = Router();
 loginRouter.post('/', async (req: Request, res: Response) => {
     try {
         const user = req.body;
-        console.log(user);
         if (user != null) {
             const token = await login(user);
             if (token?.success) {
