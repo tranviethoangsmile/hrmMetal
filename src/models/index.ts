@@ -11,6 +11,7 @@ import PaidLeaveRequest from './paidLeaveRequest.model';
 import Message from './message.model';
 import Conversation from './conversation.model';
 import GroupMember from './groupMember.model';
+import Checkin from './checkin.model';
 User.belongsTo(Department, { foreignKey: 'department_id', as: 'department' });
 Department.hasMany(User, { foreignKey: 'department_id', as: 'users' });
 Order.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
@@ -35,6 +36,8 @@ GroupMember.belongsToMany(User, {
 });
 GroupMember.belongsTo(Conversation, { foreignKey: 'conversation_id' });
 User.hasMany(GroupMember, { foreignKey: 'user_id' });
+Checkin.hasOne(User, { foreignKey: 'user_id' });
+User.hasMany(Checkin, { foreignKey: 'user_id' });
 
 export {
     User,
@@ -50,4 +53,5 @@ export {
     Message,
     GroupMember,
     Conversation,
+    Checkin,
 };

@@ -195,16 +195,24 @@ const checkin_picked = async (field: any) => {
     try {
         const valid = validate_checkin_picked_order(field);
         if (!valid.error) {
-            const picked_order = await checkin_picked_order(field);
-            if (picked_order.success) {
-                return {
-                    success: picked_order?.success,
-                    message: picked_order?.message,
-                };
+            const order = await find_order(field);
+            if (order?.data?.length != 0) {
+                const picked_order = await checkin_picked_order(field);
+                if (picked_order.success) {
+                    return {
+                        success: picked_order?.success,
+                        message: picked_order?.message,
+                    };
+                } else {
+                    return {
+                        success: picked_order?.success,
+                        message: picked_order?.message,
+                    };
+                }
             } else {
                 return {
-                    success: picked_order?.success,
-                    message: picked_order?.message,
+                    success: false,
+                    message: `Order does not exist`,
                 };
             }
         } else {
