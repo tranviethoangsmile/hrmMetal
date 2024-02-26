@@ -5,20 +5,25 @@ const checkinSearchRouter = Router();
 
 checkinSearchRouter.post('/', async (req: Request, res: Response) => {
     try {
-        const user_id = req.body.user_id;
-        console.log(user_id);
-        const checked_value = await search_checked_of_user_in_month_controller(
-            user_id,
-        );
-        if (checked_value?.success) {
-            res.status(201).json({
-                success: true,
-                data: checked_value?.data,
-            });
+        const field: object | null = req.body;
+        if (field != null) {
+            const checked_value =
+                await search_checked_of_user_in_month_controller(field);
+            if (checked_value?.success) {
+                res.status(201).json({
+                    success: true,
+                    data: checked_value?.data,
+                });
+            } else {
+                res.status(200).json({
+                    success: false,
+                    message: checked_value?.message,
+                });
+            }
         } else {
-            res.status(200).json({
+            res.status(400).json({
                 success: false,
-                message: checked_value?.message,
+                message: 'data not empty',
             });
         }
     } catch (error: any) {

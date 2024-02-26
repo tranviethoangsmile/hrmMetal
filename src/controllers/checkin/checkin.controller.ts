@@ -16,8 +16,8 @@ const update_checkin_controller = async (field: any) => {
 const is_checked_controller = async (field: any) => {
     return await is_checked(field);
 };
-const search_checked_of_user_in_month_controller = async (id: any) => {
-    return await search_checkin_of_user_in_month_useCase(id);
+const search_checked_of_user_in_month_controller = async (field: any) => {
+    return await search_checkin_of_user_in_month_useCase(field);
 };
 
 export {

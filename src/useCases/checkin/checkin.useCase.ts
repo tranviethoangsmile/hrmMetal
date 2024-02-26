@@ -14,6 +14,7 @@ import {
     create_checkin_validate,
     update_checkin_validate,
 } from '../../validates/checkin/checkin.validate';
+import moment from 'moment-timezone';
 const is_checked = async (field: is_Checked_interface) => {
     try {
         const is_check = await isChecked(field);
@@ -97,11 +98,17 @@ const update_checkin_use = async (field: update_checkin_interface) => {
     }
 };
 
-const search_checkin_of_user_in_month_useCase = async (id: string) => {
+const search_checkin_of_user_in_month_useCase = async (
+    field: is_Checked_interface,
+) => {
     try {
-        const isIdValid = validation_id(id);
+        const isIdValid = validation_id(field.user_id);
         if (!isIdValid.error) {
-            const checkins = await search_checkin_of_user_in_month(id);
+            const checkins = await search_checkin_of_user_in_month({
+                user_id: field.user_id,
+                year: moment(field.date).format('yyyy'),
+                month: moment(field.date).format('MM'),
+            });
             if (checkins?.success) {
                 return {
                     success: checkins?.success,

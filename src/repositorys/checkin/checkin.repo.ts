@@ -82,22 +82,24 @@ const isChecked = async (field: any) => {
     }
 };
 
-const search_checkin_of_user_in_month = async (id: any) => {
+const search_checkin_of_user_in_month = async (field: any) => {
     try {
-        const year = moment().format('YYYY');
-        const month = moment().format('MM');
         const checkins: Array<Checkin> | null = await Checkin.findAll({
             where: {
-                user_id: id,
+                user_id: field.user_id,
                 [Op.and]: [
                     {
                         date: {
-                            [Op.gte]: moment().format(`${year}/${month}/01`),
+                            [Op.gte]: moment().format(
+                                `${field.year}/${field.month}/01`,
+                            ),
                         },
                     },
                     {
                         date: {
-                            [Op.lt]: moment().format(`${year}/${month}/31`),
+                            [Op.lt]: moment().format(
+                                `${field.year}/${field.month}/31`,
+                            ),
                         },
                     },
                 ],
