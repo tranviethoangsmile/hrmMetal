@@ -13,4 +13,5 @@ export enum Products {
     C84N,
     D14KRR,
     D14KFR,
+    C089,
 }
