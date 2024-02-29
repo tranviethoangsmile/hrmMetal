@@ -114,6 +114,7 @@ const search_checkin_of_user_in_month = async (field: any) => {
                 'time_out',
                 'work_time',
                 'over_time',
+                'is_weekend',
             ],
         });
         if (checkins != null) {
