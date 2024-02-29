@@ -5,6 +5,7 @@ CREATE TABLE checkins
     time_in VARCHAR(255) NOT NULL,
     time_out VARCHAR(255),
     date VARCHAR(12) NOT NULL,
+    is_weekend Boolean DEFAULT FALSE,
     work_time FLOAT,
     go_out VARCHAR(255),
     go_in VARCHAR(255),

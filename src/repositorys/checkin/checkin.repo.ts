@@ -4,6 +4,7 @@ import { Op } from 'sequelize';
 
 const create_checkin = async (data: any) => {
     try {
+        console.log(data);
         const create_value_checkin: Checkin | null = await Checkin.create({
             ...data,
         });

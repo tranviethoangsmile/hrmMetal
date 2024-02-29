@@ -9,7 +9,6 @@ const orderRouterModule = Router();
 orderRouterModule.post('/', async (req: Request, res: Response) => {
     try {
         const id: Object | null = req.body;
-        console.log(id);
         if (id != null) {
             const orders = await search_order_of_user(id);
             if (orders?.success) {

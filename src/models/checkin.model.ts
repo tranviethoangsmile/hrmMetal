@@ -13,7 +13,7 @@ class Checkin extends Model {
     public go_in!: string;
     public over_time!: Number;
     public work_shift!: Enumerator;
-
+    public is_weekend!: boolean;
     //
     public user!: User;
 }
@@ -42,7 +42,7 @@ Checkin.init(
             allowNull: false,
         },
         work_time: {
-            type: DataTypes.STRING,
+            type: DataTypes.NUMBER,
             allowNull: true,
         },
         go_out: {
@@ -54,8 +54,13 @@ Checkin.init(
             allowNull: true,
         },
         over_time: {
-            type: DataTypes.STRING,
+            type: DataTypes.NUMBER,
             allowNull: true,
+        },
+        is_weekend: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
         },
         work_shift: {
             type: DataTypes.ENUM,

@@ -22,167 +22,345 @@ createCheckin.post('/', async (req: Request, res: Response) => {
             user_id: data.user_id,
             date: data.date,
         };
-        const isChecked = await is_checked_controller(check_field);
-        if (!isChecked?.success) {
-            let time_in;
-            if (data.work_shift === 'NIGHT') {
-                time_in = moment
-                    .max(
-                        moment(data.check_time, 'HH:mm'),
-                        moment('20:00', 'HH:mm'),
-                    )
-                    .format('HH:mm');
-            } else {
-                time_in = moment
-                    .max(
-                        moment(data.check_time, 'HH:mm'),
-                        moment('08:00', 'HH:mm'),
-                    )
-                    .format('HH:mm');
-            }
+        const isWeekend =
+            moment(data.date, 'YYYY-MM-DD').isoWeekday() === 6 ||
+            moment(data.date, 'YYYY-MM-DD').isoWeekday() === 7;
+        if (!isWeekend) {
+            const isChecked = await is_checked_controller(check_field);
+            if (!isChecked?.success) {
+                let time_in;
+                if (data.work_shift === 'NIGHT') {
+                    time_in = moment
+                        .max(
+                            moment(data.check_time, 'HH:mm'),
+                            moment('20:00', 'HH:mm'),
+                        )
+                        .format('HH:mm');
+                } else {
+                    time_in = moment
+                        .max(
+                            moment(data.check_time, 'HH:mm'),
+                            moment('08:00', 'HH:mm'),
+                        )
+                        .format('HH:mm');
+                }
 
-            const field: object = {
-                user_id: data.user_id,
-                date: data.date,
-                time_in: time_in,
-                work_shift: data.work_shift,
-            };
+                const field: object = {
+                    user_id: data.user_id,
+                    date: data.date,
+                    time_in: time_in,
+                    work_shift: data.work_shift,
+                };
 
-            const create_check = await create_checkin_controller(field);
-            if (create_check.success) {
-                return res.status(201).json({
-                    success: true,
-                    data: create_check?.data,
-                });
+                const create_check = await create_checkin_controller(field);
+                if (create_check.success) {
+                    return res.status(201).json({
+                        success: true,
+                        data: create_check?.data,
+                    });
+                } else {
+                    return res.status(200).json({
+                        success: false,
+                        message: create_check?.message,
+                    });
+                }
             } else {
-                return res.status(200).json({
-                    success: false,
-                    message: create_check?.message,
-                });
+                let time_out;
+                let over_time;
+                let work_time;
+                let time_in = isChecked?.data?.time_in;
+                if (data.work_shift === 'NIGHT') {
+                    if (
+                        moment(data.check_time, 'HH:mm') <
+                        moment('20:00', 'HH:mm')
+                    ) {
+                        time_out = moment(data.check_time, 'HH:mm').format(
+                            'HH:mm',
+                        );
+                    } else {
+                        time_out = moment
+                            .max(
+                                moment(data.check_time, 'HH:mm'),
+                                moment('05:00', 'HH:mm').add(1, 'day'),
+                            )
+                            .format('HH:mm');
+                    }
+                } else {
+                    if (
+                        moment(data.check_time, 'HH:mm') <
+                        moment('16:45', 'HH:mm')
+                    ) {
+                        time_out = moment(data.check_time, 'HH:mm').format(
+                            'HH:mm',
+                        );
+                    } else {
+                        time_out = moment
+                            .max(
+                                moment(data.check_time, 'HH:mm'),
+                                moment('16:45', 'HH:mm'),
+                            )
+                            .format('HH:mm');
+                    }
+                }
+                if (data.work_shift === 'NIGHT') {
+                    work_time =
+                        moment
+                            .duration(
+                                moment(time_out, 'hh:mm')
+                                    .add(1, 'day')
+                                    .diff(moment(time_in, 'hh:mm')),
+                            )
+                            .asHours() - 1;
+                } else {
+                    work_time =
+                        moment
+                            .duration(
+                                moment(time_out, 'hh:mm').diff(
+                                    moment(time_in, 'hh:mm'),
+                                ),
+                            )
+                            .asHours() - 0.75;
+                }
+                if (work_time >= 8) {
+                    over_time = work_time - 8.25;
+                } else {
+                    over_time = 0;
+                }
+
+                switch (true) {
+                    case over_time < 0.25:
+                        over_time = 0;
+                        break;
+                    case over_time < 0.5:
+                        over_time = 0.25;
+                        break;
+                    case over_time < 0.75:
+                        over_time = 0.5;
+                        break;
+                    case over_time < 1:
+                        over_time = 0.75;
+                        break;
+                    case over_time < 1.25:
+                        over_time = 1;
+                        break;
+                    case over_time < 1.5:
+                        over_time = 1.25;
+                        break;
+                    case over_time < 1.75:
+                        over_time = 1.5;
+                        break;
+                    case over_time < 2:
+                        over_time = 1.75;
+                        break;
+                    case over_time < 2.25:
+                        over_time = 2;
+                        break;
+                    case over_time < 2.5:
+                        over_time = 2.25;
+                        break;
+                    case over_time < 2.75:
+                        over_time = 2.5;
+                        break;
+                    case over_time < 3:
+                        over_time = 2.75;
+                        break;
+                    case over_time < 3.25:
+                        over_time = 3;
+                        break;
+                    case over_time < 3.5:
+                        over_time = 3.25;
+                        break;
+                    default:
+                        break;
+                }
+                const field: object = {
+                    user_id: data.user_id,
+                    date: data.date,
+                    time_out: time_out,
+                    work_time: work_time > 8 ? 8 : work_time,
+                    over_time: over_time,
+                    work_shift: data.work_shift,
+                };
+
+                const create_check = await update_checkin_controller(field);
+                if (create_check.success) {
+                    return res.status(201).json({
+                        success: true,
+                        data: create_check?.data,
+                    });
+                } else {
+                    return res.status(200).json({
+                        success: false,
+                        message: create_check?.message,
+                    });
+                }
             }
         } else {
-            let time_out;
-            let over_time;
-            let work_time;
-            let time_in = isChecked?.data?.time_in;
-            if (data.work_shift === 'NIGHT') {
-                if (
-                    moment(data.check_time, 'HH:mm') < moment('20:00', 'HH:mm')
-                ) {
-                    time_out = moment(data.check_time, 'HH:mm').format('HH:mm');
-                } else {
-                    time_out = moment
+            const isChecked = await is_checked_controller(check_field);
+            if (!isChecked?.success) {
+                let time_in;
+                if (data.work_shift === 'NIGHT') {
+                    time_in = moment
                         .max(
                             moment(data.check_time, 'HH:mm'),
-                            moment('05:00', 'HH:mm').add(1, 'day'),
+                            moment('20:00', 'HH:mm'),
+                        )
+                        .format('HH:mm');
+                } else {
+                    time_in = moment
+                        .max(
+                            moment(data.check_time, 'HH:mm'),
+                            moment('08:00', 'HH:mm'),
                         )
                         .format('HH:mm');
                 }
-            } else {
-                if (
-                    moment(data.check_time, 'HH:mm') < moment('16:45', 'HH:mm')
-                ) {
-                    time_out = moment(data.check_time, 'HH:mm').format('HH:mm');
+
+                const field: object = {
+                    user_id: data.user_id,
+                    date: data.date,
+                    time_in: time_in,
+                    work_shift: data.work_shift,
+                    is_weekend: isWeekend,
+                };
+
+                const create_check = await create_checkin_controller(field);
+                if (create_check.success) {
+                    return res.status(201).json({
+                        success: true,
+                        data: create_check?.data,
+                    });
                 } else {
-                    time_out = moment
-                        .max(
-                            moment(data.check_time, 'HH:mm'),
-                            moment('16:45', 'HH:mm'),
-                        )
-                        .format('HH:mm');
+                    return res.status(200).json({
+                        success: false,
+                        message: create_check?.message,
+                    });
                 }
-            }
-            if (data.work_shift === 'NIGHT') {
-                work_time =
-                    moment
-                        .duration(
-                            moment(time_out, 'hh:mm')
-                                .add(1, 'day')
-                                .diff(moment(time_in, 'hh:mm')),
-                        )
-                        .asHours() - 1;
             } else {
-                work_time =
-                    moment
-                        .duration(
-                            moment(time_out, 'hh:mm').diff(
-                                moment(time_in, 'hh:mm'),
-                            ),
-                        )
-                        .asHours() - 0.75;
-            }
-            if (work_time >= 8) {
-                over_time = work_time - 8.25;
-            } else {
-                over_time = 0;
-            }
+                let time_out;
+                let work_time;
+                let time_in = isChecked?.data?.time_in;
+                if (data.work_shift === 'NIGHT') {
+                    if (
+                        moment(data.check_time, 'HH:mm') <
+                        moment('20:00', 'HH:mm')
+                    ) {
+                        time_out = moment(data.check_time, 'HH:mm').format(
+                            'HH:mm',
+                        );
+                    } else {
+                        time_out = moment
+                            .max(
+                                moment(data.check_time, 'HH:mm'),
+                                moment('05:00', 'HH:mm').add(1, 'day'),
+                            )
+                            .format('HH:mm');
+                    }
+                } else {
+                    if (
+                        moment(data.check_time, 'HH:mm') <
+                        moment('16:45', 'HH:mm')
+                    ) {
+                        time_out = moment(data.check_time, 'HH:mm').format(
+                            'HH:mm',
+                        );
+                    } else {
+                        time_out = moment
+                            .max(
+                                moment(data.check_time, 'HH:mm'),
+                                moment('16:45', 'HH:mm'),
+                            )
+                            .format('HH:mm');
+                    }
+                }
+                if (data.work_shift === 'NIGHT') {
+                    work_time =
+                        moment
+                            .duration(
+                                moment(time_out, 'hh:mm')
+                                    .add(1, 'day')
+                                    .diff(moment(time_in, 'hh:mm')),
+                            )
+                            .asHours() - 1;
+                } else {
+                    work_time =
+                        moment
+                            .duration(
+                                moment(time_out, 'hh:mm').diff(
+                                    moment(time_in, 'hh:mm'),
+                                ),
+                            )
+                            .asHours() - 0.75;
+                }
+                if (work_time > 8.25) {
+                    work_time = work_time - 0.25;
+                }
+                switch (true) {
+                    case work_time < 8.25:
+                        work_time = 8;
+                        break;
+                    case work_time < 8.5:
+                        work_time = 8.25;
+                        break;
+                    case work_time < 8.75:
+                        work_time = 8.5;
+                        break;
+                    case work_time < 9:
+                        work_time = 8.75;
+                        break;
+                    case work_time < 9.25:
+                        work_time = 9;
+                        break;
+                    case work_time < 9.5:
+                        work_time = 9.25;
+                        break;
+                    case work_time < 9.75:
+                        work_time = 9.5;
+                        break;
+                    case work_time < 10:
+                        work_time = 9.75;
+                        break;
+                    case work_time < 10.25:
+                        work_time = 10;
+                        break;
+                    case work_time < 10.5:
+                        work_time = 10.25;
+                        break;
+                    case work_time < 10.75:
+                        work_time = 10.5;
+                        break;
+                    case work_time < 11:
+                        work_time = 10.75;
+                        break;
+                    case work_time < 11.25:
+                        work_time = 11;
+                        break;
+                    case work_time < 11.5:
+                        work_time = 11.25;
+                        break;
+                    default:
+                        break;
+                }
+                const field: object = {
+                    user_id: data.user_id,
+                    date: data.date,
+                    time_out: time_out,
+                    work_time: work_time,
+                    over_time: 0,
+                    work_shift: data.work_shift,
+                };
 
-            switch (true) {
-                case over_time < 0.25:
-                    over_time = 0;
-                    break;
-                case over_time < 0.5:
-                    over_time = 0.25;
-                    break;
-                case over_time < 0.75:
-                    over_time = 0.5;
-                    break;
-                case over_time < 1:
-                    over_time = 0.75;
-                    break;
-                case over_time < 1.25:
-                    over_time = 1;
-                    break;
-                case over_time < 1.5:
-                    over_time = 1.25;
-                    break;
-                case over_time < 1.75:
-                    over_time = 1.5;
-                    break;
-                case over_time < 2:
-                    over_time = 1.75;
-                    break;
-                case over_time < 2.25:
-                    over_time = 2;
-                    break;
-                case over_time < 2.5:
-                    over_time = 2.25;
-                    break;
-                case over_time < 2.75:
-                    over_time = 2.5;
-                    break;
-                case over_time < 3:
-                    over_time = 2.75;
-                    break;
-                case over_time < 3.25:
-                    over_time = 3;
-                    break;
-                case over_time < 3.5:
-                    over_time = 3.25;
-                    break;
-                default:
-                    break;
-            }
-            const field: object = {
-                user_id: data.user_id,
-                date: data.date,
-                time_out: time_out,
-                work_time: work_time > 8 ? 8 : work_time,
-                over_time: over_time,
-                work_shift: data.work_shift,
-            };
-
-            const create_check = await update_checkin_controller(field);
-            if (create_check.success) {
-                return res.status(201).json({
-                    success: true,
-                    data: create_check?.data,
-                });
-            } else {
-                return res.status(200).json({
-                    success: false,
-                    message: create_check?.message,
-                });
+                const create_check = await update_checkin_controller(field);
+                if (create_check.success) {
+                    return res.status(201).json({
+                        success: true,
+                        data: create_check?.data,
+                    });
+                } else {
+                    return res.status(200).json({
+                        success: false,
+                        message: create_check?.message,
+                    });
+                }
             }
         }
     } catch (error: any) {

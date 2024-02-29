@@ -4,6 +4,7 @@ const scheme_create_checkin = Joi.object({
     time_in: Joi.string().required(),
     date: Joi.string().required(),
     work_shift: Joi.string().required(),
+    is_weekend: Joi.boolean(),
 });
 
 const scheme_update_checkin = Joi.object({
