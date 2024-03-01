@@ -92,9 +92,6 @@ const search_checkin_of_user_in_month = async (field: any) => {
         const endDate = moment(startDate, 'YYYY-MM-DD')
             .endOf('month')
             .format('YYYY-MM-DD');
-
-        console.log(startDate, endDate);
-
         const checkins: Array<Checkin> | null = await Checkin.findAll({
             where: {
                 user_id: field.user_id,
