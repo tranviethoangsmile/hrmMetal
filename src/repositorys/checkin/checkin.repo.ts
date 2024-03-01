@@ -85,25 +85,23 @@ const isChecked = async (field: any) => {
 
 const search_checkin_of_user_in_month = async (field: any) => {
     try {
+        const startDate = moment(
+            `${field.year}-${field.month}-01`,
+            'YYYY-MM-DD',
+        ).format('YYYY-MM-DD');
+        const endDate = moment(startDate, 'YYYY-MM-DD')
+            .endOf('month')
+            .format('YYYY-MM-DD');
+
+        console.log(startDate, endDate);
+
         const checkins: Array<Checkin> | null = await Checkin.findAll({
             where: {
                 user_id: field.user_id,
-                [Op.and]: [
-                    {
-                        date: {
-                            [Op.gte]: moment().format(
-                                `${field.year}/${field.month}/01`,
-                            ),
-                        },
-                    },
-                    {
-                        date: {
-                            [Op.lt]: moment().format(
-                                `${field.year}/${field.month}/31`,
-                            ),
-                        },
-                    },
-                ],
+                date: {
+                    [Op.gte]: startDate,
+                    [Op.lte]: endDate,
+                },
             },
             attributes: [
                 'id',
@@ -117,7 +115,8 @@ const search_checkin_of_user_in_month = async (field: any) => {
                 'is_weekend',
             ],
         });
-        if (checkins != null) {
+
+        if (checkins != null && checkins.length > 0) {
             return {
                 success: true,
                 data: checkins,
@@ -125,7 +124,7 @@ const search_checkin_of_user_in_month = async (field: any) => {
         } else {
             return {
                 success: false,
-                message: 'this is user not have any check-in in this month',
+                message: 'This user does not have any check-ins in this month',
             };
         }
     } catch (error: any) {
