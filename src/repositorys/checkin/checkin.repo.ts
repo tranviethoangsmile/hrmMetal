@@ -121,7 +121,7 @@ const search_checkin_of_user_in_month = async (field: any) => {
         } else {
             return {
                 success: false,
-                message: 'This user does not have any check-ins in this month',
+                message: 'user_no_check_ins',
             };
         }
     } catch (error: any) {
