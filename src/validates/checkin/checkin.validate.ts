@@ -12,6 +12,7 @@ const scheme_update_checkin = Joi.object({
     time_out: Joi.string().required(),
     date: Joi.string().required(),
     work_shift: Joi.string().required(),
+    is_checked: Joi.boolean().required(),
     work_time: Joi.number(),
     over_time: Joi.number(),
 });

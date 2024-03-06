@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import create_router from './create/create';
 import {
     create,
     get_all,
@@ -7,36 +8,7 @@ import {
 
 import very_role from '../../middlewares/veryRoleUpdate.middleware';
 const paidLeaveRouter: Router = Router();
-
-paidLeaveRouter.post('/', async (req: Request, res: Response) => {
-    try {
-        const data: Object | null = req.body;
-        if (data != null) {
-            const paidLeave = await create(data);
-            if (paidLeave.success) {
-                res.status(201).json({
-                    success: paidLeave?.success,
-                    data: paidLeave?.data,
-                });
-            } else {
-                res.status(200).json({
-                    success: paidLeave?.success,
-                    message: paidLeave?.message,
-                });
-            }
-        } else {
-            res.status(400).json({
-                success: false,
-                message: 'Bad Request - data not empty',
-            });
-        }
-    } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
-    }
-});
+paidLeaveRouter.use('/create', create_router);
 
 paidLeaveRouter.get('/', async (req: Request, res: Response) => {
     try {

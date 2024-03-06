@@ -10,6 +10,7 @@ interface update_checkin_interface {
     date: string;
     work_shift: string;
     time_out: string;
+    is_checked: boolean;
     work_time?: number;
 }
 interface is_Checked_interface {
