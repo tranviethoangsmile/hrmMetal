@@ -2,6 +2,7 @@ import { User, Department } from '../../models';
 import { Op } from 'sequelize';
 
 const userCreate = async (user: any) => {
+    console.log(user);
     try {
         const new_user: User | null = await User.create({
             ...user,
@@ -18,6 +19,7 @@ const userCreate = async (user: any) => {
             };
         }
     } catch (error: any) {
+        console.log(error.sql);
         return {
             success: false,
             message: error.message,

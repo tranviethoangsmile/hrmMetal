@@ -14,6 +14,7 @@ class Checkin extends Model {
     public over_time!: Number;
     public work_shift!: Enumerator;
     public is_weekend!: boolean;
+    public is_checked!: boolean;
     //
     public user!: User;
 }
@@ -65,6 +66,11 @@ Checkin.init(
         work_shift: {
             type: DataTypes.ENUM,
             values: Object.values(shift_work).map(value => value.toString()),
+        },
+        is_checked: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
         },
     },
     {

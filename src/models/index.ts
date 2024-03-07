@@ -24,10 +24,12 @@ Product.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(Product, { foreignKey: 'user_id' });
 Trainning.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(Trainning, { foreignKey: 'user_id' });
-User.hasMany(PaidLeaveRequest, { foreignKey: 'staff_id' });
+User.hasMany(PaidLeaveRequest, { foreignKey: 'user_id' });
 User.hasMany(PaidLeaveRequest, { foreignKey: 'leader_id' });
-PaidLeaveRequest.belongsTo(User, { foreignKey: 'staff_id', as: 'staff' });
+User.hasMany(PaidLeaveRequest, { foreignKey: 'admin_id' });
+PaidLeaveRequest.belongsTo(User, { foreignKey: 'user_id', as: 'staff' });
 PaidLeaveRequest.belongsTo(User, { foreignKey: 'leader_id', as: 'leader' });
+PaidLeaveRequest.belongsTo(User, { foreignKey: 'admin_id', as: 'admin' });
 Message.belongsTo(Conversation, { foreignKey: 'conversation_id' });
 Conversation.hasMany(Message, { foreignKey: 'conversation_id' });
 GroupMember.belongsToMany(User, {
@@ -36,7 +38,7 @@ GroupMember.belongsToMany(User, {
 });
 GroupMember.belongsTo(Conversation, { foreignKey: 'conversation_id' });
 User.hasMany(GroupMember, { foreignKey: 'user_id' });
-Checkin.hasOne(User, { foreignKey: 'user_id' });
+Checkin.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(Checkin, { foreignKey: 'user_id' });
 
 export {

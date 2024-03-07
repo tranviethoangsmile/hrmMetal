@@ -1,8 +1,9 @@
 interface create {
-    date: string;
     reason: string;
-    staff_id: string;
+    user_id: string;
     leader_id: string;
+    date_to: string;
+    date_from: string;
 }
 
 interface update {

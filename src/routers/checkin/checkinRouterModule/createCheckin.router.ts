@@ -64,7 +64,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                         message: create_check?.message,
                     });
                 }
-            } else {
+            } else if (isChecked?.success && !isChecked?.data?.is_checked) {
                 let time_out;
                 let over_time;
                 let work_time;
@@ -180,6 +180,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     work_time: work_time > 8 ? 8 : work_time,
                     over_time: over_time,
                     work_shift: data.work_shift,
+                    is_checked: true,
                 };
 
                 const create_check = await update_checkin_controller(field);
@@ -194,6 +195,11 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                         message: create_check?.message,
                     });
                 }
+            } else {
+                return res.status(201).json({
+                    success: !isChecked?.success,
+                    message: 'checked',
+                });
             }
         } else {
             const isChecked = await is_checked_controller(check_field);
@@ -235,7 +241,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                         message: create_check?.message,
                     });
                 }
-            } else {
+            } else if (isChecked?.success && !isChecked?.data?.is_checked) {
                 let time_out;
                 let work_time;
                 let time_in = isChecked?.data?.time_in;
@@ -347,6 +353,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     work_time: work_time,
                     over_time: 0,
                     work_shift: data.work_shift,
+                    is_checked: true,
                 };
 
                 const create_check = await update_checkin_controller(field);
@@ -361,6 +368,11 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                         message: create_check?.message,
                     });
                 }
+            } else {
+                return res.status(201).json({
+                    success: false,
+                    message: 'checked',
+                });
             }
         }
     } catch (error: any) {

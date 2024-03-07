@@ -34,6 +34,7 @@ const update_checkin = async (field: any) => {
                 time_out: field.time_out,
                 over_time: field.over_time,
                 work_time: field.work_time,
+                is_checked: field.is_checked,
             },
             {
                 where: {
@@ -73,6 +74,10 @@ const isChecked = async (field: any) => {
             return {
                 success: true,
                 data: is_checked,
+            };
+        } else {
+            return {
+                success: false,
             };
         }
     } catch (error: any) {

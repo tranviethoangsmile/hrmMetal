@@ -1,10 +1,11 @@
 import Joi from '@hapi/joi';
 
 const schema_create = Joi.object({
-    date: Joi.string().min(8).max(11).required(),
     reason: Joi.string().required(),
-    staff_id: Joi.string().guid().required(),
+    user_id: Joi.string().guid().required(),
     leader_id: Joi.string().guid().required(),
+    date_to: Joi.string().min(8).max(11).required(),
+    date_from: Joi.string().min(8).max(11).required(),
 });
 
 const validate_create = (data: any) => {

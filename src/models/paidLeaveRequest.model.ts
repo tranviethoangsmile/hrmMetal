@@ -4,11 +4,14 @@ import { User } from './index';
 
 class PaidLeaveRequest extends Model {
     public id!: string;
-    public date!: string;
     public reason!: string;
-    public staff_id!: string;
+    public user_id!: string;
     public leader_id!: string;
+    public admin_id!: string;
+    public is_confirm!: boolean;
     public is_active!: boolean;
+    public date_to!: string;
+    public date_from!: string;
 
     public user!: User;
 }
@@ -20,15 +23,11 @@ PaidLeaveRequest.init(
             defaultValue: DataTypes.UUIDV1,
             primaryKey: true,
         },
-        date: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
         reason: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        staff_id: {
+        user_id: {
             type: DataTypes.UUID,
             allowNull: false,
         },
@@ -38,6 +37,28 @@ PaidLeaveRequest.init(
         },
         is_active: {
             type: DataTypes.BOOLEAN,
+            allowNull: true,
+            defaultValue: false,
+        },
+        admin_id: {
+            type: DataTypes.UUID,
+            allowNull: true,
+        },
+        date_from: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        date_to: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        feedback: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        is_confirm: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
             defaultValue: false,
         },
     },
