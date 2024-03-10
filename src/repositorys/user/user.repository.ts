@@ -113,6 +113,7 @@ const userFindById = async (id: string) => {
                 'is_active',
                 'position',
                 'is_admin',
+                'avatar',
             ],
             include: [
                 {

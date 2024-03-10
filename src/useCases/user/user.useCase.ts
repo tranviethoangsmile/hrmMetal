@@ -95,6 +95,22 @@ const updateUser = async (user: any) => {
                         message: new_user?.message,
                     };
                 }
+            } else {
+                const user_updated: UpdateField = {
+                    ...user,
+                };
+                const new_user = await userUpdate(user_updated);
+                if (new_user?.success) {
+                    return {
+                        success: true,
+                        message: 'User updated',
+                    };
+                } else {
+                    return {
+                        success: false,
+                        message: new_user?.message,
+                    };
+                }
             }
         } else {
             return {

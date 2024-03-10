@@ -6,7 +6,9 @@ import {
     findById,
     findAll,
 } from '../../controllers/user/user.controller';
+import uploadAvatar from './userRouterModul/uploadRouterModul';
 const userRouters: Router = Router();
+userRouters.use('/upload-avatar', uploadAvatar);
 
 userRouters.get('/', async (req: Request, res: Response) => {
     try {
