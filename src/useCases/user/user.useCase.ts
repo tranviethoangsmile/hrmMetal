@@ -33,7 +33,6 @@ const createNewUser = async (user: any) => {
                         ...user,
                         password: passBcrypt,
                     };
-                    console.log(userBcrypted);
                     const new_user = await userCreate(userBcrypted);
                     if (new_user?.success) {
                         return {
