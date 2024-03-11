@@ -27,7 +27,7 @@ const create_media_path = async (
         fs.unlink(file.path, () => {
             console.log('deleted path');
         });
-        req.body.avatar = result.secure_url;
+        req.body.media_url = result.secure_url;
         next();
     } catch (error: any) {
         res.status(500).json({

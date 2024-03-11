@@ -18,7 +18,10 @@ uploadAvatar.post(
     upload.single('avatar'),
     create_media_path,
     async (req: Request, res: Response) => {
-        const user_field = req.body;
+        const user_field = {
+            id: req.body.id,
+            avatar: req.body.media_url,
+        };
         try {
             const result = await update(user_field);
             if (result?.success) {

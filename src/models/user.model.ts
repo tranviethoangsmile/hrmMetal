@@ -1,4 +1,4 @@
-import { Model, DataTypes, Sequelize } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 import db from '../dbs/db';
 import Department from './department.model';
 import { Role } from '../enum/Role.enum';
