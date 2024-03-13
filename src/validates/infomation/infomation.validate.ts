@@ -5,7 +5,9 @@ const schema_create_infomation_validate = Joi.object({
     content: Joi.string().required(),
     date: Joi.string().required(),
     position: Joi.string(),
-    image: Joi.string(),
+    media: Joi.string(),
+    is_video: Joi.boolean(),
+    is_public: Joi.boolean(),
 });
 
 const validate_create_information = (value: any) => {

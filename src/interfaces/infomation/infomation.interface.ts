@@ -4,5 +4,6 @@ export interface create_infomation {
     content: string;
     date: string;
     position?: string;
-    image?: string;
+    media?: string;
+    is_video?: boolean;
 }

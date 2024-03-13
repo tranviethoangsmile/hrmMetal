@@ -7,7 +7,9 @@ class Information extends Model {
     public user_id!: string;
     public content!: string;
     public title!: string;
-    public image!: string;
+    public media!: string;
+    public is_video!: boolean;
+    public is_public!: boolean;
     public position!: Enumerator;
 }
 
@@ -34,13 +36,21 @@ Information.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        image: {
+        media: {
             type: DataTypes.STRING,
             allowNull: true,
         },
         position: {
             type: DataTypes.ENUM,
             values: Object.values(Position).map(value => value.toString()),
+        },
+        is_video: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
+        is_public: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
         },
     },
     {
