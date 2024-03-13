@@ -17,9 +17,7 @@ const create_media_path = async (
     try {
         const file = req.file as Express.Multer.File;
         if (!file) {
-            return res
-                .status(400)
-                .json({ success: false, message: 'No file uploaded' });
+            return next();
         }
         const result = await cloudinary.v2.uploader.upload(file.path, {
             resource_type: 'auto',

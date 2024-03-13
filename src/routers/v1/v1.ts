@@ -18,6 +18,7 @@ import paidLeaveRouter from '../paidLeaveReqest/paidLeaveRequest.router';
 import conversationRouter from '../conversation/conversation.router';
 import messageRouter from '../message/message.router';
 import checkinRouter from '../checkin/checkin.router';
+import informationRouter from '../information/information.router';
 v1Router.use('/department', departmentRouters);
 v1Router.use('/users', userRouters);
 v1Router.use('/find', findRouter);
@@ -35,5 +36,6 @@ v1Router.use('/paidleave', paidLeaveRouter);
 v1Router.use('/conversations', conversationRouter);
 v1Router.use('/mess', messageRouter);
 v1Router.use('/checkin', checkinRouter);
+v1Router.use('/information', informationRouter);
 
 export default v1Router;

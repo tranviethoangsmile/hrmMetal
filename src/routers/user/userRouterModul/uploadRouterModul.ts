@@ -3,15 +3,7 @@ const uploadAvatar: Router = Router();
 import multer from 'multer';
 import { create_media_path } from '../../../middlewares/createTrainning.middleware';
 import { update } from '../../../controllers/user/user.controller';
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        return cb(null, './public/media/uploads/');
-    },
-    filename: function (req, file, cb) {
-        return cb(null, Date.now() + '-' + file.originalname);
-    },
-});
-const upload = multer({ storage: storage });
+import { upload } from '../../../utils/multer/upload.multer';
 
 uploadAvatar.post(
     '/',
