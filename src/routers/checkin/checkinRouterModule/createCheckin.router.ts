@@ -10,6 +10,12 @@ const createCheckin: Router = Router();
 
 createCheckin.post('/', async (req: Request, res: Response) => {
     try {
+        function handleTime(value: any) {
+            const roundedWorkTime = Math.floor(value * 4) / 4; // làm tròn đến 2 chữ số thập phân
+            return Math.min(roundedWorkTime, 8); // giới hạn giá trị tối đa là 8 giờ
+        }
+        const NIGHT_END = moment('05:00', 'HH:mm');
+        const DAY_END = moment('16:45', 'HH:mm');
         const data = req.body;
         if (!data) {
             return res.status(400).json({
@@ -106,7 +112,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     work_time =
                         moment
                             .duration(
-                                moment(time_out, 'hh:mm')
+                                moment(NIGHT_END, 'hh:mm')
                                     .add(1, 'day')
                                     .diff(moment(time_in, 'hh:mm')),
                             )
@@ -115,70 +121,36 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     work_time =
                         moment
                             .duration(
-                                moment(time_out, 'hh:mm').diff(
+                                moment(DAY_END, 'hh:mm').diff(
                                     moment(time_in, 'hh:mm'),
                                 ),
                             )
                             .asHours() - 0.75;
                 }
-                if (work_time >= 8) {
-                    over_time = work_time - 8.25;
-                } else {
-                    over_time = 0;
-                }
 
-                switch (true) {
-                    case over_time < 0.25:
-                        over_time = 0;
-                        break;
-                    case over_time < 0.5:
-                        over_time = 0.25;
-                        break;
-                    case over_time < 0.75:
-                        over_time = 0.5;
-                        break;
-                    case over_time < 1:
-                        over_time = 0.75;
-                        break;
-                    case over_time < 1.25:
-                        over_time = 1;
-                        break;
-                    case over_time < 1.5:
-                        over_time = 1.25;
-                        break;
-                    case over_time < 1.75:
-                        over_time = 1.5;
-                        break;
-                    case over_time < 2:
-                        over_time = 1.75;
-                        break;
-                    case over_time < 2.25:
-                        over_time = 2;
-                        break;
-                    case over_time < 2.5:
-                        over_time = 2.25;
-                        break;
-                    case over_time < 2.75:
-                        over_time = 2.5;
-                        break;
-                    case over_time < 3:
-                        over_time = 2.75;
-                        break;
-                    case over_time < 3.25:
-                        over_time = 3;
-                        break;
-                    case over_time < 3.5:
-                        over_time = 3.25;
-                        break;
-                    default:
-                        break;
+                if (data.work_shift === 'NIGHT') {
+                    over_time =
+                        moment
+                            .duration(
+                                moment(time_out, 'HH:mm').diff(
+                                    moment(NIGHT_END),
+                                ),
+                            )
+                            .asHours() - 0.25;
+                } else {
+                    over_time =
+                        moment
+                            .duration(
+                                moment(time_out, 'HH:mm').diff(moment(DAY_END)),
+                            )
+                            .asHours() - 0.25;
                 }
                 const field: object = {
                     user_id: data.user_id,
                     date: data.date,
                     time_out: time_out,
-                    work_time: work_time > 8 ? 8 : work_time,
-                    over_time: over_time,
+                    work_time: handleTime(work_time),
+                    over_time: handleTime(over_time),
                     work_shift: data.work_shift,
                     is_checked: true,
                 };
@@ -244,6 +216,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
             } else if (isChecked?.success && !isChecked?.data?.is_checked) {
                 let time_out;
                 let work_time;
+                let over_time;
                 let time_in = isChecked?.data?.time_in;
                 if (data.work_shift === 'NIGHT') {
                     if (
@@ -282,7 +255,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     work_time =
                         moment
                             .duration(
-                                moment(time_out, 'hh:mm')
+                                moment(NIGHT_END, 'hh:mm')
                                     .add(1, 'day')
                                     .diff(moment(time_in, 'hh:mm')),
                             )
@@ -291,66 +264,34 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     work_time =
                         moment
                             .duration(
-                                moment(time_out, 'hh:mm').diff(
+                                moment(DAY_END, 'hh:mm').diff(
                                     moment(time_in, 'hh:mm'),
                                 ),
                             )
                             .asHours() - 0.75;
                 }
-                if (work_time > 8.25) {
-                    work_time = work_time - 0.25;
-                }
-                switch (true) {
-                    case work_time < 8.25:
-                        work_time = 8;
-                        break;
-                    case work_time < 8.5:
-                        work_time = 8.25;
-                        break;
-                    case work_time < 8.75:
-                        work_time = 8.5;
-                        break;
-                    case work_time < 9:
-                        work_time = 8.75;
-                        break;
-                    case work_time < 9.25:
-                        work_time = 9;
-                        break;
-                    case work_time < 9.5:
-                        work_time = 9.25;
-                        break;
-                    case work_time < 9.75:
-                        work_time = 9.5;
-                        break;
-                    case work_time < 10:
-                        work_time = 9.75;
-                        break;
-                    case work_time < 10.25:
-                        work_time = 10;
-                        break;
-                    case work_time < 10.5:
-                        work_time = 10.25;
-                        break;
-                    case work_time < 10.75:
-                        work_time = 10.5;
-                        break;
-                    case work_time < 11:
-                        work_time = 10.75;
-                        break;
-                    case work_time < 11.25:
-                        work_time = 11;
-                        break;
-                    case work_time < 11.5:
-                        work_time = 11.25;
-                        break;
-                    default:
-                        break;
+                if (data.work_shift === 'NIGHT') {
+                    over_time =
+                        moment
+                            .duration(
+                                moment(time_out, 'HH:mm').diff(
+                                    moment(NIGHT_END),
+                                ),
+                            )
+                            .asHours() - 0.25;
+                } else {
+                    over_time =
+                        moment
+                            .duration(
+                                moment(time_out, 'HH:mm').diff(moment(DAY_END)),
+                            )
+                            .asHours() - 0.25;
                 }
                 const field: object = {
                     user_id: data.user_id,
                     date: data.date,
                     time_out: time_out,
-                    work_time: work_time,
+                    work_time: Math.floor((work_time + over_time) * 4) / 4,
                     over_time: 0,
                     work_shift: data.work_shift,
                     is_checked: true,
