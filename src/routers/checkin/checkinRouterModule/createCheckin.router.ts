@@ -11,9 +11,12 @@ const createCheckin: Router = Router();
 createCheckin.post('/', async (req: Request, res: Response) => {
     try {
         function handleTime(value: any) {
-            const roundedWorkTime = Math.floor(value * 4) / 4; // làm tròn đến 2 chữ số thập phân
-            return Math.min(roundedWorkTime, 8); // giới hạn giá trị tối đa là 8 giờ
+            const roundedNumber = Math.floor(value * 4) / 4;
+            return roundedNumber.toFixed(2);
         }
+        const handleTimeMoment = (value: any) => {
+            return moment(value, 'HH:mm');
+        };
         const NIGHT_END = moment('05:00', 'HH:mm');
         const DAY_END = moment('16:45', 'HH:mm');
         const data = req.body;
@@ -75,75 +78,160 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                 let over_time;
                 let work_time;
                 let time_in = isChecked?.data?.time_in;
+                time_out = moment(data.check_time, 'HH:mm').format('HH:mm');
                 if (data.work_shift === 'NIGHT') {
+                    //START night
                     if (
-                        moment(data.check_time, 'HH:mm') <
-                        moment('20:00', 'HH:mm')
+                        handleTimeMoment(time_out) >=
+                            handleTimeMoment('00:00') &&
+                        handleTimeMoment(time_out) <= handleTimeMoment('01:00')
                     ) {
-                        time_out = moment(data.check_time, 'HH:mm').format(
-                            'HH:mm',
-                        );
-                    } else {
-                        time_out = moment
-                            .max(
-                                moment(data.check_time, 'HH:mm'),
-                                moment('05:00', 'HH:mm').add(1, 'day'),
-                            )
-                            .format('HH:mm');
-                    }
-                } else {
-                    if (
-                        moment(data.check_time, 'HH:mm') <
-                        moment('16:45', 'HH:mm')
+                        work_time =
+                            moment
+                                .duration(
+                                    moment('00:00', 'HH:mm')
+                                        .add(1, 'day')
+                                        .diff(moment(time_in, 'HH:mm')),
+                                )
+                                .asHours() - 1;
+                        over_time = 0;
+                    } else if (handleTimeMoment(time_out) <= NIGHT_END) {
+                        work_time =
+                            moment
+                                .duration(
+                                    moment(time_out, 'HH:mm')
+                                        .add(1, 'day')
+                                        .diff(moment(time_in, 'HH:mm')),
+                                )
+                                .asHours() - 1;
+                        over_time = 0;
+                    } else if (
+                        handleTimeMoment(time_out) > NIGHT_END &&
+                        handleTimeMoment(time_out) <= handleTimeMoment('05:15')
                     ) {
-                        time_out = moment(data.check_time, 'HH:mm').format(
-                            'HH:mm',
-                        );
-                    } else {
-                        time_out = moment
-                            .max(
-                                moment(data.check_time, 'HH:mm'),
-                                moment('16:45', 'HH:mm'),
-                            )
-                            .format('HH:mm');
-                    }
-                }
-                if (data.work_shift === 'NIGHT') {
-                    work_time =
-                        moment
+                        work_time =
+                            moment
+                                .duration(
+                                    NIGHT_END.add(1, 'day').diff(
+                                        handleTimeMoment(time_in),
+                                    ),
+                                )
+                                .asHours() - 1;
+                        over_time = 0;
+                    } else if (
+                        handleTimeMoment(time_out) >
+                            handleTimeMoment('05:15') &&
+                        handleTimeMoment(time_out) <= handleTimeMoment('20:00')
+                    ) {
+                        work_time =
+                            moment
+                                .duration(
+                                    NIGHT_END.add(1, 'day').diff(
+                                        handleTimeMoment(time_in),
+                                    ),
+                                )
+                                .asHours() - 1;
+                        over_time = moment
                             .duration(
-                                moment(NIGHT_END, 'hh:mm')
-                                    .add(1, 'day')
-                                    .diff(moment(time_in, 'hh:mm')),
-                            )
-                            .asHours() - 1;
-                } else {
-                    work_time =
-                        moment
-                            .duration(
-                                moment(DAY_END, 'hh:mm').diff(
-                                    moment(time_in, 'hh:mm'),
+                                handleTimeMoment(time_out).diff(
+                                    handleTimeMoment('05:15'),
                                 ),
                             )
-                            .asHours() - 0.75;
-                }
-
-                if (data.work_shift === 'NIGHT') {
-                    over_time =
-                        moment
+                            .asHours();
+                    } else {
+                        work_time = moment
                             .duration(
-                                moment(time_out, 'HH:mm').diff(
-                                    moment(NIGHT_END),
+                                handleTimeMoment(time_out).diff(
+                                    handleTimeMoment(time_in),
                                 ),
                             )
-                            .asHours() - 0.25;
+                            .asHours();
+                        over_time = 0;
+                    }
+                    //END NIGHT
                 } else {
-                    over_time =
-                        moment
+                    //DAY
+                    if (
+                        handleTimeMoment(time_out) <= handleTimeMoment(time_in)
+                    ) {
+                        work_time =
+                            moment
+                                .duration(
+                                    DAY_END.diff(handleTimeMoment(time_in)),
+                                )
+                                .asHours() - 0.75;
+                        over_time =
+                            moment
+                                .duration(
+                                    handleTimeMoment(time_out)
+                                        .add(1, 'day')
+                                        .diff(DAY_END),
+                                )
+                                .asHours() - 0.25;
+                    } else if (
+                        handleTimeMoment(time_out) <= handleTimeMoment('12:00')
+                    ) {
+                        work_time = moment
                             .duration(
-                                moment(time_out, 'HH:mm').diff(moment(DAY_END)),
+                                handleTimeMoment(time_out).diff(
+                                    handleTimeMoment(time_in),
+                                ),
                             )
-                            .asHours() - 0.25;
+                            .asHours();
+                        over_time = 0;
+                    } else if (
+                        handleTimeMoment(time_out) >
+                            handleTimeMoment('12:00') &&
+                        handleTimeMoment(time_out) <= handleTimeMoment('12:45')
+                    ) {
+                        work_time = moment
+                            .duration(
+                                handleTimeMoment('12:00').diff(
+                                    handleTimeMoment(time_in),
+                                ),
+                            )
+                            .asHours();
+                        over_time = 0;
+                    } else if (
+                        handleTimeMoment(time_out) >
+                            handleTimeMoment('12:45') &&
+                        handleTimeMoment(time_out) <= DAY_END
+                    ) {
+                        work_time =
+                            moment
+                                .duration(
+                                    handleTimeMoment(time_out).diff(
+                                        handleTimeMoment(time_in),
+                                    ),
+                                )
+                                .asHours() - 0.75;
+                        over_time = 0;
+                    } else if (
+                        handleTimeMoment(time_out) > DAY_END &&
+                        handleTimeMoment(time_out) <= handleTimeMoment('17:00')
+                    ) {
+                        work_time =
+                            moment
+                                .duration(
+                                    DAY_END.diff(handleTimeMoment(time_in)),
+                                )
+                                .asHours() - 0.75;
+                        over_time = 0;
+                    } else {
+                        work_time =
+                            moment
+                                .duration(
+                                    DAY_END.diff(handleTimeMoment(time_in)),
+                                )
+                                .asHours() - 0.75;
+                        over_time =
+                            moment
+                                .duration(
+                                    handleTimeMoment(time_out).diff(DAY_END),
+                                )
+                                .asHours() - 0.25;
+                    }
+                    // day end
                 }
                 const field: object = {
                     user_id: data.user_id,
@@ -216,82 +304,144 @@ createCheckin.post('/', async (req: Request, res: Response) => {
             } else if (isChecked?.success && !isChecked?.data?.is_checked) {
                 let time_out;
                 let work_time;
-                let over_time;
                 let time_in = isChecked?.data?.time_in;
+                time_out = moment(data.check_time, 'HH:mm').format('HH:mm');
+                // Night start  weekend from 22:30 ---------------------------------
                 if (data.work_shift === 'NIGHT') {
                     if (
-                        moment(data.check_time, 'HH:mm') <
-                        moment('20:00', 'HH:mm')
+                        handleTimeMoment(time_out) >=
+                            handleTimeMoment('00:00') &&
+                        handleTimeMoment(time_out) <= handleTimeMoment('01:00')
                     ) {
-                        time_out = moment(data.check_time, 'HH:mm').format(
-                            'HH:mm',
-                        );
-                    } else {
-                        time_out = moment
-                            .max(
-                                moment(data.check_time, 'HH:mm'),
-                                moment('05:00', 'HH:mm').add(1, 'day'),
-                            )
-                            .format('HH:mm');
-                    }
-                } else {
-                    if (
-                        moment(data.check_time, 'HH:mm') <
-                        moment('16:45', 'HH:mm')
-                    ) {
-                        time_out = moment(data.check_time, 'HH:mm').format(
-                            'HH:mm',
-                        );
-                    } else {
-                        time_out = moment
-                            .max(
-                                moment(data.check_time, 'HH:mm'),
-                                moment('16:45', 'HH:mm'),
-                            )
-                            .format('HH:mm');
-                    }
-                }
-                if (data.work_shift === 'NIGHT') {
-                    work_time =
-                        moment
+                        console.log('here');
+                        work_time = moment
                             .duration(
-                                moment(NIGHT_END, 'hh:mm')
+                                handleTimeMoment('00:00')
                                     .add(1, 'day')
-                                    .diff(moment(time_in, 'hh:mm')),
+                                    .diff(handleTimeMoment(time_in)),
                             )
-                            .asHours() - 1;
-                } else {
-                    work_time =
-                        moment
+                            .asHours();
+                    } else if (handleTimeMoment(time_out) <= NIGHT_END) {
+                        work_time =
+                            moment
+                                .duration(
+                                    handleTimeMoment(time_out)
+                                        .add(1, 'day')
+                                        .diff(handleTimeMoment(time_in)),
+                                )
+                                .asHours() - 1;
+                    } else if (
+                        handleTimeMoment(time_out) > NIGHT_END &&
+                        handleTimeMoment(time_out) < handleTimeMoment('05:15')
+                    ) {
+                        work_time =
+                            moment
+                                .duration(
+                                    NIGHT_END.add(1, 'day').diff(
+                                        handleTimeMoment(time_in),
+                                    ),
+                                )
+                                .asHours() - 1;
+                    } else if (
+                        handleTimeMoment(time_out) >
+                            handleTimeMoment('05:15') &&
+                        handleTimeMoment(time_out) <= handleTimeMoment('20:00')
+                    ) {
+                        work_time =
+                            moment
+                                .duration(
+                                    handleTimeMoment(time_out)
+                                        .add(1, 'day')
+                                        .diff(handleTimeMoment(time_in)),
+                                )
+                                .asHours() - 1.25;
+                    } else {
+                        work_time = moment
                             .duration(
-                                moment(DAY_END, 'hh:mm').diff(
-                                    moment(time_in, 'hh:mm'),
+                                handleTimeMoment(time_out).diff(
+                                    handleTimeMoment(time_in),
                                 ),
                             )
-                            .asHours() - 0.75;
-                }
-                if (data.work_shift === 'NIGHT') {
-                    over_time =
-                        moment
+                            .asHours();
+                    }
+                    // night weekend end
+                } else {
+                    // day start weekend
+                    if (
+                        handleTimeMoment(time_out) <= handleTimeMoment(time_in)
+                    ) {
+                        work_time =
+                            moment
+                                .duration(
+                                    handleTimeMoment(time_out)
+                                        .add(1, 'day')
+                                        .diff(handleTimeMoment(time_in)),
+                                )
+                                .asHours() - 1.25;
+                    } else if (
+                        handleTimeMoment(time_out) <= handleTimeMoment('12:00')
+                    ) {
+                        work_time = moment
                             .duration(
-                                moment(time_out, 'HH:mm').diff(
-                                    moment(NIGHT_END),
+                                handleTimeMoment(time_out).diff(
+                                    handleTimeMoment(time_in),
                                 ),
                             )
-                            .asHours() - 0.25;
-                } else {
-                    over_time =
-                        moment
+                            .asHours();
+                    } else if (
+                        handleTimeMoment(time_out) >
+                            handleTimeMoment('12:00') &&
+                        handleTimeMoment(time_out) <= handleTimeMoment('12:45')
+                    ) {
+                        work_time = moment
                             .duration(
-                                moment(time_out, 'HH:mm').diff(moment(DAY_END)),
+                                handleTimeMoment('12:00').diff(
+                                    handleTimeMoment(time_in),
+                                ),
                             )
-                            .asHours() - 0.25;
+                            .asHours();
+                    } else if (
+                        handleTimeMoment(time_out) >
+                            handleTimeMoment('12:45') &&
+                        handleTimeMoment(time_out) <= DAY_END
+                    ) {
+                        work_time =
+                            moment
+                                .duration(
+                                    handleTimeMoment(time_out).diff(
+                                        handleTimeMoment(time_in),
+                                    ),
+                                )
+                                .asHours() - 0.75;
+                    } else if (
+                        handleTimeMoment(time_out) >
+                            handleTimeMoment('16:45') &&
+                        handleTimeMoment(time_out) <= handleTimeMoment('17:00')
+                    ) {
+                        work_time =
+                            moment
+                                .duration(
+                                    DAY_END.diff(handleTimeMoment(time_in)),
+                                )
+                                .asHours() - 0.75;
+                    } else {
+                        work_time =
+                            moment
+                                .duration(
+                                    handleTimeMoment(time_out).diff(
+                                        handleTimeMoment(time_in),
+                                    ),
+                                )
+                                .asHours() - 1;
+                    }
+                    // end day weekend
                 }
+
                 const field: object = {
                     user_id: data.user_id,
                     date: data.date,
                     time_out: time_out,
-                    work_time: Math.floor((work_time + over_time) * 4) / 4,
+                    work_time: handleTime(work_time),
                     over_time: 0,
                     work_shift: data.work_shift,
                     is_checked: true,
