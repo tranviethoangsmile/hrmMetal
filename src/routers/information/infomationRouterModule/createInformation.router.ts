@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { create_information_controller } from '../../../controllers/information/information.controller';
 import { create_media_path } from '../../../middlewares/createTrainning.middleware';
-import very_role from '../../../middlewares/veryRoleUpdate.middleware';
+// import very_role from '../../../middlewares/veryRoleUpdate.middleware';
 import { upload } from '../../../utils/multer/upload.multer';
 
 const createInformationRouter: Router = Router();

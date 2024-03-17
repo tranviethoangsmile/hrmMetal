@@ -7,3 +7,8 @@ export interface create_infomation {
     media?: string;
     is_video?: boolean;
 }
+
+export interface search_all_information {
+    position: string;
+    is_public: boolean;
+}
