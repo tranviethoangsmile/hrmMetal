@@ -3,6 +3,7 @@ import {
     search_information_of_user_repo,
     search_information_by_id_repo,
     search_information_all_with_field_repo,
+    delete_information_by_id_repo,
 } from '../../repositorys/infomation/infomation.repo';
 import {
     create_infomation,
@@ -150,10 +151,43 @@ const search_all_information_with_field_use = async (
         };
     }
 };
+const delete_information_by_id_use = async (id: any) => {
+    try {
+        const valid_id = validation_id(id);
+        if (!valid_id.error) {
+            const information = await search_information_by_id_repo(id);
+            if (information?.success) {
+                const result_delete = await delete_information_by_id_repo(id);
+                if (result_delete?.success) {
+                    return {
+                        success: true,
+                        message: result_delete?.message,
+                    };
+                } else {
+                    return {
+                        success: false,
+                        message: result_delete?.message,
+                    };
+                }
+            } else {
+                return {
+                    success: false,
+                    message: 'Information not found',
+                };
+            }
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: 'use ' + error.message,
+        };
+    }
+};
 
 export {
     create_information_use,
     search_information_of_user_use,
     search_information_by_id_use,
     search_all_information_with_field_use,
+    delete_information_by_id_use,
 };

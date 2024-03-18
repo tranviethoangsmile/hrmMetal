@@ -164,9 +164,32 @@ const search_information_all_with_field_repo = async (field: any) => {
     }
 };
 
+const delete_information_by_id_repo = async (id: string) => {
+    try {
+        const result = await Information.destroy({ where: { id } });
+        if (result === 1) {
+            return {
+                success: true,
+                message: 'delete information successfully',
+            };
+        } else {
+            return {
+                success: false,
+                message: 'delete not successfull, please try again later',
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.message,
+        };
+    }
+};
+
 export {
     create_infomation_repo,
     search_information_of_user_repo,
     search_information_by_id_repo,
     search_information_all_with_field_repo,
+    delete_information_by_id_repo,
 };
