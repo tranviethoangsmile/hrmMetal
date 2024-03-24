@@ -1,14 +1,7 @@
-import e, { Request, Response, NextFunction } from 'express';
-import cloudinary from 'cloudinary';
-import dotenv from 'dotenv';
+import { Request, Response, NextFunction } from 'express';
+import cloudinary from '../utils/cloudinary/cloudinary.config';
 import fs from 'fs';
-dotenv.config();
-const ENV = process.env;
-cloudinary.v2.config({
-    cloud_name: ENV.CLOUD_NAME,
-    api_key: ENV.API_KEY_CLOUD,
-    api_secret: ENV.API_SECRET_CLOUD,
-});
+
 const create_media_path = async (
     req: Request,
     res: Response,
