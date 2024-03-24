@@ -5,7 +5,6 @@ const searchAllRouter: Router = Router();
 searchAllRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field = req.body.field;
-        console.log(field);
         if (!field) {
             res.status(400).json({
                 success: false,
