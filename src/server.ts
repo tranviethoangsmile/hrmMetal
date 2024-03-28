@@ -16,7 +16,7 @@ const HOSTNAME = process.env.HOST_SERVER || '';
 const app: Application = express();
 const server = http.createServer(app);
 init(server);
-app.use(cors({ origin: 'http://192.168.0.108:3000' }));
+app.use(cors());
 app.use(morgan('combined'));
 app.use(helmet());
 app.use(compression());
