@@ -3,11 +3,13 @@ import {
     update_checkin,
     isChecked,
     search_checkin_of_user_in_month,
+    get_checkin_of_position_in_date_repo,
 } from '../../repositorys/checkin/checkin.repo';
 import {
     create_checkin_interface,
     update_checkin_interface,
     is_Checked_interface,
+    get_checkin_in_date_of_position_interface,
 } from '../../interfaces/checkin/checkin.interface';
 import { validation_id } from '../../validates';
 import {
@@ -133,10 +135,22 @@ const search_checkin_of_user_in_month_useCase = async (
         };
     }
 };
+const get_checkin_of_position_in_date_use = async (
+    field: get_checkin_in_date_of_position_interface,
+) => {
+    try {
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.message,
+        };
+    }
+};
 
 export {
     create_checkin_use,
     update_checkin_use,
     is_checked,
     search_checkin_of_user_in_month_useCase,
+    get_checkin_of_position_in_date_use,
 };

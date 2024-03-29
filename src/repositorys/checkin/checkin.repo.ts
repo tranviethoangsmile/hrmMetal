@@ -1,4 +1,4 @@
-import { Checkin } from '../../models';
+import { Checkin, Department, User } from '../../models';
 import moment from 'moment-timezone';
 import { Op } from 'sequelize';
 
@@ -136,9 +136,51 @@ const search_checkin_of_user_in_month = async (field: any) => {
     }
 };
 
+const get_checkin_of_position_in_date_repo = async (field: any) => {
+    try {
+        const checkins: Array<Checkin> | null = await Checkin.findAll({
+            where: {
+                date: field.date,
+            },
+            include: [
+                {
+                    model: User,
+                    attributes: ['id, name, employee_id'],
+                    include: [
+                        {
+                            model: Department,
+                            attributes: ['name'],
+                        },
+                    ],
+                    where: {
+                        position: field.position,
+                    },
+                },
+            ],
+        });
+        if (checkins != null && checkins.length > 0) {
+            return {
+                success: true,
+                date: checkins,
+            };
+        } else {
+            return {
+                success: false,
+                message: 'checkin not found',
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.message,
+        };
+    }
+};
+
 export {
     create_checkin,
     update_checkin,
     isChecked,
     search_checkin_of_user_in_month,
+    get_checkin_of_position_in_date_repo,
 };
