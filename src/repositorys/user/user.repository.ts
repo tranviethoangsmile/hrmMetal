@@ -112,6 +112,7 @@ const userFindById = async (id: string) => {
                 'position',
                 'is_admin',
                 'avatar',
+                'is_officer',
             ],
             include: [
                 {
@@ -159,6 +160,7 @@ const userFindByName = async (name: string) => {
                 'is_active',
                 'position',
                 'is_admin',
+                'is_officer',
             ],
         });
         if (user != null) {
@@ -195,6 +197,7 @@ const userFindAll = async () => {
                 'is_active',
                 'position',
                 'is_admin',
+                'is_officer',
             ],
             include: [
                 {

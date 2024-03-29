@@ -142,13 +142,28 @@ const get_checkin_of_position_in_date_repo = async (field: any) => {
             where: {
                 date: field.date,
             },
+            attributes: [
+                'user_id',
+                'work_shift',
+                'work_time',
+                'over_time',
+                'time_in',
+                'time_out',
+            ],
             include: [
                 {
                     model: User,
-                    attributes: ['id, name, employee_id'],
+                    attributes: [
+                        'name',
+                        'role',
+                        'employee_id',
+                        'position',
+                        'avatar',
+                    ],
                     include: [
                         {
                             model: Department,
+                            as: 'department',
                             attributes: ['name'],
                         },
                     ],
@@ -161,7 +176,7 @@ const get_checkin_of_position_in_date_repo = async (field: any) => {
         if (checkins != null && checkins.length > 0) {
             return {
                 success: true,
-                date: checkins,
+                data: checkins,
             };
         } else {
             return {

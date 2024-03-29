@@ -17,6 +17,11 @@ const scheme_update_checkin = Joi.object({
     over_time: Joi.number(),
 });
 
+const schema_get_checkin_in_date_of_position = Joi.object({
+    date: Joi.string().required(),
+    position: Joi.string().required(),
+});
+
 const create_checkin_validate = (data: any) => {
     return scheme_create_checkin.validate(data);
 };
@@ -25,4 +30,12 @@ const update_checkin_validate = (data: any) => {
     return scheme_update_checkin.validate(data);
 };
 
-export { create_checkin_validate, update_checkin_validate };
+const get_checkin_in_date_of_position_validate = (data: any) => {
+    return schema_get_checkin_in_date_of_position.validate(data);
+};
+
+export {
+    create_checkin_validate,
+    update_checkin_validate,
+    get_checkin_in_date_of_position_validate,
+};

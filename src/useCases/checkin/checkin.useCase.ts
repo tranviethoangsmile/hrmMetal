@@ -15,6 +15,7 @@ import { validation_id } from '../../validates';
 import {
     create_checkin_validate,
     update_checkin_validate,
+    get_checkin_in_date_of_position_validate,
 } from '../../validates/checkin/checkin.validate';
 import moment from 'moment-timezone';
 const is_checked = async (field: is_Checked_interface) => {
@@ -139,6 +140,26 @@ const get_checkin_of_position_in_date_use = async (
     field: get_checkin_in_date_of_position_interface,
 ) => {
     try {
+        const isValid = get_checkin_in_date_of_position_validate(field);
+        if (!isValid.error) {
+            const checkins = await get_checkin_of_position_in_date_repo(field);
+            if (checkins?.success) {
+                return {
+                    success: true,
+                    data: checkins?.data,
+                };
+            } else {
+                return {
+                    success: false,
+                    message: checkins?.message,
+                };
+            }
+        } else {
+            return {
+                success: false,
+                message: isValid?.error?.message,
+            };
+        }
     } catch (error: any) {
         return {
             success: false,
