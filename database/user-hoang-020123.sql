@@ -1,4 +1,5 @@
-CREATE TABLE users (
+CREATE TABLE users
+(
   id VARCHAR(36) PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   user_name VARCHAR(50) NOT NULL UNIQUE,
@@ -11,6 +12,7 @@ CREATE TABLE users (
   employee_id INTEGER NOT NULL UNIQUE,
   is_active BOOLEAN NOT NULL DEFAULT false,
   is_admin BOOLEAN NOT NULL DEFAULT false,
+  is_officer BOOLEAN NOT NULL DEFAULT false,
   role VARCHAR(255) NOT NULL DEFAULT 'STAFF',
   position VARCHAR(255) NOT NULL DEFAULT 'HINO',
   department_id VARCHAR(36) NOT NULL,
@@ -22,7 +24,8 @@ CREATE TABLE users (
 
 
 
-CREATE TABLE departments (
+CREATE TABLE departments
+(
   id VARCHAR PRIMARY KEY,
   name VARCHAR(255)
 );

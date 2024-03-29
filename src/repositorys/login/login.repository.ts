@@ -24,6 +24,7 @@ const login = async (user: any) => {
                 'position',
                 'role',
                 'is_admin',
+                'is_officer',
             ],
             include: [
                 {
@@ -44,6 +45,7 @@ const login = async (user: any) => {
                 role: user_login?.dataValues.role,
                 is_admin: user_login?.dataValues.is_admin,
                 department: user_login?.dataValues.department,
+                is_officer: user_login?.dataValues.is_officer,
             };
             if (pass) {
                 const secret = crypto

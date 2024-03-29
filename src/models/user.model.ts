@@ -19,7 +19,7 @@ class User extends Model {
     public role!: Enumerator;
     public position!: Enumerator;
     public department_id!: string;
-
+    public is_officer!: boolean;
     public department!: Department;
 }
 
@@ -72,6 +72,11 @@ User.init(
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: true,
+        },
+        is_officer: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
         },
         is_admin: {
             type: DataTypes.BOOLEAN,

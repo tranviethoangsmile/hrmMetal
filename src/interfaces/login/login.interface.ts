@@ -12,6 +12,7 @@ interface token_payload {
     role: string;
     is_admin: boolean;
     department: object;
+    is_officer: boolean;
 }
 
 export { login_data, token_payload };

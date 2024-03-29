@@ -16,7 +16,7 @@ interface UpdateField {
     role?: string;
     position?: string;
     department_id?: string;
-
+    is_officer?: boolean;
     department?: Department;
 }
 
@@ -32,6 +32,7 @@ interface CreateField {
     employee_id: number;
     is_active?: boolean;
     is_admin?: boolean;
+    is_office?: boolean;
     role?: string;
     position?: string;
     department_id: string;
