@@ -5,7 +5,11 @@ import {
     findUserById,
     findUserByName,
     findAllUser,
+    userFindAllWithFieldUse,
 } from '../../useCases/user/user.useCase';
+const findAllUserWithFieldControll = async (filed: any) => {
+    return await userFindAllWithFieldUse(filed);
+};
 const create = async (user: any) => {
     return await createNewUser(user);
 };
@@ -30,4 +34,12 @@ const findAll = async () => {
     return await findAllUser();
 };
 
-export { create, update, destroy, findById, findByName, findAll };
+export {
+    create,
+    update,
+    destroy,
+    findById,
+    findByName,
+    findAll,
+    findAllUserWithFieldControll,
+};

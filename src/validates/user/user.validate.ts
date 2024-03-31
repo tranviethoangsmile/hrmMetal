@@ -37,6 +37,10 @@ const schema_user_update = Joi.object({
     department_id: Joi.string().guid(),
 });
 
+const schema_user_find_all_with_field = Joi.object({
+    position: Joi.string(),
+});
+
 const valid_user_create = (data: any) => {
     return schema_user_create.validate(data);
 };
@@ -44,5 +48,8 @@ const valid_user_create = (data: any) => {
 const valid_user_update = (data: any) => {
     return schema_user_update.validate(data);
 };
+const valid_user_find_all_with_field = (data: any) => {
+    return schema_user_find_all_with_field.validate(data);
+};
 
-export { valid_user_create, valid_user_update };
+export { valid_user_create, valid_user_update, valid_user_find_all_with_field };

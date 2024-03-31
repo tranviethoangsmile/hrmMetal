@@ -32,7 +32,7 @@ interface CreateField {
     employee_id: number;
     is_active?: boolean;
     is_admin?: boolean;
-    is_office?: boolean;
+    is_officer?: boolean;
     role?: string;
     position?: string;
     department_id: string;
@@ -40,4 +40,8 @@ interface CreateField {
     department: Department;
 }
 
-export { UpdateField, CreateField };
+interface FindAllField {
+    position: string;
+}
+
+export { UpdateField, CreateField, FindAllField };
