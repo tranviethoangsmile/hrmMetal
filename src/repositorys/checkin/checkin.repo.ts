@@ -144,6 +144,7 @@ const get_checkin_of_position_in_date_repo = async (field: any) => {
             },
             attributes: [
                 'user_id',
+                'date',
                 'work_shift',
                 'work_time',
                 'over_time',

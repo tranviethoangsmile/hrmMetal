@@ -7,9 +7,10 @@ import {
     findAll,
 } from '../../controllers/user/user.controller';
 import uploadAvatar from './userRouterModul/uploadRouterModul';
+import findUser from './userRouterModul/findAllUserWithField';
 const userRouters: Router = Router();
 userRouters.use('/upload-avatar', uploadAvatar);
-
+userRouters.use('/findallwithfield', findUser);
 userRouters.get('/', async (req: Request, res: Response) => {
     try {
         const users = await findAll();

@@ -182,6 +182,51 @@ const userFindByName = async (name: string) => {
     }
 };
 
+const userFindAllWithFieldRepo = async (field: any) => {
+    try {
+        const users: User[] | null = await User.findAll({
+            where: { ...field },
+            attributes: [
+                'id',
+                'name',
+                'user_name',
+                'role',
+                'email',
+                'dob',
+                'phone',
+                'employee_id',
+                'is_active',
+                'position',
+                'is_admin',
+                'is_officer',
+            ],
+            include: [
+                {
+                    model: Department,
+                    as: 'department',
+                    attributes: ['name'],
+                },
+            ],
+        });
+        if (users != null) {
+            return {
+                success: true,
+                data: users,
+            };
+        } else {
+            return {
+                success: false,
+                message: 'not found user',
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
+
 const userFindAll = async () => {
     try {
         const users: User[] | null = await User.findAll({
@@ -233,4 +278,5 @@ export {
     userFindById,
     userFindByName,
     userFindAll,
+    userFindAllWithFieldRepo,
 };

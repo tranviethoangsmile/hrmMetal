@@ -6,16 +6,46 @@ import {
     userFindById,
     userFindByName,
     userFindAll,
+    userFindAllWithFieldRepo,
 } from '../../repositorys/user/user.repository';
 import {
     valid_user_create,
     valid_user_update,
+    valid_user_find_all_with_field,
 } from '../../validates/user/user.validate';
 import { validation_id } from '../../validates';
 import { Role } from '../../enum/Role.enum';
 import { Position } from '../../enum/Position.enum';
 import { getDepartmentById } from '../../controllers/department/department.controller';
-import { UpdateField, CreateField } from '../../interfaces/user/user.interface';
+import {
+    UpdateField,
+    CreateField,
+    FindAllField,
+} from '../../interfaces/user/user.interface';
+const userFindAllWithFieldUse = async (field: FindAllField) => {
+    try {
+        const isValid = valid_user_find_all_with_field(field);
+        if (!isValid.error) {
+            const users = await userFindAllWithFieldRepo(field);
+            if (users?.success) {
+                return {
+                    success: true,
+                    data: users.data,
+                };
+            } else {
+                return {
+                    success: false,
+                    message: users?.message,
+                };
+            }
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
 const createNewUser = async (user: any) => {
     try {
         const valid = valid_user_create(user);
@@ -251,4 +281,5 @@ export {
     findUserById,
     findUserByName,
     findAllUser,
+    userFindAllWithFieldUse,
 };
