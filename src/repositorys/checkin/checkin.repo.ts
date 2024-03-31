@@ -149,6 +149,7 @@ const get_checkin_of_position_in_date_repo = async (field: any) => {
                 'over_time',
                 'time_in',
                 'time_out',
+                'is_weekend',
             ],
             include: [
                 {
