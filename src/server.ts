@@ -19,16 +19,16 @@ const corsOptions = {
     origin: ['http://localhost:3000', 'https://hrm-admin-page.pages.dev'],
 };
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://hrm-admin-page.pages.dev');
-    res.setHeader(
+    res.header('Access-Control-Allow-Origin', *);
+    res.header(
         'Access-Control-Allow-Methods',
         'GET, POST, OPTIONS, PUT, PATCH, DELETE',
     );
-    res.setHeader(
+    res.header(
         'Access-Control-Allow-Headers',
         'X-Requested-With,content-type',
     );
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Credentials', 'true');
     next();
 });
 
