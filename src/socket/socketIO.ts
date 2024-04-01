@@ -6,8 +6,8 @@ let io: Server;
 const init = (server: any) => {
     io = new Server(server, {
         cors: {
-            origin: 'http://localhost:3000',
-            methods: ['GET', 'POST', 'PUT'],
+            origin: '*',
+            methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
             credentials: true,
         },
     });
