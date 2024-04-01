@@ -15,9 +15,6 @@ const PORT = config.app.port;
 const HOSTNAME = process.env.HOST_SERVER || '';
 const app: Application = express();
 const server = http.createServer(app);
-const corsOptions = {
-    origin: '*',
-};
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header(
@@ -33,7 +30,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 init(server);
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(morgan('combined'));
 app.use(helmet());
 app.use(compression());
