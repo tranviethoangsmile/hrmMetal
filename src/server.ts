@@ -19,7 +19,7 @@ const corsOptions = {
     origin: ['http://localhost:3000', 'https://hrm-admin-page.pages.dev'],
 };
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Origin', 'https://hrm-admin-page.pages.dev');
     res.setHeader(
         'Access-Control-Allow-Methods',
         'GET, POST, OPTIONS, PUT, PATCH, DELETE',
