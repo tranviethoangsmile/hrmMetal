@@ -1,4 +1,4 @@
-import express, { Application } from 'express';
+import express, { Application,Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import router from './routers';
 import dotenv from 'dotenv';
@@ -18,7 +18,7 @@ const server = http.createServer(app);
 const corsOptions = {
     origin: ['http://localhost:3000', 'https://hrm-admin-page.pages.dev'],
 };
-app.use((req, res, next) => {
+app.use((req: Request, res: Respone, next: NextFunction) => {
     res.header('Access-Control-Allow-Origin', *);
     res.header(
         'Access-Control-Allow-Methods',
