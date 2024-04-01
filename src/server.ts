@@ -15,8 +15,11 @@ const PORT = config.app.port;
 const HOSTNAME = process.env.HOST_SERVER || '';
 const app: Application = express();
 const server = http.createServer(app);
+const corsOptions = {
+    origin: 'http://localhost:3000', // Chỉ cho phép truy cập từ domain này
+};
 init(server);
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(morgan('combined'));
 app.use(helmet());
 app.use(compression());
@@ -25,7 +28,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(router);
-server.listen(PORT, HOSTNAME, () => {
+server.listen(PORT, () => {
     console.warn(`server runing on port ${HOSTNAME}:${PORT}`);
 });
 
