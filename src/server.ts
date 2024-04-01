@@ -1,4 +1,4 @@
-import express, { Application,Request, Response, NextFunction } from 'express';
+import express, { Application, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import router from './routers';
 import dotenv from 'dotenv';
@@ -16,17 +16,17 @@ const HOSTNAME = process.env.HOST_SERVER || '';
 const app: Application = express();
 const server = http.createServer(app);
 const corsOptions = {
-    origin: ['http://localhost:3000', 'https://hrm-admin-page.pages.dev'],
+    origin: '*',
 };
-app.use((req: Request, res: Respone, next: NextFunction) => {
-    res.header('Access-Control-Allow-Origin', *);
+app.use((req: Request, res: Response, next: NextFunction) => {
+    res.header('Access-Control-Allow-Origin', '*');
     res.header(
         'Access-Control-Allow-Methods',
         'GET, POST, OPTIONS, PUT, PATCH, DELETE',
     );
     res.header(
         'Access-Control-Allow-Headers',
-        'X-Requested-With,content-type',
+        'X-Requested-With, content-type, Authorization',
     );
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
