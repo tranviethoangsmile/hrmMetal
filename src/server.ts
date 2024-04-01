@@ -16,8 +16,9 @@ const HOSTNAME = process.env.HOST_SERVER || '';
 const app: Application = express();
 const server = http.createServer(app);
 const corsOptions = {
-    origin: 'http://localhost:3000', // Chỉ cho phép truy cập từ domain này
+    origin: ['http://localhost:3000', 'https://hrm-admin-page.pages.dev'],
 };
+
 init(server);
 app.use(cors(corsOptions));
 app.use(morgan('combined'));
