@@ -5,8 +5,10 @@ import {
     is_checked_controller,
     update_checkin_controller,
 } from '../../../controllers/checkin/checkin.controller';
-
 const createCheckin: Router = Router();
+import { io } from '../../../socket/socketIO';
+import { Socket } from 'socket.io';
+import { findById } from '../../../controllers/user/user.controller';
 
 createCheckin.post('/', async (req: Request, res: Response) => {
     try {
@@ -63,6 +65,15 @@ createCheckin.post('/', async (req: Request, res: Response) => {
 
                 const create_check = await create_checkin_controller(field);
                 if (create_check.success) {
+                    const user = await findById(data.user_id);
+                    if (user?.success) {
+                        io.emit('userChecked', {
+                            data: {
+                                avatar: user?.data,
+                                message: 'in',
+                            },
+                        });
+                    }
                     return res.status(201).json({
                         success: true,
                         data: create_check?.data,
@@ -245,6 +256,16 @@ createCheckin.post('/', async (req: Request, res: Response) => {
 
                 const create_check = await update_checkin_controller(field);
                 if (create_check.success) {
+                    const user = await findById(data.user_id);
+                    console.log(user);
+                    if (user?.success) {
+                        io.emit('userChecked', {
+                            data: {
+                                avatar: user?.data,
+                                message: 'out',
+                            },
+                        });
+                    }
                     return res.status(201).json({
                         success: true,
                         data: create_check?.data,
@@ -291,6 +312,15 @@ createCheckin.post('/', async (req: Request, res: Response) => {
 
                 const create_check = await create_checkin_controller(field);
                 if (create_check.success) {
+                    const user = await findById(data.user_id);
+                    if (user?.success) {
+                        io.emit('userChecked', {
+                            data: {
+                                avatar: user?.data,
+                                message: 'in',
+                            },
+                        });
+                    }
                     return res.status(201).json({
                         success: true,
                         data: create_check?.data,
@@ -449,6 +479,15 @@ createCheckin.post('/', async (req: Request, res: Response) => {
 
                 const create_check = await update_checkin_controller(field);
                 if (create_check.success) {
+                    const user = await findById(data.user_id);
+                    if (user?.success) {
+                        io.emit('userChecked', {
+                            data: {
+                                avatar: user?.data,
+                                message: 'out',
+                            },
+                        });
+                    }
                     return res.status(201).json({
                         success: true,
                         data: create_check?.data,
