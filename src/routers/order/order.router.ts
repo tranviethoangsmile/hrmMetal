@@ -8,7 +8,7 @@ import { timeOrderLimit } from '../../middlewares/timeOrderLimit.middleware';
 import { very_token_order } from '../../middlewares/veryTokenOrder.middleware';
 import orderRouterModule from './moduleOrderRouter/order.router';
 import addPosition from '../../middlewares/addPosition.middleware';
-
+import search_order_router from './moduleOrderRouter/searchOrderWithField.router';
 const orderRouter: Router = Router();
 
 orderRouter.post(
@@ -99,5 +99,6 @@ orderRouter.delete('/:id', async (req: Request, res: Response) => {
 });
 
 orderRouter.use('/user', orderRouterModule);
+orderRouter.use('/searchorderwithfield', search_order_router);
 
 export default orderRouter;

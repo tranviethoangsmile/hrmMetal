@@ -111,7 +111,7 @@ const find_order = async (field: any) => {
             where: {
                 ...field,
             },
-            attributes: ['id', 'date'],
+            attributes: ['id', 'date', 'dayOrNight'],
             include: [
                 {
                     model: User,

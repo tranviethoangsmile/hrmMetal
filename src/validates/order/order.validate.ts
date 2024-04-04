@@ -10,6 +10,7 @@ const schema_search_order = Joi.object({
     id: Joi.string(),
     user_id: Joi.string(),
     date: Joi.string(),
+    position: Joi.string(),
     canteen_id: Joi.string(),
     created_at: Joi.date(),
     updated_at: Joi.date(),
