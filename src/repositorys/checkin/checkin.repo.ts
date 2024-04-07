@@ -2,6 +2,60 @@ import { Checkin, Department, User } from '../../models';
 import moment from 'moment-timezone';
 import { Op } from 'sequelize';
 
+const get_checkin_detail_in_date_of_user_repo = async (filed: any) => {
+    try {
+        const checkin_detail: Checkin | null = await Checkin.findOne({
+            where: { ...filed },
+            attributes: [
+                'id',
+                'date',
+                'user_id',
+                'time_in',
+                'work_shift',
+                'time_out',
+                'work_time',
+                'over_time',
+                'is_weekend',
+            ],
+            include: [
+                {
+                    model: User,
+                    attributes: [
+                        'name',
+                        'role',
+                        'employee_id',
+                        'position',
+                        'avatar',
+                    ],
+                    include: [
+                        {
+                            model: Department,
+                            as: 'department',
+                            attributes: ['name'],
+                        },
+                    ],
+                },
+            ],
+        });
+        if (checkin_detail != null) {
+            return {
+                success: true,
+                data: checkin_detail,
+            };
+        } else {
+            return {
+                success: false,
+                message: 'No Data Found',
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.message,
+        };
+    }
+};
+
 const create_checkin = async (data: any) => {
     try {
         const create_value_checkin: Checkin | null = await Checkin.create({
@@ -115,6 +169,19 @@ const search_checkin_of_user_in_month = async (field: any) => {
                 'over_time',
                 'is_weekend',
             ],
+            include: [
+                {
+                    model: User,
+                    attributes: ['id', 'name', 'employee_id'],
+                    include: [
+                        {
+                            model: Department,
+                            as: 'department',
+                            attributes: ['name'],
+                        },
+                    ],
+                },
+            ],
         });
 
         if (checkins != null && checkins.length > 0) {
@@ -200,4 +267,5 @@ export {
     isChecked,
     search_checkin_of_user_in_month,
     get_checkin_of_position_in_date_repo,
+    get_checkin_detail_in_date_of_user_repo,
 };

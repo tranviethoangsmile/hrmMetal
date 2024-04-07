@@ -4,6 +4,7 @@ import {
     isChecked,
     search_checkin_of_user_in_month,
     get_checkin_of_position_in_date_repo,
+    get_checkin_detail_in_date_of_user_repo,
 } from '../../repositorys/checkin/checkin.repo';
 import {
     create_checkin_interface,
@@ -16,8 +17,42 @@ import {
     create_checkin_validate,
     update_checkin_validate,
     get_checkin_in_date_of_position_validate,
+    get_checkin_detail_in_day_of_user_validate,
 } from '../../validates/checkin/checkin.validate';
 import moment from 'moment-timezone';
+
+const get_checkin_detail_in_date_of_user_use = async (
+    field: is_Checked_interface,
+) => {
+    try {
+        const isValid = get_checkin_detail_in_day_of_user_validate(field);
+        if (!isValid.error) {
+            const checkin_detail =
+                await get_checkin_detail_in_date_of_user_repo(field);
+            if (checkin_detail?.success) {
+                return {
+                    success: checkin_detail?.success,
+                    data: checkin_detail?.data,
+                };
+            } else {
+                return {
+                    success: checkin_detail?.success,
+                    message: checkin_detail?.message,
+                };
+            }
+        } else {
+            return {
+                success: false,
+                message: isValid?.error?.message,
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.message,
+        };
+    }
+};
 const is_checked = async (field: is_Checked_interface) => {
     try {
         const is_check = await isChecked(field);
@@ -174,4 +209,5 @@ export {
     is_checked,
     search_checkin_of_user_in_month_useCase,
     get_checkin_of_position_in_date_use,
+    get_checkin_detail_in_date_of_user_use,
 };

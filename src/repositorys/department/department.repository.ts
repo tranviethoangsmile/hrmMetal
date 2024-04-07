@@ -2,10 +2,10 @@ import { Department } from '../../models';
 
 const createDepartment = async (data: any) => {
     try {
-        const new_department = await Department.create({
+        const new_department: Department | null = await Department.create({
             name: data.name,
         });
-        if (new_department) {
+        if (new_department != null) {
             return {
                 success: true,
                 data: new_department,
