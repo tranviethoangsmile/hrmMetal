@@ -1,6 +1,34 @@
 import { User, Department } from '../../models';
 import { Op } from 'sequelize';
-
+const getUserForLeaveFeatureRepo = async (id: any) => {
+    try {
+        const listUser: User[] | null = await User.findAll({
+            where: {
+                department_id: id,
+                role: {
+                    [Op.ne]: 'STAFF',
+                },
+            },
+            attributes: ['id', 'name'],
+        });
+        if (listUser != null) {
+            return {
+                success: true,
+                data: listUser,
+            };
+        } else {
+            return {
+                success: false,
+                message: 'user not found',
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.message,
+        };
+    }
+};
 const userCreate = async (user: any) => {
     try {
         const new_user: User | null = await User.create({
@@ -279,4 +307,5 @@ export {
     userFindByName,
     userFindAll,
     userFindAllWithFieldRepo,
+    getUserForLeaveFeatureRepo,
 };

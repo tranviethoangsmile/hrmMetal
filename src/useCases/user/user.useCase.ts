@@ -7,6 +7,7 @@ import {
     userFindByName,
     userFindAll,
     userFindAllWithFieldRepo,
+    getUserForLeaveFeatureRepo,
 } from '../../repositorys/user/user.repository';
 import {
     valid_user_create,
@@ -22,6 +23,35 @@ import {
     CreateField,
     FindAllField,
 } from '../../interfaces/user/user.interface';
+const getUserForLeaveFeatureUse = async (id: any) => {
+    try {
+        const valid_id = validation_id(id);
+        if (!valid_id?.error) {
+            const listUser = await getUserForLeaveFeatureRepo(id);
+            if (listUser?.success) {
+                return {
+                    success: listUser?.success,
+                    data: listUser?.data,
+                };
+            } else {
+                return {
+                    success: listUser?.success,
+                    message: listUser?.message,
+                };
+            }
+        } else {
+            return {
+                success: false,
+                message: valid_id?.error.message,
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
 const userFindAllWithFieldUse = async (field: FindAllField) => {
     try {
         const isValid = valid_user_find_all_with_field(field);
@@ -282,4 +312,5 @@ export {
     findUserByName,
     findAllUser,
     userFindAllWithFieldUse,
+    getUserForLeaveFeatureUse,
 };

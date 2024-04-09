@@ -8,7 +8,9 @@ import {
 } from '../../controllers/user/user.controller';
 import uploadAvatar from './userRouterModul/uploadRouterModul';
 import findUser from './userRouterModul/findAllUserWithField';
+import getUserWithDepartmentId from './userRouterModul/getUserWithDepartmentId';
 const userRouters: Router = Router();
+userRouters.use('/getuserwithdepartmentid', getUserWithDepartmentId);
 userRouters.use('/upload-avatar', uploadAvatar);
 userRouters.use('/findallwithfield', findUser);
 userRouters.get('/', async (req: Request, res: Response) => {

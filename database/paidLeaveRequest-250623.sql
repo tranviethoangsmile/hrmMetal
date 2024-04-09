@@ -13,5 +13,5 @@ CREATE TABLE paidleaverequests
     created_at DATE NOT NULL,
     updated_at DATE NOT NULL,
     deleted_at DATE NULL,
-    UNIQUE (user_id, date)
+    UNIQUE (user_id, date_from)
 );
