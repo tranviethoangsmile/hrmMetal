@@ -9,9 +9,11 @@ class PaidLeaveRequest extends Model {
     public leader_id!: string;
     public admin_id!: string;
     public is_confirm!: boolean;
-    public is_active!: boolean;
-    public date_to!: string;
-    public date_from!: string;
+    public is_approve!: boolean;
+    public date_request!: string;
+    public date_leave!: string;
+    public is_paid!: boolean;
+    public feedback!: string;
 
     public user!: User;
 }
@@ -35,7 +37,7 @@ PaidLeaveRequest.init(
             type: DataTypes.UUID,
             allowNull: false,
         },
-        is_active: {
+        is_approve: {
             type: DataTypes.BOOLEAN,
             allowNull: true,
             defaultValue: false,
@@ -44,11 +46,11 @@ PaidLeaveRequest.init(
             type: DataTypes.UUID,
             allowNull: true,
         },
-        date_from: {
+        date_request: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        date_to: {
+        date_leave: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -60,6 +62,11 @@ PaidLeaveRequest.init(
             type: DataTypes.BOOLEAN,
             allowNull: true,
             defaultValue: false,
+        },
+        is_paid: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+            defaultValue: true,
         },
     },
     {

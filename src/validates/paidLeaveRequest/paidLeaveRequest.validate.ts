@@ -4,8 +4,9 @@ const schema_create = Joi.object({
     reason: Joi.string().required(),
     user_id: Joi.string().guid().required(),
     leader_id: Joi.string().guid().required(),
-    date_to: Joi.string().min(8).max(11).required(),
-    date_from: Joi.string().min(8).max(11).required(),
+    date_request: Joi.string().min(8).max(11).required(),
+    date_leave: Joi.string().min(8).max(11).required(),
+    is_paid: Joi.boolean(),
 });
 
 const validate_create = (data: any) => {
