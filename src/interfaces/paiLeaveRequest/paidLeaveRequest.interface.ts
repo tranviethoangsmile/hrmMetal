@@ -4,6 +4,7 @@ interface create {
     leader_id: string;
     date_request: string;
     date_leave: string;
+    position: string;
 }
 
 interface update {

@@ -5,7 +5,6 @@ const create_router: Router = Router();
 create_router.post('/', async (req: Request, res: Response) => {
     try {
         const data: Object | null = req.body;
-        console.log(data);
         if (data === null || typeof data !== 'object') {
             return res.status(400).json({
                 success: false,
