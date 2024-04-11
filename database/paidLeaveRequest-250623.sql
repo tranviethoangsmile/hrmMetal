@@ -10,6 +10,7 @@ CREATE TABLE paidleaverequests
     date_request VARCHAR(10) NOT NULL,
     feedback VARCHAR NULL,
     date_leave VARCHAR(10) NOT NULL,
+    position TEXT NOT NULL,
     created_at DATE NOT NULL,
     updated_at DATE NOT NULL,
     deleted_at DATE NULL,

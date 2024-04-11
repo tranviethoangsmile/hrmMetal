@@ -1,6 +1,7 @@
 import db from '../dbs/db';
 import { DataTypes, Model } from 'sequelize';
 import { User } from './index';
+import { Position } from '../enum/Position.enum';
 
 class PaidLeaveRequest extends Model {
     public id!: string;
@@ -14,6 +15,7 @@ class PaidLeaveRequest extends Model {
     public date_leave!: string;
     public is_paid!: boolean;
     public feedback!: string;
+    public position!: string;
 
     public user!: User;
 }
@@ -53,6 +55,10 @@ PaidLeaveRequest.init(
         date_leave: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        position: {
+            type: DataTypes.ENUM,
+            values: Object.values(Position).map(value => value.toString()),
         },
         feedback: {
             type: DataTypes.STRING,
