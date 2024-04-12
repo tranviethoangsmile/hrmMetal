@@ -23,6 +23,69 @@ const create_paid_leave_request = async (data: any) => {
     }
 };
 
+const search_leave_request_with_field_repo = async (field: any) => {
+    try {
+        const leaves: PaidLeaveRequest[] | null =
+            await PaidLeaveRequest.findAll({
+                where: { ...field },
+                attributes: [
+                    'id',
+                    'date_leave',
+                    'reason',
+                    'is_approve',
+                    'user_id',
+                    'leader_id',
+                    'is_confirm',
+                    'date_request',
+                    'position',
+                    'is_paid',
+                ],
+                include: [
+                    {
+                        model: User,
+                        as: 'staff',
+                        attributes: ['id', 'name'],
+                        include: [
+                            {
+                                model: Department,
+                                as: 'department',
+                                attributes: ['id', 'name'],
+                            },
+                        ],
+                    },
+                    {
+                        model: User,
+                        as: 'leader',
+                        attributes: ['id', 'name'],
+                        include: [
+                            {
+                                model: Department,
+                                as: 'department',
+                                attributes: ['id', 'name'],
+                            },
+                        ],
+                    },
+                ],
+            });
+        if (leaves != null) {
+            return {
+                success: true,
+                data: leaves,
+            };
+        } else {
+            return {
+                success: false,
+                message: 'leave not found',
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
+
 const find_all_paid_leave = async () => {
     try {
         const paid_leave_requests: PaidLeaveRequest[] | null =
@@ -145,4 +208,5 @@ export {
     create_paid_leave_request,
     find_all_paid_leave,
     update_active_paid_leave,
+    search_leave_request_with_field_repo,
 };

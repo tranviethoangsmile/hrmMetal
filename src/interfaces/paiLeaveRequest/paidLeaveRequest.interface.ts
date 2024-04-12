@@ -12,5 +12,14 @@ interface update {
     feedback?: string;
     id: string;
 }
+interface search {
+    user_id?: string;
+    leader_id?: string;
+    date_request?: string;
+    date_leave?: string;
+    position?: string;
+    is_approve?: boolean;
+    is_confirm?: boolean;
+}
 
-export { create, update };
+export { create, update, search };

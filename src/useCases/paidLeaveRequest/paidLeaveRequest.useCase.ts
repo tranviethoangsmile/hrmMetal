@@ -2,15 +2,41 @@ import {
     create_paid_leave_request,
     find_all_paid_leave,
     update_active_paid_leave,
+    search_leave_request_with_field_repo,
 } from '../../repositorys/paidLeaveRequest/paidLeaveRequest.repository';
 import {
     create,
     update,
+    search,
 } from '../../interfaces/paiLeaveRequest/paidLeaveRequest.interface';
 import {
     validate_create,
     validate_update,
+    validate_search,
 } from '../../validates/paidLeaveRequest/paidLeaveRequest.validate';
+const search_leave_request_with_field_use = async (field: search) => {
+    try {
+        const isValid = validate_search(field);
+        if (!isValid.error) {
+            const leaves = await search_leave_request_with_field_repo(field);
+            if (leaves?.success) {
+                return { success: true, data: leaves?.data };
+            } else {
+                return { success: false, message: leaves?.message };
+            }
+        } else {
+            return {
+                success: false,
+                message: isValid?.error.message,
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
 const create_paid_leave = async (data: create) => {
     try {
         const valid = validate_create(data);
@@ -93,4 +119,9 @@ const update_paid_leave = async (data: update) => {
     }
 };
 
-export { create_paid_leave, find_paid_leave, update_paid_leave };
+export {
+    create_paid_leave,
+    find_paid_leave,
+    update_paid_leave,
+    search_leave_request_with_field_use,
+};

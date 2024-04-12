@@ -22,4 +22,17 @@ const schema_update = Joi.object({
 const validate_update = (date: any) => {
     return schema_update.validate(date);
 };
-export { validate_create, validate_update };
+
+const schema_search_leave_request_with_field = Joi.object({
+    user_id: Joi.string().guid(),
+    leader_id: Joi.string().guid(),
+    date_request: Joi.string().min(8).max(11),
+    date_leave: Joi.string().min(8).max(11),
+    position: Joi.string(),
+    is_confirm: Joi.boolean(),
+    is_approve: Joi.boolean(),
+});
+const validate_search = (data: any) => {
+    return schema_search_leave_request_with_field.validate(data);
+};
+export { validate_create, validate_update, validate_search };
