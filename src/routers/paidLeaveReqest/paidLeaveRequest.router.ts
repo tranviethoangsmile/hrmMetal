@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import create_router from './create/create';
+import searchLeaveRouter from './search/searchPaidLeaveRequestWithField.router';
 import {
-    create,
     get_all,
     update_is_active,
 } from '../../controllers/paidLeaveRequest/paidLeaveRequest.controller';
@@ -9,6 +9,7 @@ import {
 import very_role from '../../middlewares/veryRoleUpdate.middleware';
 const paidLeaveRouter: Router = Router();
 paidLeaveRouter.use('/create', create_router);
+paidLeaveRouter.use('/search', searchLeaveRouter);
 
 paidLeaveRouter.get('/', async (req: Request, res: Response) => {
     try {
