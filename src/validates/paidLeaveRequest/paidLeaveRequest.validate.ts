@@ -16,6 +16,9 @@ const validate_create = (data: any) => {
 
 const schema_update = Joi.object({
     user_id: Joi.string().guid(),
+    feedback: Joi.string(),
+    is_confirm: Joi.boolean(),
+    admin_id: Joi.string(),
     id: Joi.string().guid().required(),
 });
 

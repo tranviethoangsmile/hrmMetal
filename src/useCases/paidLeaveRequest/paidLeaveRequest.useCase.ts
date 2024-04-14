@@ -3,6 +3,7 @@ import {
     find_all_paid_leave,
     update_active_paid_leave,
     search_leave_request_with_field_repo,
+    update_un_approve_leave_request_repo,
 } from '../../repositorys/paidLeaveRequest/paidLeaveRequest.repository';
 import {
     create,
@@ -14,6 +15,35 @@ import {
     validate_update,
     validate_search,
 } from '../../validates/paidLeaveRequest/paidLeaveRequest.validate';
+const update_un_approve_leave_request_use = async (field: update) => {
+    try {
+        const isValid = validate_update(field);
+        if (!isValid?.error) {
+            const update = await update_un_approve_leave_request_repo(field);
+            if (update?.success) {
+                return {
+                    success: true,
+                    message: update?.message,
+                };
+            } else {
+                return {
+                    success: false,
+                    message: update?.message,
+                };
+            }
+        } else {
+            return {
+                success: false,
+                message: isValid?.error.message,
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
 const search_leave_request_with_field_use = async (field: search) => {
     try {
         const isValid = validate_search(field);
@@ -97,7 +127,7 @@ const update_paid_leave = async (data: update) => {
             if (paid_leave?.success) {
                 return {
                     success: true,
-                    data: paid_leave?.data,
+                    message: paid_leave?.message,
                 };
             } else {
                 return {
@@ -124,4 +154,5 @@ export {
     find_paid_leave,
     update_paid_leave,
     search_leave_request_with_field_use,
+    update_un_approve_leave_request_use,
 };
