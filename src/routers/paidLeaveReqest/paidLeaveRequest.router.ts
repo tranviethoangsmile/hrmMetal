@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import create_router from './create/create';
 import searchLeaveRouter from './search/searchPaidLeaveRequestWithField.router';
+import unApproveRouter from './update/updateUnApproveLeave.router';
 import {
     get_all,
     update_is_active,
@@ -10,6 +11,7 @@ import very_role from '../../middlewares/veryRoleUpdate.middleware';
 const paidLeaveRouter: Router = Router();
 paidLeaveRouter.use('/create', create_router);
 paidLeaveRouter.use('/search', searchLeaveRouter);
+paidLeaveRouter.use('/update', unApproveRouter);
 
 paidLeaveRouter.get('/', async (req: Request, res: Response) => {
     try {
@@ -41,7 +43,7 @@ paidLeaveRouter.put('/', very_role, async (req: Request, res: Response) => {
             if (paid_leave?.success) {
                 res.status(201).json({
                     success: paid_leave?.success,
-                    data: paid_leave?.data,
+                    message: paid_leave?.message,
                 });
             } else {
                 res.status(200).json({
@@ -49,6 +51,11 @@ paidLeaveRouter.put('/', very_role, async (req: Request, res: Response) => {
                     message: paid_leave?.message,
                 });
             }
+        } else {
+            res.status(400).json({
+                success: false,
+                message: 'data not empty',
+            });
         }
     } catch (error: any) {
         res.status(500).json({

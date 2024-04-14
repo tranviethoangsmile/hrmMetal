@@ -10,6 +10,8 @@ interface create {
 interface update {
     user_id?: string;
     feedback?: string;
+    is_confirm?: boolean;
+    admin_id?: string;
     id: string;
 }
 interface search {

@@ -39,6 +39,7 @@ const search_leave_request_with_field_repo = async (field: any) => {
                     'date_request',
                     'position',
                     'is_paid',
+                    'feedback',
                 ],
                 include: [
                     {
@@ -141,56 +142,49 @@ const find_all_paid_leave = async () => {
 const update_active_paid_leave = async (id: any) => {
     try {
         const update_paid_leave = await PaidLeaveRequest.update(
-            { is_active: true },
+            { is_approve: true },
             {
                 where: {
                     id: id,
                 },
             },
         );
-        console.log(update_paid_leave);
+
         if (update_paid_leave.toString() === '1') {
-            const paid_leave_result: PaidLeaveRequest | null =
-                await PaidLeaveRequest.findByPk(id, {
-                    attributes: ['id', 'date', 'reason', 'is_active'],
-                    include: [
-                        {
-                            model: User,
-                            as: 'staff',
-                            attributes: ['id', 'name'],
-                            include: [
-                                {
-                                    model: Department,
-                                    as: 'department',
-                                    attributes: ['id', 'name'],
-                                },
-                            ],
-                        },
-                        {
-                            model: User,
-                            as: 'leader',
-                            attributes: ['id', 'name'],
-                            include: [
-                                {
-                                    model: Department,
-                                    as: 'department',
-                                    attributes: ['id', 'name'],
-                                },
-                            ],
-                        },
-                    ],
-                });
-            if (paid_leave_result != null) {
-                return {
-                    success: true,
-                    data: paid_leave_result,
-                };
-            } else {
-                return {
-                    success: true,
-                    data: null,
-                };
-            }
+            return {
+                success: true,
+                message: 'update paid leave failed',
+            };
+        } else {
+            return {
+                success: false,
+                message: 'update paid leave failed',
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
+const update_un_approve_leave_request_repo = async (field: any) => {
+    try {
+        console.log(field);
+        const update_feelback_request = await PaidLeaveRequest.update(
+            {
+                ...field,
+                is_approve: false,
+            },
+            {
+                where: { id: field.id },
+            },
+        );
+        if (update_feelback_request.toString() === '1') {
+            return {
+                success: true,
+                message: 'update paid leave success',
+            };
         } else {
             return {
                 success: false,
@@ -209,4 +203,5 @@ export {
     find_all_paid_leave,
     update_active_paid_leave,
     search_leave_request_with_field_repo,
+    update_un_approve_leave_request_repo,
 };
