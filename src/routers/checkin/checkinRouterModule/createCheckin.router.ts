@@ -97,14 +97,13 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                             handleTimeMoment('00:00') &&
                         handleTimeMoment(time_out) <= handleTimeMoment('01:00')
                     ) {
-                        work_time =
-                            moment
-                                .duration(
-                                    moment('00:00', 'HH:mm')
-                                        .add(1, 'day')
-                                        .diff(moment(time_in, 'HH:mm')),
-                                )
-                                .asHours() - 1;
+                        work_time = moment
+                            .duration(
+                                moment('00:00', 'HH:mm')
+                                    .add(1, 'day')
+                                    .diff(moment(time_in, 'HH:mm')),
+                            )
+                            .asHours();
                         over_time = 0;
                     } else if (handleTimeMoment(time_out) <= NIGHT_END) {
                         work_time =

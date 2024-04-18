@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
-const LIMIT_HOURS_ORDER_FROM = 7;
+const LIMIT_HOURS_ORDER_FROM = 1;
 const LIMIT_HOURS_ORDER_TO = 9;
 const timeOrderLimit = (req: Request, res: Response, next: NextFunction) => {
     const requestDateString = req.body.date;
