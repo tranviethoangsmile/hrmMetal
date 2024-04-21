@@ -10,10 +10,12 @@ CREATE TABLE paidleaverequests
     date_request VARCHAR(10) NOT NULL,
     feedback VARCHAR NULL,
     date_leave VARCHAR(10) NOT NULL,
+    is_half BOOLEAN DEFAULT false,
     position TEXT NOT NULL,
     created_at DATE NOT NULL,
     updated_at DATE NOT NULL,
     deleted_at DATE NULL,
     is_paid BOOLEAN DEFAULT true,
-    UNIQUE (user_id, date_leave)
+    UNIQUE
+    (user_id, date_leave)
 );

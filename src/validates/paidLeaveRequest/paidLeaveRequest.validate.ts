@@ -8,6 +8,7 @@ const schema_create = Joi.object({
     date_leave: Joi.string().min(8).max(11).required(),
     is_paid: Joi.boolean(),
     position: Joi.string().required(),
+    is_half: Joi.boolean().required(),
 });
 
 const validate_create = (data: any) => {
