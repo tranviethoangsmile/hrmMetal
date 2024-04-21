@@ -8,15 +8,73 @@ import {
     create_daily_report,
     search_report,
 } from '../../interfaces/dailyReport/dailyReport.interface';
-import { create_code_error } from '../../interfaces/codeError/codeError.interface';
 import {
     valid_create_daily_report,
     valid_search_daily_report,
 } from '../../validates/dailyReport/dailyReport.validate';
 import { validation_id } from '../../validates';
-import { DailyReport } from '../../models';
 import { Products } from '../../enum/product.enum';
-import { create_err_for_report } from '../codeError/codeError.useCase';
+import { findUserById } from '../user/user.useCase';
+import { shift } from '../../enum/shift.enum';
+// import { create_code_error } from '../../interfaces/codeError/codeError.interface';
+// import { create_err_for_report } from '../codeError/codeError.useCase';
+const create_daily_report_use = async (field: create_daily_report) => {
+    try {
+        const isValid = valid_create_daily_report(field);
+        if (!isValid?.error) {
+            const user = await findUserById(field?.user_id);
+            if (user?.success) {
+                if (
+                    typeof field?.product === 'string' &&
+                    Object.values(Products).includes(field?.product)
+                ) {
+                    if (
+                        typeof field?.shift === 'string' &&
+                        Object.values(shift).includes(field?.shift)
+                    ) {
+                        const report = await daily_report_create(field);
+                        if (report?.success) {
+                            return {
+                                success: true,
+                                data: report?.data,
+                            };
+                        } else {
+                            return {
+                                success: false,
+                                message: report?.message,
+                            };
+                        }
+                    } else {
+                        return {
+                            success: false,
+                            message: `shift name not valid use`,
+                        };
+                    }
+                } else {
+                    return {
+                        success: false,
+                        message: `product name not valid use`,
+                    };
+                }
+            } else {
+                return {
+                    success: false,
+                    message: `${user?.message} use`,
+                };
+            }
+        } else {
+            return {
+                success: false,
+                message: isValid?.error,
+            };
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `${error?.message} use`,
+        };
+    }
+};
 
 const search_daily_report = async (data: search_report) => {
     try {
@@ -38,79 +96,6 @@ const search_daily_report = async (data: search_report) => {
             return {
                 success: false,
                 message: valid?.error.message,
-            };
-        }
-    } catch (error: any) {
-        return {
-            success: false,
-            message: error?.message,
-        };
-    }
-};
-
-const create_daily_report = async (data: any) => {
-    try {
-        const rp_field_create: create_daily_report = data.rp;
-        const valid = valid_create_daily_report(rp_field_create);
-        const errors: create_code_error[] | null = data.err;
-        if (!valid.error) {
-            if (
-                typeof rp_field_create.product === 'string' &&
-                Object.values(Products).includes(rp_field_create.product)
-            ) {
-                const rep_rp = await daily_report_create(rp_field_create);
-                if (rep_rp?.success) {
-                    if (errors != null) {
-                        const rp_id = rep_rp?.data?.id;
-                        const err_data = errors.map(
-                            ({
-                                code,
-                                description,
-                                shutdown_time,
-                                daily_report_id,
-                            }) => ({
-                                code,
-                                description,
-                                shutdown_time,
-                                daily_report_id: rp_id,
-                            }),
-                        );
-                        const created_err = await create_err_for_report(
-                            err_data,
-                        );
-                        if (created_err) {
-                            return {
-                                success: true,
-                                data: created_err,
-                            };
-                        } else {
-                            return {
-                                success: false,
-                                message: 'created err of Report failed',
-                            };
-                        }
-                    } else {
-                        return {
-                            success: true,
-                            message: 'created report',
-                        };
-                    }
-                } else {
-                    return {
-                        success: false,
-                        message: 'created report failed',
-                    };
-                }
-            } else {
-                return {
-                    success: false,
-                    message: 'data Product not valid',
-                };
-            }
-        } else {
-            return {
-                success: false,
-                message: valid.error.message,
             };
         }
     } catch (error: any) {
@@ -174,4 +159,9 @@ const find_rp_by_id = async (id: any) => {
     }
 };
 
-export { create_daily_report, find_all_rp, search_daily_report, find_rp_by_id };
+export {
+    create_daily_report_use,
+    find_all_rp,
+    search_daily_report,
+    find_rp_by_id,
+};

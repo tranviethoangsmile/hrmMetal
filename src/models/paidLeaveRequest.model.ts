@@ -47,7 +47,7 @@ PaidLeaveRequest.init(
         },
         is_half: {
             type: DataTypes.BOOLEAN,
-            allowNull: true,
+            allowNull: false,
             defaultValue: false,
         },
         admin_id: {

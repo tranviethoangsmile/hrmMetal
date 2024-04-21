@@ -1,6 +1,4 @@
 import express, { Router } from 'express';
-
-const v1Router: Router = express.Router();
 import userRouters from '../user/user.router';
 import departmentRouters from '../department/department.router';
 import findRouter from '../find/find.router';
@@ -19,6 +17,9 @@ import conversationRouter from '../conversation/conversation.router';
 import messageRouter from '../message/message.router';
 import checkinRouter from '../checkin/checkin.router';
 import informationRouter from '../information/information.router';
+import inventoryRouter from '../inventory/inventory.router';
+
+const v1Router: Router = express.Router();
 v1Router.use('/department', departmentRouters);
 v1Router.use('/users', userRouters);
 v1Router.use('/find', findRouter);
@@ -37,5 +38,6 @@ v1Router.use('/conversations', conversationRouter);
 v1Router.use('/mess', messageRouter);
 v1Router.use('/checkin', checkinRouter);
 v1Router.use('/information', informationRouter);
+v1Router.use('/inventory', inventoryRouter);
 
 export default v1Router;

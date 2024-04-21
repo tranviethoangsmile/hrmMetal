@@ -4,34 +4,25 @@ import Department from '../../models/department.model';
 
 const daily_report_create = async (data: any) => {
     try {
-        const user = await userFindById(data.user_id);
-        if (user?.success) {
-            const new_daily_report: DailyReport | null =
-                await DailyReport.create({
-                    ...data,
-                    user,
-                });
-            if (new_daily_report != null) {
-                return {
-                    success: true,
-                    data: new_daily_report,
-                };
-            } else {
-                return {
-                    success: false,
-                    message: 'create daily report failed',
-                };
-            }
+        console.log(data);
+        const new_daily_report: DailyReport | null = await DailyReport.create({
+            ...data,
+        });
+        if (new_daily_report != null) {
+            return {
+                success: true,
+                data: new_daily_report,
+            };
         } else {
             return {
                 success: false,
-                message: 'user not found in daily report',
+                message: 'create daily report failed',
             };
         }
     } catch (error: any) {
         return {
             success: false,
-            message: error?.message,
+            message: `${error?.message} repo`,
         };
     }
 };
