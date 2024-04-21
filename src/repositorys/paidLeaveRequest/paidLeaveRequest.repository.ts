@@ -39,6 +39,7 @@ const search_leave_request_with_field_repo = async (field: any) => {
                     'date_request',
                     'position',
                     'is_paid',
+                    'is_half',
                     'feedback',
                 ],
                 include: [
@@ -170,7 +171,6 @@ const update_active_paid_leave = async (id: any) => {
 };
 const update_un_approve_leave_request_repo = async (field: any) => {
     try {
-        console.log(field);
         const update_feelback_request = await PaidLeaveRequest.update(
             {
                 ...field,

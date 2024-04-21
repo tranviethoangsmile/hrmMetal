@@ -14,6 +14,7 @@ class PaidLeaveRequest extends Model {
     public date_request!: string;
     public date_leave!: string;
     public is_paid!: boolean;
+    public is_half!: boolean;
     public feedback!: string;
     public position!: string;
 
@@ -40,6 +41,11 @@ PaidLeaveRequest.init(
             allowNull: false,
         },
         is_approve: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+            defaultValue: false,
+        },
+        is_half: {
             type: DataTypes.BOOLEAN,
             allowNull: true,
             defaultValue: false,

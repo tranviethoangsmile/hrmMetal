@@ -5,6 +5,7 @@ interface create {
     date_request: string;
     date_leave: string;
     position: string;
+    is_half: boolean;
 }
 
 interface update {
