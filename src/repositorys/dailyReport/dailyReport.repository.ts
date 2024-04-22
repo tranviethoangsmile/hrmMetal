@@ -1,5 +1,4 @@
 import { CodeError, DailyReport, User } from '../../models';
-import { userFindById } from '../user/user.repository';
 import Department from '../../models/department.model';
 
 const daily_report_create = async (data: any) => {

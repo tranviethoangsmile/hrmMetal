@@ -16,6 +16,7 @@ import { validation_id } from '../../validates';
 import { Products } from '../../enum/product.enum';
 import { findUserById } from '../user/user.useCase';
 import { shift } from '../../enum/shift.enum';
+import { update_inventory_controller } from '../../controllers/inventory/inventory.controller';
 // import { create_code_error } from '../../interfaces/codeError/codeError.interface';
 // import { create_err_for_report } from '../codeError/codeError.useCase';
 const create_daily_report_use = async (field: create_daily_report) => {

@@ -1,6 +1,11 @@
 import { Router, Request, Response } from 'express';
 import createRouter from './create/create';
+import searchRouter from './search/search.router';
+import getAllRouter from './getAll/getAll.router';
+import updateRouter from './update/update.router';
 const inventoryRouter: Router = Router();
 inventoryRouter.use('/create', createRouter);
-
+inventoryRouter.use('/search', searchRouter);
+inventoryRouter.use('/getall', getAllRouter);
+inventoryRouter.use('/update', updateRouter);
 export default inventoryRouter;
