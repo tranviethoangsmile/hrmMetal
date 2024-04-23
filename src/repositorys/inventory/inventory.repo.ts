@@ -1,4 +1,4 @@
-import { Inventory } from '../../models';
+import { Department, Inventory } from '../../models';
 
 const update_inventory_repo = async (field: any) => {
     try {
@@ -54,9 +54,15 @@ const search_inventory_with_name = async (field: any) => {
     try {
         const inventorys: Inventory[] | null = await Inventory.findAll({
             where: { ...field },
-            attributes: ['product', 'quantity'],
+            attributes: ['product', 'quantity', 'department_id'],
+            include: [
+                {
+                    model: Department,
+                    attributes: ['name'],
+                },
+            ],
         });
-        if (inventorys != null) {
+        if (inventorys.length > 0) {
             return {
                 success: true,
                 data: inventorys,
@@ -77,7 +83,15 @@ const search_inventory_with_name = async (field: any) => {
 
 const get_all_inventory_repo = async () => {
     try {
-        const inventorys: Inventory[] | null = await Inventory.findAll();
+        const inventorys: Inventory[] | null = await Inventory.findAll({
+            attributes: ['product', 'quantity', 'department_id'],
+            include: [
+                {
+                    model: Department,
+                    attributes: ['name'],
+                },
+            ],
+        });
         if (inventorys != null) {
             return {
                 success: true,

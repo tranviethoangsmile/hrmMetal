@@ -1,9 +1,11 @@
 interface create_inventory {
     product: string;
     quantity: number;
+    department_id: string;
 }
 interface search_with_name {
-    product: string;
+    product?: string;
+    department_id?: string;
 }
 interface update_inventory {
     product: string;

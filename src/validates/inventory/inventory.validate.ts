@@ -3,9 +3,11 @@ import Joi from '@hapi/joi';
 const schema_create_inventory = Joi.object({
     product: Joi.string().required(),
     quantity: Joi.number().required(),
+    department_id: Joi.string().guid().required(),
 });
 const schema_search_with_name = Joi.object({
-    product: Joi.string().required(),
+    product: Joi.string(),
+    department_id: Joi.string().guid(),
 });
 
 const schema_update_inventory = Joi.object({

@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '../dbs/db';
-import Department from './department.model';
+import { Department } from '../models';
 import { Role } from '../enum/Role.enum';
 import { Position } from '../enum/Position.enum';
 class User extends Model {

@@ -6,7 +6,7 @@ const searchRouter: Router = Router();
 searchRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field: search_with_name = req.body;
-        if (!field || !field.product) {
+        if (!field.department_id && !field.product) {
             res.status(400).json({
                 success: false,
                 message: 'Bad request',

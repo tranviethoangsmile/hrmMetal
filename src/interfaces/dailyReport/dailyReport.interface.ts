@@ -1,6 +1,7 @@
 interface create_daily_report {
     product: string;
     user_id: string;
+    department_id: string;
     date: string;
     shift: string;
     quantity: number;
@@ -12,6 +13,7 @@ interface create_daily_report {
 interface search_report {
     product?: string;
     user_id?: string;
+    department_id?: string;
     date?: string;
     shift?: string;
 }

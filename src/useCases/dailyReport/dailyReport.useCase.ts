@@ -16,64 +16,84 @@ import { validation_id } from '../../validates';
 import { Products } from '../../enum/product.enum';
 import { findUserById } from '../user/user.useCase';
 import { shift } from '../../enum/shift.enum';
-import { update_inventory_controller } from '../../controllers/inventory/inventory.controller';
-// import { create_code_error } from '../../interfaces/codeError/codeError.interface';
-// import { create_err_for_report } from '../codeError/codeError.useCase';
+import {
+    update_inventory_repo,
+    search_inventory_with_name,
+    create,
+} from '../../repositorys/inventory/inventory.repo';
+import { getDepartmentById } from '../../repositorys/department/department.repository';
+import db from '../../dbs/db';
 const create_daily_report_use = async (field: create_daily_report) => {
+    const t = await db.transaction();
     try {
         const isValid = valid_create_daily_report(field);
-        if (!isValid?.error) {
-            const user = await findUserById(field?.user_id);
-            if (user?.success) {
-                if (
-                    typeof field?.product === 'string' &&
-                    Object.values(Products).includes(field?.product)
-                ) {
-                    if (
-                        typeof field?.shift === 'string' &&
-                        Object.values(shift).includes(field?.shift)
-                    ) {
-                        const report = await daily_report_create(field);
-                        if (report?.success) {
-                            return {
-                                success: true,
-                                data: report?.data,
-                            };
-                        } else {
-                            return {
-                                success: false,
-                                message: report?.message,
-                            };
-                        }
-                    } else {
-                        return {
-                            success: false,
-                            message: `shift name not valid use`,
-                        };
-                    }
-                } else {
-                    return {
-                        success: false,
-                        message: `product name not valid use`,
-                    };
-                }
+        if (isValid?.error) {
+            throw new Error(isValid?.error.message);
+        }
+        const user = await findUserById(field.user_id);
+        if (!user?.success) {
+            throw new Error(user?.message || 'User not found');
+        }
+
+        if (!Object.values(Products).includes(field.product)) {
+            throw new Error('Product name not valid');
+        }
+
+        if (!Object.values(shift).includes(field.shift)) {
+            throw new Error('Shift name not valid');
+        }
+
+        const department = await getDepartmentById(field.department_id);
+        if (!department?.success) {
+            throw new Error(department?.message || 'Department not found');
+        }
+
+        const report = await daily_report_create(field);
+        if (!report?.success) {
+            throw new Error(report?.message || 'Failed to create daily report');
+        }
+        const field_search = {
+            product: field.product,
+        };
+        const inventorys = await search_inventory_with_name({
+            ...field_search,
+        });
+        let inventory;
+        if (!inventorys?.success) {
+            const create_inventory = await create({
+                product: field.product,
+                quantity: 0,
+                department_id: field.department_id,
+            });
+            if (!create_inventory?.success) {
+                throw new Error(
+                    create_inventory?.message || 'Failed to create inventory',
+                );
             } else {
-                return {
-                    success: false,
-                    message: `${user?.message} use`,
-                };
+                inventory = create_inventory?.data;
             }
         } else {
-            return {
-                success: false,
-                message: isValid?.error,
-            };
+            inventory = inventorys.data?.[0];
         }
+        const first_value = inventory?.quantity;
+        if (first_value == undefined) {
+            throw new Error('Failed to get inventory quantity');
+        }
+        const second_value = first_value + field.quantity;
+        const update_inventory = await update_inventory_repo({
+            quantity: second_value,
+            product: field.product,
+        });
+        if (!update_inventory?.success) {
+            throw new Error(
+                update_inventory?.message || 'Failed to update inventory',
+            );
+        }
+        await t.commit();
+        return { success: true, data: report?.data };
     } catch (error: any) {
-        return {
-            success: false,
-            message: `${error?.message} use`,
-        };
+        await t.rollback();
+        return { success: false, message: error?.message || 'Unknown error' };
     }
 };
 

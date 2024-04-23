@@ -7,6 +7,7 @@ class DailyReport extends Model {
     public id!: string;
     public product!: Enumerator;
     public user_id!: string;
+    public department_id!: string;
     public date!: string;
     public shift!: string;
     public quantity!: number;
@@ -29,6 +30,10 @@ DailyReport.init(
             values: Object.values(Products).map(value => value.toString()),
         },
         user_id: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        department_id: {
             type: DataTypes.STRING,
             allowNull: false,
         },

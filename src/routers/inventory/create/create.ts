@@ -5,7 +5,12 @@ const createRouter: Router = Router();
 createRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field: create_inventory = req.body;
-        if (!field || !field.product || !field.quantity) {
+        if (
+            !field ||
+            !field.product ||
+            !field.quantity ||
+            !field.department_id
+        ) {
             res.status(400).json({
                 success: false,
                 message: 'Bad request',

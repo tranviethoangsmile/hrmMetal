@@ -13,6 +13,8 @@ CREATE TABLE dailyReports
     updated_at DATE NOT NULL,
     deleted_at DATE NULL,
     FOREIGN KEY (user_id) REFERENCES users (id),
+    department_id VARCHAR(255) NOT NULL,
+    FOREIGN KEY (department_id) REFERENCES departments (id),
     UNIQUE(product, user_id, date)
 );
 

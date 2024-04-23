@@ -16,7 +16,8 @@ createDailyReportRouter.post('/', async (req: Request, res: Response) => {
             !field.shift ||
             !field.quantity ||
             !field.shutdown_time ||
-            !field.user_id
+            !field.user_id ||
+            !field.department_id
         ) {
             res.status(400).json({
                 success: false,

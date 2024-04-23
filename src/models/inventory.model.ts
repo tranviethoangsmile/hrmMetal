@@ -1,11 +1,14 @@
 import db from '../dbs/db';
 import { DataTypes, Model } from 'sequelize';
 import { Products } from '../enum/product.enum';
+import { Department } from '../models';
 
 class Inventory extends Model {
     public id!: string;
     public product!: Enumerator;
     public quantity!: number;
+    public department_id!: string;
+    public department!: Department;
 }
 
 Inventory.init(
@@ -22,6 +25,10 @@ Inventory.init(
         },
         quantity: {
             type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        department_id: {
+            type: DataTypes.STRING,
             allowNull: false,
         },
     },

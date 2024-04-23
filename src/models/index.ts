@@ -44,6 +44,10 @@ Checkin.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(Checkin, { foreignKey: 'user_id' });
 Information.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(Information, { foreignKey: 'user_id' });
+DailyReport.belongsTo(Department, { foreignKey: 'department_id' });
+Department.hasMany(DailyReport, { foreignKey: 'department_id' });
+Inventory.belongsTo(Department, { foreignKey: 'department_id' });
+Department.hasMany(Inventory, { foreignKey: 'department_id' });
 
 export {
     User,
