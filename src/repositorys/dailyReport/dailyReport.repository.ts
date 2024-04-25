@@ -3,7 +3,6 @@ import Department from '../../models/department.model';
 
 const daily_report_create = async (data: any) => {
     try {
-        console.log(data);
         const new_daily_report: DailyReport | null = await DailyReport.create({
             ...data,
         });

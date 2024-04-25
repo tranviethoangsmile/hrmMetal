@@ -68,10 +68,7 @@ const search_inventory_with_name = async (field: any) => {
                 data: inventorys,
             };
         } else {
-            return {
-                success: false,
-                message: 'Error search inventory',
-            };
+            throw new Error('Inventory not Exits');
         }
     } catch (error: any) {
         return {
