@@ -8,15 +8,94 @@ import {
     create_daily_report,
     search_report,
 } from '../../interfaces/dailyReport/dailyReport.interface';
-import { create_code_error } from '../../interfaces/codeError/codeError.interface';
 import {
     valid_create_daily_report,
     valid_search_daily_report,
 } from '../../validates/dailyReport/dailyReport.validate';
 import { validation_id } from '../../validates';
-import { DailyReport } from '../../models';
 import { Products } from '../../enum/product.enum';
-import { create_err_for_report } from '../codeError/codeError.useCase';
+import { findUserById } from '../user/user.useCase';
+import { shift } from '../../enum/shift.enum';
+import {
+    update_inventory_repo,
+    search_inventory_with_name,
+    create,
+} from '../../repositorys/inventory/inventory.repo';
+import { getDepartmentById } from '../../repositorys/department/department.repository';
+import db from '../../dbs/db';
+const create_daily_report_use = async (field: create_daily_report) => {
+    const t = await db.transaction();
+    try {
+        const isValid = valid_create_daily_report(field);
+        if (isValid?.error) {
+            throw new Error(isValid?.error.message);
+        }
+        const user = await findUserById(field.user_id);
+        if (!user?.success) {
+            throw new Error(user?.message || 'User not found');
+        }
+
+        if (!Object.values(Products).includes(field.product)) {
+            throw new Error('Product name not valid');
+        }
+
+        if (!Object.values(shift).includes(field.shift)) {
+            throw new Error('Shift name not valid');
+        }
+
+        const department = await getDepartmentById(field.department_id);
+        if (!department?.success) {
+            throw new Error(department?.message || 'Department not found');
+        }
+
+        const report = await daily_report_create(field);
+        if (!report?.success) {
+            throw new Error(report?.message || 'Failed to create daily report');
+        }
+        const field_search = {
+            product: field.product,
+        };
+        const inventorys = await search_inventory_with_name({
+            ...field_search,
+        });
+        let inventory;
+        if (!inventorys?.success) {
+            const create_inventory = await create({
+                product: field.product,
+                quantity: 0,
+                department_id: field.department_id,
+            });
+            if (!create_inventory?.success) {
+                throw new Error(
+                    create_inventory?.message || 'Failed to create inventory',
+                );
+            } else {
+                inventory = create_inventory?.data;
+            }
+        } else {
+            inventory = inventorys.data?.[0];
+        }
+        const first_value = inventory?.quantity;
+        if (first_value == undefined) {
+            throw new Error('Failed to get inventory quantity');
+        }
+        const second_value = first_value + field.quantity;
+        const update_inventory = await update_inventory_repo({
+            quantity: second_value,
+            product: field.product,
+        });
+        if (!update_inventory?.success) {
+            throw new Error(
+                update_inventory?.message || 'Failed to update inventory',
+            );
+        }
+        await t.commit();
+        return { success: true, data: report?.data };
+    } catch (error: any) {
+        await t.rollback();
+        return { success: false, message: error?.message || 'Unknown error' };
+    }
+};
 
 const search_daily_report = async (data: search_report) => {
     try {
@@ -38,79 +117,6 @@ const search_daily_report = async (data: search_report) => {
             return {
                 success: false,
                 message: valid?.error.message,
-            };
-        }
-    } catch (error: any) {
-        return {
-            success: false,
-            message: error?.message,
-        };
-    }
-};
-
-const create_daily_report = async (data: any) => {
-    try {
-        const rp_field_create: create_daily_report = data.rp;
-        const valid = valid_create_daily_report(rp_field_create);
-        const errors: create_code_error[] | null = data.err;
-        if (!valid.error) {
-            if (
-                typeof rp_field_create.product === 'string' &&
-                Object.values(Products).includes(rp_field_create.product)
-            ) {
-                const rep_rp = await daily_report_create(rp_field_create);
-                if (rep_rp?.success) {
-                    if (errors != null) {
-                        const rp_id = rep_rp?.data?.id;
-                        const err_data = errors.map(
-                            ({
-                                code,
-                                description,
-                                shutdown_time,
-                                daily_report_id,
-                            }) => ({
-                                code,
-                                description,
-                                shutdown_time,
-                                daily_report_id: rp_id,
-                            }),
-                        );
-                        const created_err = await create_err_for_report(
-                            err_data,
-                        );
-                        if (created_err) {
-                            return {
-                                success: true,
-                                data: created_err,
-                            };
-                        } else {
-                            return {
-                                success: false,
-                                message: 'created err of Report failed',
-                            };
-                        }
-                    } else {
-                        return {
-                            success: true,
-                            message: 'created report',
-                        };
-                    }
-                } else {
-                    return {
-                        success: false,
-                        message: 'created report failed',
-                    };
-                }
-            } else {
-                return {
-                    success: false,
-                    message: 'data Product not valid',
-                };
-            }
-        } else {
-            return {
-                success: false,
-                message: valid.error.message,
             };
         }
     } catch (error: any) {
@@ -174,4 +180,9 @@ const find_rp_by_id = async (id: any) => {
     }
 };
 
-export { create_daily_report, find_all_rp, search_daily_report, find_rp_by_id };
+export {
+    create_daily_report_use,
+    find_all_rp,
+    search_daily_report,
+    find_rp_by_id,
+};

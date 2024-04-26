@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import { CodeError, User } from './index';
+import { User } from './index';
 import { Products } from '../enum/product.enum';
 import db from '../dbs/db';
 
@@ -7,6 +7,7 @@ class DailyReport extends Model {
     public id!: string;
     public product!: Enumerator;
     public user_id!: string;
+    public department_id!: string;
     public date!: string;
     public shift!: string;
     public quantity!: number;
@@ -15,7 +16,6 @@ class DailyReport extends Model {
     public shutdown_time!: number;
     //
     public user!: User;
-    public codeError!: CodeError[];
 }
 
 DailyReport.init(
@@ -30,6 +30,10 @@ DailyReport.init(
             values: Object.values(Products).map(value => value.toString()),
         },
         user_id: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        department_id: {
             type: DataTypes.STRING,
             allowNull: false,
         },

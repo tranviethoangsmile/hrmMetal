@@ -5,8 +5,9 @@ import {
     find_report_by_id,
 } from '../../controllers/dailyReport/dailyReport.controler';
 import dailyRpRouter from './moduleReportRouter/dailyReport.router';
+import createDailyReportRouter from './create/create';
 const rpRouter: Router = Router();
-
+rpRouter.use('/create', createDailyReportRouter);
 rpRouter.post('/', async (req: Request, res: Response) => {
     try {
         const data = req.body;

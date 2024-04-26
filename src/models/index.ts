@@ -13,6 +13,7 @@ import Conversation from './conversation.model';
 import GroupMember from './groupMember.model';
 import Checkin from './checkin.model';
 import Information from './information.model';
+import Inventory from './inventory.model';
 User.belongsTo(Department, { foreignKey: 'department_id', as: 'department' });
 Department.hasMany(User, { foreignKey: 'department_id', as: 'users' });
 Order.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
@@ -43,6 +44,10 @@ Checkin.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(Checkin, { foreignKey: 'user_id' });
 Information.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(Information, { foreignKey: 'user_id' });
+DailyReport.belongsTo(Department, { foreignKey: 'department_id' });
+Department.hasMany(DailyReport, { foreignKey: 'department_id' });
+Inventory.belongsTo(Department, { foreignKey: 'department_id' });
+Department.hasMany(Inventory, { foreignKey: 'department_id' });
 
 export {
     User,
@@ -60,4 +65,5 @@ export {
     Conversation,
     Checkin,
     Information,
+    Inventory,
 };
