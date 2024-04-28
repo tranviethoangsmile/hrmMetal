@@ -15,7 +15,7 @@ CREATE TABLE dailyReports
     FOREIGN KEY (user_id) REFERENCES users (id),
     department_id VARCHAR(255) NOT NULL,
     FOREIGN KEY (department_id) REFERENCES departments (id),
-    UNIQUE(product, user_id, date)
+    UNIQUE(product, user_id, date, shift)
 );
 
     -- create unique for report;

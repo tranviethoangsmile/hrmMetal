@@ -55,22 +55,27 @@ const create_daily_report_use = async (field: create_daily_report) => {
         const field_search = {
             product: field.product,
         };
+        let second_value;
+        let inventory;
+
         const inventorys = await search_inventory_with_name({
             ...field_search,
         });
-        let inventory;
         if (!inventorys?.success) {
-            const create_inventory = await create({
-                product: field.product,
-                quantity: 0,
-                department_id: field.department_id,
-            });
-            if (!create_inventory?.success) {
-                throw new Error(
-                    create_inventory?.message || 'Failed to create inventory',
-                );
-            } else {
-                inventory = create_inventory?.data;
+            if (user?.data?.department?.name != '加工') {
+                const create_inventory = await create({
+                    product: field.product,
+                    quantity: 0,
+                    department_id: field.department_id,
+                });
+                if (!create_inventory?.success) {
+                    throw new Error(
+                        create_inventory?.message ||
+                            'Failed to create inventory',
+                    );
+                } else {
+                    inventory = create_inventory?.data;
+                }
             }
         } else {
             inventory = inventorys.data?.[0];
@@ -79,7 +84,12 @@ const create_daily_report_use = async (field: create_daily_report) => {
         if (first_value == undefined) {
             throw new Error('Failed to get inventory quantity');
         }
-        const second_value = first_value + field.quantity;
+        if (user?.data?.department?.name === '加工') {
+            second_value = first_value - field.quantity;
+        } else {
+            second_value = first_value + field.quantity;
+        }
+
         const update_inventory = await update_inventory_repo({
             quantity: second_value,
             product: field.product,

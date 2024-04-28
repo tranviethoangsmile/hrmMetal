@@ -10,5 +10,6 @@ interface search_with_name {
 interface update_inventory {
     product: string;
     quantity: number;
+    department_id?: string;
 }
 export { create_inventory, search_with_name, update_inventory };
