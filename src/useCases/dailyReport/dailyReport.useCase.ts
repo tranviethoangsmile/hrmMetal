@@ -1,6 +1,6 @@
 import {
     daily_report_create,
-    find_report_all,
+    find_all_report_of_department,
     find_report,
     find_daily_report_by_id,
 } from '../../repositorys/dailyReport/dailyReport.repository';
@@ -55,22 +55,27 @@ const create_daily_report_use = async (field: create_daily_report) => {
         const field_search = {
             product: field.product,
         };
+        let second_value;
+        let inventory;
+
         const inventorys = await search_inventory_with_name({
             ...field_search,
         });
-        let inventory;
         if (!inventorys?.success) {
-            const create_inventory = await create({
-                product: field.product,
-                quantity: 0,
-                department_id: field.department_id,
-            });
-            if (!create_inventory?.success) {
-                throw new Error(
-                    create_inventory?.message || 'Failed to create inventory',
-                );
-            } else {
-                inventory = create_inventory?.data;
+            if (user?.data?.department?.name != '加工') {
+                const create_inventory = await create({
+                    product: field.product,
+                    quantity: 0,
+                    department_id: field.department_id,
+                });
+                if (!create_inventory?.success) {
+                    throw new Error(
+                        create_inventory?.message ||
+                            'Failed to create inventory',
+                    );
+                } else {
+                    inventory = create_inventory?.data;
+                }
             }
         } else {
             inventory = inventorys.data?.[0];
@@ -79,7 +84,12 @@ const create_daily_report_use = async (field: create_daily_report) => {
         if (first_value == undefined) {
             throw new Error('Failed to get inventory quantity');
         }
-        const second_value = first_value + field.quantity;
+        if (user?.data?.department?.name === '加工') {
+            second_value = first_value - field.quantity;
+        } else {
+            second_value = first_value + field.quantity;
+        }
+
         const update_inventory = await update_inventory_repo({
             quantity: second_value,
             product: field.product,
@@ -99,7 +109,7 @@ const create_daily_report_use = async (field: create_daily_report) => {
 
 const search_daily_report = async (data: search_report) => {
     try {
-        const valid = await valid_search_daily_report(data);
+        const valid = valid_search_daily_report(data);
         if (!valid?.error) {
             const reports = await find_report(data);
             if (reports?.success) {
@@ -127,24 +137,22 @@ const search_daily_report = async (data: search_report) => {
     }
 };
 
-const find_all_rp = async () => {
+const find_all_report_use = async (field: search_report) => {
     try {
-        const errs = await find_report_all();
-        if (errs?.success) {
-            return {
-                success: true,
-                data: errs?.data,
-            };
-        } else {
-            return {
-                success: false,
-                message: errs?.message,
-            };
+        const dailyReports = await find_all_report_of_department({
+            ...field,
+        });
+        if (!dailyReports?.success) {
+            throw new Error(dailyReports?.message);
         }
-    } catch (error) {
+        return {
+            success: true,
+            data: dailyReports?.data,
+        };
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: `usecase: ${error?.message}`,
         };
     }
 };
@@ -182,7 +190,7 @@ const find_rp_by_id = async (id: any) => {
 
 export {
     create_daily_report_use,
-    find_all_rp,
+    find_all_report_use,
     search_daily_report,
     find_rp_by_id,
 };
