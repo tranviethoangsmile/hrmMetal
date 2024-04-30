@@ -1,6 +1,7 @@
 import { CodeError, DailyReport, User } from '../../models';
 import Department from '../../models/department.model';
-
+const { Op } = require('sequelize');
+const moment = require('moment');
 const daily_report_create = async (data: any) => {
     try {
         const new_daily_report: DailyReport | null = await DailyReport.create({
@@ -83,18 +84,28 @@ const find_report = async (data: any) => {
     }
 };
 
-const find_report_all = async () => {
+const find_all_report_of_department = async (field: any) => {
     try {
+        const startDate = moment().subtract(7, 'days').toDate(); // Ngày bắt đầu: ngày hiện tại trừ đi 10 ngày
+        const endDate = new Date(); // Ngày kết thúc: ngày hiện tại
+
         const reports: DailyReport[] | null = await DailyReport.findAll({
+            where: {
+                ...field,
+                date: {
+                    [Op.between]: [startDate, endDate], // Chỉ lấy các báo cáo trong khoảng ngày này đến ngày kết thúc
+                },
+            },
             attributes: [
                 'product',
                 'date',
+                'user_id',
                 'shift',
                 'quantity',
                 'operated_time',
                 'shutdown_time',
-                'active_time',
                 'operator_history',
+                'department_id',
             ],
             include: [
                 {
@@ -108,15 +119,6 @@ const find_report_all = async () => {
                         },
                     ],
                 },
-                {
-                    model: CodeError,
-                    attributes: [
-                        'code',
-                        'description',
-                        'shutdown_time',
-                        'daily_report_id',
-                    ],
-                },
             ],
         });
         if (reports != null) {
@@ -125,10 +127,7 @@ const find_report_all = async () => {
                 data: reports,
             };
         } else {
-            return {
-                success: false,
-                message: 'daily report not found',
-            };
+            throw new Error('No report found');
         }
     } catch (error: any) {
         return {
@@ -192,6 +191,6 @@ const find_daily_report_by_id = async (id: any) => {
 export {
     daily_report_create,
     find_daily_report_by_id,
-    find_report_all,
+    find_all_report_of_department,
     find_report,
 };

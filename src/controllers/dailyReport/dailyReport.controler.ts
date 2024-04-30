@@ -1,6 +1,6 @@
 import {
     create_daily_report_use,
-    find_all_rp,
+    find_all_report_use,
     search_daily_report,
     find_rp_by_id,
 } from '../../useCases/dailyReport/dailyReport.useCase';
@@ -9,8 +9,8 @@ const daily_report_create = async (data: any) => {
     return await create_daily_report_use(data);
 };
 
-const find_all_report = async () => {
-    return await find_all_rp();
+const find_all_report = async (field: any) => {
+    return await find_all_report_use({ ...field });
 };
 
 const find_report = async (data: any) => {

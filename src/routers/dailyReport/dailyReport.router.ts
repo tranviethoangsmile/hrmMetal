@@ -6,8 +6,11 @@ import {
 } from '../../controllers/dailyReport/dailyReport.controler';
 import dailyRpRouter from './moduleReportRouter/dailyReport.router';
 import createDailyReportRouter from './create/create';
+import getAllDailyReport from './getAllDailyReport/getAllDailyReport.router';
 const rpRouter: Router = Router();
 rpRouter.use('/create', createDailyReportRouter);
+rpRouter.use('/getall', getAllDailyReport);
+rpRouter.use('/search', dailyRpRouter);
 rpRouter.post('/', async (req: Request, res: Response) => {
     try {
         const data = req.body;
@@ -29,28 +32,6 @@ rpRouter.post('/', async (req: Request, res: Response) => {
             res.status(400).end({
                 success: false,
                 message: 'data not empty',
-            });
-        }
-    } catch (error: any) {
-        res.status(500).send({
-            success: false,
-            message: 'Server error: ' + error?.message,
-        });
-    }
-});
-
-rpRouter.get('/', async (req: Request, res: Response) => {
-    try {
-        const reports = await find_all_report();
-        if (reports?.success) {
-            res.status(201).send({
-                success: true,
-                data: reports?.data,
-            });
-        } else {
-            res.status(200).send({
-                success: false,
-                message: reports?.message,
             });
         }
     } catch (error: any) {
@@ -90,7 +71,5 @@ rpRouter.get('/:id', async (req: Request, res: Response) => {
         });
     }
 });
-
-rpRouter.use('/search', dailyRpRouter);
 
 export default rpRouter;

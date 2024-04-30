@@ -1,6 +1,6 @@
 import {
     daily_report_create,
-    find_report_all,
+    find_all_report_of_department,
     find_report,
     find_daily_report_by_id,
 } from '../../repositorys/dailyReport/dailyReport.repository';
@@ -109,7 +109,7 @@ const create_daily_report_use = async (field: create_daily_report) => {
 
 const search_daily_report = async (data: search_report) => {
     try {
-        const valid = await valid_search_daily_report(data);
+        const valid = valid_search_daily_report(data);
         if (!valid?.error) {
             const reports = await find_report(data);
             if (reports?.success) {
@@ -137,24 +137,22 @@ const search_daily_report = async (data: search_report) => {
     }
 };
 
-const find_all_rp = async () => {
+const find_all_report_use = async (field: search_report) => {
     try {
-        const errs = await find_report_all();
-        if (errs?.success) {
-            return {
-                success: true,
-                data: errs?.data,
-            };
-        } else {
-            return {
-                success: false,
-                message: errs?.message,
-            };
+        const dailyReports = await find_all_report_of_department({
+            ...field,
+        });
+        if (!dailyReports?.success) {
+            throw new Error(dailyReports?.message);
         }
-    } catch (error) {
+        return {
+            success: true,
+            data: dailyReports?.data,
+        };
+    } catch (error: any) {
         return {
             success: false,
-            message: error,
+            message: `usecase: ${error?.message}`,
         };
     }
 };
@@ -192,7 +190,7 @@ const find_rp_by_id = async (id: any) => {
 
 export {
     create_daily_report_use,
-    find_all_rp,
+    find_all_report_use,
     search_daily_report,
     find_rp_by_id,
 };
