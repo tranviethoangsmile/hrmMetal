@@ -92,10 +92,9 @@ const find_all_report_of_department = async (field: any) => {
         const reports: DailyReport[] | null = await DailyReport.findAll({
             where: {
                 ...field,
-                date: {
-                    [Op.between]: [startDate, endDate], // Chỉ lấy các báo cáo trong khoảng ngày này đến ngày kết thúc
-                },
             },
+            order: [['date', 'DESC']],
+            limit: 7,
             attributes: [
                 'product',
                 'date',
