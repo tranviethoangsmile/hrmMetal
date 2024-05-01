@@ -13,11 +13,11 @@ const schame_create_daily_report = Joi.object({
 });
 
 const schame_search_daily_report = Joi.object({
-    product: Joi.string(),
+    product: Joi.string().allow(''),
     user_id: Joi.string(),
     department_id: Joi.string().guid().required(),
     date: Joi.date(),
-    shift: Joi.string(),
+    shift: Joi.string().allow(''),
 });
 
 const valid_create_daily_report = (data: any) => {

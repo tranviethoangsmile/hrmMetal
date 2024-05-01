@@ -16,9 +16,9 @@ getAllDailyReport.post('/', async (req: Request, res: Response) => {
         ) {
             throw new Error('data not empty');
         }
-        const isValid = await valid_search_daily_report(field);
+        const isValid = valid_search_daily_report(field);
         if (isValid?.error) {
-            throw new Error(isValid?.error?.message);
+            throw new Error(`${isValid?.error?.message}`);
         }
         if (field?.product) {
             if (
@@ -41,7 +41,7 @@ getAllDailyReport.post('/', async (req: Request, res: Response) => {
     } catch (error: any) {
         res.status(500).json({
             success: false,
-            message: `Server Error: ${error?.message}`,
+            message: `Server Error router: ${error?.message}`,
         });
     }
 });
