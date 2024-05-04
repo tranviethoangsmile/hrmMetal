@@ -7,6 +7,7 @@ const update_inventory_repo = async (field: any) => {
             {
                 where: {
                     product: field?.product,
+                    department_id: field?.department_id,
                 },
             },
         );

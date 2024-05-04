@@ -86,9 +86,6 @@ const find_report = async (data: any) => {
 
 const find_all_report_of_department = async (field: any) => {
     try {
-        const startDate = moment().subtract(7, 'days').toDate(); // Ngày bắt đầu: ngày hiện tại trừ đi 10 ngày
-        const endDate = new Date(); // Ngày kết thúc: ngày hiện tại
-
         const reports: DailyReport[] | null = await DailyReport.findAll({
             where: {
                 ...field,
