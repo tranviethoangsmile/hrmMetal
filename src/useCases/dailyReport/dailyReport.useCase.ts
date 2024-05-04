@@ -55,49 +55,115 @@ const create_daily_report_use = async (field: create_daily_report) => {
         const field_search = {
             product: field.product,
         };
-        let second_value;
-        let inventory;
-
         const inventorys = await search_inventory_with_name({
             ...field_search,
         });
-        if (!inventorys?.success) {
-            if (user?.data?.department?.name != '加工') {
-                const create_inventory = await create({
-                    product: field.product,
-                    quantity: 0,
-                    department_id: field.department_id,
-                });
-                if (!create_inventory?.success) {
-                    throw new Error(
-                        create_inventory?.message ||
-                            'Failed to create inventory',
-                    );
+        if (inventorys?.success) {
+            if (user?.data?.department?.name === '加工') {
+                const is_avaliable = inventorys?.data?.some(
+                    inventory =>
+                        inventory.department_id === field.department_id,
+                );
+                if (!is_avaliable) {
+                    const inventory = inventorys?.data?.[0];
+                    const create_inventory = await create({
+                        product: field.product,
+                        quantity: field.quantity,
+                        department_id: field.department_id,
+                    });
+                    if (create_inventory?.success) {
+                        if (inventory?.quantity != undefined) {
+                            const update_inventory_old =
+                                await update_inventory_repo({
+                                    quantity:
+                                        inventory.quantity - field.quantity,
+                                    product: field.product,
+                                    department_id: inventory.department_id,
+                                });
+                            if (!update_inventory_old?.success) {
+                                throw new Error(update_inventory_old?.message);
+                            }
+                        } else {
+                            throw new Error('Failed to get inventory quantity');
+                        }
+                    } else {
+                        throw new Error(create_inventory?.message);
+                    }
                 } else {
-                    inventory = create_inventory?.data;
+                    let inventory_old_of_kako: any;
+                    let inventory_old: any;
+                    inventorys?.data?.forEach(inventory => {
+                        if (inventory?.department_id != field.department_id) {
+                            inventory_old = inventory;
+                        } else {
+                            inventory_old_of_kako = inventory;
+                        }
+                    });
+                    if (
+                        inventory_old_of_kako?.quantity != undefined &&
+                        inventory_old?.quantity != undefined
+                    ) {
+                        const update_kako = await update_inventory_repo({
+                            quantity:
+                                inventory_old_of_kako.quantity + field.quantity,
+                            product: inventory_old_of_kako.product,
+                            department_id: inventory_old_of_kako.department_id,
+                        });
+                        if (!update_kako?.success) {
+                            throw new Error(update_kako?.message);
+                        }
+                        const update_inventory = await update_inventory_repo({
+                            quantity: inventory_old.quantity - field.quantity,
+                            product: inventory_old.product,
+                            department_id: inventory_old.department_id,
+                        });
+                        if (!update_inventory.success) {
+                            throw new Error(update_inventory.message);
+                        }
+                    } else {
+                        throw new Error(
+                            'inventory_old_of_kako or inventory_old is undefined',
+                        );
+                    }
+                }
+            } else {
+                let inventory_old: any;
+                inventorys?.data?.forEach(inventory => {
+                    if (inventory?.department_id === field.department_id) {
+                        inventory_old = inventory;
+                    }
+                });
+                if (inventory_old?.quantity != undefined) {
+                    const update_inventory = await update_inventory_repo({
+                        quantity: inventory_old.quantity + field.quantity,
+                        product: inventory_old.product,
+                        department_id: inventory_old.department_id,
+                    });
+                    if (!update_inventory.success) {
+                        throw new Error(update_inventory.message);
+                    }
+                } else {
+                    throw new Error('inventory_old is undefined');
                 }
             }
         } else {
-            inventory = inventorys.data?.[0];
-        }
-        const first_value = inventory?.quantity;
-        if (first_value == undefined) {
-            throw new Error('Failed to get inventory quantity');
-        }
-        if (user?.data?.department?.name === '加工') {
-            second_value = first_value - field.quantity;
-        } else {
-            second_value = first_value + field.quantity;
-        }
-
-        const update_inventory = await update_inventory_repo({
-            quantity: second_value,
-            product: field.product,
-        });
-        if (!update_inventory?.success) {
-            throw new Error(
-                update_inventory?.message || 'Failed to update inventory',
-            );
+            const create_inventory = await create({
+                product: field.product,
+                quantity: 0,
+                department_id: field.department_id,
+            });
+            if (create_inventory?.success) {
+                const update_inventory = await update_inventory_repo({
+                    quantity: field.quantity,
+                    product: field.product,
+                    department_id: field.department_id,
+                });
+                if (!update_inventory?.success) {
+                    throw new Error(update_inventory?.message);
+                }
+            } else {
+                throw new Error(create_inventory?.message);
+            }
         }
         await t.commit();
         return { success: true, data: report?.data };
@@ -162,7 +228,6 @@ const find_rp_by_id = async (id: any) => {
         const valid = await validation_id(id);
         if (!valid?.error) {
             const report = await find_daily_report_by_id(id);
-            console.log(report);
             if (report?.success) {
                 return {
                     success: true,
