@@ -4,6 +4,8 @@ import {
     update_active_paid_leave,
     search_leave_request_with_field_repo,
     update_un_approve_leave_request_repo,
+    update_confirm_from_admin_paid_leave_request_repo,
+    get_paid_lead_with_id_repo,
 } from '../../repositorys/paidLeaveRequest/paidLeaveRequest.repository';
 import {
     create,
@@ -15,6 +17,40 @@ import {
     validate_update,
     validate_search,
 } from '../../validates/paidLeaveRequest/paidLeaveRequest.validate';
+import { create_checkin } from '../../repositorys/checkin/checkin.repo';
+const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
+    try {
+        const pail_leave = await get_paid_lead_with_id_repo(field.id);
+
+        if (!pail_leave?.success) {
+            throw new Error(pail_leave?.message);
+        }
+        const checkin_field = {
+            user_id: pail_leave?.data?.user_id,
+            date: pail_leave?.data?.date_leave,
+            is_paid_leave: true,
+        };
+        console.log(checkin_field);
+        const checkin = await create_checkin(checkin_field);
+        if (!checkin?.success) {
+            throw new Error(checkin?.message);
+        }
+        const update_confirm =
+            await update_confirm_from_admin_paid_leave_request_repo(field);
+        if (!update_confirm.success) {
+            throw new Error(update_confirm?.message);
+        }
+        return {
+            success: true,
+            message: update_confirm?.message,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.message,
+        };
+    }
+};
 const update_un_approve_leave_request_use = async (field: update) => {
     try {
         const isValid = validate_update(field);
@@ -130,16 +166,10 @@ const update_paid_leave = async (data: update) => {
                     message: paid_leave?.message,
                 };
             } else {
-                return {
-                    success: false,
-                    message: paid_leave?.message,
-                };
+                throw new Error(paid_leave?.message);
             }
         } else {
-            return {
-                success: false,
-                message: valid?.error.message,
-            };
+            throw new Error(valid?.error?.message);
         }
     } catch (error: any) {
         return {
@@ -155,4 +185,5 @@ export {
     update_paid_leave,
     search_leave_request_with_field_use,
     update_un_approve_leave_request_use,
+    update_confirm_from_admin_paid_leave_request_use,
 };

@@ -22,9 +22,17 @@ interface get_checkin_in_date_of_position_interface {
     position: string;
 }
 
+interface check_value_request_checkin {
+    user_id: string;
+    date: string;
+    check_time: string;
+    work_shift: string;
+}
+
 export {
     create_checkin_interface,
     update_checkin_interface,
     is_Checked_interface,
     get_checkin_in_date_of_position_interface,
+    check_value_request_checkin,
 };

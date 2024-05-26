@@ -11,6 +11,7 @@ CREATE TABLE informations
     updated_at DATE NOT NULL,
     deleted_at DATE NULL,
     is_public BOOLEAN DEFAULT FALSE,
+    is_check_safety BOOLEAN DEFAULT FALSE,
     is_video BOOLEAN DEFAULT FALSE,
     FOREIGN KEY
     (user_id) REFERENCES users

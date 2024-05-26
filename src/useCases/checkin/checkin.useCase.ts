@@ -76,6 +76,7 @@ const is_checked = async (field: is_Checked_interface) => {
 };
 const create_checkin_use = async (data: create_checkin_interface) => {
     try {
+        console.log(data);
         const valid = create_checkin_validate(data);
         if (!valid.error) {
             const result_create = await create_checkin(data);
