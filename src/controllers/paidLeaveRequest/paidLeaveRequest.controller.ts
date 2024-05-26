@@ -4,6 +4,7 @@ import {
     update_paid_leave,
     search_leave_request_with_field_use,
     update_un_approve_leave_request_use,
+    update_confirm_from_admin_paid_leave_request_use,
 } from '../../useCases/paidLeaveRequest/paidLeaveRequest.useCase';
 
 const create = async (data: any) => {
@@ -22,6 +23,11 @@ const search_leave_request_with_field_controller = async (field: any) => {
 const update_un_approve_leave_request_controller = async (field: any) => {
     return await update_un_approve_leave_request_use(field);
 };
+const update_confirm_from_admin_paid_leave_request_controller = async (
+    field: any,
+) => {
+    return await update_confirm_from_admin_paid_leave_request_use(field);
+};
 
 export {
     create,
@@ -29,4 +35,5 @@ export {
     update_is_active,
     search_leave_request_with_field_controller,
     update_un_approve_leave_request_controller,
+    update_confirm_from_admin_paid_leave_request_controller,
 };

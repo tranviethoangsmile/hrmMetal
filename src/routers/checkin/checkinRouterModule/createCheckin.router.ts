@@ -9,6 +9,7 @@ const createCheckin: Router = Router();
 import { io } from '../../../socket/socketIO';
 import { Socket } from 'socket.io';
 import { findById } from '../../../controllers/user/user.controller';
+import { check_value_request_checkin } from '../../../interfaces/checkin/checkin.interface';
 
 createCheckin.post('/', async (req: Request, res: Response) => {
     try {
@@ -21,12 +22,15 @@ createCheckin.post('/', async (req: Request, res: Response) => {
         };
         const NIGHT_END = moment('05:00', 'HH:mm');
         const DAY_END = moment('16:45', 'HH:mm');
-        const data = req.body;
-        if (!data) {
-            return res.status(400).json({
-                success: false,
-                message: 'Data is empty',
-            });
+        const data: check_value_request_checkin = req.body;
+        if (
+            !data ||
+            !data?.check_time ||
+            !data?.date ||
+            !data?.user_id ||
+            !data?.work_shift
+        ) {
+            throw new Error('data not empty');
         }
 
         const check_field = {

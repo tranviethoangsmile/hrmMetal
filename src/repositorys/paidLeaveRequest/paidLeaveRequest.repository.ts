@@ -1,5 +1,26 @@
 import { Department, PaidLeaveRequest, User } from '../../models';
 
+const get_paid_lead_with_id_repo = async (id: string) => {
+    try {
+        const paid_leave: PaidLeaveRequest | null =
+            await PaidLeaveRequest.findOne({
+                where: { id: id },
+            });
+        if (paid_leave === null) {
+            throw new Error('Paid leave not exist');
+        }
+        return {
+            success: true,
+            data: paid_leave,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
+
 const create_paid_leave_request = async (data: any) => {
     try {
         const paid_leave_request: PaidLeaveRequest | null =
@@ -154,13 +175,10 @@ const update_active_paid_leave = async (id: any) => {
         if (update_paid_leave.toString() === '1') {
             return {
                 success: true,
-                message: 'update paid leave failed',
+                message: 'updated paid leave',
             };
         } else {
-            return {
-                success: false,
-                message: 'update paid leave failed',
-            };
+            throw new Error('failed');
         }
     } catch (error: any) {
         return {
@@ -186,10 +204,38 @@ const update_un_approve_leave_request_repo = async (field: any) => {
                 message: 'update paid leave success',
             };
         } else {
+            throw new Error('failed');
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
+
+const update_confirm_from_admin_paid_leave_request_repo = async (
+    field: any,
+) => {
+    try {
+        const update_confirm = await PaidLeaveRequest.update(
+            {
+                ...field,
+                is_confirm: true,
+            },
+            {
+                where: {
+                    id: field.id,
+                },
+            },
+        );
+        if (update_confirm.toString() === '1') {
             return {
-                success: false,
-                message: 'update paid leave failed',
+                success: true,
+                message: 'update paid leave success',
             };
+        } else {
+            throw new Error('failed');
         }
     } catch (error: any) {
         return {
@@ -204,4 +250,6 @@ export {
     update_active_paid_leave,
     search_leave_request_with_field_repo,
     update_un_approve_leave_request_repo,
+    update_confirm_from_admin_paid_leave_request_repo,
+    get_paid_lead_with_id_repo,
 };

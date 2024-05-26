@@ -16,6 +16,7 @@ const get_checkin_detail_in_date_of_user_repo = async (filed: any) => {
                 'work_time',
                 'over_time',
                 'is_weekend',
+                'is_paid_leave',
             ],
             include: [
                 {
@@ -61,17 +62,13 @@ const create_checkin = async (data: any) => {
         const create_value_checkin: Checkin | null = await Checkin.create({
             ...data,
         });
-        if (create_value_checkin != null) {
-            return {
-                success: true,
-                data: create_value_checkin,
-            };
-        } else {
-            return {
-                success: false,
-                message: 'create checkin false',
-            };
+        if (create_value_checkin == null) {
+            throw new Error('create checkin not success');
         }
+        return {
+            success: true,
+            data: create_value_checkin,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -168,6 +165,7 @@ const search_checkin_of_user_in_month = async (field: any) => {
                 'work_time',
                 'over_time',
                 'is_weekend',
+                'is_paid_leave',
             ],
             include: [
                 {
@@ -218,6 +216,7 @@ const get_checkin_of_position_in_date_repo = async (field: any) => {
                 'time_in',
                 'time_out',
                 'is_weekend',
+                'is_paid_leave',
             ],
             include: [
                 {

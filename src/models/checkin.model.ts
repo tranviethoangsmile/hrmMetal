@@ -15,6 +15,7 @@ class Checkin extends Model {
     public work_shift!: Enumerator;
     public is_weekend!: boolean;
     public is_checked!: boolean;
+    public is_paid_leave!: boolean;
     //
     public user!: User;
 }
@@ -28,11 +29,11 @@ Checkin.init(
         },
         user_id: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         time_in: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         time_out: {
             type: DataTypes.STRING,
@@ -68,6 +69,11 @@ Checkin.init(
             values: Object.values(shift_work).map(value => value.toString()),
         },
         is_checked: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+        },
+        is_paid_leave: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false,

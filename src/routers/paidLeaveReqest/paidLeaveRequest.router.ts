@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import create_router from './create/create';
 import searchLeaveRouter from './search/searchPaidLeaveRequestWithField.router';
 import unApproveRouter from './update/updateUnApproveLeave.router';
+import updateConfirmRouter from './update/updateConfirmLeave.router';
 import {
     get_all,
     update_is_active,
@@ -12,6 +13,7 @@ const paidLeaveRouter: Router = Router();
 paidLeaveRouter.use('/create', create_router);
 paidLeaveRouter.use('/search', searchLeaveRouter);
 paidLeaveRouter.use('/update', unApproveRouter);
+paidLeaveRouter.use('/updateconfirm', updateConfirmRouter);
 
 paidLeaveRouter.get('/', async (req: Request, res: Response) => {
     try {
