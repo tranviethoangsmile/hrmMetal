@@ -39,7 +39,7 @@ const search_information_of_user_repo = async (id: any) => {
                 'position',
                 'is_public',
                 'is_video',
-                'is_check_safety',
+                'is_event',
             ],
             include: [
                 {
@@ -89,7 +89,7 @@ const search_information_by_id_repo = async (id: string) => {
                 'position',
                 'is_public',
                 'is_video',
-                'is_check_safety',
+                'is_event',
             ],
             include: [
                 {
@@ -139,7 +139,7 @@ const search_information_all_with_field_repo = async (field: any) => {
                 'position',
                 'is_public',
                 'is_video',
-                'is_check_safety',
+                'is_event',
             ],
             include: [
                 {

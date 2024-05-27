@@ -7,7 +7,7 @@ export interface create_infomation {
     media?: string;
     is_video?: boolean;
     is_public?: boolean;
-    is_check_safety?: boolean;
+    is_event?: boolean;
 }
 
 export interface search_all_information {
