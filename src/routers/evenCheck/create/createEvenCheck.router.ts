@@ -5,6 +5,8 @@ const createEvenCheck: Router = Router();
 createEvenCheck.post('/', async (req: Request, res: Response) => {
     try {
         const field: create_event_check_interface = req.body;
+        console.log(field);
+
         if (!field || !field.event_id || !field.is_confirm || !field.user_id) {
             return res.status(400).json({
                 success: false,

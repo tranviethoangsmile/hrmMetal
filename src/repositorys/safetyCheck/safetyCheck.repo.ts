@@ -20,4 +20,25 @@ const create_safety_check_repo = async (field: any) => {
     }
 };
 
-export { create_safety_check_repo };
+const search_safety_checked_repo = async (field: any) => {
+    try {
+        const eventCheck: SafetyChecks | null = await SafetyChecks.findOne({
+            where: {
+                ...field,
+            },
+        });
+        if (eventCheck == null) {
+            throw new Error('not exist !!');
+        }
+        return {
+            success: true,
+            data: eventCheck,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `repo: ${error?.message}`,
+        };
+    }
+};
+export { create_safety_check_repo, search_safety_checked_repo };

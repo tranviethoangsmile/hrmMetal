@@ -94,10 +94,10 @@ const search_event_by_id_repo = async (id: string) => {
 
 const get_all_event_repo = async () => {
     try {
-        const events: Events[] | null = await Events.findAll({
+        const events: Events[] = await Events.findAll({
             where: { is_active: true },
         });
-        if (events == null) {
+        if (events.length < 1) {
             throw new Error('Event not exist!!!');
         }
         return {

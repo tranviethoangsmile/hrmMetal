@@ -6,4 +6,9 @@ interface create_safety_check_interface {
     is_at_home: boolean;
     is_can_work: boolean;
 }
-export { create_safety_check_interface };
+
+interface search_safety_checked_interface {
+    user_id: string;
+    event_id: string;
+}
+export { create_safety_check_interface, search_safety_checked_interface };

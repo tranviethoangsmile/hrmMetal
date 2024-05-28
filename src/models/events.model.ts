@@ -4,8 +4,9 @@ import { DataTypes, Model } from 'sequelize';
 class Events extends Model {
     public id!: string;
     public name!: string;
-    is_safety!: boolean;
-    is_active!: boolean;
+    public description!: string;
+    public is_safety!: boolean;
+    public is_active!: boolean;
 }
 
 Events.init(
@@ -16,6 +17,10 @@ Events.init(
             primaryKey: true,
         },
         name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        description: {
             type: DataTypes.STRING,
             allowNull: false,
         },

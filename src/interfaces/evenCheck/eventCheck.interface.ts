@@ -3,5 +3,8 @@ interface create_event_check_interface {
     event_id: string;
     is_confirm: boolean;
 }
-
-export { create_event_check_interface };
+interface search_event_checked {
+    user_id: string;
+    event_id: string;
+}
+export { create_event_check_interface, search_event_checked };

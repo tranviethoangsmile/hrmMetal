@@ -2,8 +2,9 @@ import Joi from '@hapi/joi';
 
 const schema_create_events = Joi.object({
     name: Joi.string().required(),
-    is_safety: Joi.boolean(),
-    is_active: Joi.boolean(),
+    is_safety: Joi.boolean().required(),
+    is_active: Joi.boolean().required(),
+    description: Joi.string().required(),
 });
 const schema_update_events = Joi.object({
     id: Joi.string().guid().required(),

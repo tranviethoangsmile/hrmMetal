@@ -43,6 +43,6 @@ v1Router.use('/information', informationRouter);
 v1Router.use('/inventory', inventoryRouter);
 v1Router.use('/events', eventsRouter);
 v1Router.use('/safetycheck', safetyCheckRouter);
-v1Router.use('/evencheck', evenCheckRouter);
+v1Router.use('/eventcheck', evenCheckRouter);
 
 export default v1Router;
