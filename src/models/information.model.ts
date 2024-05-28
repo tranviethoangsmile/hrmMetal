@@ -10,7 +10,7 @@ class Information extends Model {
     public media!: string;
     public is_video!: boolean;
     public is_public!: boolean;
-    public is_check_safety!: boolean;
+    public is_event!: boolean;
     public position!: Enumerator;
 }
 
@@ -49,7 +49,7 @@ Information.init(
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
-        is_check_safety: {
+        is_event: {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },

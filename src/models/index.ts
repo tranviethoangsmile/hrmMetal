@@ -14,6 +14,9 @@ import GroupMember from './groupMember.model';
 import Checkin from './checkin.model';
 import Information from './information.model';
 import Inventory from './inventory.model';
+import Events from './events.model';
+import SafetyChecks from './safetyCheck.model';
+import EventChecks from './eventCheck.model';
 User.belongsTo(Department, { foreignKey: 'department_id', as: 'department' });
 Department.hasMany(User, { foreignKey: 'department_id', as: 'users' });
 Order.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
@@ -48,6 +51,14 @@ DailyReport.belongsTo(Department, { foreignKey: 'department_id' });
 Department.hasMany(DailyReport, { foreignKey: 'department_id' });
 Inventory.belongsTo(Department, { foreignKey: 'department_id' });
 Department.hasMany(Inventory, { foreignKey: 'department_id' });
+Events.hasMany(SafetyChecks, { foreignKey: 'event_id' });
+SafetyChecks.belongsTo(Events, { foreignKey: 'event_id' });
+Events.hasMany(EventChecks, { foreignKey: 'event_id' });
+EventChecks.belongsTo(Events, { foreignKey: 'event_id' });
+SafetyChecks.belongsTo(User, { foreignKey: 'user_id' });
+User.hasMany(SafetyChecks, { foreignKey: 'user_id' });
+EventChecks.belongsTo(User, { foreignKey: 'user_id' });
+User.hasMany(EventChecks, { foreignKey: 'user_id' });
 
 export {
     User,
@@ -66,4 +77,7 @@ export {
     Checkin,
     Information,
     Inventory,
+    Events,
+    SafetyChecks,
+    EventChecks,
 };

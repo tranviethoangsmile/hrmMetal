@@ -8,7 +8,7 @@ const schema_create_infomation_validate = Joi.object({
     media: Joi.string(),
     is_video: Joi.boolean(),
     is_public: Joi.boolean(),
-    is_check_safety: Joi.boolean(),
+    is_event: Joi.boolean(),
 });
 
 const schema_search_all_information_validate = Joi.object({
