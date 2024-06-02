@@ -5,6 +5,10 @@ const schema_create_events = Joi.object({
     is_safety: Joi.boolean().required(),
     is_active: Joi.boolean().required(),
     description: Joi.string().required(),
+    date_start: Joi.string().required(),
+    date_end: Joi.string().required(),
+    position: Joi.string().required(),
+    media: Joi.string(),
 });
 const schema_update_events = Joi.object({
     id: Joi.string().guid().required(),

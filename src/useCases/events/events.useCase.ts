@@ -10,11 +10,18 @@ import {
     validate_create_events,
     validate_update_events,
 } from '../../validates/events/events.validate';
+import { Position } from '../../enum/Position.enum';
 const create_events_use = async (field: any) => {
     try {
         const isValid = validate_create_events(field);
         if (isValid?.error) {
             throw new Error(isValid?.error?.message);
+        }
+        if (
+            typeof field.position === 'string' &&
+            !Object.values(Position).includes(field.position)
+        ) {
+            throw new Error('position is not valid');
         }
         const event = await create_events_repo(field);
         if (!event?.success) {

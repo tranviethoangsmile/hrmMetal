@@ -13,6 +13,7 @@ import {
     validate_create_information,
     validate_search_all_information,
 } from '../../validates/infomation/infomation.validate';
+import { Position } from '../../enum/Position.enum';
 import { validation_id } from '../../validates';
 import { findUserById } from '../user/user.useCase';
 const create_information_use = async (value: create_infomation) => {
@@ -26,6 +27,12 @@ const create_information_use = async (value: create_infomation) => {
                     ...value,
                     position: position,
                 };
+                if (
+                    typeof info_value.position === 'string' &&
+                    !Object.values(Position).includes(info_value.position)
+                ) {
+                    throw new Error('position is not valid');
+                }
                 const newInfomation = await create_infomation_repo(info_value);
                 if (newInfomation?.success) {
                     return {
