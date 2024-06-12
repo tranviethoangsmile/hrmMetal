@@ -1,7 +1,7 @@
 CREATE TABLE inventorys
 (
     id VARCHAR(36) PRIMARY KEY NOT NULL,
-    product VARCHAR(10) NOT NULL,
+    product VARCHAR(20) NOT NULL,
     department_id VARCHAR(36) NOT NULL,
     quantity INT NOT NULL,
     created_at DATE NOT NULL,

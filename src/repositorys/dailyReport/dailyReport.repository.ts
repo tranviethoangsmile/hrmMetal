@@ -7,6 +7,7 @@ const daily_report_create = async (data: any) => {
         const new_daily_report: DailyReport | null = await DailyReport.create({
             ...data,
         });
+        console.log(new_daily_report);
         if (new_daily_report != null) {
             return {
                 success: true,

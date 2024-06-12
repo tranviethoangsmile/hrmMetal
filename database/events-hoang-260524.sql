@@ -7,7 +7,7 @@ CREATE TABLE events
     is_active BOOLEAN DEFAULT TRUE,
     date_end DATE NOT NULL,
     date_start DATE NOT NULL,
-    position VARCHAR(10) NOT NULL,
+    position VARCHAR(36) NOT NULL,
     media VARCHAR(255) NULL,
     created_at DATE NOT NULL,
     updated_at DATE NOT NULL,
