@@ -23,6 +23,37 @@ import {
 } from '../../repositorys/inventory/inventory.repo';
 import { getDepartmentById } from '../../repositorys/department/department.repository';
 import db from '../../dbs/db';
+const handleProductName = (value: string) => {
+    switch (value) {
+        case 'D042F_PAO_DC4':
+        case 'D042F_PAO_DC3':
+            return 'D042F';
+        case 'D93F_PAO_DC4':
+        case 'D93F_PAO_DC3':
+        case 'D93F_PAO_DC2':
+            return 'D93F';
+        case 'D860F_PAO_DC3':
+            return 'D860F';
+        case 'D61F_PAO_DC4':
+        case 'D61F_PAO_DC2':
+            return 'D61F';
+        case 'D66_5':
+        case 'D66_6':
+        case 'D66_DC3':
+            return 'D66F';
+        case 'DF93_4':
+        case 'DF93_3':
+            return 'DF93CTC';
+        case 'DK05FR_1':
+        case 'DK05FR_2':
+            return 'DK05FR';
+        case 'DK05RR_2':
+        case 'DK05RR_1':
+            return 'DK05RR';
+        default:
+            return value;
+    }
+};
 const create_daily_report_use = async (field: create_daily_report) => {
     const t = await db.transaction();
     try {
@@ -49,12 +80,11 @@ const create_daily_report_use = async (field: create_daily_report) => {
         }
 
         const report = await daily_report_create(field);
-        console.log(report);
         if (!report?.success) {
             throw new Error(report?.message || 'Failed to create daily report');
         }
         const field_search = {
-            product: field.product,
+            product: handleProductName(field.product),
         };
         const inventorys = await search_inventory_with_name({
             ...field_search,
@@ -68,7 +98,7 @@ const create_daily_report_use = async (field: create_daily_report) => {
                 if (!is_avaliable) {
                     const inventory = inventorys?.data?.[0];
                     const create_inventory = await create({
-                        product: field.product,
+                        product: handleProductName(field.product),
                         quantity: field.quantity,
                         department_id: field.department_id,
                     });
@@ -78,7 +108,7 @@ const create_daily_report_use = async (field: create_daily_report) => {
                                 await update_inventory_repo({
                                     quantity:
                                         inventory.quantity - field.quantity,
-                                    product: field.product,
+                                    product: handleProductName(field.product),
                                     department_id: inventory.department_id,
                                 });
                             if (!update_inventory_old?.success) {
@@ -149,14 +179,14 @@ const create_daily_report_use = async (field: create_daily_report) => {
             }
         } else {
             const create_inventory = await create({
-                product: field.product,
+                product: handleProductName(field.product),
                 quantity: 0,
                 department_id: field.department_id,
             });
             if (create_inventory?.success) {
                 const update_inventory = await update_inventory_repo({
                     quantity: field.quantity,
-                    product: field.product,
+                    product: handleProductName(field.product),
                     department_id: field.department_id,
                 });
                 if (!update_inventory?.success) {

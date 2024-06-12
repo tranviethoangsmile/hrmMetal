@@ -22,7 +22,8 @@ CREATE TABLE users
   FOREIGN KEY (department_id) REFERENCES departments(id)
 );
 
-
+ALTER TABLE users ADD COLUMN is_offical_staff BOOLEAN DEFAULT false;
+ALTER TABLE users ADD COLUMN salary_hourly NUMBER NOT NULL;
 
 CREATE TABLE departments
 (
