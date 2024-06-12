@@ -49,6 +49,7 @@ const create_daily_report_use = async (field: create_daily_report) => {
         }
 
         const report = await daily_report_create(field);
+        console.log(report);
         if (!report?.success) {
             throw new Error(report?.message || 'Failed to create daily report');
         }
