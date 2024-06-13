@@ -14,6 +14,9 @@ interface token_payload {
     department: object;
     is_officer: boolean;
     department_id: string;
+    is_offical_staff: boolean;
+    salary_hourly: number;
+    begin_date: string;
 }
 
 export { login_data, token_payload };

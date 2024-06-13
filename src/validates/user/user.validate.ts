@@ -16,6 +16,9 @@ const schema_user_create = Joi.object({
     role: Joi.string().required(),
     position: Joi.string().required(),
     department_id: Joi.string().guid(),
+    begin_date: Joi.string(),
+    is_offical_staff: Joi.boolean().default(false),
+    salary_hourly: Joi.number().integer().min(100).max(999999),
 });
 
 const schema_user_update = Joi.object({
@@ -35,6 +38,9 @@ const schema_user_update = Joi.object({
     role: Joi.string(),
     position: Joi.string(),
     department_id: Joi.string().guid(),
+    begin_date: Joi.string(),
+    is_offical_staff: Joi.boolean().default(false),
+    salary_hourly: Joi.number().integer().min(100).max(999999),
 });
 
 const schema_user_find_all_with_field = Joi.object({

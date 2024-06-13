@@ -17,6 +17,9 @@ interface UpdateField {
     position?: string;
     department_id?: string;
     is_officer?: boolean;
+    begin_date?: string;
+    is_offical_staff?: boolean;
+    salary_hourly?: number;
     department?: Department;
 }
 
@@ -36,7 +39,9 @@ interface CreateField {
     role?: string;
     position?: string;
     department_id: string;
-
+    begin_date?: string;
+    is_offical_staff?: boolean;
+    salary_hourly?: number;
     department: Department;
 }
 

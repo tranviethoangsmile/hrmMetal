@@ -26,6 +26,9 @@ const login = async (user: any) => {
                 'is_admin',
                 'is_officer',
                 'department_id',
+                'is_offical_staff',
+                'salary_hourly',
+                'begin_date',
             ],
             include: [
                 {
@@ -48,6 +51,9 @@ const login = async (user: any) => {
                 department: user_login?.dataValues.department,
                 is_officer: user_login?.dataValues.is_officer,
                 department_id: user_login?.dataValues.department_id,
+                is_offical_staff: user_login?.dataValues.is_offical_staff,
+                salary_hourly: user_login?.dataValues.salary_hourly,
+                begin_date: user_login?.dataValues.begin_date,
             };
             if (pass) {
                 const secret = crypto

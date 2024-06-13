@@ -9,6 +9,7 @@ import {
 import uploadAvatar from './userRouterModul/uploadRouterModul';
 import findUser from './userRouterModul/findAllUserWithField';
 import getUserWithDepartmentId from './userRouterModul/getUserWithDepartmentId';
+import { CreateField } from '../../interfaces/user/user.interface';
 const userRouters: Router = Router();
 userRouters.use('/getuserwithdepartmentid', getUserWithDepartmentId);
 userRouters.use('/upload-avatar', uploadAvatar);
@@ -37,31 +38,40 @@ userRouters.get('/', async (req: Request, res: Response) => {
 
 userRouters.post('/', async (req: Request, res: Response) => {
     try {
-        const user = req.body;
-        if (user != null) {
-            const data = await create(user);
-            if (data?.success) {
-                res.status(201).send({
-                    success: true,
-                    data: data?.data,
-                });
-            } else {
-                res.status(200).send({
-                    success: false,
-                    message: data?.message,
-                });
-            }
+        const user: CreateField = req.body;
+
+        if (
+            !user ||
+            !user.name ||
+            !user.email ||
+            !user.user_name ||
+            !user.password ||
+            !user.dob ||
+            !user.employee_id ||
+            !user.department_id
+        ) {
+            throw new Error('bad request 1');
+        }
+        if (user.salary_hourly === undefined) {
+            throw new Error('bad request 2');
+        }
+        const data = await create(user);
+        if (data?.success) {
+            res.status(201).send({
+                success: true,
+                data: data?.data,
+            });
         } else {
-            res.status(400).json({
+            res.status(200).send({
                 success: false,
-                message: 'data not empty',
+                message: data?.message,
             });
         }
     } catch (error: any) {
-        return {
+        return res.status(500).json({
             success: false,
-            message: 'server error: ' + error.message,
-        };
+            message: `server message: ${error?.message}`,
+        });
     }
 });
 
