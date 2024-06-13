@@ -23,7 +23,8 @@ CREATE TABLE users
 );
 
 ALTER TABLE users ADD COLUMN is_offical_staff BOOLEAN DEFAULT false;
-ALTER TABLE users ADD COLUMN salary_hourly NUMBER NOT NULL;
+ALTER TABLE users ADD COLUMN salary_hourly INTEGER NULL;
+ALTER TABLE users ADD COLUMN begin_date VARCHAR NULL;
 
 CREATE TABLE departments
 (

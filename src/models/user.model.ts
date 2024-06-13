@@ -20,6 +20,9 @@ class User extends Model {
     public position!: Enumerator;
     public department_id!: string;
     public is_officer!: boolean;
+    public salary_hourly!: number;
+    public begin_date!: string;
+    public is_offical_staff!: boolean;
     public department!: Department;
 }
 
@@ -41,6 +44,10 @@ User.init(
         email: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        begin_date: {
+            type: DataTypes.STRING,
+            allowNull: true,
         },
         password: {
             type: DataTypes.STRING,
@@ -68,12 +75,21 @@ User.init(
             allowNull: false,
             unique: true,
         },
+        salary_hourly: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
         is_active: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: true,
         },
         is_officer: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+        },
+        is_offical_staff: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false,
