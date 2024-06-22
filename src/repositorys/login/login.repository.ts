@@ -29,6 +29,9 @@ const login = async (user: any) => {
                 'is_offical_staff',
                 'salary_hourly',
                 'begin_date',
+                'shift_night_pay',
+                'travel_allowance_pay',
+                'paid_days',
             ],
             include: [
                 {
@@ -53,6 +56,10 @@ const login = async (user: any) => {
                 department_id: user_login?.dataValues.department_id,
                 is_offical_staff: user_login?.dataValues.is_offical_staff,
                 salary_hourly: user_login?.dataValues.salary_hourly,
+                shift_night_pay: user_login?.dataValues.shift_night_pay,
+                travel_allowance_pay:
+                    user_login?.dataValues.travel_allowance_pay,
+                paid_days: user_login?.dataValues.paid_days,
                 begin_date: user_login?.dataValues.begin_date,
             };
             if (pass) {

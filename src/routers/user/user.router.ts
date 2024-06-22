@@ -52,8 +52,13 @@ userRouters.post('/', async (req: Request, res: Response) => {
         ) {
             throw new Error('bad request 1');
         }
-        if (user.salary_hourly === undefined) {
-            throw new Error('bad request 2');
+        if (
+            user.salary_hourly === undefined &&
+            user.travel_allowance_pay === undefined &&
+            user.shift_night_pay === undefined &&
+            user.paid_days === undefined
+        ) {
+            throw new Error('salary or other not empty');
         }
         const data = await create(user);
         if (data?.success) {
