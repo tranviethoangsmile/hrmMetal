@@ -21,6 +21,10 @@ class User extends Model {
     public department_id!: string;
     public is_officer!: boolean;
     public salary_hourly!: number;
+    public shift_night_pay!: number;
+    public travel_allowance_pay!: number;
+    public paid_days!: number;
+
     public begin_date!: string;
     public is_offical_staff!: boolean;
     public department!: Department;
@@ -76,6 +80,18 @@ User.init(
             unique: true,
         },
         salary_hourly: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        shift_night_pay: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        travel_allowance_pay: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        paid_days: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },

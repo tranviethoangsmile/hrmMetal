@@ -19,12 +19,24 @@ CREATE TABLE users
   created_at DATE NOT NULL,
   updated_at DATE NOT NULL,
   deleted_at DATE NULL,
+  is_offical_staff BOOLEAN DEFAULT false,
+  salary_hourly INTEGER NULL,
+  begin_date VARCHAR NULL,
+  shift_night_pay INTEGER NULL,
+  travel_allowance_pay INTEGER NULL,
+  paid_days FLOAT NULL,
   FOREIGN KEY (department_id) REFERENCES departments(id)
 );
 
-ALTER TABLE users ADD COLUMN is_offical_staff BOOLEAN DEFAULT false;
-ALTER TABLE users ADD COLUMN salary_hourly INTEGER NULL;
-ALTER TABLE users ADD COLUMN begin_date VARCHAR NULL;
+-- ALTER TABLE users ADD COLUMN is_offical_staff BOOLEAN DEFAULT false;
+-- ALTER TABLE users ADD COLUMN salary_hourly INTEGER NULL;
+-- ALTER TABLE users ADD COLUMN begin_date VARCHAR NULL;
+ALTER TABLE users ADD COLUMN shift_night_pay INTEGER NULL;
+ALTER TABLE users ADD COLUMN travel_allowance_pay INTEGER NULL;
+ALTER TABLE users ADD COLUMN paid_days FLOAT NULL;
+
+
+
 
 CREATE TABLE departments
 (

@@ -19,6 +19,9 @@ const schema_user_create = Joi.object({
     begin_date: Joi.string(),
     is_offical_staff: Joi.boolean().default(false),
     salary_hourly: Joi.number().integer().min(100).max(999999),
+    shift_night_pay: Joi.number().integer().min(100).max(999999),
+    travel_allowance_pay: Joi.number().integer().min(100).max(999999),
+    paid_days: Joi.number().min(0).max(999999),
 });
 
 const schema_user_update = Joi.object({
@@ -41,6 +44,9 @@ const schema_user_update = Joi.object({
     begin_date: Joi.string(),
     is_offical_staff: Joi.boolean().default(false),
     salary_hourly: Joi.number().integer().min(100).max(999999),
+    shift_night_pay: Joi.number().integer().min(100).max(999999),
+    travel_allowance_pay: Joi.number().integer().min(100).max(999999),
+    paid_days: Joi.number().min(0).max(999999),
 });
 
 const schema_user_find_all_with_field = Joi.object({
