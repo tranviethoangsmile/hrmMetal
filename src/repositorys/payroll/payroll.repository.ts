@@ -1,12 +1,12 @@
-import { Events } from '../../models';
+import { Payroll } from '../../models';
 
-const create_events_repo = async (field: any) => {
+const create_payroll_repo = async (field: any) => {
     try {
-        const event: Events | null = await Events.create({
+        const event: Payroll | null = await Payroll.create({
             ...field,
         });
         if (event == null) {
-            throw new Error('Error creating event');
+            throw new Error('Error creating payroll');
         }
         return {
             success: true,
@@ -20,15 +20,15 @@ const create_events_repo = async (field: any) => {
     }
 };
 
-const delete_events_repo = async (id: string) => {
+const delete_payroll_repo = async (id: string) => {
     try {
-        const result = await Events.destroy({
+        const result = await Payroll.destroy({
             where: {
                 id: id,
             },
         });
         if (result !== 1) {
-            throw new Error('Error deleting event');
+            throw new Error('Error deleting payroll');
         }
         return {
             success: true,
@@ -41,10 +41,9 @@ const delete_events_repo = async (id: string) => {
     }
 };
 
-const update_events_repo = async (field: any) => {
+const update_payroll_repo = async (field: any) => {
     try {
-        console.log(field);
-        const event = await Events.update(
+        const payroll = await Payroll.update(
             { ...field },
             {
                 where: {
@@ -52,8 +51,9 @@ const update_events_repo = async (field: any) => {
                 },
             },
         );
-        if (event[0] !== 1) {
-            throw new Error('Error updating event');
+
+        if (payroll[0] !== 1) {
+            throw new Error('Error updating payroll');
         }
 
         return {
@@ -67,20 +67,19 @@ const update_events_repo = async (field: any) => {
     }
 };
 
-const search_event_by_id_repo = async (id: string) => {
+const search_payroll_by_id_repo = async (id: string) => {
     try {
-        const event: Events | null = await Events.findOne({
+        const payroll: Payroll | null = await Payroll.findOne({
             where: {
                 id: id,
-                is_active: true,
             },
         });
-        if (event == null) {
-            throw new Error('Event not found or not avaliable');
+        if (payroll == null) {
+            throw new Error('payroll not found or not avaliable');
         }
         return {
             success: true,
-            data: event,
+            data: payroll,
         };
     } catch (error: any) {
         return {
@@ -90,17 +89,19 @@ const search_event_by_id_repo = async (id: string) => {
     }
 };
 
-const get_all_event_repo = async () => {
+const search_payroll_of_user_in_month_repo = async (field: any) => {
     try {
-        const events: Events[] = await Events.findAll({
-            where: { is_active: true },
+        const payroll: Payroll | null = await Payroll.findOne({
+            where: {
+                ...field,
+            },
         });
-        if (events.length < 1) {
-            throw new Error('Event not exist!!!');
+        if (payroll == null) {
+            throw new Error('payroll not found or not avaliable');
         }
         return {
             success: true,
-            data: events,
+            data: payroll,
         };
     } catch (error: any) {
         return {
@@ -111,9 +112,9 @@ const get_all_event_repo = async () => {
 };
 
 export {
-    create_events_repo,
-    delete_events_repo,
-    update_events_repo,
-    search_event_by_id_repo,
-    get_all_event_repo,
+    create_payroll_repo,
+    delete_payroll_repo,
+    update_payroll_repo,
+    search_payroll_by_id_repo,
+    search_payroll_of_user_in_month_repo,
 };

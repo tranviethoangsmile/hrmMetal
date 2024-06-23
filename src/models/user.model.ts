@@ -24,7 +24,6 @@ class User extends Model {
     public shift_night_pay!: number;
     public travel_allowance_pay!: number;
     public paid_days!: number;
-
     public begin_date!: string;
     public is_offical_staff!: boolean;
     public department!: Department;
