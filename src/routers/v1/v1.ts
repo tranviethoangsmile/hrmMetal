@@ -21,6 +21,7 @@ import inventoryRouter from '../inventory/inventory.router';
 import eventsRouter from '../events/events.router';
 import safetyCheckRouter from '../safetyCheck/safetyCkeck.router';
 import evenCheckRouter from '../evenCheck/evenCheck.router';
+import payrollRouter from '../payroll/payroll.router';
 const v1Router: Router = express.Router();
 v1Router.use('/department', departmentRouters);
 v1Router.use('/users', userRouters);
@@ -44,5 +45,5 @@ v1Router.use('/inventory', inventoryRouter);
 v1Router.use('/events', eventsRouter);
 v1Router.use('/safetycheck', safetyCheckRouter);
 v1Router.use('/eventcheck', evenCheckRouter);
-
+v1Router.use('/payroll', payrollRouter);
 export default v1Router;

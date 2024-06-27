@@ -20,6 +20,7 @@ interface token_payload {
     travel_allowance_pay: number;
     paid_days: number;
     begin_date: string;
+    employee_id: number;
 }
 
 export { login_data, token_payload };

@@ -1,6 +1,4 @@
-import { where } from 'sequelize';
 import { Events } from '../../models';
-import { idText } from 'typescript';
 
 const create_events_repo = async (field: any) => {
     try {

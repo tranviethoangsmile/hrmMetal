@@ -1,0 +1,13 @@
+import { Router } from 'express';
+import createPayrollRouter from './create/create';
+import updatePayrollRouter from './update/update';
+import searchPayrollRouter from './search/search';
+import searchPayrollByIdRouter from './searchById/searchById.router';
+import destroyPayrollRouter from './destroy/destoy';
+const payrollRouter: Router = Router();
+payrollRouter.use('/create', createPayrollRouter);
+payrollRouter.use('/update', updatePayrollRouter);
+payrollRouter.use('/search', searchPayrollRouter);
+payrollRouter.use('/searchbyid', searchPayrollByIdRouter);
+payrollRouter.use('/destroy', destroyPayrollRouter);
+export default payrollRouter;

@@ -17,6 +17,7 @@ import Inventory from './inventory.model';
 import Events from './events.model';
 import SafetyChecks from './safetyCheck.model';
 import EventChecks from './eventCheck.model';
+import Payroll from './payrolls.model';
 User.belongsTo(Department, { foreignKey: 'department_id', as: 'department' });
 Department.hasMany(User, { foreignKey: 'department_id', as: 'users' });
 Order.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
@@ -59,6 +60,8 @@ SafetyChecks.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(SafetyChecks, { foreignKey: 'user_id' });
 EventChecks.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(EventChecks, { foreignKey: 'user_id' });
+Payroll.belongsTo(User, { foreignKey: 'user_id' });
+User.hasMany(Payroll, { foreignKey: 'user_id' });
 
 export {
     User,
@@ -80,4 +83,5 @@ export {
     Events,
     SafetyChecks,
     EventChecks,
+    Payroll,
 };
