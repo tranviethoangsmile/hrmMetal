@@ -16,7 +16,7 @@ interface create_payroll {
     attendance_allowance_pay?: number;
     travel_allowance_pay?: number;
     bonus_pay?: number;
-    gross_salary?: number;
+    gross_salary: number;
     income_tax?: number;
     social_insurance?: number;
     health_insurance?: number;
@@ -26,7 +26,8 @@ interface create_payroll {
     rent_home?: number;
     cost_of_living?: number;
     other_deduction?: number;
-    net_salary?: number;
+    net_salary: number;
+    is_active?: boolean;
 }
 interface update_payroll {
     id: string;
@@ -58,5 +59,11 @@ interface update_payroll {
     cost_of_living?: number;
     other_deduction?: number;
     net_salary?: number;
+    is_active?: boolean;
 }
-export { create_payroll, update_payroll };
+
+interface search_payroll {
+    user_id: string;
+    date: string;
+}
+export { create_payroll, update_payroll, search_payroll };

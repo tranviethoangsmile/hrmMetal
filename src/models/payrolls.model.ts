@@ -32,6 +32,7 @@ class Payroll extends Model {
     public cost_of_living!: number;
     public other_deduction!: number;
     public net_salary!: number;
+    public is_active!: boolean;
 
     public user!: User;
 }
@@ -58,102 +59,130 @@ Payroll.init(
         work_time: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         over_time: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         paid_vacation_days: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         weekend_time: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         paid_vacation_pay: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         work_salary: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         shift_night_salary: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         over_time_salary: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         refund_money: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         other_pay: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         weekend_salary: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         attendance_allowance_pay: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         travel_allowance_pay: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         bonus_pay: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         gross_salary: {
             type: DataTypes.FLOAT,
-            allowNull: true,
+            allowNull: false,
         },
         income_tax: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         social_insurance: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         health_insurance: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         uniform_deduction: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         accident_insurance: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         club_fee: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         rent_home: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         cost_of_living: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         other_deduction: {
             type: DataTypes.FLOAT,
             allowNull: true,
+            defaultValue: 0,
         },
         net_salary: {
             type: DataTypes.FLOAT,
+            allowNull: false,
+        },
+        is_active: {
+            type: DataTypes.BOOLEAN,
             allowNull: true,
+            defaultValue: false,
         },
     },
     {

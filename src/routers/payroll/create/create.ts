@@ -6,7 +6,14 @@ const createPayrollRouter: Router = Router();
 createPayrollRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field: create_payroll = req.body;
-        if (!field || !field.date || !field.pay_date || !field.user_id) {
+        if (
+            !field ||
+            !field.date ||
+            !field.pay_date ||
+            !field.user_id ||
+            !field.gross_salary ||
+            !field.net_salary
+        ) {
             return res.status(400).json({
                 success: false,
                 message: 'Invalid request',

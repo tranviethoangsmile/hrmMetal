@@ -32,6 +32,7 @@ const login = async (user: any) => {
                 'shift_night_pay',
                 'travel_allowance_pay',
                 'paid_days',
+                'employee_id',
             ],
             include: [
                 {
@@ -61,6 +62,7 @@ const login = async (user: any) => {
                     user_login?.dataValues.travel_allowance_pay,
                 paid_days: user_login?.dataValues.paid_days,
                 begin_date: user_login?.dataValues.begin_date,
+                employee_id: user_login?.dataValues.employee_id,
             };
             if (pass) {
                 const secret = crypto

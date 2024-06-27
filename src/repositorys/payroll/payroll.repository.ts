@@ -20,7 +20,7 @@ const create_payroll_repo = async (field: any) => {
     }
 };
 
-const delete_payroll_repo = async (id: string) => {
+const destroy_payroll_repo = async (id: string) => {
     try {
         const result = await Payroll.destroy({
             where: {
@@ -94,7 +94,38 @@ const search_payroll_of_user_in_month_repo = async (field: any) => {
         const payroll: Payroll | null = await Payroll.findOne({
             where: {
                 ...field,
+                is_active: true,
             },
+            attributes: [
+                'user_id',
+                'date',
+                'pay_date',
+                'work_time',
+                'over_time',
+                'paid_vacation_days',
+                'weekend_time',
+                'paid_vacation_pay',
+                'work_salary',
+                'shift_night_salary',
+                'over_time_salary',
+                'refund_money',
+                'other_pay',
+                'weekend_salary',
+                'attendance_allowance_pay',
+                'travel_allowance_pay',
+                'bonus_pay',
+                'gross_salary',
+                'income_tax',
+                'social_insurance',
+                'health_insurance',
+                'uniform_deduction',
+                'accident_insurance',
+                'club_fee',
+                'rent_home',
+                'cost_of_living',
+                'other_deduction',
+                'net_salary',
+            ],
         });
         if (payroll == null) {
             throw new Error('payroll not found or not avaliable');
@@ -113,7 +144,7 @@ const search_payroll_of_user_in_month_repo = async (field: any) => {
 
 export {
     create_payroll_repo,
-    delete_payroll_repo,
+    destroy_payroll_repo,
     update_payroll_repo,
     search_payroll_by_id_repo,
     search_payroll_of_user_in_month_repo,
