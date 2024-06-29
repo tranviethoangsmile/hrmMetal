@@ -28,11 +28,14 @@ CREATE TABLE payrolls
     rent_home FLOAT NULL DEFAULT 0,
     cost_of_living FLOAT NULL DEFAULT 0,
     other_deduction FLOAT NULL DEFAULT 0,
+    shift_night FLOAT NULL DEFAULT 0,
     net_salary FLOAT NOT NULL,
-    is_active BOOLEAN NOT NULL DEFAULT false,
+    is_active BOOLEAN NOT NULL DEFAULT true,
     created_at DATE NULL ,
     updated_at DATE NULL,
     deleted_at DATE NULL,
     UNIQUE
     (user_id, pay_date, date)
 );
+
+-- ALTER TABLE payrolls ADD COLUMN shift_night FLOAT NULL DEFAULT 0;

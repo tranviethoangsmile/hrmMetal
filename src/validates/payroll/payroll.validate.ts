@@ -28,6 +28,7 @@ const schema_create_payroll = Joi.object({
     rent_home: Joi.number().min(0).max(9999999),
     cost_of_living: Joi.number().min(0).max(9999999),
     other_deduction: Joi.number().min(0).max(9999999),
+    shift_night: Joi.number().min(0).max(9999999),
     net_salary: Joi.number().min(0).max(9999999).required(),
     is_active: Joi.boolean().default(false),
 });
@@ -66,6 +67,7 @@ const schema_update_payroll = Joi.object({
     rent_home: Joi.number().min(0).max(9999999),
     cost_of_living: Joi.number().min(0).max(9999999),
     other_deduction: Joi.number().min(0).max(9999999),
+    shift_night: Joi.number().min(0).max(9999999),
     net_salary: Joi.number().min(0).max(9999999),
     is_active: Joi.boolean(),
 });
