@@ -104,6 +104,7 @@ const search_payroll_of_user_in_month_repo = async (field: any) => {
                 'over_time',
                 'paid_vacation_days',
                 'weekend_time',
+                'shift_night',
                 'paid_vacation_pay',
                 'work_salary',
                 'shift_night_salary',

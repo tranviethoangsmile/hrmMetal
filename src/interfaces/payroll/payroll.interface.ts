@@ -26,6 +26,7 @@ interface create_payroll {
     rent_home?: number;
     cost_of_living?: number;
     other_deduction?: number;
+    shift_night?: number;
     net_salary: number;
     is_active?: boolean;
 }
@@ -58,6 +59,7 @@ interface update_payroll {
     rent_home?: number;
     cost_of_living?: number;
     other_deduction?: number;
+    shift_night?: number;
     net_salary?: number;
     is_active?: boolean;
 }

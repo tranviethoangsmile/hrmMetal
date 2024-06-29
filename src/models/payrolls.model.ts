@@ -32,6 +32,7 @@ class Payroll extends Model {
     public cost_of_living!: number;
     public other_deduction!: number;
     public net_salary!: number;
+    public shift_night!: number;
     public is_active!: boolean;
 
     public user!: User;
@@ -175,6 +176,11 @@ Payroll.init(
             allowNull: true,
             defaultValue: 0,
         },
+        shift_night: {
+            type: DataTypes.FLOAT,
+            allowNull: true,
+            defaultValue: 0,
+        },
         net_salary: {
             type: DataTypes.FLOAT,
             allowNull: false,
@@ -182,7 +188,7 @@ Payroll.init(
         is_active: {
             type: DataTypes.BOOLEAN,
             allowNull: true,
-            defaultValue: false,
+            defaultValue: true,
         },
     },
     {
