@@ -9,6 +9,7 @@ interface token_payload {
     user_name: string;
     avatar: string;
     position: string;
+    dob: string;
     role: string;
     is_admin: boolean;
     department: object;
