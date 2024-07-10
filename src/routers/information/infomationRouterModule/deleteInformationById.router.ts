@@ -10,7 +10,7 @@ deleteInformation.post(
             const id: string | undefined = req.body?.id;
             console.log(id);
             if (!id) {
-                res.status(400).json({
+                return res.status(400).json({
                     success: false,
                     message: 'Missing parameter: id',
                 });
@@ -19,17 +19,17 @@ deleteInformation.post(
                     id,
                 );
                 if (delete_result?.success) {
-                    res.status(201).json({
+                    return res.status(202).json({
                         success: true,
                     });
                 } else {
-                    res.status(200).json({
+                    return res.status(200).json({
                         success: false,
                     });
                 }
             }
         } catch (error: any) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: 'Server error: ' + error?.message,
             });

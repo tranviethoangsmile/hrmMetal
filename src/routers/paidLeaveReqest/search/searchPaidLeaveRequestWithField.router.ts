@@ -10,7 +10,7 @@ searchLeaveRouter.post('/', async (req: Request, res: Response) => {
                 field,
             );
             if (leaves?.success) {
-                res.status(201).json({
+                res.status(202).json({
                     success: true,
                     data: leaves?.data,
                 });

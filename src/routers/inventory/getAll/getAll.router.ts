@@ -6,18 +6,18 @@ getAllRouter.post('/', async (req: Request, res: Response) => {
     try {
         const inventorys = await get_all_inventory_controller();
         if (inventorys?.success) {
-            res.status(201).json({
+            return res.status(202).json({
                 success: true,
                 data: inventorys?.data,
             });
         } else {
-            res.status(200).json({
+            return res.status(200).json({
                 success: false,
                 message: inventorys?.message,
             });
         }
     } catch (error: any) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: `${error.message} server error`,
         });

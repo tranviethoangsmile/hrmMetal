@@ -20,12 +20,12 @@ createInformationRouter.post(
                     ...value,
                 });
                 if (information?.success) {
-                    res.status(201).json({
+                    return res.status(201).json({
                         success: true,
                         data: information?.data,
                     });
                 } else {
-                    res.status(200).json({
+                    return res.status(200).json({
                         success: false,
                         message: information?.message,
                     });
@@ -35,19 +35,19 @@ createInformationRouter.post(
                     ...value,
                 });
                 if (information?.success) {
-                    res.status(201).json({
+                    return res.status(201).json({
                         success: true,
                         date: information?.data,
                     });
                 } else {
-                    res.status(200).json({
+                    return res.status(200).json({
                         success: false,
                         message: information?.message,
                     });
                 }
             }
         } catch (error: any) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: 'Server error: ' + error?.message,
             });

@@ -11,7 +11,7 @@ getAllEventRouter.get('/', async (req: Request, res: Response) => {
                 message: events?.message,
             });
         }
-        return res.status(201).json({
+        return res.status(202).json({
             success: true,
             data: events?.data,
         });

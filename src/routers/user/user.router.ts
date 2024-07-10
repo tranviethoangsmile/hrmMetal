@@ -18,7 +18,7 @@ userRouters.get('/', async (req: Request, res: Response) => {
     try {
         const users = await findAll();
         if (users?.success) {
-            res.status(201).send({
+            res.status(200).send({
                 success: true,
                 data: users?.data,
             });
@@ -86,7 +86,7 @@ userRouters.put('/', async (req: Request, res: Response) => {
         if (user != null) {
             const data = await update(user);
             if (data?.success) {
-                res.status(201).send({
+                res.status(200).send({
                     success: true,
                 });
             } else {
@@ -115,7 +115,7 @@ userRouters.delete('/:id', async (req: Request, res: Response) => {
         if (id != null) {
             const data = await destroy(id);
             if (data?.success) {
-                res.status(201).send({
+                res.status(202).send({
                     success: true,
                     message: 'deleted',
                 });
@@ -126,7 +126,7 @@ userRouters.delete('/:id', async (req: Request, res: Response) => {
                 });
             }
         } else {
-            res.status(200).json({
+            res.status(400).json({
                 success: false,
                 message: 'id not empty',
             });
@@ -145,7 +145,7 @@ userRouters.get('/:id', async (req: Request, res: Response) => {
         if (id) {
             const data = await findById(id);
             if (data?.success) {
-                res.status(201).send({
+                res.status(200).send({
                     success: true,
                     data: data?.data,
                 });

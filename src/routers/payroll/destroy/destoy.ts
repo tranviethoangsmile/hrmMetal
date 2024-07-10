@@ -13,7 +13,7 @@ destroyPayrollRouter.post('/', async (req: Request, res: Response) => {
         }
         const result = await destroy_payroll_controller(id);
         if (!result.success) {
-            return res.status(400).json({
+            return res.status(200).json({
                 success: false,
                 message: result?.message,
             });

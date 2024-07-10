@@ -8,7 +8,7 @@ getUserWithDepartmentId.post('/', async (req: Request, res: Response) => {
         if (id != null) {
             const listUser = await getUserForLeaveFeatureControll(id);
             if (listUser?.success) {
-                res.status(201).json({
+                res.status(202).json({
                     success: true,
                     data: listUser?.data,
                 });

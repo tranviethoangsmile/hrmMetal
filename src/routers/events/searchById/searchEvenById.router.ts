@@ -13,7 +13,7 @@ searchEventById.post('/', async (req: Request, res: Response) => {
         if (!event?.success) {
             throw new Error(event?.message);
         }
-        return res.status(201).json({
+        return res.status(202).json({
             success: true,
             data: event?.data,
         });

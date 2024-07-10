@@ -17,7 +17,7 @@ deleteEventsRouter.post('/', async (req: Request, res: Response) => {
                 message: result?.message,
             });
         }
-        return res.status(201).json({
+        return res.status(202).json({
             success: true,
         });
     } catch (error: any) {

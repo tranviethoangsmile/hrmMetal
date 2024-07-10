@@ -10,18 +10,18 @@ checkinDetailRouter.post('/', async (req: Request, res: Response) => {
             const checkin_detail =
                 await get_checkin_detail_in_date_of_user_controller(field);
             if (checkin_detail?.success) {
-                res.status(201).json({
+                return res.status(202).json({
                     success: true,
                     data: checkin_detail?.data,
                 });
             } else {
-                res.status(200).json({
+                return res.status(200).json({
                     success: false,
                     message: checkin_detail?.message,
                 });
             }
         } else {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 message: 'data not empty',
             });

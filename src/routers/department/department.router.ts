@@ -10,18 +10,18 @@ router.get('/', async (req: Request, res: Response) => {
     try {
         const departments = await departmentList();
         if (departments?.success) {
-            res.status(201).send({
+            return res.status(202).send({
                 success: true,
                 data: departments?.data,
             });
         } else {
-            res.status(200).send({
+            return res.status(200).send({
                 success: false,
                 message: departments?.message,
             });
         }
     } catch (error: any) {
-        res.status(500).send({
+        return res.status(500).send({
             success: false,
             message: 'server error: ' + error?.message,
         });
@@ -54,24 +54,24 @@ router.post('/', async (req: Request, res: Response) => {
         if (dep != null) {
             const department = await createDep(dep);
             if (department?.success) {
-                res.status(201).send({
+                return res.status(201).send({
                     success: true,
                     data: department?.data,
                 });
             } else {
-                res.status(200).json({
+                return res.status(200).json({
                     success: false,
                     message: department?.message,
                 });
             }
         } else {
-            res.status(200).json({
+            return res.status(400).json({
                 success: false,
                 message: 'data not empty',
             });
         }
     } catch (error: any) {
-        res.status(500).send({
+        return res.status(500).send({
             success: false,
             message: 'server error: ' + error?.message,
         });
@@ -83,18 +83,18 @@ router.get('/:id', async (req: Request, res: Response) => {
         const id = req.params.id;
         const department = await getDepartmentById(id);
         if (department?.success) {
-            res.status(201).send({
+            return res.status(202).send({
                 success: true,
                 data: department?.data,
             });
         } else {
-            res.status(200).send({
+            return res.status(200).send({
                 success: false,
                 message: department?.message,
             });
         }
     } catch (error: any) {
-        res.status(500).send({
+        return res.status(500).send({
             success: false,
             message: 'server error: ' + error?.message,
         });

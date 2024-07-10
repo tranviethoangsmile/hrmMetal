@@ -50,11 +50,11 @@ Payroll.init(
             allowNull: false,
         },
         date: {
-            type: DataTypes.DATEONLY,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         pay_date: {
-            type: DataTypes.DATEONLY,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         work_time: {

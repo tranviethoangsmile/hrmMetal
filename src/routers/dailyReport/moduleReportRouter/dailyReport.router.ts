@@ -13,24 +13,24 @@ dailyRpRouter.post('/', async (req: Request, res: Response) => {
             }
             const reports = await find_report(data);
             if (reports?.success) {
-                res.status(201).send({
+                return res.status(202).send({
                     success: true,
                     data: reports?.data,
                 });
             } else {
-                res.status(200).send({
+                return res.status(200).send({
                     success: false,
                     message: reports?.message,
                 });
             }
         } else {
-            res.status(400).send({
+            return res.status(400).send({
                 success: false,
                 message: 'data not empty',
             });
         }
     } catch (error: any) {
-        res.status(500).send({
+        return res.status(500).send({
             success: false,
             message: 'server error:' + error?.message,
         });
