@@ -22,7 +22,7 @@ createPayrollRouter.post('/', async (req: Request, res: Response) => {
 
         const payroll = await create_payroll_controller(field);
         if (!payroll?.success) {
-            return res.status(201).json({
+            return res.status(200).json({
                 success: false,
                 message: payroll?.message,
             });

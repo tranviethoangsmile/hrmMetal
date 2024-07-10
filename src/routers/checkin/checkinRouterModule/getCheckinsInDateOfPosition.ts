@@ -11,18 +11,18 @@ getCheckinIndateOfPosition.post('/', async (req: Request, res: Response) => {
                 field,
             );
             if (result?.success) {
-                res.status(201).json({
+                return res.status(202).json({
                     success: true,
                     data: result?.data,
                 });
             } else {
-                res.status(200).json({
+                return res.status(200).json({
                     success: false,
                     message: result?.message,
                 });
             }
         } else {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 message: 'data not empty',
             });

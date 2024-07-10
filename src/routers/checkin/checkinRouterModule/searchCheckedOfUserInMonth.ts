@@ -10,18 +10,18 @@ checkinSearchRouter.post('/', async (req: Request, res: Response) => {
             const checked_value =
                 await search_checked_of_user_in_month_controller(field);
             if (checked_value?.success) {
-                res.status(201).json({
+                return res.status(202).json({
                     success: true,
                     data: checked_value?.data,
                 });
             } else {
-                res.status(200).json({
+                return res.status(200).json({
                     success: false,
                     message: checked_value?.message,
                 });
             }
         } else {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 message: 'data not empty',
             });

@@ -19,26 +19,26 @@ createDailyReportRouter.post('/', async (req: Request, res: Response) => {
             !field.user_id ||
             !field.department_id
         ) {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 message: 'Please fill all the fields, data not empty',
             });
         } else {
             const dailyReport = await daily_report_create(field);
             if (dailyReport?.success) {
-                res.status(201).json({
+                return res.status(201).json({
                     success: true,
                     data: dailyReport?.data,
                 });
             } else {
-                res.status(200).json({
+                return res.status(200).json({
                     success: false,
                     message: `${dailyReport?.message}`,
                 });
             }
         }
     } catch (error: any) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: `${error?.message} server error`,
         });

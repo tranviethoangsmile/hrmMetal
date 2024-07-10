@@ -22,24 +22,24 @@ orderRouter.post(
             if (order_data && Object.keys(order_data).length !== 0) {
                 const new_order = await create(order_data);
                 if (new_order?.success) {
-                    res.status(201).send({
+                    return res.status(201).send({
                         success: true,
                         data: new_order?.data,
                     });
                 } else {
-                    res.status(200).send({
+                    return res.status(200).send({
                         success: false,
                         message: new_order?.message,
                     });
                 }
             } else {
-                res.status(400).send({
+                return res.status(400).send({
                     success: false,
                     message: 'data not empty',
                 });
             }
         } catch (error: any) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: 'server error: ' + error?.message,
             });
@@ -51,18 +51,18 @@ orderRouter.get('/', async (req: Request, res: Response) => {
     try {
         const orders = await find_all_order();
         if (orders?.success) {
-            res.status(201).send({
+            return res.status(202).send({
                 success: true,
                 data: orders?.data,
             });
         } else {
-            res.status(200).send({
+            return res.status(200).send({
                 success: false,
                 message: orders?.message,
             });
         }
     } catch (error: any) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: 'server error: ' + error?.message,
         });
@@ -75,24 +75,24 @@ orderRouter.delete('/:id', async (req: Request, res: Response) => {
         if (order_id != null) {
             const order = await delete_order(order_id);
             if (order.success) {
-                res.status(201).send({
+                return res.status(202).send({
                     success: true,
                     message: order?.message,
                 });
             } else {
-                res.status(200).send({
+                return res.status(200).send({
                     success: false,
                     message: order?.message,
                 });
             }
         } else {
-            res.status(400).send({
+            return res.status(400).send({
                 success: false,
                 message: 'id not empty',
             });
         }
     } catch (error: any) {
-        res.status(500).json({
+        return res.status(500).json({
             message: 'server error: ' + error?.message,
         });
     }

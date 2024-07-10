@@ -8,7 +8,7 @@ findUser.post('/', async (req: Request, res: Response) => {
         if (field != null) {
             const users = await findAllUserWithFieldControll(field);
             if (users?.success) {
-                res.status(201).json({
+                res.status(202).json({
                     success: users?.success,
                     data: users?.data,
                 });

@@ -10,7 +10,7 @@ unApproveRouter.post('/', async (req: Request, res: Response) => {
                 field,
             );
             if (update?.success) {
-                res.status(201).json({
+                res.status(202).json({
                     success: true,
                     message: update?.message,
                 });

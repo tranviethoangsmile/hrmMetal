@@ -7,7 +7,7 @@ searchRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field: search_with_name = req.body;
         if (!field.department_id && !field.product) {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 message: 'Bad request',
             });
@@ -16,19 +16,19 @@ searchRouter.post('/', async (req: Request, res: Response) => {
                 field,
             );
             if (inventorys?.success) {
-                res.status(201).json({
+                return res.status(202).json({
                     success: true,
                     data: inventorys?.data,
                 });
             } else {
-                res.status(200).json({
+                return res.status(200).json({
                     success: false,
                     message: inventorys?.message,
                 });
             }
         }
     } catch (error: any) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: `${error.message} server error`,
         });

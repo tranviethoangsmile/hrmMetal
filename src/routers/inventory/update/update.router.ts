@@ -6,25 +6,25 @@ updateRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field: update_inventory = req.body;
         if (!field || !field.product || !field.quantity) {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 message: 'Bad request',
             });
         } else {
             const result = await update_inventory_controller(field);
             if (result?.success) {
-                res.status(201).json({
+                return res.status(202).json({
                     success: true,
                 });
             } else {
-                res.status(200).json({
+                return res.status(200).json({
                     success: false,
                     message: result?.message,
                 });
             }
         }
     } catch (error: any) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: `${error.message} server error`,
         });

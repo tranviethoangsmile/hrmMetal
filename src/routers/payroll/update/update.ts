@@ -20,7 +20,7 @@ updatePayrollRouter.post('/', async (req: Request, res: Response) => {
                 message: result?.message,
             });
         }
-        return res.status(200).json({
+        return res.status(202).json({
             success: true,
             message: 'update payroll successfully',
         });

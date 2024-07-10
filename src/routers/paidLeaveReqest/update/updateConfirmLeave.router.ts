@@ -20,7 +20,7 @@ updateConfirmRouter.post('/', async (req: Request, res: Response) => {
         if (!update_confirm?.success) {
             throw new Error(update_confirm?.message);
         }
-        res.status(200).json({
+        return res.status(202).json({
             success: true,
             message: update_confirm?.message,
         });

@@ -5,25 +5,25 @@ getInforOfUserRouter.post('/', async (req: Request, res: Response) => {
     try {
         const user_id: string | undefined = req.body?.user_id;
         if (!user_id) {
-            res.status(400).json({ message: 'Missing parameter' });
+            return res.status(400).json({ message: 'Missing parameter' });
         } else {
             const informations = await search_information_user_controller(
                 user_id,
             );
             if (informations?.success) {
-                res.status(201).json({
+                return res.status(202).json({
                     success: informations?.success,
                     data: informations?.data,
                 });
             } else {
-                res.status(200).json({
+                return res.status(200).json({
                     success: informations?.success,
                     message: informations?.message,
                 });
             }
         }
     } catch (error: any) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: 'Server error: ' + error?.message,
         });

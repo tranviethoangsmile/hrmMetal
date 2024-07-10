@@ -502,7 +502,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     });
                 }
             } else {
-                return res.status(201).json({
+                return res.status(200).json({
                     success: false,
                     message: 'checked',
                 });

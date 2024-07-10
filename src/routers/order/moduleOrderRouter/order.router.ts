@@ -12,24 +12,24 @@ orderRouterModule.post('/', async (req: Request, res: Response) => {
         if (id != null) {
             const orders = await search_order_of_user(id);
             if (orders?.success) {
-                res.status(201).send({
+                return res.status(202).send({
                     success: true,
                     data: orders?.data,
                 });
             } else {
-                res.status(200).send({
+                return res.status(200).send({
                     success: false,
                     data: orders?.message,
                 });
             }
         } else {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 message: 'id not empty',
             });
         }
     } catch (error: any) {
-        res.status(500).send({
+        return res.status(500).send({
             success: false,
             message: 'server error ' + error?.message,
         });
@@ -41,24 +41,24 @@ orderRouterModule.put('/', async (req: Request, res: Response) => {
         if (order_info !== null) {
             const result = await check_picked_order(order_info);
             if (result.success) {
-                res.status(201).send({
+                return res.status(202).send({
                     success: result?.success,
                     message: result?.message,
                 });
             } else {
-                res.status(200).send({
+                return res.status(200).send({
                     success: result?.success,
                     message: result?.message,
                 });
             }
         } else {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 message: 'order info not empty',
             });
         }
     } catch (error: any) {
-        res.status(500).send({
+        return res.status(500).send({
             success: false,
             message: 'server error ' + error?.message,
         });

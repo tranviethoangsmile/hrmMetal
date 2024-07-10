@@ -18,7 +18,7 @@ searchPayrollByIdRouter.post('/', async (req: Request, res: Response) => {
                 message: payroll?.message,
             });
         }
-        return res.status(201).json({
+        return res.status(202).json({
             success: true,
             data: payroll?.data,
         });

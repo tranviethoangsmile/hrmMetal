@@ -18,28 +18,37 @@ getAllDailyReport.post('/', async (req: Request, res: Response) => {
         }
         const isValid = valid_search_daily_report(field);
         if (isValid?.error) {
-            throw new Error(`${isValid?.error?.message}`);
+            return res.status(400).json({
+                success: false,
+                message: `${isValid?.error?.message}`,
+            });
         }
         if (field?.product) {
             if (
                 typeof field?.product != 'string' ||
                 !Object.values(Products).includes(field?.product)
             ) {
-                throw new Error('product is not valid');
+                return res.status(400).json({
+                    success: false,
+                    message: 'product not valid',
+                });
             }
         }
         const dailyReports = await find_all_report({
             ...field,
         });
         if (!dailyReports?.success) {
-            throw new Error(dailyReports?.message);
+            return res.status(200).json({
+                success: false,
+                message: dailyReports?.message,
+            });
         }
-        res.status(200).json({
+        return res.status(202).json({
             success: true,
             data: dailyReports?.data,
         });
     } catch (error: any) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: `Server Error router: ${error?.message}`,
         });

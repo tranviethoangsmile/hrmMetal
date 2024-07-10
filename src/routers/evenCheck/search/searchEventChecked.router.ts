@@ -15,7 +15,7 @@ searchEventCheckedRouter.post('/', async (req: Request, res: Response) => {
         if (!result?.success) {
             throw new Error(result?.message);
         }
-        return res.status(201).json({
+        return res.status(202).json({
             success: true,
             data: result?.data,
         });

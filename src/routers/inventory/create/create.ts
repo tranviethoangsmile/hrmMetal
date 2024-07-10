@@ -11,26 +11,26 @@ createRouter.post('/', async (req: Request, res: Response) => {
             !field.quantity ||
             !field.department_id
         ) {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 message: 'Bad request',
             });
         } else {
             const inventory = await create(field);
             if (inventory?.success) {
-                res.status(201).json({
+                return res.status(201).json({
                     success: true,
                     data: inventory?.data,
                 });
             } else {
-                res.status(200).json({
+                return res.status(200).json({
                     success: false,
                     message: inventory?.message,
                 });
             }
         }
     } catch (error: any) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: `${error?.message} server error`,
         });
