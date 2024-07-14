@@ -10,6 +10,9 @@ CREATE TABLE planProductions
     work_shift VARCHAR(255) NOT NULL,
     production_line VARCHAR(255) NOT NULL,
     is_custom BOOLEAN DEFAULT FALSE,
+    created_at DATE NOT NULL,
+    updated_at DATE NOT NULL,
+    deleted_at DATE NULL,
     FOREIGN KEY(department_id) REFERENCES departments(id),
     UNIQUE
     (department_id,work_shift,production_line, product, date)

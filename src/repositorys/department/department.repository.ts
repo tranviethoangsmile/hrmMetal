@@ -28,7 +28,7 @@ const createDepartment = async (data: any) => {
 const departmentList = async () => {
     try {
         const departments: Department[] | null = await Department.findAll({
-            attributes: ['name'],
+            attributes: ['id', 'name'],
         });
 
         if (departments != null) {
