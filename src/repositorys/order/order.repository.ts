@@ -1,4 +1,4 @@
-import { Order, User, Canteen } from '../../models';
+import { Order, User } from '../../models';
 import Department from '../../models/department.model';
 import moment from 'moment-timezone';
 import { Op } from 'sequelize';

@@ -65,7 +65,7 @@ PlanProduction.init(
     {
         sequelize: db,
         modelName: 'PlanProduction',
-        tableName: 'PlanProductions',
+        tableName: 'planproductions',
         timestamps: true,
         paranoid: true,
         createdAt: 'created_at',
@@ -73,6 +73,5 @@ PlanProduction.init(
         deletedAt: 'deleted_at',
     },
 );
-
 
 export default PlanProduction;

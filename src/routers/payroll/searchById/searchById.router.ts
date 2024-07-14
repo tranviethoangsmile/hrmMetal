@@ -5,11 +5,11 @@ const searchPayrollByIdRouter: Router = Router();
 
 searchPayrollByIdRouter.post('/', async (req: Request, res: Response) => {
     try {
-        const id: string = req.body.id;
-        if (typeof id !== 'string') {
+        const id: string | undefined = req.body.id;
+        if (id === undefined) {
             return res
                 .status(400)
-                .json({ success: false, message: 'id must be a string' });
+                .json({ success: false, message: 'id is required' });
         }
         const payroll = await search_payroll_by_id_controller(id);
         if (!payroll?.success) {
