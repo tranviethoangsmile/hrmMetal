@@ -1,4 +1,4 @@
-CREATE TABLE planProductions
+CREATE TABLE planproductions
 (
     id VARCHAR(36) PRIMARY KEY,
     department_id VARCHAR(36) NOT NULL,
@@ -6,7 +6,7 @@ CREATE TABLE planProductions
     position VARCHAR(255) NOT NULL,
     quantity INTEGER NOT NULL,
     product VARCHAR(20) NOT NULL,
-    operation_time INTEGER NOT NULL,
+    operation_time FLOAT NOT NULL,
     work_shift VARCHAR(255) NOT NULL,
     production_line VARCHAR(255) NOT NULL,
     is_custom BOOLEAN DEFAULT FALSE,

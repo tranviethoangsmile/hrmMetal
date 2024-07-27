@@ -1,6 +1,6 @@
-import express, { Router } from 'express';
+import { Router } from 'express';
 
-const apiRouter: Router = express.Router();
+const apiRouter: Router = Router();
 import versionRouter from '../version/version';
 
 apiRouter.use('/version', versionRouter);
