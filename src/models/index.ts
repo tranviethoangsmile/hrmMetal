@@ -19,6 +19,7 @@ import SafetyChecks from './safetyCheck.model';
 import EventChecks from './eventCheck.model';
 import Payroll from './payrolls.model';
 import PlanProduction from './planProductions.model';
+import Notification from './notification.model';
 User.belongsTo(Department, { foreignKey: 'department_id', as: 'department' });
 Department.hasMany(User, { foreignKey: 'department_id', as: 'users' });
 Order.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
@@ -65,6 +66,8 @@ Payroll.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(Payroll, { foreignKey: 'user_id' });
 PlanProduction.belongsTo(Department, { foreignKey: 'department_id' });
 Department.hasMany(PlanProduction, { foreignKey: 'department_id' });
+Notification.belongsTo(User, { foreignKey: 'user_id' });
+User.hasMany(Notification, { foreignKey: 'user_id' });
 export {
     User,
     Department,
@@ -87,4 +90,5 @@ export {
     EventChecks,
     Payroll,
     PlanProduction,
+    Notification,
 };

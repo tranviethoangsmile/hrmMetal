@@ -9,6 +9,5 @@ CREATE TABLE notifications
     created_at DATE NOT NULL,
     updated_at DATE NOT NULL,
     deleted_at DATE NULL,
-    FOREIGN KEY(user_id) REFERENCES users(id),
-    UNIQUE
-)
+    FOREIGN KEY(user_id) REFERENCES users(id)
+);
