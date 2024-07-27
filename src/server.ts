@@ -12,7 +12,7 @@ import config from './configs/config.system';
 // require('./dbs/db.mongo');
 dotenv.config();
 const PORT = config.app.port;
-const HOSTNAME = process.env.HOST_SERVER || '';
+const HOSTNAME = process.env.HOST_SERVER || 'localhost';
 const app: Application = express();
 const server = http.createServer(app);
 app.use((req: Request, res: Response, next: NextFunction) => {

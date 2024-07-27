@@ -1,4 +1,4 @@
-import express, { Router } from 'express';
+import { Router } from 'express';
 import userRouters from '../user/user.router';
 import departmentRouters from '../department/department.router';
 import findRouter from '../find/find.router';
@@ -23,7 +23,7 @@ import safetyCheckRouter from '../safetyCheck/safetyCkeck.router';
 import evenCheckRouter from '../evenCheck/evenCheck.router';
 import payrollRouter from '../payroll/payroll.router';
 import planProductionRouter from '../planProduction/planProduction.router';
-const v1Router: Router = express.Router();
+const v1Router: Router = Router();
 v1Router.use('/department', departmentRouters);
 v1Router.use('/users', userRouters);
 v1Router.use('/find', findRouter);
