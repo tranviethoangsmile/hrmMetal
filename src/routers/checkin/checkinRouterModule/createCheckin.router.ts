@@ -304,10 +304,10 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     }
                     try {
                         const field_notification = {
-                            title: 'checkin',
+                            title: 'checkout',
                             user_id: data.user_id,
                             type: 'SUCCESS',
-                            message: 'checkin Success',
+                            message: 'checkout Success',
                         };
                         const notification = await create_notification_usecase(
                             field_notification,
@@ -325,10 +325,10 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                 } else {
                     try {
                         const field_notification = {
-                            title: 'checkin',
+                            title: 'checkout',
                             user_id: data.user_id,
                             type: 'ERROR',
-                            message: 'checkin unSuccess',
+                            message: 'checkout unSuccess',
                         };
                         const notification = await create_notification_usecase(
                             field_notification,
@@ -407,10 +407,10 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     }
                     try {
                         const field_notification = {
-                            title: 'checkin',
+                            title: 'checkin weekend',
                             user_id: data.user_id,
                             type: 'SUCCESS',
-                            message: 'checkin Success',
+                            message: 'checkin weekend Success',
                         };
                         const notification = await create_notification_usecase(
                             field_notification,
@@ -428,10 +428,10 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                 } else {
                     try {
                         const field_notification = {
-                            title: 'checkin',
+                            title: 'checkin weekend',
                             user_id: data.user_id,
                             type: 'ERROR',
-                            message: 'checkin unSuccess',
+                            message: 'checkin weekend unSuccess',
                         };
                         const notification = await create_notification_usecase(
                             field_notification,
@@ -606,10 +606,10 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     }
                     try {
                         const field_notification = {
-                            title: 'checkin',
+                            title: 'checkout weekend',
                             user_id: data.user_id,
                             type: 'SUCCESS',
-                            message: 'checkin Success',
+                            message: 'checkout weekend Success',
                         };
                         const notification = await create_notification_usecase(
                             field_notification,
@@ -627,10 +627,10 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                 } else {
                     try {
                         const field_notification = {
-                            title: 'checkin',
+                            title: 'checkout weekend',
                             user_id: data.user_id,
                             type: 'ERROR',
-                            message: 'checkin unSuccess',
+                            message: 'checkout weekend unSuccess',
                         };
                         const notification = await create_notification_usecase(
                             field_notification,
@@ -649,7 +649,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
             } else {
                 try {
                     const field_notification = {
-                        title: 'checkin',
+                        title: 'checkin in weekend',
                         user_id: data.user_id,
                         type: 'ERROR',
                         message: 'checkin exist',
