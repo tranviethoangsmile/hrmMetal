@@ -4,8 +4,10 @@ import {
     update_notification_repo,
     destroy_notification_repo,
     search_notification_repo,
+    search_notification_of_user_repo,
 } from '../../repositorys';
 import { validate_create_notification, validation_id } from '../../validates';
+import { findUserById } from '../user/user.useCase';
 
 const create_notification_usecase = async (field: any) => {
     try {
@@ -99,9 +101,36 @@ const search_notification_usecase = async (id: string) => {
         };
     }
 };
+
+const search_notification_of_user_usecase = async (id: string) => {
+    try {
+        const isValid = validation_id(id);
+        if (isValid?.error) {
+            throw new Error(`${isValid?.error.message}`);
+        }
+        const user = await findUserById(id);
+        if (!user?.success) {
+            throw new Error(`${user?.message}`);
+        }
+        const notifications = await search_notification_of_user_repo(id);
+        if (!notifications?.success) {
+            throw new Error(`${notifications?.message}`);
+        }
+        return {
+            success: true,
+            data: notifications?.data,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `use: ${error.message}`,
+        };
+    }
+};
 export {
     create_notification_usecase,
     update_notification_usecase,
     destroy_notification_usecase,
     search_notification_usecase,
+    search_notification_of_user_usecase,
 };

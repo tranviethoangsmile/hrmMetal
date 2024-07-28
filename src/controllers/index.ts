@@ -11,6 +11,7 @@ import {
     update_notification_controller,
     destroy_notification_controller,
     search_notification_controller,
+    search_notification_of_user_controller,
 } from '../controllers/notification/notification.controller';
 
 export {
@@ -23,4 +24,5 @@ export {
     update_notification_controller,
     destroy_notification_controller,
     search_notification_controller,
+    search_notification_of_user_controller,
 };

@@ -10,7 +10,7 @@ import { io } from '../../../socket/socketIO';
 import { Socket } from 'socket.io';
 import { findById } from '../../../controllers/user/user.controller';
 import { check_value_request_checkin } from '../../../interfaces/checkin/checkin.interface';
-
+import { create_notification_usecase } from '../../../useCases';
 createCheckin.post('/', async (req: Request, res: Response) => {
     try {
         function handleTime(value: any) {
@@ -78,11 +78,44 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                             },
                         });
                     }
+                    try {
+                        const field_notification = {
+                            title: 'checkin',
+                            user_id: data.user_id,
+                            type: 'SUCCESS',
+                            message: 'checkin success',
+                        };
+                        const notification = await create_notification_usecase(
+                            field_notification,
+                        );
+                        if (!notification?.success) {
+                            throw new Error(notification?.message);
+                        }
+                    } catch (error: any) {
+                        console.log(`notification: ${error?.message}`);
+                    }
+
                     return res.status(201).json({
                         success: true,
                         data: create_check?.data,
                     });
                 } else {
+                    try {
+                        const field_notification = {
+                            title: 'checkin',
+                            user_id: data.user_id,
+                            type: 'ERROR',
+                            message: 'checkin unSuccess',
+                        };
+                        const notification = await create_notification_usecase(
+                            field_notification,
+                        );
+                        if (!notification?.success) {
+                            throw new Error(notification?.message);
+                        }
+                    } catch (error: any) {
+                        console.log(`notification: ${error?.message}`);
+                    }
                     return res.status(200).json({
                         success: false,
                         message: create_check?.message,
@@ -269,17 +302,65 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                             },
                         });
                     }
+                    try {
+                        const field_notification = {
+                            title: 'checkin',
+                            user_id: data.user_id,
+                            type: 'SUCCESS',
+                            message: 'checkin Success',
+                        };
+                        const notification = await create_notification_usecase(
+                            field_notification,
+                        );
+                        if (!notification?.success) {
+                            throw new Error(notification?.message);
+                        }
+                    } catch (error: any) {
+                        console.log(`notification: ${error?.message}`);
+                    }
                     return res.status(201).json({
                         success: true,
                         data: create_check?.data,
                     });
                 } else {
+                    try {
+                        const field_notification = {
+                            title: 'checkin',
+                            user_id: data.user_id,
+                            type: 'ERROR',
+                            message: 'checkin unSuccess',
+                        };
+                        const notification = await create_notification_usecase(
+                            field_notification,
+                        );
+                        if (!notification?.success) {
+                            throw new Error(notification?.message);
+                        }
+                    } catch (error: any) {
+                        console.log(`notification: ${error?.message}`);
+                    }
                     return res.status(200).json({
                         success: false,
                         message: create_check?.message,
                     });
                 }
             } else {
+                try {
+                    const field_notification = {
+                        title: 'checkin',
+                        user_id: data.user_id,
+                        type: 'ERROR',
+                        message: 'checkin exist',
+                    };
+                    const notification = await create_notification_usecase(
+                        field_notification,
+                    );
+                    if (!notification?.success) {
+                        throw new Error(notification?.message);
+                    }
+                } catch (error: any) {
+                    console.log(`notification: ${error?.message}`);
+                }
                 return res.status(201).json({
                     success: !isChecked?.success,
                     message: 'checked',
@@ -324,11 +405,43 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                             },
                         });
                     }
+                    try {
+                        const field_notification = {
+                            title: 'checkin',
+                            user_id: data.user_id,
+                            type: 'SUCCESS',
+                            message: 'checkin Success',
+                        };
+                        const notification = await create_notification_usecase(
+                            field_notification,
+                        );
+                        if (!notification?.success) {
+                            throw new Error(notification?.message);
+                        }
+                    } catch (error: any) {
+                        console.log(`notification: ${error?.message}`);
+                    }
                     return res.status(201).json({
                         success: true,
                         data: create_check?.data,
                     });
                 } else {
+                    try {
+                        const field_notification = {
+                            title: 'checkin',
+                            user_id: data.user_id,
+                            type: 'ERROR',
+                            message: 'checkin unSuccess',
+                        };
+                        const notification = await create_notification_usecase(
+                            field_notification,
+                        );
+                        if (!notification?.success) {
+                            throw new Error(notification?.message);
+                        }
+                    } catch (error: any) {
+                        console.log(`notification: ${error?.message}`);
+                    }
                     return res.status(200).json({
                         success: false,
                         message: create_check?.message,
@@ -491,17 +604,65 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                             },
                         });
                     }
+                    try {
+                        const field_notification = {
+                            title: 'checkin',
+                            user_id: data.user_id,
+                            type: 'SUCCESS',
+                            message: 'checkin Success',
+                        };
+                        const notification = await create_notification_usecase(
+                            field_notification,
+                        );
+                        if (!notification?.success) {
+                            throw new Error(notification?.message);
+                        }
+                    } catch (error: any) {
+                        console.log(`notification: ${error?.message}`);
+                    }
                     return res.status(201).json({
                         success: true,
                         data: create_check?.data,
                     });
                 } else {
+                    try {
+                        const field_notification = {
+                            title: 'checkin',
+                            user_id: data.user_id,
+                            type: 'ERROR',
+                            message: 'checkin unSuccess',
+                        };
+                        const notification = await create_notification_usecase(
+                            field_notification,
+                        );
+                        if (!notification?.success) {
+                            throw new Error(notification?.message);
+                        }
+                    } catch (error: any) {
+                        console.log(`notification: ${error?.message}`);
+                    }
                     return res.status(200).json({
                         success: false,
                         message: create_check?.message,
                     });
                 }
             } else {
+                try {
+                    const field_notification = {
+                        title: 'checkin',
+                        user_id: data.user_id,
+                        type: 'ERROR',
+                        message: 'checkin exist',
+                    };
+                    const notification = await create_notification_usecase(
+                        field_notification,
+                    );
+                    if (!notification?.success) {
+                        throw new Error(notification?.message);
+                    }
+                } catch (error: any) {
+                    console.log(`notification: ${error?.message}`);
+                }
                 return res.status(200).json({
                     success: false,
                     message: 'checked',
