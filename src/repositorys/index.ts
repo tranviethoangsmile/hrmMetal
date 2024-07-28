@@ -10,6 +10,7 @@ import {
     update_notification_repo,
     destroy_notification_repo,
     search_notification_repo,
+    search_notification_of_user_repo,
 } from './notification/notification.repository';
 
 export {
@@ -22,4 +23,5 @@ export {
     update_notification_repo,
     destroy_notification_repo,
     search_notification_repo,
+    search_notification_of_user_repo,
 };

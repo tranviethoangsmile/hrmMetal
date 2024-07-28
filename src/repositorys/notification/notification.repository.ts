@@ -90,9 +90,44 @@ const search_notification_repo = async (id: string) => {
     }
 };
 
+const search_notification_of_user_repo = async (id: string) => {
+    try {
+        const notifications: Notification[] | null = await Notification.findAll(
+            {
+                where: {
+                    user_id: id,
+                    is_readed: false,
+                },
+                attributes: [
+                    'id',
+                    'type',
+                    'title',
+                    'message',
+                    'is_readed',
+                    'created_at',
+                ],
+            },
+        );
+
+        if (notifications === null || notifications.length < 1) {
+            throw new Error('notifications not available');
+        }
+        return {
+            success: true,
+            data: notifications,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `repo ${error?.message}`,
+        };
+    }
+};
+
 export {
     create_notification_repo,
     update_notification_repo,
     destroy_notification_repo,
     search_notification_repo,
+    search_notification_of_user_repo,
 };

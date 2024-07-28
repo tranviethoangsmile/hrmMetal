@@ -3,6 +3,7 @@ import {
     update_notification_usecase,
     destroy_notification_usecase,
     search_notification_usecase,
+    search_notification_of_user_usecase,
 } from '../../useCases';
 
 const create_notification_controller = async (field: any) => {
@@ -18,10 +19,14 @@ const destroy_notification_controller = async (id: string) => {
 const search_notification_controller = async (id: string) => {
     return await search_notification_usecase(id);
 };
+const search_notification_of_user_controller = async (id: string) => {
+    return await search_notification_of_user_usecase(id);
+};
 
 export {
     create_notification_controller,
     update_notification_controller,
     destroy_notification_controller,
     search_notification_controller,
+    search_notification_of_user_controller,
 };

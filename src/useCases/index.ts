@@ -11,6 +11,7 @@ import {
     update_notification_usecase,
     destroy_notification_usecase,
     search_notification_usecase,
+    search_notification_of_user_usecase,
 } from './notification/notification.usecase';
 export {
     create_plan_production_use,
@@ -22,4 +23,5 @@ export {
     update_notification_usecase,
     destroy_notification_usecase,
     search_notification_usecase,
+    search_notification_of_user_usecase,
 };
