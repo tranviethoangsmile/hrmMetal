@@ -9,6 +9,8 @@ import {
 import {
     create_notification_controller,
     update_notification_controller,
+    destroy_notification_controller,
+    search_notification_controller,
 } from '../controllers/notification/notification.controller';
 
 export {
@@ -19,4 +21,6 @@ export {
     search_plan_production_seven_day_of_department_controller,
     create_notification_controller,
     update_notification_controller,
+    destroy_notification_controller,
+    search_notification_controller,
 };
