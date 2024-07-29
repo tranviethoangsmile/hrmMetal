@@ -78,6 +78,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                             },
                         });
                     }
+
                     try {
                         const field_notification = {
                             title: 'checkin',

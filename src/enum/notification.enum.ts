@@ -3,4 +3,5 @@ export enum notification_type {
     WARNING,
     ERROR,
     SUCCESS,
+    SYSTEM,
 }

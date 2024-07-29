@@ -15,6 +15,7 @@ import {
     validate_search_order,
     validate_checkin_picked_order,
 } from '../../validates/order/order.validate';
+import { create_notification_usecase } from '../notification/notification.usecase';
 const create_order = async (order: any) => {
     try {
         const valid = validate_create_order(order);
@@ -23,6 +24,22 @@ const create_order = async (order: any) => {
             if (user?.success) {
                 const created_order = await create(order);
                 if (created_order?.success) {
+                    try {
+                        const field_notification = {
+                            title: 'Order',
+                            user_id: created_order?.data?.user_id,
+                            type: 'SUCCESS',
+                            message: 'Order success',
+                        };
+                        const notification = await create_notification_usecase(
+                            field_notification,
+                        );
+                        if (!notification?.success) {
+                            throw new Error(notification?.message);
+                        }
+                    } catch (error: any) {
+                        console.log(`notification: ${error?.message}`);
+                    }
                     return {
                         success: true,
                         data: created_order?.data,
@@ -199,6 +216,22 @@ const checkin_picked = async (field: any) => {
             if (order?.data?.length != 0) {
                 const picked_order = await checkin_picked_order(field);
                 if (picked_order.success) {
+                    try {
+                        const field_notification = {
+                            title: 'Order picked',
+                            user_id: field.user_id,
+                            type: 'SUCCESS',
+                            message: 'Order picked success',
+                        };
+                        const notification = await create_notification_usecase(
+                            field_notification,
+                        );
+                        if (!notification?.success) {
+                            throw new Error(notification?.message);
+                        }
+                    } catch (error: any) {
+                        console.log(`notification: ${error?.message}`);
+                    }
                     return {
                         success: picked_order?.success,
                         message: picked_order?.message,
