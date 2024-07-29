@@ -23,6 +23,7 @@ import {
 } from '../../repositorys/inventory/inventory.repo';
 import { getDepartmentById } from '../../repositorys/department/department.repository';
 import db from '../../dbs/db';
+import { create_notification_usecase } from '../notification/notification.usecase';
 const handleProductName = (value: string) => {
     switch (value) {
         case 'D042F_PAO_DC4':
@@ -197,6 +198,22 @@ const create_daily_report_use = async (field: create_daily_report) => {
             }
         }
         await t.commit();
+        try {
+            const field_notification = {
+                title: 'Inventory',
+                user_id: report?.data?.user_id,
+                type: 'SUCCESS',
+                message: 'Inventory success',
+            };
+            const notification = await create_notification_usecase(
+                field_notification,
+            );
+            if (!notification?.success) {
+                throw new Error(notification?.message);
+            }
+        } catch (error: any) {
+            console.log(`notification: ${error?.message}`);
+        }
         return { success: true, data: report?.data };
     } catch (error: any) {
         await t.rollback();
