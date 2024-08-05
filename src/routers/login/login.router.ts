@@ -7,6 +7,7 @@ const loginRouter: Router = Router();
 loginRouter.post('/', async (req: Request, res: Response) => {
     try {
         const user: login_data = req.body;
+        console.log(user);
         if (!user || !user.password || !user.user_name) {
             return res.status(400).send({
                 success: false,

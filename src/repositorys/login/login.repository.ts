@@ -13,6 +13,7 @@ class LoginRepository implements ILoginRepository {
         try {
             const user_name = user.user_name;
             const password = user.password;
+            console.log(user_name, password);
             const user_login: User | null = await User.findOne({
                 where: {
                     user_name: user_name,
@@ -89,6 +90,7 @@ class LoginRepository implements ILoginRepository {
                 token: token,
             };
         } catch (error: any) {
+            console.log(error);
             return {
                 success: false,
                 message: error?.message,
