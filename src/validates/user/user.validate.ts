@@ -53,6 +53,8 @@ const schema_user_find_all_with_field = Joi.object({
     position: Joi.string(),
 });
 
+const schema_find_by_name = Joi.string().min(1).max(99).required();
+
 const valid_user_create = (data: any) => {
     return schema_user_create.validate(data);
 };
@@ -64,4 +66,13 @@ const valid_user_find_all_with_field = (data: any) => {
     return schema_user_find_all_with_field.validate(data);
 };
 
-export { valid_user_create, valid_user_update, valid_user_find_all_with_field };
+const valid_find_by_name = (name: string) => {
+    return schema_find_by_name.validate(name);
+};
+
+export {
+    valid_user_create,
+    valid_user_update,
+    valid_user_find_all_with_field,
+    valid_find_by_name,
+};

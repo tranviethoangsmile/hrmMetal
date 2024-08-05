@@ -17,7 +17,9 @@ import {
     validate_update,
     validate_search,
 } from '../../validates/paidLeaveRequest/paidLeaveRequest.validate';
-import { create_checkin } from '../../repositorys/checkin/checkin.repo';
+import { CheckinRepository } from '../../repositorys';
+
+const checkinRepository = new CheckinRepository();
 const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
     try {
         const pail_leave = await get_paid_lead_with_id_repo(field.id);
@@ -31,7 +33,7 @@ const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
             is_paid_leave: true,
         };
         console.log(checkin_field);
-        const checkin = await create_checkin(checkin_field);
+        const checkin = await checkinRepository.create_checkin(checkin_field);
         if (!checkin?.success) {
             throw new Error(checkin?.message);
         }

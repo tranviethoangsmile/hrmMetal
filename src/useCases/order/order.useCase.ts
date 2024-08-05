@@ -1,6 +1,5 @@
 import { validation_id } from '../../validates';
 import { search_order } from '../../interfaces/order/order.interface';
-import { userFindById } from '../../repositorys/user/user.repository';
 import {
     create,
     find_all_order,
@@ -16,11 +15,13 @@ import {
     validate_checkin_picked_order,
 } from '../../validates/order/order.validate';
 import { create_notification_usecase } from '../notification/notification.usecase';
+import UserRepository from '../../repositorys/user/user.repository';
+const userRepository = new UserRepository();
 const create_order = async (order: any) => {
     try {
         const valid = validate_create_order(order);
         if (!valid.error) {
-            const user = await userFindById(order.user_id);
+            const user = await userRepository.userFindById(order.user_id);
             if (user?.success) {
                 const created_order = await create(order);
                 if (created_order?.success) {

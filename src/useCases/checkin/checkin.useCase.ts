@@ -1,12 +1,4 @@
 import {
-    create_checkin,
-    update_checkin,
-    isChecked,
-    search_checkin_of_user_in_month,
-    get_checkin_of_position_in_date_repo,
-    get_checkin_detail_in_date_of_user_repo,
-} from '../../repositorys/checkin/checkin.repo';
-import {
     create_checkin_interface,
     update_checkin_interface,
     is_Checked_interface,
@@ -19,7 +11,10 @@ import {
     get_checkin_in_date_of_position_validate,
     get_checkin_detail_in_day_of_user_validate,
 } from '../../validates/checkin/checkin.validate';
+import { CheckinRepository } from '../../repositorys';
 import moment from 'moment-timezone';
+
+const checkinRepository = new CheckinRepository();
 
 const get_checkin_detail_in_date_of_user_use = async (
     field: is_Checked_interface,
@@ -28,7 +23,9 @@ const get_checkin_detail_in_date_of_user_use = async (
         const isValid = get_checkin_detail_in_day_of_user_validate(field);
         if (!isValid.error) {
             const checkin_detail =
-                await get_checkin_detail_in_date_of_user_repo(field);
+                await checkinRepository.get_checkin_detail_in_date_of_user_repo(
+                    field,
+                );
             if (checkin_detail?.success) {
                 return {
                     success: checkin_detail?.success,
@@ -55,7 +52,7 @@ const get_checkin_detail_in_date_of_user_use = async (
 };
 const is_checked = async (field: is_Checked_interface) => {
     try {
-        const is_check = await isChecked(field);
+        const is_check = await checkinRepository.isChecked(field);
         if (is_check?.success) {
             return {
                 success: true,
@@ -78,7 +75,7 @@ const create_checkin_use = async (data: create_checkin_interface) => {
     try {
         const valid = create_checkin_validate(data);
         if (!valid.error) {
-            const result_create = await create_checkin(data);
+            const result_create = await checkinRepository.create_checkin(data);
             if (result_create?.success) {
                 return {
                     success: result_create?.success,
@@ -107,27 +104,19 @@ const create_checkin_use = async (data: create_checkin_interface) => {
 
 const update_checkin_use = async (field: update_checkin_interface) => {
     try {
-        const valid = update_checkin_validate(field);
-        if (!valid?.error) {
-            const result_update = await update_checkin({ ...field });
-            if (result_update?.success) {
-                return {
-                    success: result_update?.success,
-                    data: result_update?.data,
-                    message: result_update?.message,
-                };
-            } else {
-                return {
-                    success: result_update?.success,
-                    message: result_update?.message,
-                };
-            }
-        } else {
-            return {
-                success: false,
-                message: valid?.error?.message,
-            };
+        const isValid = update_checkin_validate(field);
+        if (isValid?.error) {
+            throw new Error(`${isValid?.error.message}`);
         }
+        const result_update = await checkinRepository.update_checkin({
+            ...field,
+        });
+        if (!result_update?.success) {
+            throw new Error(`${result_update?.message}`);
+        }
+        return {
+            success: result_update?.success,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -142,11 +131,12 @@ const search_checkin_of_user_in_month_useCase = async (
     try {
         const isIdValid = validation_id(field.user_id);
         if (!isIdValid.error) {
-            const checkins = await search_checkin_of_user_in_month({
-                user_id: field.user_id,
-                year: moment(field.date).format('yyyy'),
-                month: moment(field.date).format('MM'),
-            });
+            const checkins =
+                await checkinRepository.search_checkin_of_user_in_month({
+                    user_id: field.user_id,
+                    year: moment(field.date).format('yyyy'),
+                    month: moment(field.date).format('MM'),
+                });
             if (checkins?.success) {
                 return {
                     success: checkins?.success,
@@ -177,7 +167,10 @@ const get_checkin_of_position_in_date_use = async (
     try {
         const isValid = get_checkin_in_date_of_position_validate(field);
         if (!isValid.error) {
-            const checkins = await get_checkin_of_position_in_date_repo(field);
+            const checkins =
+                await checkinRepository.get_checkin_of_position_in_date_repo(
+                    field,
+                );
             if (checkins?.success) {
                 return {
                     success: true,

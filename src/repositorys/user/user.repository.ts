@@ -1,311 +1,269 @@
 import { User, Department } from '../../models';
+import { IUserRepository } from './interfaces/IUserRepository';
 import { Op } from 'sequelize';
-const getUserForLeaveFeatureRepo = async (id: any) => {
-    try {
-        const listUser: User[] | null = await User.findAll({
-            where: {
-                department_id: id,
-                role: {
-                    [Op.ne]: 'STAFF',
-                },
-            },
-            attributes: ['id', 'name'],
-        });
-        if (listUser != null) {
-            return {
-                success: true,
-                data: listUser,
-            };
-        } else {
-            return {
-                success: false,
-                message: 'user not found',
-            };
-        }
-    } catch (error: any) {
-        return {
-            success: false,
-            message: error.message,
-        };
-    }
-};
-const userCreate = async (user: any) => {
-    try {
-        const new_user: User | null = await User.create({
-            ...user,
-        });
-        if (new_user != null) {
+class UserRepository implements IUserRepository {
+    async userCreate(user: any) {
+        try {
+            const new_user: User | null = await User.create({
+                ...user,
+            });
+            if (new_user === null) {
+                throw new Error(`create new user error`);
+            }
             return {
                 success: true,
                 data: new_user,
             };
-        } else {
+        } catch (error: any) {
             return {
                 success: false,
-                message: 'create user error',
+                message: error.message,
             };
         }
-    } catch (error: any) {
-        return {
-            success: false,
-            message: error.message,
-        };
     }
-};
 
-const userUpdate = async (user: any) => {
-    try {
-        const updateFields = {
-            ...user,
-        };
-        const new_user_updated = await User.update(updateFields, {
-            where: {
-                id: updateFields.id,
-            },
-        });
-        if (new_user_updated.toString() === '1') {
+    async userUpdate(field: any) {
+        try {
+            const updateFields = {
+                ...field,
+            };
+            const new_user_updated = await User.update(updateFields, {
+                where: {
+                    id: updateFields.id,
+                },
+            });
+            if (new_user_updated.toString() !== '1') {
+                throw new Error(`update user error`);
+            }
             return {
                 success: true,
             };
-        } else {
+        } catch (error: any) {
             return {
                 success: false,
-                message: 'update user error',
+                message: `repo: ${error?.message}`,
             };
         }
-    } catch (error) {
-        return {
-            success: false,
-            message: error,
-        };
     }
-};
 
-const userDelete = async (id: string) => {
-    try {
-        const userBeforeDelete = await User.update(
-            {
-                is_active: false,
-            },
-            {
-                where: {
-                    id: id,
+    async userDelete(id: string) {
+        try {
+            const userBeforeDelete = await User.update(
+                {
+                    is_active: false,
                 },
-            },
-        );
-        if (userBeforeDelete.toString() === '1') {
+                {
+                    where: {
+                        id: id,
+                    },
+                },
+            );
+            if (userBeforeDelete.toString() !== '1') {
+                throw new Error(
+                    `delete user error because cannot update active to false`,
+                );
+            }
             const userDel = await User.destroy({
                 where: {
                     id: id,
                 },
             });
-            if (userDel === 1) {
-                return {
-                    success: true,
-                    data: userDel,
-                };
-            } else {
-                return {
-                    success: false,
-                    message: 'delete user error repo',
-                };
+            if (userDel !== 1) {
+                throw new Error(`delete user error repo`);
             }
-        } else {
+            return {
+                success: true,
+            };
+        } catch (error: any) {
             return {
                 success: false,
-                message: 'delete user error',
+                message: error?.message,
             };
         }
-    } catch (error: any) {
-        return {
-            success: false,
-            message: error?.message,
-        };
     }
-};
-
-const userFindById = async (id: string) => {
-    try {
-        const user: User | null = await User.findByPk(id, {
-            attributes: [
-                'name',
-                'user_name',
-                'email',
-                'dob',
-                'phone',
-                'role',
-                'employee_id',
-                'department_id',
-                'is_active',
-                'position',
-                'is_admin',
-                'avatar',
-                'is_officer',
-            ],
-            include: [
-                {
-                    model: Department,
-                    as: 'department',
-                    attributes: ['name'],
+    async getUserForLeaveFeatureRepo(department_id: string) {
+        try {
+            const listUser: User[] | null = await User.findAll({
+                where: {
+                    department_id: department_id,
+                    role: {
+                        [Op.ne]: 'STAFF',
+                    },
                 },
-            ],
-        });
-        if (user != null) {
+                attributes: ['id', 'name'],
+            });
+            if (listUser === null) {
+                throw new Error(`user not found`);
+            }
+            return {
+                success: true,
+                data: listUser,
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: error.message,
+            };
+        }
+    }
+
+    async userFindById(id: string) {
+        try {
+            const user: User | null = await User.findByPk(id, {
+                attributes: [
+                    'id',
+                    'name',
+                    'user_name',
+                    'email',
+                    'dob',
+                    'phone',
+                    'role',
+                    'employee_id',
+                    'department_id',
+                    'is_active',
+                    'position',
+                    'is_admin',
+                    'avatar',
+                    'is_officer',
+                ],
+                include: [
+                    {
+                        model: Department,
+                        as: 'department',
+                        attributes: ['name'],
+                    },
+                ],
+            });
+            if (user === null) {
+                throw new Error(`user not found`);
+            }
             return {
                 success: true,
                 data: user,
             };
-        } else {
+        } catch (error: any) {
             return {
                 success: false,
-                message: 'not found user',
+                message: error?.message,
             };
         }
-    } catch (error: any) {
-        return {
-            success: false,
-            message: error?.message,
-        };
     }
-};
-
-const userFindByName = async (name: string) => {
-    try {
-        const user: User[] | null = await User.findAll({
-            where: {
-                name: {
-                    [Op.like]: `%${name}%`,
+    async userFindByName(name: string) {
+        try {
+            const users: User[] | null = await User.findAll({
+                where: {
+                    name: {
+                        [Op.like]: `%${name}%`,
+                    },
                 },
-            },
-            attributes: [
-                'name',
-                'user_name',
-                'email',
-                'dob',
-                'phone',
-                'employee_id',
-                'department_id',
-                'is_active',
-                'position',
-                'is_admin',
-                'is_officer',
-            ],
-        });
-        if (user != null) {
-            return {
-                success: true,
-                data: user,
-            };
-        } else {
-            return {
-                success: false,
-                message: 'not found user',
-            };
-        }
-    } catch (error: any) {
-        return {
-            success: false,
-            message: error?.message,
-        };
-    }
-};
-
-const userFindAllWithFieldRepo = async (field: any) => {
-    try {
-        const users: User[] | null = await User.findAll({
-            where: { ...field },
-            attributes: [
-                'id',
-                'name',
-                'user_name',
-                'role',
-                'email',
-                'dob',
-                'phone',
-                'employee_id',
-                'is_active',
-                'position',
-                'is_admin',
-                'is_officer',
-            ],
-            include: [
-                {
-                    model: Department,
-                    as: 'department',
-                    attributes: ['name'],
-                },
-            ],
-        });
-        if (users != null) {
+                attributes: [
+                    'id',
+                    'name',
+                    'user_name',
+                    'email',
+                    'dob',
+                    'phone',
+                    'employee_id',
+                    'department_id',
+                    'is_active',
+                    'position',
+                    'is_admin',
+                    'is_officer',
+                ],
+            });
+            if (users === null || User.length < 1) {
+                throw new Error(`user not found`);
+            }
             return {
                 success: true,
                 data: users,
             };
-        } else {
+        } catch (error: any) {
             return {
                 success: false,
-                message: 'not found user',
+                message: error?.message,
             };
         }
-    } catch (error: any) {
-        return {
-            success: false,
-            message: error?.message,
-        };
     }
-};
-
-const userFindAll = async () => {
-    try {
-        const users: User[] | null = await User.findAll({
-            attributes: [
-                'id',
-                'name',
-                'user_name',
-                'role',
-                'email',
-                'dob',
-                'phone',
-                'employee_id',
-                'is_active',
-                'position',
-                'is_admin',
-                'is_officer',
-            ],
-            include: [
-                {
-                    model: Department,
-                    as: 'department',
-                    attributes: ['name'],
-                },
-            ],
-        });
-        if (users != null) {
+    async userFindAllWithFieldRepo(field: any) {
+        try {
+            const users: User[] | null = await User.findAll({
+                where: { ...field },
+                attributes: [
+                    'id',
+                    'name',
+                    'user_name',
+                    'role',
+                    'email',
+                    'dob',
+                    'phone',
+                    'employee_id',
+                    'is_active',
+                    'position',
+                    'is_admin',
+                    'is_officer',
+                ],
+                include: [
+                    {
+                        model: Department,
+                        as: 'department',
+                        attributes: ['name'],
+                    },
+                ],
+            });
+            if (users === null) {
+                throw new Error(`user not found`);
+            }
             return {
                 success: true,
                 data: users,
             };
-        } else {
+        } catch (error: any) {
             return {
                 success: false,
-                message: 'not found user',
+                message: error?.message,
             };
         }
-    } catch (error: any) {
-        return {
-            success: false,
-            message: error?.message,
-        };
     }
-};
+    async userFindAll() {
+        try {
+            const users: User[] | null = await User.findAll({
+                attributes: [
+                    'id',
+                    'name',
+                    'user_name',
+                    'role',
+                    'email',
+                    'dob',
+                    'phone',
+                    'employee_id',
+                    'is_active',
+                    'position',
+                    'is_admin',
+                    'is_officer',
+                ],
+                include: [
+                    {
+                        model: Department,
+                        as: 'department',
+                        attributes: ['name'],
+                    },
+                ],
+            });
+            if (users === null || users.length < 1) {
+                throw new Error(`user not found`);
+            }
+            return {
+                success: true,
+                data: users,
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: error?.message,
+            };
+        }
+    }
+}
 
-export {
-    userCreate,
-    userUpdate,
-    userDelete,
-    userFindById,
-    userFindByName,
-    userFindAll,
-    userFindAllWithFieldRepo,
-    getUserForLeaveFeatureRepo,
-};
+export default UserRepository;

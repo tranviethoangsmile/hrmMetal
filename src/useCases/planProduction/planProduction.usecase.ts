@@ -1,10 +1,3 @@
-import {
-    create_plan_production_repo,
-    update_plan_production_repo,
-    search_plan_production_by_id_repo,
-    destroy_plan_production_repo,
-    search_plan_production_seven_day_of_department_repo,
-} from '../../repositorys';
 import { getDepById } from '../department/department.useCase';
 import {
     validate_create_plan_production,
@@ -13,6 +6,9 @@ import {
     validate_search_plan_production_seven_day_of_department,
 } from '../../validates';
 import { Position, Products, shift_work } from '../../enum';
+import { PlanProductionRepository } from '../../repositorys';
+
+const planProductionRepository = new PlanProductionRepository();
 const handleProductName = (value: string) => {
     switch (value) {
         case 'D042F_PAO_DC4':
@@ -65,7 +61,10 @@ const create_plan_production_use = async (field: any) => {
             throw new Error(`${department?.message}`);
         }
         field.product = handleProductName(field.product);
-        const planProduction = await create_plan_production_repo({ ...field });
+        const planProduction =
+            await planProductionRepository.create_plan_production_repo({
+                ...field,
+            });
         if (!planProduction?.success) {
             throw new Error(`${planProduction?.message}`);
         }
@@ -87,7 +86,10 @@ const search_plan_production_by_id_use = async (id: string) => {
         if (isValid?.error) {
             throw new Error(`${isValid?.error.message}`);
         }
-        const planProduction = await search_plan_production_by_id_repo(id);
+        const planProduction =
+            await planProductionRepository.search_plan_production_by_id_repo(
+                id,
+            );
         if (!planProduction?.success) {
             throw new Error(`${planProduction?.message}`);
         }
@@ -128,9 +130,10 @@ const update_plan_production_use = async (field: any) => {
                 throw new Error('Work shift is not valid');
             }
         }
-        const planProduction = await update_plan_production_repo({
-            ...field,
-        });
+        const planProduction =
+            await planProductionRepository.update_plan_production_repo({
+                ...field,
+            });
         if (!planProduction?.success) {
             throw new Error(`${planProduction?.message}`);
         }
@@ -151,11 +154,15 @@ const destroy_plan_production_use = async (id: string) => {
         if (isValid?.error) {
             throw new Error(`${isValid?.error.message}`);
         }
-        const planProduction = await search_plan_production_by_id_repo(id);
+        const planProduction =
+            await planProductionRepository.search_plan_production_by_id_repo(
+                id,
+            );
         if (!planProduction?.success) {
             throw new Error(`${planProduction?.message}`);
         }
-        const result = await destroy_plan_production_repo(id);
+        const result =
+            await planProductionRepository.destroy_plan_production_repo(id);
         if (!result?.success) {
             throw new Error(`${result?.message}`);
         }
@@ -180,9 +187,11 @@ const search_plan_production_seven_day_of_department_use = async (
             throw new Error(`${isValid?.error.message}`);
         }
         const planProduction =
-            await search_plan_production_seven_day_of_department_repo({
-                ...field,
-            });
+            await planProductionRepository.search_plan_production_seven_day_of_department_repo(
+                {
+                    ...field,
+                },
+            );
         if (!planProduction?.success) {
             throw new Error(`${planProduction?.message}`);
         }
