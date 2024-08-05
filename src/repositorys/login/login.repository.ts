@@ -4,46 +4,52 @@ import dotenv from 'dotenv';
 import { Department, User } from '../../models';
 import jwt from 'jsonwebtoken';
 import { token_payload } from '../../interfaces/login/login.interface';
+import { ILoginRepository } from './interfaces/ILoginRepository';
 dotenv.config();
 const SECRET: string = process.env.SECRET || '';
-const login = async (user: any) => {
-    try {
-        const user_name = user.user_name;
-        const password = user.password;
-        const user_login: User | null = await User.findOne({
-            where: {
-                user_name: user_name,
-            },
-            attributes: [
-                'id',
-                'name',
-                'user_name',
-                'avatar',
-                'dob',
-                'role',
-                'password',
-                'position',
-                'role',
-                'is_admin',
-                'is_officer',
-                'department_id',
-                'is_offical_staff',
-                'salary_hourly',
-                'begin_date',
-                'shift_night_pay',
-                'travel_allowance_pay',
-                'paid_days',
-                'employee_id',
-            ],
-            include: [
-                {
-                    model: Department,
-                    as: 'department',
-                    attributes: ['name'],
+
+class LoginRepository implements ILoginRepository {
+    async login(user: any) {
+        try {
+            const user_name = user.user_name;
+            const password = user.password;
+            const user_login: User | null = await User.findOne({
+                where: {
+                    user_name: user_name,
+                    is_active: true,
                 },
-            ],
-        });
-        if (user_login != null) {
+                attributes: [
+                    'id',
+                    'name',
+                    'user_name',
+                    'avatar',
+                    'dob',
+                    'role',
+                    'password',
+                    'position',
+                    'role',
+                    'is_admin',
+                    'is_officer',
+                    'department_id',
+                    'is_offical_staff',
+                    'salary_hourly',
+                    'begin_date',
+                    'shift_night_pay',
+                    'travel_allowance_pay',
+                    'paid_days',
+                    'employee_id',
+                ],
+                include: [
+                    {
+                        model: Department,
+                        as: 'department',
+                        attributes: ['name'],
+                    },
+                ],
+            });
+            if (user_login === null) {
+                throw new Error('user not exist in system or deleted');
+            }
             const pass = await bcrypt.compare(password, user_login.password);
             const user_payload: token_payload = {
                 id: user_login?.dataValues.id,
@@ -66,38 +72,29 @@ const login = async (user: any) => {
                 begin_date: user_login?.dataValues.begin_date,
                 employee_id: user_login?.dataValues.employee_id,
             };
-            if (pass) {
-                const secret = crypto
-                    .createHash('sha256')
-                    .update(SECRET)
-                    .digest('hex');
-                const payload = {
-                    ...user_payload,
-                };
-                const token = jwt.sign(payload, secret);
-                return {
-                    success: true,
-                    data: payload,
-                    token: token,
-                };
-            } else {
-                return {
-                    success: false,
-                    message: 'Password wrong...!!!',
-                };
+            if (!pass) {
+                throw new Error(`Password wrong...!!!`);
             }
-        } else {
+            const secret = crypto
+                .createHash('sha256')
+                .update(SECRET)
+                .digest('hex');
+            const payload = {
+                ...user_payload,
+            };
+            const token = jwt.sign(payload, secret);
+            return {
+                success: true,
+                data: payload,
+                token: token,
+            };
+        } catch (error: any) {
             return {
                 success: false,
-                message: 'user not found',
+                message: error?.message,
             };
         }
-    } catch (error: any) {
-        return {
-            success: false,
-            message: error?.message,
-        };
     }
-};
+}
 
-export { login };
+export default LoginRepository;

@@ -30,7 +30,7 @@ const findById = async (id: string) => {
     return await findUserById(id);
 };
 
-const findByName = async (name: string) => {
+const findByName = async (name: any) => {
     return await findUserByName(name);
 };
 

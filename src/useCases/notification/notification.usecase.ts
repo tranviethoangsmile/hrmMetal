@@ -1,14 +1,8 @@
 import { notification_type } from '../../enum';
-import {
-    create_notification_repo,
-    update_notification_repo,
-    destroy_notification_repo,
-    search_notification_repo,
-    search_notification_of_user_repo,
-} from '../../repositorys';
 import { validate_create_notification, validation_id } from '../../validates';
 import { findUserById } from '../user/user.useCase';
-
+import { NotificationRepository } from '../../repositorys';
+const notificationRepo = new NotificationRepository();
 const create_notification_usecase = async (field: any) => {
     try {
         const isValid = validate_create_notification(field);
@@ -18,7 +12,9 @@ const create_notification_usecase = async (field: any) => {
         if (!Object.values(notification_type).includes(field?.type)) {
             throw new Error('notification type is not valid');
         }
-        const notification = await create_notification_repo({ ...field });
+        const notification = await notificationRepo.create_notification_repo({
+            ...field,
+        });
         if (!notification?.success) {
             throw new Error(`${notification?.message}`);
         }
@@ -40,7 +36,7 @@ const update_notification_usecase = async (id: string) => {
         if (isValid?.error) {
             throw new Error(`${isValid?.error.message}`);
         }
-        const result = await update_notification_repo(id);
+        const result = await notificationRepo.update_notification_repo(id);
         if (!result?.success) {
             throw new Error(`${result?.message}`);
         }
@@ -65,7 +61,7 @@ const destroy_notification_usecase = async (id: string) => {
         if (!notification?.success) {
             throw new Error('notification not found');
         }
-        const result = await destroy_notification_repo(id);
+        const result = await notificationRepo.destroy_notification_repo(id);
         if (!result?.success) {
             throw new Error(`${result?.message}`);
         }
@@ -86,7 +82,9 @@ const search_notification_usecase = async (id: string) => {
         if (isValid?.error) {
             throw new Error(`${isValid?.error.message}`);
         }
-        const notification = await search_notification_repo(id);
+        const notification = await notificationRepo.search_notification_repo(
+            id,
+        );
         if (!notification?.success) {
             throw new Error(`${notification?.message}`);
         }
@@ -112,7 +110,8 @@ const search_notification_of_user_usecase = async (id: string) => {
         if (!user?.success) {
             throw new Error(`${user?.message}`);
         }
-        const notifications = await search_notification_of_user_repo(id);
+        const notifications =
+            await notificationRepo.search_notification_of_user_repo(id);
         if (!notifications?.success) {
             throw new Error(`${notifications?.message}`);
         }

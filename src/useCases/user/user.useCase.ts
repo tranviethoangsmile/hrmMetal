@@ -1,18 +1,9 @@
 import bcrypt from 'bcrypt';
 import {
-    userCreate,
-    userUpdate,
-    userDelete,
-    userFindById,
-    userFindByName,
-    userFindAll,
-    userFindAllWithFieldRepo,
-    getUserForLeaveFeatureRepo,
-} from '../../repositorys/user/user.repository';
-import {
     valid_user_create,
     valid_user_update,
     valid_user_find_all_with_field,
+    valid_find_by_name,
 } from '../../validates/user/user.validate';
 import { validation_id } from '../../validates';
 import { Role } from '../../enum/Role.enum';
@@ -23,11 +14,16 @@ import {
     CreateField,
     FindAllField,
 } from '../../interfaces/user/user.interface';
+
+import { UserRepository } from '../../repositorys';
+const userRepository = new UserRepository();
 const getUserForLeaveFeatureUse = async (id: any) => {
     try {
         const valid_id = validation_id(id);
         if (!valid_id?.error) {
-            const listUser = await getUserForLeaveFeatureRepo(id);
+            const listUser = await userRepository.getUserForLeaveFeatureRepo(
+                id,
+            );
             if (listUser?.success) {
                 return {
                     success: listUser?.success,
@@ -55,20 +51,17 @@ const getUserForLeaveFeatureUse = async (id: any) => {
 const userFindAllWithFieldUse = async (field: FindAllField) => {
     try {
         const isValid = valid_user_find_all_with_field(field);
-        if (!isValid.error) {
-            const users = await userFindAllWithFieldRepo(field);
-            if (users?.success) {
-                return {
-                    success: true,
-                    data: users.data,
-                };
-            } else {
-                return {
-                    success: false,
-                    message: users?.message,
-                };
-            }
+        if (isValid.error) {
+            throw new Error(`${isValid?.error.message}`);
         }
+        const users = await userRepository.userFindAllWithFieldRepo(field);
+        if (!users?.success) {
+            throw new Error(`${users?.message}`);
+        }
+        return {
+            success: true,
+            data: users.data,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -93,7 +86,9 @@ const createNewUser = async (user: any) => {
                         ...user,
                         password: passBcrypt,
                     };
-                    const new_user = await userCreate(userBcrypted);
+                    const new_user = await userRepository.userCreate(
+                        userBcrypted,
+                    );
                     if (new_user?.success) {
                         return {
                             success: true,
@@ -142,7 +137,7 @@ const updateUser = async (user: any) => {
                     ...user,
                     password: passBcrypt,
                 };
-                const new_user = await userUpdate(userBcrypted);
+                const new_user = await userRepository.userUpdate(userBcrypted);
                 if (new_user?.success) {
                     return {
                         success: true,
@@ -158,7 +153,7 @@ const updateUser = async (user: any) => {
                 const user_updated: UpdateField = {
                     ...user,
                 };
-                const new_user = await userUpdate(user_updated);
+                const new_user = await userRepository.userUpdate(user_updated);
                 if (new_user?.success) {
                     return {
                         success: true,
@@ -188,33 +183,21 @@ const updateUser = async (user: any) => {
 const deleteUser = async (id: string) => {
     try {
         const valid_id = validation_id(id);
-        if (!valid_id.error) {
-            const user = await userFindById(id);
-            if (user) {
-                const deleted_user = await userDelete(id);
-                if (deleted_user?.data === 1) {
-                    return {
-                        success: true,
-                        message: 'User deleted',
-                    };
-                } else {
-                    return {
-                        success: false,
-                        message: 'User delete faild',
-                    };
-                }
-            } else {
-                return {
-                    success: false,
-                    message: 'user not exist',
-                };
-            }
-        } else {
-            return {
-                success: false,
-                message: 'id wrong...!!',
-            };
+        if (valid_id.error) {
+            throw new Error(`${valid_id?.error.message}`);
         }
+        const user = await userRepository.userFindById(id);
+        if (!user?.success) {
+            throw new Error(`${user?.message}`);
+        }
+        const deleted_user = await userRepository.userDelete(id);
+        if (!deleted_user?.success) {
+            throw new Error(`${deleted_user?.message}`);
+        }
+        return {
+            success: true,
+            message: deleted_user?.message,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -227,7 +210,7 @@ const findUserById = async (userId: string) => {
     try {
         const valid_id = validation_id(userId);
         if (!valid_id.error) {
-            const user = await userFindById(userId);
+            const user = await userRepository.userFindById(userId);
             if (user?.success) {
                 return {
                     success: true,
@@ -255,25 +238,18 @@ const findUserById = async (userId: string) => {
 
 const findUserByName = async (name: string) => {
     try {
-        if (name !== '') {
-            const user = await userFindByName(name);
-            if (user) {
-                return {
-                    success: true,
-                    data: user,
-                };
-            } else {
-                return {
-                    success: false,
-                    message: 'User not found',
-                };
-            }
-        } else {
-            return {
-                success: true,
-                message: 'name not empty',
-            };
+        const isValid = valid_find_by_name(name);
+        if (isValid?.error) {
+            throw new Error(isValid?.error.message);
         }
+        const user = await userRepository.userFindByName(name);
+        if (!user?.success) {
+            throw new Error(`${user?.message}`);
+        }
+        return {
+            success: true,
+            data: user?.data,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -284,18 +260,14 @@ const findUserByName = async (name: string) => {
 
 const findAllUser = async () => {
     try {
-        const users = await userFindAll();
-        if (users?.success) {
-            return {
-                success: true,
-                data: users.data,
-            };
-        } else {
-            return {
-                success: false,
-                message: users?.message,
-            };
+        const users = await userRepository.userFindAll();
+        if (!users?.success) {
+            throw new Error(`${users?.message}`);
         }
+        return {
+            success: true,
+            data: users.data,
+        };
     } catch (error: any) {
         return {
             success: false,

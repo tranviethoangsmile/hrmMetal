@@ -1,27 +1,12 @@
-import {
-    create_plan_production_repo,
-    update_plan_production_repo,
-    search_plan_production_by_id_repo,
-    destroy_plan_production_repo,
-    search_plan_production_seven_day_of_department_repo,
-} from '../repositorys/planProduction/planProduction.repository';
-import {
-    create_notification_repo,
-    update_notification_repo,
-    destroy_notification_repo,
-    search_notification_repo,
-    search_notification_of_user_repo,
-} from './notification/notification.repository';
-
+import LoginRepository from './login/login.repository';
+import UserRepository from './user/user.repository';
+import CheckinRepository from './checkin/checkin.repo';
+import NotificationRepository from './notification/notification.repository';
+import PlanProductionRepository from './planProduction/planProduction.repository';
 export {
-    create_plan_production_repo,
-    update_plan_production_repo,
-    search_plan_production_by_id_repo,
-    destroy_plan_production_repo,
-    search_plan_production_seven_day_of_department_repo,
-    create_notification_repo,
-    update_notification_repo,
-    destroy_notification_repo,
-    search_notification_repo,
-    search_notification_of_user_repo,
+    PlanProductionRepository,
+    LoginRepository,
+    UserRepository,
+    CheckinRepository,
+    NotificationRepository,
 };

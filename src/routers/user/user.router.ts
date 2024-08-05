@@ -9,11 +9,13 @@ import {
 import uploadAvatar from './userRouterModul/uploadRouterModul';
 import findUser from './userRouterModul/findAllUserWithField';
 import getUserWithDepartmentId from './userRouterModul/getUserWithDepartmentId';
+import userFindByNameRouter from './userRouterModul/findByName';
 import { CreateField } from '../../interfaces/user/user.interface';
 const userRouters: Router = Router();
 userRouters.use('/getuserwithdepartmentid', getUserWithDepartmentId);
 userRouters.use('/upload-avatar', uploadAvatar);
 userRouters.use('/findallwithfield', findUser);
+userRouters.use('/findbyname', userFindByNameRouter);
 userRouters.get('/', async (req: Request, res: Response) => {
     try {
         const users = await findAll();
@@ -50,7 +52,7 @@ userRouters.post('/', async (req: Request, res: Response) => {
             !user.employee_id ||
             !user.department_id
         ) {
-            throw new Error('bad request 1');
+            throw new Error('bad request');
         }
         if (
             user.salary_hourly === undefined &&
@@ -86,7 +88,7 @@ userRouters.put('/', async (req: Request, res: Response) => {
         if (user != null) {
             const data = await update(user);
             if (data?.success) {
-                res.status(200).send({
+                res.status(202).send({
                     success: true,
                 });
             } else {
@@ -111,26 +113,24 @@ userRouters.put('/', async (req: Request, res: Response) => {
 
 userRouters.delete('/:id', async (req: Request, res: Response) => {
     try {
-        const id = req.params.id;
-        if (id != null) {
-            const data = await destroy(id);
-            if (data?.success) {
-                res.status(202).send({
-                    success: true,
-                    message: 'deleted',
-                });
-            } else {
-                res.status(200).json({
-                    success: false,
-                    message: 'delete failed',
-                });
-            }
-        } else {
-            res.status(400).json({
+        const id: string | undefined = req.params.id;
+        if (!id) {
+            return res.status(400).json({
                 success: false,
                 message: 'id not empty',
             });
         }
+        const data = await destroy(id);
+        if (!data?.success) {
+            return res.status(200).json({
+                success: false,
+                message: data?.message,
+            });
+        }
+        return res.status(202).send({
+            success: true,
+            message: data?.message,
+        });
     } catch (error: any) {
         return {
             success: true,
@@ -141,21 +141,24 @@ userRouters.delete('/:id', async (req: Request, res: Response) => {
 
 userRouters.get('/:id', async (req: Request, res: Response) => {
     try {
-        const id = req.params.id;
-        if (id) {
-            const data = await findById(id);
-            if (data?.success) {
-                res.status(200).send({
-                    success: true,
-                    data: data?.data,
-                });
-            } else {
-                res.status(200).json({
-                    success: false,
-                    message: data?.message,
-                });
-            }
+        const id: string | undefined = req.params.id;
+        if (!id) {
+            return res.status(400).json({
+                success: false,
+                message: 'id not empty',
+            });
         }
+        const data = await findById(id);
+        if (!data?.success) {
+            return res.status(200).json({
+                success: false,
+                message: data?.message,
+            });
+        }
+        return res.status(202).send({
+            success: true,
+            data: data?.data,
+        });
     } catch (error: any) {
         res.status(500).send({
             success: false,

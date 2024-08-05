@@ -56,5 +56,8 @@ interface CreateField {
 interface FindAllField {
     position: string;
 }
+export interface IFindByName {
+    name: string;
+}
 
 export { UpdateField, CreateField, FindAllField };

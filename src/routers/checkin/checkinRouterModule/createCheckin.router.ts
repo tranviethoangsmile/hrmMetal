@@ -294,7 +294,6 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                 const create_check = await update_checkin_controller(field);
                 if (create_check.success) {
                     const user = await findById(data.user_id);
-                    console.log(user);
                     if (user?.success) {
                         io.emit('userChecked', {
                             data: {
@@ -319,9 +318,8 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     } catch (error: any) {
                         console.log(`notification: ${error?.message}`);
                     }
-                    return res.status(201).json({
+                    return res.status(202).json({
                         success: true,
-                        data: create_check?.data,
                     });
                 } else {
                     try {
@@ -362,7 +360,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                 } catch (error: any) {
                     console.log(`notification: ${error?.message}`);
                 }
-                return res.status(201).json({
+                return res.status(202).json({
                     success: !isChecked?.success,
                     message: 'checked',
                 });
@@ -621,9 +619,8 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     } catch (error: any) {
                         console.log(`notification: ${error?.message}`);
                     }
-                    return res.status(201).json({
+                    return res.status(202).json({
                         success: true,
-                        data: create_check?.data,
                     });
                 } else {
                     try {
