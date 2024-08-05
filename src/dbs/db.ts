@@ -7,7 +7,7 @@ const db = new Sequelize(CONFIG.name, CONFIG.username, CONFIG.password, {
     host: CONFIG.host,
     logging: false,
     port: CONFIG.port,
-    timezone: CONFIG.timezone,
+    // timezone: CONFIG.timezone,
 });
 
 db.authenticate()
