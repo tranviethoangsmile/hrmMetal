@@ -13,7 +13,7 @@ interface DbConfig {
     dialect: Dialect;
     username: string;
     password: string;
-    // timezone: string;
+    timezone: string;
 }
 interface Config {
     app: AppConfig;
@@ -31,7 +31,7 @@ const pro: Config = {
         dialect: Dialect.POSTGRES,
         username: ENV.PRO_DB_USERNAME!,
         password: ENV.PRO_DB_PASSWORD!,
-        // timezone: ENV.TZ!,
+        timezone: ENV.TZ!,
     },
 };
 
@@ -46,7 +46,7 @@ const dev: Config = {
         dialect: Dialect.POSTGRES,
         username: ENV.DEV_DB_USERNAME!,
         password: ENV.DEV_DB_PASSWORD!,
-        // timezone: ENV.TZ!,
+        timezone: ENV.TZ!,
     },
 };
 
