@@ -1,68 +1,48 @@
 import { validation_id } from '../../validates';
 import { search_order } from '../../interfaces/order/order.interface';
 import {
-    create,
-    find_all_order,
-    find_order,
-    delete_order,
-    search_order_for_user_in_month,
-    find_one_order,
-    checkin_picked_order,
-} from '../../repositorys/order/order.repository';
-import {
     validate_create_order,
     validate_search_order,
     validate_checkin_picked_order,
 } from '../../validates/order/order.validate';
 import { create_notification_usecase } from '../notification/notification.usecase';
-import UserRepository from '../../repositorys/user/user.repository';
+import { OrderRepository, UserRepository } from '../../repositorys';
 const userRepository = new UserRepository();
+const orderRepository = new OrderRepository();
 const create_order = async (order: any) => {
     try {
         const valid = validate_create_order(order);
-        if (!valid.error) {
-            const user = await userRepository.userFindById(order.user_id);
-            if (user?.success) {
-                const created_order = await create(order);
-                if (created_order?.success) {
-                    try {
-                        const field_notification = {
-                            title: 'Order',
-                            user_id: created_order?.data?.user_id,
-                            type: 'SUCCESS',
-                            message: 'Order success',
-                        };
-                        const notification = await create_notification_usecase(
-                            field_notification,
-                        );
-                        if (!notification?.success) {
-                            throw new Error(notification?.message);
-                        }
-                    } catch (error: any) {
-                        console.log(`notification: ${error?.message}`);
-                    }
-                    return {
-                        success: true,
-                        data: created_order?.data,
-                    };
-                } else {
-                    return {
-                        success: false,
-                        message: created_order?.message,
-                    };
-                }
-            } else {
-                return {
-                    success: false,
-                    message: 'User not found',
-                };
-            }
-        } else {
-            return {
-                success: false,
-                message: valid?.error.message,
-            };
+        if (valid.error) {
+            throw new Error(`${valid?.error.message}`);
         }
+        const user = await userRepository.userFindById(order.user_id);
+        if (!user?.success) {
+            throw new Error(`${user?.message}`);
+        }
+        const created_order = await orderRepository.create(order);
+        if (!created_order?.success) {
+            throw new Error(`${created_order?.message}`);
+        }
+        try {
+            const field_notification = {
+                title: 'Order',
+                user_id: created_order?.data?.user_id,
+                type: 'SUCCESS',
+                message: 'Order success',
+            };
+            const notification = await create_notification_usecase(
+                field_notification,
+            );
+            if (!notification?.success) {
+                throw new Error(notification?.message);
+            }
+        } catch (error: any) {
+            console.log(`notification: ${error?.message}`);
+        }
+        return {
+            success: true,
+            data: created_order?.data,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -73,18 +53,14 @@ const create_order = async (order: any) => {
 
 const find_all = async () => {
     try {
-        const orders = await find_all_order();
-        if (orders?.success) {
-            return {
-                success: true,
-                data: orders?.data,
-            };
-        } else {
-            return {
-                success: false,
-                message: orders?.message,
-            };
+        const orders = await orderRepository.find_all_order();
+        if (!orders?.success) {
+            throw new Error(`${orders?.message}`);
         }
+        return {
+            success: true,
+            data: orders?.data,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -96,25 +72,17 @@ const find_all = async () => {
 const search_order = async (order: search_order) => {
     try {
         const valid = validate_search_order(order);
-        if (!valid.error) {
-            const orders = await find_order(order);
-            if (orders.success) {
-                return {
-                    success: true,
-                    data: orders?.data,
-                };
-            } else {
-                return {
-                    success: false,
-                    message: orders?.message,
-                };
-            }
-        } else {
-            return {
-                success: false,
-                message: 'data not valid',
-            };
+        if (valid.error) {
+            throw new Error(`${valid?.error.message}`);
         }
+        const orders = await orderRepository.find_order(order);
+        if (!orders.success) {
+            throw new Error(`${orders?.message}`);
+        }
+        return {
+            success: true,
+            data: orders?.data,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -126,52 +94,30 @@ const search_order = async (order: search_order) => {
 const delete_order_by_id = async (id: string) => {
     try {
         const valid = validation_id(id);
-        if (!valid.error) {
-            const order = await find_one_order(id);
-            console.log(order);
-            if (order?.success) {
-                const date_of_order = order?.data?.date;
-                if (date_of_order != undefined) {
-                    const orderDate = new Date(date_of_order);
-                    const currentDate = new Date();
-                    if (orderDate.getTime() > currentDate.getTime()) {
-                        const result = await delete_order(id);
-                        if (result?.success) {
-                            return {
-                                success: true,
-                                message: result?.message,
-                            };
-                        } else {
-                            return {
-                                success: false,
-                                message: result?.message,
-                            };
-                        }
-                    } else {
-                        return {
-                            success: false,
-                            message:
-                                'order delete failed because it was confirmed',
-                        };
-                    }
-                } else {
-                    return {
-                        success: false,
-                        message: 'order delete failed',
-                    };
-                }
-            } else {
-                return {
-                    success: false,
-                    message: 'order not avaliable',
-                };
-            }
-        } else {
-            return {
-                success: false,
-                message: 'id not valid delete',
-            };
+        if (valid.error) {
+            throw new Error(`${valid?.error.message}`);
         }
+        const order = await orderRepository.find_one_order(id);
+        if (!order?.success) {
+            throw new Error(`${order?.message}`);
+        }
+        const date_of_order = order?.data?.date;
+        if (date_of_order == undefined) {
+            throw new Error('order delete failed');
+        }
+        const orderDate = new Date(date_of_order);
+        const currentDate = new Date();
+        if (orderDate.getTime() < currentDate.getTime()) {
+            throw new Error('order delete failed because it was confirmed');
+        }
+        const result = await orderRepository.delete_order(id);
+        if (!result?.success) {
+            throw new Error(`${result?.message}`);
+        }
+        return {
+            success: true,
+            message: result?.message,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -183,25 +129,17 @@ const delete_order_by_id = async (id: string) => {
 const search_order_user = async (id: any) => {
     try {
         const valid = validation_id(id.user_id);
-        if (!valid.error) {
-            const orders = await search_order_for_user_in_month(id);
-            if (orders?.success) {
-                return {
-                    success: true,
-                    data: orders?.data,
-                };
-            } else {
-                return {
-                    success: false,
-                    message: orders?.message,
-                };
-            }
-        } else {
-            return {
-                success: false,
-                message: 'Id not valid search',
-            };
+        if (valid.error) {
+            throw new Error(`${valid?.error.message}`);
         }
+        const orders = await orderRepository.search_order_for_user_in_month(id);
+        if (!orders?.success) {
+            throw new Error(`${orders?.message}`);
+        }
+        return {
+            success: true,
+            data: orders?.data,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -212,49 +150,36 @@ const search_order_user = async (id: any) => {
 const checkin_picked = async (field: any) => {
     try {
         const valid = validate_checkin_picked_order(field);
-        if (!valid.error) {
-            const order = await find_order(field);
-            if (order?.data?.length != 0) {
-                const picked_order = await checkin_picked_order(field);
-                if (picked_order.success) {
-                    try {
-                        const field_notification = {
-                            title: 'Order picked',
-                            user_id: field.user_id,
-                            type: 'SUCCESS',
-                            message: 'Order picked success',
-                        };
-                        const notification = await create_notification_usecase(
-                            field_notification,
-                        );
-                        if (!notification?.success) {
-                            throw new Error(notification?.message);
-                        }
-                    } catch (error: any) {
-                        console.log(`notification: ${error?.message}`);
-                    }
-                    return {
-                        success: picked_order?.success,
-                        message: picked_order?.message,
-                    };
-                } else {
-                    return {
-                        success: picked_order?.success,
-                        message: picked_order?.message,
-                    };
-                }
-            } else {
-                return {
-                    success: false,
-                    message: `Order does not exist`,
-                };
-            }
-        } else {
-            return {
-                success: false,
-                message: 'value not valid',
-            };
+        if (valid.error) {
+            throw new Error(`${valid?.error.message}`);
         }
+        const order = await orderRepository.find_order(field);
+        if (!order?.success) {
+            throw new Error(`${order?.message}`);
+        }
+        const picked_order = await orderRepository.checkin_picked_order(field);
+        if (!picked_order.success) {
+            throw new Error(`${picked_order?.message}`);
+        }
+        try {
+            const field_notification = {
+                title: 'Order picked',
+                user_id: field.user_id,
+                type: 'SUCCESS',
+                message: 'Order picked success',
+            };
+            const notification = await create_notification_usecase(
+                field_notification,
+            );
+            if (!notification?.success) {
+                throw new Error(notification?.message);
+            }
+        } catch (error: any) {
+            console.log(`notification: ${error?.message}`);
+        }
+        return {
+            success: picked_order?.success,
+        };
     } catch (error: any) {
         return {
             success: false,

@@ -1,5 +1,5 @@
 import { User, Department } from '../../models';
-import { IUserRepository } from './interfaces/IUserRepository';
+import { IUserRepository } from '../interfaces/user/IUserRepository';
 import { Op } from 'sequelize';
 class UserRepository implements IUserRepository {
     async userCreate(user: any) {

@@ -43,7 +43,6 @@ orderRouterModule.put('/', async (req: Request, res: Response) => {
             if (result.success) {
                 return res.status(202).send({
                     success: result?.success,
-                    message: result?.message,
                 });
             } else {
                 return res.status(200).send({

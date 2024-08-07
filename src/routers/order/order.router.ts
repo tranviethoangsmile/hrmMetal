@@ -22,18 +22,18 @@ orderRouter.post(
             if (order_data && Object.keys(order_data).length !== 0) {
                 const new_order = await create(order_data);
                 if (new_order?.success) {
-                    return res.status(201).send({
+                    return res.status(201).json({
                         success: true,
                         data: new_order?.data,
                     });
                 } else {
-                    return res.status(200).send({
+                    return res.status(200).json({
                         success: false,
                         message: new_order?.message,
                     });
                 }
             } else {
-                return res.status(400).send({
+                return res.status(400).json({
                     success: false,
                     message: 'data not empty',
                 });
@@ -51,12 +51,12 @@ orderRouter.get('/', async (req: Request, res: Response) => {
     try {
         const orders = await find_all_order();
         if (orders?.success) {
-            return res.status(202).send({
+            return res.status(202).json({
                 success: true,
                 data: orders?.data,
             });
         } else {
-            return res.status(200).send({
+            return res.status(200).json({
                 success: false,
                 message: orders?.message,
             });
@@ -71,24 +71,23 @@ orderRouter.get('/', async (req: Request, res: Response) => {
 
 orderRouter.delete('/:id', async (req: Request, res: Response) => {
     try {
-        const order_id: string | null = req.params.id;
-        if (order_id != null) {
-            const order = await delete_order(order_id);
-            if (order.success) {
-                return res.status(202).send({
-                    success: true,
-                    message: order?.message,
-                });
-            } else {
-                return res.status(200).send({
-                    success: false,
-                    message: order?.message,
-                });
-            }
-        } else {
-            return res.status(400).send({
+        const order_id: string | undefined = req.params.id;
+        if (!order_id) {
+            return res.status(400).json({
                 success: false,
                 message: 'id not empty',
+            });
+        }
+        const order = await delete_order(order_id);
+        if (order.success) {
+            return res.status(202).json({
+                success: true,
+                message: order?.message,
+            });
+        } else {
+            return res.status(200).json({
+                success: false,
+                message: order?.message,
             });
         }
     } catch (error: any) {
