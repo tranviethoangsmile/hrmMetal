@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import { Department, User } from '../../models';
 import jwt from 'jsonwebtoken';
 import { token_payload } from '../../interfaces/login/login.interface';
-import { ILoginRepository } from './interfaces/ILoginRepository';
+import { ILoginRepository } from '../interfaces/login/ILoginRepository';
 dotenv.config();
 const SECRET: string = process.env.SECRET || '';
 

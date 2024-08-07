@@ -1,6 +1,6 @@
 import { Department, PlanProduction } from '../../models';
 import { Op } from 'sequelize';
-import { IPlanProductionRepository } from './interfaces/IPlanProductionRepository';
+import { IPlanProductionRepository } from '../interfaces/planProduction/IPlanProductionRepository';
 
 class PlanProductionRepository implements IPlanProductionRepository {
     async create_plan_production_repo(field: any) {

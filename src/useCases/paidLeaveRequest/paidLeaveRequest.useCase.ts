@@ -1,28 +1,22 @@
-import {
-    create_paid_leave_request,
-    find_all_paid_leave,
-    update_active_paid_leave,
-    search_leave_request_with_field_repo,
-    update_un_approve_leave_request_repo,
-    update_confirm_from_admin_paid_leave_request_repo,
-    get_paid_lead_with_id_repo,
-} from '../../repositorys/paidLeaveRequest/paidLeaveRequest.repository';
-import {
-    create,
-    update,
-    search,
-} from '../../interfaces/paiLeaveRequest/paidLeaveRequest.interface';
+import { create, update, search } from '../../interfaces';
 import {
     validate_create,
     validate_update,
     validate_search,
 } from '../../validates/paidLeaveRequest/paidLeaveRequest.validate';
-import { CheckinRepository } from '../../repositorys';
+import {
+    CheckinRepository,
+    PaidLeaveRequestRepository,
+} from '../../repositorys';
+const paidLeaveRequestRepository = new PaidLeaveRequestRepository();
 
 const checkinRepository = new CheckinRepository();
 const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
     try {
-        const pail_leave = await get_paid_lead_with_id_repo(field.id);
+        const pail_leave =
+            await paidLeaveRequestRepository.get_paid_lead_with_id_repo(
+                field.id,
+            );
 
         if (!pail_leave?.success) {
             throw new Error(pail_leave?.message);
@@ -38,7 +32,9 @@ const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
             throw new Error(checkin?.message);
         }
         const update_confirm =
-            await update_confirm_from_admin_paid_leave_request_repo(field);
+            await paidLeaveRequestRepository.update_confirm_from_admin_paid_leave_request_repo(
+                field,
+            );
         if (!update_confirm.success) {
             throw new Error(update_confirm?.message);
         }
@@ -57,7 +53,10 @@ const update_un_approve_leave_request_use = async (field: update) => {
     try {
         const isValid = validate_update(field);
         if (!isValid?.error) {
-            const update = await update_un_approve_leave_request_repo(field);
+            const update =
+                await paidLeaveRequestRepository.update_un_approve_leave_request_repo(
+                    field,
+                );
             if (update?.success) {
                 return {
                     success: true,
@@ -86,7 +85,10 @@ const search_leave_request_with_field_use = async (field: search) => {
     try {
         const isValid = validate_search(field);
         if (!isValid.error) {
-            const leaves = await search_leave_request_with_field_repo(field);
+            const leaves =
+                await paidLeaveRequestRepository.search_leave_request_with_field_repo(
+                    field,
+                );
             if (leaves?.success) {
                 return { success: true, data: leaves?.data };
             } else {
@@ -109,7 +111,10 @@ const create_paid_leave = async (data: create) => {
     try {
         const valid = validate_create(data);
         if (!valid.error) {
-            const paid_leave = await create_paid_leave_request(data);
+            const paid_leave =
+                await paidLeaveRequestRepository.create_paid_leave_request(
+                    data,
+                );
             if (paid_leave.success) {
                 return {
                     success: true,
@@ -137,7 +142,8 @@ const create_paid_leave = async (data: create) => {
 
 const find_paid_leave = async () => {
     try {
-        const paid_leaves = await find_all_paid_leave();
+        const paid_leaves =
+            await paidLeaveRequestRepository.find_all_paid_leave();
         if (paid_leaves.success) {
             return {
                 success: true,
@@ -161,7 +167,10 @@ const update_paid_leave = async (data: update) => {
     try {
         const valid = validate_update(data);
         if (!valid?.error) {
-            const paid_leave = await update_active_paid_leave(data.id);
+            const paid_leave =
+                await paidLeaveRequestRepository.update_active_paid_leave(
+                    data.id,
+                );
             if (paid_leave?.success) {
                 return {
                     success: true,

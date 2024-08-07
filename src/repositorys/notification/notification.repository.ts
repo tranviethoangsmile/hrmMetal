@@ -1,5 +1,5 @@
 import { Notification } from '../../models';
-import { INotificationRepository } from './interfaces/INotificationRepository';
+import { INotificationRepository } from '../interfaces/notification/INotificationRepository';
 
 class NotificationRepository implements INotificationRepository {
     async create_notification_repo(field: any) {

@@ -1,18 +1,13 @@
 import {
-    create_payroll_repo,
-    destroy_payroll_repo,
-    update_payroll_repo,
-    search_payroll_by_id_repo,
-    search_payroll_of_user_in_month_repo,
-} from '../../repositorys/payroll/payroll.repository';
-import {
     validate_create_payroll,
     validate_update_payroll,
     validate_search_payroll,
 } from '../../validates/payroll/payroll.validate';
 import { validation_id } from '../../validates';
 import { findUserById } from '../user/user.useCase';
+import { PayrollRepository } from '../../repositorys';
 
+const payrollRepository = new PayrollRepository();
 const create_payroll_usecase = async (field: any) => {
     try {
         const isValid = validate_create_payroll(field);
@@ -23,7 +18,7 @@ const create_payroll_usecase = async (field: any) => {
         if (!user?.success) {
             throw new Error(`${user?.message}`);
         }
-        const result = await create_payroll_repo({
+        const result = await payrollRepository.create_payroll_repo({
             ...field,
         });
         if (!result?.success) {
@@ -47,11 +42,13 @@ const update_payroll_usecase = async (field: any) => {
         if (isValid?.error) {
             throw new Error(`${isValid?.error?.message}`);
         }
-        const payroll = await search_payroll_by_id_repo(field?.id);
+        const payroll = await payrollRepository.search_payroll_by_id_repo(
+            field?.id,
+        );
         if (!payroll?.success) {
             throw new Error(payroll?.message);
         }
-        const result = await update_payroll_repo({
+        const result = await payrollRepository.update_payroll_repo({
             ...field,
         });
         if (!result?.success) {
@@ -74,7 +71,8 @@ const search_payroll_of_user_in_month_use = async (field: any) => {
         if (isValid?.error) {
             throw new Error(isValid?.error.message);
         }
-        const payroll = await search_payroll_of_user_in_month_repo(field);
+        const payroll =
+            await payrollRepository.search_payroll_of_user_in_month_repo(field);
         if (!payroll?.success) {
             throw new Error(payroll?.message);
         }
@@ -96,7 +94,7 @@ const search_payroll_by_id_usecase = async (id: string) => {
         if (isValid?.error) {
             throw new Error(isValid?.error.message);
         }
-        const payroll = await search_payroll_by_id_repo(id);
+        const payroll = await payrollRepository.search_payroll_by_id_repo(id);
         if (!payroll?.success) {
             throw new Error(payroll?.message);
         }
@@ -118,11 +116,13 @@ const destroy_payroll_usecase = async (id: string) => {
         if (isValid?.error) {
             throw new Error(isValid?.error.message);
         }
-        const payroll = await search_payroll_by_id_repo(id);
+        const payroll = await payrollRepository.search_payroll_by_id_repo(id);
         if (!payroll?.success) {
             throw new Error(payroll?.message);
         }
-        const payroll_destroy = await destroy_payroll_repo(id);
+        const payroll_destroy = await payrollRepository.destroy_payroll_repo(
+            id,
+        );
         if (!payroll_destroy?.success) {
             throw new Error(payroll_destroy?.message);
         }
