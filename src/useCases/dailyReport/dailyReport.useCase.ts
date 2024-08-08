@@ -16,14 +16,11 @@ import { validation_id } from '../../validates';
 import { Products } from '../../enum/product.enum';
 import { findUserById } from '../user/user.useCase';
 import { shift } from '../../enum/shift.enum';
-import {
-    update_inventory_repo,
-    search_inventory_with_name,
-    create,
-} from '../../repositorys/inventory/inventory.repo';
+import { InventoryRepository } from '../../repositorys';
 import { getDepartmentById } from '../../repositorys/department/department.repository';
 import db from '../../dbs/db';
 import { create_notification_usecase } from '../notification/notification.usecase';
+const inventoryRepository = new InventoryRepository();
 const handleProductName = (value: string) => {
     switch (value) {
         case 'D042F_PAO_DC4':
@@ -87,9 +84,11 @@ const create_daily_report_use = async (field: create_daily_report) => {
         const field_search = {
             product: handleProductName(field.product),
         };
-        const inventorys = await search_inventory_with_name({
-            ...field_search,
-        });
+        const inventorys = await inventoryRepository.search_inventory_with_name(
+            {
+                ...field_search,
+            },
+        );
         if (inventorys?.success) {
             if (user?.data?.department?.name === '加工') {
                 const is_avaliable = inventorys?.data?.some(
@@ -98,7 +97,7 @@ const create_daily_report_use = async (field: create_daily_report) => {
                 );
                 if (!is_avaliable) {
                     const inventory = inventorys?.data?.[0];
-                    const create_inventory = await create({
+                    const create_inventory = await inventoryRepository.create({
                         product: handleProductName(field.product),
                         quantity: field.quantity,
                         department_id: field.department_id,
@@ -106,12 +105,16 @@ const create_daily_report_use = async (field: create_daily_report) => {
                     if (create_inventory?.success) {
                         if (inventory?.quantity != undefined) {
                             const update_inventory_old =
-                                await update_inventory_repo({
-                                    quantity:
-                                        inventory.quantity - field.quantity,
-                                    product: handleProductName(field.product),
-                                    department_id: inventory.department_id,
-                                });
+                                await inventoryRepository.update_inventory_repo(
+                                    {
+                                        quantity:
+                                            inventory.quantity - field.quantity,
+                                        product: handleProductName(
+                                            field.product,
+                                        ),
+                                        department_id: inventory.department_id,
+                                    },
+                                );
                             if (!update_inventory_old?.success) {
                                 throw new Error(update_inventory_old?.message);
                             }
@@ -135,20 +138,25 @@ const create_daily_report_use = async (field: create_daily_report) => {
                         inventory_old_of_kako?.quantity != undefined &&
                         inventory_old?.quantity != undefined
                     ) {
-                        const update_kako = await update_inventory_repo({
-                            quantity:
-                                inventory_old_of_kako.quantity + field.quantity,
-                            product: inventory_old_of_kako.product,
-                            department_id: inventory_old_of_kako.department_id,
-                        });
+                        const update_kako =
+                            await inventoryRepository.update_inventory_repo({
+                                quantity:
+                                    inventory_old_of_kako.quantity +
+                                    field.quantity,
+                                product: inventory_old_of_kako.product,
+                                department_id:
+                                    inventory_old_of_kako.department_id,
+                            });
                         if (!update_kako?.success) {
                             throw new Error(update_kako?.message);
                         }
-                        const update_inventory = await update_inventory_repo({
-                            quantity: inventory_old.quantity - field.quantity,
-                            product: inventory_old.product,
-                            department_id: inventory_old.department_id,
-                        });
+                        const update_inventory =
+                            await inventoryRepository.update_inventory_repo({
+                                quantity:
+                                    inventory_old.quantity - field.quantity,
+                                product: inventory_old.product,
+                                department_id: inventory_old.department_id,
+                            });
                         if (!update_inventory.success) {
                             throw new Error(update_inventory.message);
                         }
@@ -166,11 +174,12 @@ const create_daily_report_use = async (field: create_daily_report) => {
                     }
                 });
                 if (inventory_old?.quantity != undefined) {
-                    const update_inventory = await update_inventory_repo({
-                        quantity: inventory_old.quantity + field.quantity,
-                        product: inventory_old.product,
-                        department_id: inventory_old.department_id,
-                    });
+                    const update_inventory =
+                        await inventoryRepository.update_inventory_repo({
+                            quantity: inventory_old.quantity + field.quantity,
+                            product: inventory_old.product,
+                            department_id: inventory_old.department_id,
+                        });
                     if (!update_inventory.success) {
                         throw new Error(update_inventory.message);
                     }
@@ -179,17 +188,18 @@ const create_daily_report_use = async (field: create_daily_report) => {
                 }
             }
         } else {
-            const create_inventory = await create({
+            const create_inventory = await inventoryRepository.create({
                 product: handleProductName(field.product),
                 quantity: 0,
                 department_id: field.department_id,
             });
             if (create_inventory?.success) {
-                const update_inventory = await update_inventory_repo({
-                    quantity: field.quantity,
-                    product: handleProductName(field.product),
-                    department_id: field.department_id,
-                });
+                const update_inventory =
+                    await inventoryRepository.update_inventory_repo({
+                        quantity: field.quantity,
+                        product: handleProductName(field.product),
+                        department_id: field.department_id,
+                    });
                 if (!update_inventory?.success) {
                     throw new Error(update_inventory?.message);
                 }

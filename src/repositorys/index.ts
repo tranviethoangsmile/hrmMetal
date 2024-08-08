@@ -6,6 +6,9 @@ import PlanProductionRepository from './planProduction/planProduction.repository
 import PayrollRepository from './payroll/payroll.repository';
 import PaidLeaveRequestRepository from './paidLeaveRequest/paidLeaveRequest.repository';
 import OrderRepository from './order/order.repository';
+import InventoryRepository from './inventory/inventory.repo';
+import EventRepository from './events/events.repo';
+import SafetyCheckRepository from './safetyCheck/safetyCheck.repo';
 export {
     PlanProductionRepository,
     LoginRepository,
@@ -15,4 +18,7 @@ export {
     PayrollRepository,
     PaidLeaveRequestRepository,
     OrderRepository,
+    InventoryRepository,
+    EventRepository,
+    SafetyCheckRepository,
 };
