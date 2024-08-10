@@ -1,13 +1,10 @@
-import {
-    create_event_check_repo,
-    search_event_checked_repo,
-} from '../../repositorys/eventCheck/evenCheck.repo';
+import { EventCheckRepository } from '../../repositorys';
 import {
     validate_create_event_check,
     validate_search_event_checked,
 } from '../../validates/eventCheck/eventCheck.validate';
 import { search_event_by_id_use } from '../events/events.useCase';
-
+const eventCheckRepository = new EventCheckRepository();
 const create_event_check_use = async (field: any) => {
     try {
         const isValid = validate_create_event_check(field);
@@ -18,7 +15,9 @@ const create_event_check_use = async (field: any) => {
         if (!event?.success) {
             throw new Error(event?.message);
         }
-        const event_check = await create_event_check_repo(field);
+        const event_check = await eventCheckRepository.create_event_check_repo(
+            field,
+        );
         if (!event_check?.success) {
             throw new Error(event_check?.message);
         }
@@ -40,7 +39,8 @@ const search_event_checked_use = async (field: any) => {
         if (isValid?.error) {
             throw new Error(isValid?.error?.message);
         }
-        const event_check = await search_event_checked_repo(field);
+        const event_check =
+            await eventCheckRepository.search_event_checked_repo(field);
         if (!event_check?.success) {
             throw new Error(event_check?.message);
         }

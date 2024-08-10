@@ -1,16 +1,15 @@
-import {
-    createDepartment,
-    departmentList,
-    getDepartmentById,
-} from '../../repositorys/department/department.repository';
 import { validation_department_create } from '../../validates/department/department.validate';
 import { validation_id } from '../../validates';
+import { DepartmentRepository } from '../../repositorys';
 
+const departmentRepository = new DepartmentRepository();
 const departmentCreate = async (data: any) => {
     try {
         const valid = await validation_department_create(data);
         if (!valid.error) {
-            const newDepartment = await createDepartment(data);
+            const newDepartment = await departmentRepository.createDepartment(
+                data,
+            );
             if (newDepartment?.success) {
                 return {
                     success: true,
@@ -38,7 +37,7 @@ const departmentCreate = async (data: any) => {
 
 const getDepartmentList = async () => {
     try {
-        const departments = await departmentList();
+        const departments = await departmentRepository.departmentList();
         if (departments?.success) {
             return {
                 success: true,
@@ -62,7 +61,7 @@ const getDepById = async (id: string) => {
     try {
         const validId = validation_id(id);
         if (!validId.error) {
-            const department = await getDepartmentById(id);
+            const department = await departmentRepository.getDepartmentById(id);
             if (department?.success) {
                 return {
                     success: true,

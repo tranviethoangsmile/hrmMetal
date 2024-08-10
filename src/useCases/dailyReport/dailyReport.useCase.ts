@@ -1,10 +1,4 @@
 import {
-    daily_report_create,
-    find_all_report_of_department,
-    find_report,
-    find_daily_report_by_id,
-} from '../../repositorys/dailyReport/dailyReport.repository';
-import {
     create_daily_report,
     search_report,
 } from '../../interfaces/dailyReport/dailyReport.interface';
@@ -16,11 +10,16 @@ import { validation_id } from '../../validates';
 import { Products } from '../../enum/product.enum';
 import { findUserById } from '../user/user.useCase';
 import { shift } from '../../enum/shift.enum';
-import { InventoryRepository } from '../../repositorys';
-import { getDepartmentById } from '../../repositorys/department/department.repository';
+import {
+    InventoryRepository,
+    DailyReportRepository,
+    DepartmentRepository,
+} from '../../repositorys';
 import db from '../../dbs/db';
 import { create_notification_usecase } from '../notification/notification.usecase';
 const inventoryRepository = new InventoryRepository();
+const dailyReportRepository = new DailyReportRepository();
+const departmentRepository = new DepartmentRepository();
 const handleProductName = (value: string) => {
     switch (value) {
         case 'D042F_PAO_DC4':
@@ -72,12 +71,14 @@ const create_daily_report_use = async (field: create_daily_report) => {
             throw new Error('Shift name not valid');
         }
 
-        const department = await getDepartmentById(field.department_id);
+        const department = await departmentRepository.getDepartmentById(
+            field.department_id,
+        );
         if (!department?.success) {
             throw new Error(department?.message || 'Department not found');
         }
 
-        const report = await daily_report_create(field);
+        const report = await dailyReportRepository.daily_report_create(field);
         if (!report?.success) {
             throw new Error(report?.message || 'Failed to create daily report');
         }
@@ -102,24 +103,18 @@ const create_daily_report_use = async (field: create_daily_report) => {
                         quantity: field.quantity,
                         department_id: field.department_id,
                     });
-                    if (create_inventory?.success) {
-                        if (inventory?.quantity != undefined) {
-                            const update_inventory_old =
-                                await inventoryRepository.update_inventory_repo(
-                                    {
-                                        quantity:
-                                            inventory.quantity - field.quantity,
-                                        product: handleProductName(
-                                            field.product,
-                                        ),
-                                        department_id: inventory.department_id,
-                                    },
-                                );
-                            if (!update_inventory_old?.success) {
-                                throw new Error(update_inventory_old?.message);
-                            }
-                        } else {
-                            throw new Error('Failed to get inventory quantity');
+                    if (!create_inventory?.success) {
+                        throw new Error('Failed to get inventory quantity');
+                    }
+                    if (inventory?.quantity != undefined) {
+                        const update_inventory_old =
+                            await inventoryRepository.update_inventory_repo({
+                                quantity: inventory.quantity - field.quantity,
+                                product: handleProductName(field.product),
+                                department_id: inventory.department_id,
+                            });
+                        if (!update_inventory_old?.success) {
+                            throw new Error(update_inventory_old?.message);
                         }
                     } else {
                         throw new Error(create_inventory?.message);
@@ -235,7 +230,7 @@ const search_daily_report = async (data: search_report) => {
     try {
         const valid = valid_search_daily_report(data);
         if (!valid?.error) {
-            const reports = await find_report(data);
+            const reports = await dailyReportRepository.find_report(data);
             if (reports?.success) {
                 return {
                     success: true,
@@ -263,9 +258,10 @@ const search_daily_report = async (data: search_report) => {
 
 const find_all_report_use = async (field: search_report) => {
     try {
-        const dailyReports = await find_all_report_of_department({
-            ...field,
-        });
+        const dailyReports =
+            await dailyReportRepository.find_all_report_of_department({
+                ...field,
+            });
         if (!dailyReports?.success) {
             throw new Error(dailyReports?.message);
         }
@@ -285,7 +281,9 @@ const find_rp_by_id = async (id: any) => {
     try {
         const valid = await validation_id(id);
         if (!valid?.error) {
-            const report = await find_daily_report_by_id(id);
+            const report = await dailyReportRepository.find_daily_report_by_id(
+                id,
+            );
             if (report?.success) {
                 return {
                     success: true,

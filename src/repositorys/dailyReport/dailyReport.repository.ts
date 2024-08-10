@@ -1,192 +1,175 @@
 import { CodeError, DailyReport, User } from '../../models';
-import Department from '../../models/department.model';
-const { Op } = require('sequelize');
-const moment = require('moment');
-const daily_report_create = async (data: any) => {
-    try {
-        const new_daily_report: DailyReport | null = await DailyReport.create({
-            ...data,
-        });
-        if (new_daily_report != null) {
+import { Department } from '../../models';
+import { IDailyReportRepository } from '../interfaces';
+class DailyReportRepository implements IDailyReportRepository {
+    async daily_report_create(data: any) {
+        try {
+            const new_daily_report: DailyReport | null =
+                await DailyReport.create({
+                    ...data,
+                });
+            if (new_daily_report === null) {
+                throw new Error('creating daily report error');
+            }
             return {
                 success: true,
                 data: new_daily_report,
             };
-        } else {
+        } catch (error: any) {
             return {
                 success: false,
-                message: 'create daily report failed',
+                message: `${error?.message} repo`,
             };
         }
-    } catch (error: any) {
-        return {
-            success: false,
-            message: `${error?.message} repo`,
-        };
     }
-};
 
-const find_report = async (data: any) => {
-    try {
-        const reports: DailyReport[] | null = await DailyReport.findAll({
-            where: {
-                ...data,
-            },
-            attributes: [
-                'product',
-                'date',
-                'shift',
-                'quantity',
-                'operated_time',
-                'shutdown_time',
-                'active_time',
-                'operator_history',
-            ],
-            include: [
-                {
-                    model: User,
-                    attributes: ['name'],
-                    include: [
-                        {
-                            model: Department,
-                            as: 'department',
-                            attributes: ['name'],
-                        },
-                    ],
+    async find_report(field: any) {
+        try {
+            const reports: DailyReport[] | null = await DailyReport.findAll({
+                where: {
+                    ...field,
                 },
-                {
-                    model: CodeError,
-                    attributes: [
-                        'code',
-                        'description',
-                        'shutdown_time',
-                        'daily_report_id',
-                    ],
-                },
-            ],
-        });
-        if (reports != null) {
+                attributes: [
+                    'product',
+                    'date',
+                    'shift',
+                    'quantity',
+                    'operated_time',
+                    'shutdown_time',
+                    'active_time',
+                    'operator_history',
+                ],
+                include: [
+                    {
+                        model: User,
+                        attributes: ['name'],
+                        include: [
+                            {
+                                model: Department,
+                                as: 'department',
+                                attributes: ['name'],
+                            },
+                        ],
+                    },
+                    {
+                        model: CodeError,
+                        attributes: [
+                            'code',
+                            'description',
+                            'shutdown_time',
+                            'daily_report_id',
+                        ],
+                    },
+                ],
+            });
+            if (reports === null || reports.length < 1) {
+                throw new Error('find daily report not found or error');
+            }
             return {
                 success: true,
                 data: reports,
             };
-        } else {
+        } catch (error: any) {
             return {
                 success: false,
-                message: 'daily report not found',
+                message: error.message,
             };
         }
-    } catch (error: any) {
-        return {
-            success: false,
-            message: error.message,
-        };
     }
-};
 
-const find_all_report_of_department = async (field: any) => {
-    try {
-        const reports: DailyReport[] | null = await DailyReport.findAll({
-            where: {
-                ...field,
-            },
-            order: [['date', 'DESC']],
-            limit: 7,
-            attributes: [
-                'product',
-                'date',
-                'user_id',
-                'shift',
-                'quantity',
-                'operated_time',
-                'shutdown_time',
-                'operator_history',
-                'department_id',
-            ],
-            include: [
-                {
-                    model: User,
-                    attributes: ['name'],
-                    include: [
-                        {
-                            model: Department,
-                            as: 'department',
-                            attributes: ['name'],
-                        },
-                    ],
+    async find_all_report_of_department(field: any) {
+        try {
+            const reports: DailyReport[] | null = await DailyReport.findAll({
+                where: {
+                    ...field,
                 },
-            ],
-        });
-        if (reports != null) {
+                order: [['date', 'DESC']],
+                limit: 7,
+                attributes: [
+                    'product',
+                    'date',
+                    'user_id',
+                    'shift',
+                    'quantity',
+                    'operated_time',
+                    'shutdown_time',
+                    'operator_history',
+                    'department_id',
+                ],
+                include: [
+                    {
+                        model: User,
+                        attributes: ['name'],
+                        include: [
+                            {
+                                model: Department,
+                                as: 'department',
+                                attributes: ['name'],
+                            },
+                        ],
+                    },
+                ],
+            });
+            if (reports === null || reports.length < 1) {
+                throw new Error('report not found or error');
+            }
             return {
                 success: true,
                 data: reports,
             };
-        } else {
-            throw new Error('No report found');
+        } catch (error: any) {
+            return {
+                success: false,
+                message: error?.message,
+            };
         }
-    } catch (error: any) {
-        return {
-            success: false,
-            message: error?.message,
-        };
     }
-};
 
-const find_daily_report_by_id = async (id: any) => {
-    try {
-        const report: DailyReport | null = await DailyReport.findOne({
-            where: {
-                id: id,
-            },
-            attributes: [
-                'product',
-                'date',
-                'shift',
-                'quantity',
-                'operator_history',
-                'operated_time',
-                'shutdown_time',
-                'active_time',
-            ],
-            include: [
-                {
-                    model: User,
-                    attributes: ['name'],
-                    as: 'user',
-                    include: [
-                        {
-                            model: Department,
-                            as: 'department',
-                            attributes: ['name'],
-                        },
-                    ],
+    async find_daily_report_by_id(id: any) {
+        try {
+            const report: DailyReport | null = await DailyReport.findOne({
+                where: {
+                    id: id,
                 },
-            ],
-        });
+                attributes: [
+                    'product',
+                    'date',
+                    'shift',
+                    'quantity',
+                    'operator_history',
+                    'operated_time',
+                    'shutdown_time',
+                    'active_time',
+                ],
+                include: [
+                    {
+                        model: User,
+                        attributes: ['name'],
+                        as: 'user',
+                        include: [
+                            {
+                                model: Department,
+                                as: 'department',
+                                attributes: ['name'],
+                            },
+                        ],
+                    },
+                ],
+            });
 
-        if (report != null) {
+            if (report === null) {
+                throw new Error('daily report not found');
+            }
             return {
                 success: true,
                 data: report,
             };
-        } else {
+        } catch (error: any) {
             return {
                 success: false,
-                message: 'Report not found',
+                message: error?.message,
             };
         }
-    } catch (error: any) {
-        return {
-            success: false,
-            message: error?.message,
-        };
     }
-};
-
-export {
-    daily_report_create,
-    find_daily_report_by_id,
-    find_all_report_of_department,
-    find_report,
-};
+}
+export default DailyReportRepository;

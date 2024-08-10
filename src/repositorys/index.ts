@@ -9,6 +9,9 @@ import OrderRepository from './order/order.repository';
 import InventoryRepository from './inventory/inventory.repo';
 import EventRepository from './events/events.repo';
 import SafetyCheckRepository from './safetyCheck/safetyCheck.repo';
+import EventCheckRepository from './eventCheck/evenCheck.repo';
+import DepartmentRepository from './department/department.repository';
+import DailyReportRepository from './dailyReport/dailyReport.repository';
 export {
     PlanProductionRepository,
     LoginRepository,
@@ -21,4 +24,7 @@ export {
     InventoryRepository,
     EventRepository,
     SafetyCheckRepository,
+    EventCheckRepository,
+    DepartmentRepository,
+    DailyReportRepository,
 };
