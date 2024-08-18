@@ -1,4 +1,4 @@
-export interface create_infomation {
+export interface create_information {
     user_id: string;
     title: string;
     content: string;

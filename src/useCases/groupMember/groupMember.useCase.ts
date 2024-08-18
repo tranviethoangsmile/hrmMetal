@@ -8,17 +8,13 @@ const find_group_of_member = async (data: any) => {
         const groupMembersData = await find_group_member({
             ...data,
         });
-        if (groupMembersData?.success) {
-            return {
-                success: true,
-                data: groupMembersData?.data,
-            };
-        } else {
-            return {
-                success: false,
-                message: groupMembersData?.message,
-            };
+        if (!groupMembersData?.success) {
+            throw new Error(`${groupMembersData?.message}`);
         }
+        return {
+            success: true,
+            data: groupMembersData?.data,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -34,17 +30,13 @@ const create_groupMember = async (data: any) => {
             ...data,
             joined_datetime: date.format('YYYY-MM-DD HH:mm:ss'),
         });
-        if (new_group?.success) {
-            return {
-                success: new_group?.success,
-                data: new_group?.data,
-            };
-        } else {
-            return {
-                success: new_group?.success,
-                message: new_group?.message,
-            };
+        if (!new_group?.success) {
+            throw new Error(`${new_group?.message}`);
         }
+        return {
+            success: true,
+            data: new_group?.data,
+        };
     } catch (error: any) {
         return {
             success: false,

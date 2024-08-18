@@ -1,4 +1,8 @@
 import {
+    create_information,
+    search_all_information,
+} from './information/information.interface';
+import {
     create_plan_production,
     update_plan_production,
     search_by_date_and_department,
@@ -32,4 +36,6 @@ export {
     update_checkin_interface,
     is_Checked_interface,
     get_checkin_in_date_of_position_interface,
+    create_information,
+    search_all_information,
 };

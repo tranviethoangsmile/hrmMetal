@@ -11,6 +11,10 @@ import {
     get_checkin_in_date_of_position_validate,
     get_checkin_detail_in_day_of_user_validate,
 } from '../validates/checkin/checkin.validate';
+import {
+    validate_create_information,
+    validate_search_all_information,
+} from './infomation/infomation.validate';
 const schema_id = Joi.string().guid().required();
 
 const validation_id = (id: string) => {
@@ -27,4 +31,6 @@ export {
     update_checkin_validate,
     get_checkin_in_date_of_position_validate,
     get_checkin_detail_in_day_of_user_validate,
+    validate_create_information,
+    validate_search_all_information,
 };

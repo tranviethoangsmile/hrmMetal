@@ -12,6 +12,7 @@ import { IEventRepository } from './events/IEventRepository';
 import { ICheckinRepository } from './checkin/ICheckinRepository';
 import { IDepartmentRepository } from './department/IDepaertmentRepository';
 import { IDailyReportRepository } from './dailyReport/IDailyReportRepository';
+import { IInformationRepository } from './information/IInformationRepository';
 export {
     IEvencheckRepository,
     IPaidLeaveRequestRepo,
@@ -27,4 +28,5 @@ export {
     IUserRepository,
     IDepartmentRepository,
     IDailyReportRepository,
+    IInformationRepository,
 };

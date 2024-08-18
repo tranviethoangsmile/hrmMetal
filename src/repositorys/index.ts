@@ -12,6 +12,7 @@ import SafetyCheckRepository from './safetyCheck/safetyCheck.repo';
 import EventCheckRepository from './eventCheck/evenCheck.repo';
 import DepartmentRepository from './department/department.repository';
 import DailyReportRepository from './dailyReport/dailyReport.repository';
+import InformationRepository from './infomation/information.repo';
 export {
     PlanProductionRepository,
     LoginRepository,
@@ -27,4 +28,5 @@ export {
     EventCheckRepository,
     DepartmentRepository,
     DailyReportRepository,
+    InformationRepository,
 };
