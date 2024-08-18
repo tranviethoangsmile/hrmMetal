@@ -11,7 +11,7 @@ const schema_create = Joi.object({
     is_half: Joi.boolean().required(),
 });
 
-const validate_create = (data: any) => {
+const validate_create_paid = (data: any) => {
     return schema_create.validate(data);
 };
 
@@ -23,7 +23,7 @@ const schema_update = Joi.object({
     id: Joi.string().guid().required(),
 });
 
-const validate_update = (date: any) => {
+const validate_update_paid = (date: any) => {
     return schema_update.validate(date);
 };
 
@@ -36,7 +36,7 @@ const schema_search_leave_request_with_field = Joi.object({
     is_confirm: Joi.boolean(),
     is_approve: Joi.boolean(),
 });
-const validate_search = (data: any) => {
+const validate_search_paid = (data: any) => {
     return schema_search_leave_request_with_field.validate(data);
 };
-export { validate_create, validate_update, validate_search };
+export { validate_create_paid, validate_update_paid, validate_search_paid };

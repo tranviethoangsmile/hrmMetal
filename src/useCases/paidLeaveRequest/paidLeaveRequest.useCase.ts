@@ -1,9 +1,9 @@
 import { create, update, search } from '../../interfaces';
 import {
-    validate_create,
-    validate_update,
-    validate_search,
-} from '../../validates/paidLeaveRequest/paidLeaveRequest.validate';
+    validate_create_paid,
+    validate_update_paid,
+    validate_search_paid,
+} from '../../validates';
 import {
     CheckinRepository,
     PaidLeaveRequestRepository,
@@ -26,7 +26,6 @@ const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
             date: pail_leave?.data?.date_leave,
             is_paid_leave: true,
         };
-        console.log(checkin_field);
         const checkin = await checkinRepository.create_checkin(checkin_field);
         if (!checkin?.success) {
             throw new Error(checkin?.message);
@@ -51,29 +50,21 @@ const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
 };
 const update_un_approve_leave_request_use = async (field: update) => {
     try {
-        const isValid = validate_update(field);
-        if (!isValid?.error) {
-            const update =
-                await paidLeaveRequestRepository.update_un_approve_leave_request_repo(
-                    field,
-                );
-            if (update?.success) {
-                return {
-                    success: true,
-                    message: update?.message,
-                };
-            } else {
-                return {
-                    success: false,
-                    message: update?.message,
-                };
-            }
-        } else {
-            return {
-                success: false,
-                message: isValid?.error.message,
-            };
+        const isValid = validate_update_paid(field);
+        if (isValid?.error) {
+            throw new Error(`${isValid?.error.message}`);
         }
+        const update =
+            await paidLeaveRequestRepository.update_un_approve_leave_request_repo(
+                field,
+            );
+        if (!update?.success) {
+            throw new Error(`${update?.message}`);
+        }
+        return {
+            success: true,
+            message: update?.message,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -83,23 +74,18 @@ const update_un_approve_leave_request_use = async (field: update) => {
 };
 const search_leave_request_with_field_use = async (field: search) => {
     try {
-        const isValid = validate_search(field);
-        if (!isValid.error) {
-            const leaves =
-                await paidLeaveRequestRepository.search_leave_request_with_field_repo(
-                    field,
-                );
-            if (leaves?.success) {
-                return { success: true, data: leaves?.data };
-            } else {
-                return { success: false, message: leaves?.message };
-            }
-        } else {
-            return {
-                success: false,
-                message: isValid?.error.message,
-            };
+        const isValid = validate_search_paid(field);
+        if (isValid.error) {
+            throw new Error(`${isValid?.error.message}`);
         }
+        const leaves =
+            await paidLeaveRequestRepository.search_leave_request_with_field_repo(
+                field,
+            );
+        if (!leaves?.success) {
+            throw new Error(`${leaves?.message}`);
+        }
+        return { success: true, data: leaves?.data };
     } catch (error: any) {
         return {
             success: false,
@@ -109,29 +95,19 @@ const search_leave_request_with_field_use = async (field: search) => {
 };
 const create_paid_leave = async (data: create) => {
     try {
-        const valid = validate_create(data);
-        if (!valid.error) {
-            const paid_leave =
-                await paidLeaveRequestRepository.create_paid_leave_request(
-                    data,
-                );
-            if (paid_leave.success) {
-                return {
-                    success: true,
-                    data: paid_leave?.data,
-                };
-            } else {
-                return {
-                    success: false,
-                    message: paid_leave?.message,
-                };
-            }
-        } else {
-            return {
-                success: false,
-                message: valid?.error.message,
-            };
+        const valid = validate_create_paid(data);
+        if (valid.error) {
+            throw new Error(`${valid?.error.message}`);
         }
+        const paid_leave =
+            await paidLeaveRequestRepository.create_paid_leave_request(data);
+        if (!paid_leave.success) {
+            throw new Error(`${paid_leave?.message}`);
+        }
+        return {
+            success: true,
+            data: paid_leave?.data,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -144,17 +120,13 @@ const find_paid_leave = async () => {
     try {
         const paid_leaves =
             await paidLeaveRequestRepository.find_all_paid_leave();
-        if (paid_leaves.success) {
-            return {
-                success: true,
-                data: paid_leaves?.data,
-            };
-        } else {
-            return {
-                success: false,
-                message: paid_leaves?.message,
-            };
+        if (!paid_leaves.success) {
+            throw new Error(`${paid_leaves?.message}`);
         }
+        return {
+            success: true,
+            data: paid_leaves?.data,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -165,23 +137,19 @@ const find_paid_leave = async () => {
 
 const update_paid_leave = async (data: update) => {
     try {
-        const valid = validate_update(data);
-        if (!valid?.error) {
-            const paid_leave =
-                await paidLeaveRequestRepository.update_active_paid_leave(
-                    data.id,
-                );
-            if (paid_leave?.success) {
-                return {
-                    success: true,
-                    message: paid_leave?.message,
-                };
-            } else {
-                throw new Error(paid_leave?.message);
-            }
-        } else {
-            throw new Error(valid?.error?.message);
+        const valid = validate_update_paid(data);
+        if (valid?.error) {
+            throw new Error(valid?.error.message);
         }
+        const paid_leave =
+            await paidLeaveRequestRepository.update_active_paid_leave(data.id);
+        if (!paid_leave?.success) {
+            throw new Error(`${paid_leave?.message}`);
+        }
+        return {
+            success: true,
+            message: paid_leave?.message,
+        };
     } catch (error: any) {
         return {
             success: false,

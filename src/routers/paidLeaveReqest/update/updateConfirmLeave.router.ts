@@ -1,12 +1,12 @@
 import { Router, Request, Response } from 'express';
 import { update_confirm_from_admin_paid_leave_request_controller } from '../../../controllers/paidLeaveRequest/paidLeaveRequest.controller';
 import { update } from '../../../interfaces/paiLeaveRequest/paidLeaveRequest.interface';
-import { validate_update } from '../../../validates/paidLeaveRequest/paidLeaveRequest.validate';
+import { validate_update_paid } from '../../../validates';
 const updateConfirmRouter: Router = Router();
 updateConfirmRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field: update | undefined = req.body;
-        const isValid = validate_update(field);
+        const isValid = validate_update_paid(field);
         if (isValid?.error) {
             throw new Error(isValid?.error?.message);
         }
