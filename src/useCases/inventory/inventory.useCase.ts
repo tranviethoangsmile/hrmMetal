@@ -42,17 +42,13 @@ const update_inventory_use = async (field: update_inventory) => {
 const get_all_inventory_use = async () => {
     try {
         const inventorys = await inventoryRepository.get_all_inventory_repo();
-        if (inventorys?.success) {
-            return {
-                success: true,
-                data: inventorys?.data,
-            };
-        } else {
-            return {
-                success: false,
-                message: inventorys?.message,
-            };
+        if (!inventorys?.success) {
+            throw new Error(`${inventorys?.message}`);
         }
+        return {
+            success: true,
+            data: inventorys?.data,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -64,26 +60,19 @@ const get_all_inventory_use = async () => {
 const search_inventory_with_name_use = async (field: search_with_name) => {
     try {
         const isValid = validate_search_with_name(field);
-        if (!isValid.error) {
-            const inventorys =
-                await inventoryRepository.search_inventory_with_name(field);
-            if (inventorys?.success) {
-                return {
-                    success: true,
-                    data: inventorys?.data,
-                };
-            } else {
-                return {
-                    success: false,
-                    message: inventorys?.message,
-                };
-            }
-        } else {
-            return {
-                success: false,
-                message: `${isValid?.error?.message}`,
-            };
+        if (isValid.error) {
+            throw new Error(`${isValid?.error.message}`);
         }
+        const inventorys = await inventoryRepository.search_inventory_with_name(
+            field,
+        );
+        if (!inventorys?.success) {
+            throw new Error(`${inventorys?.message}`);
+        }
+        return {
+            success: true,
+            data: inventorys?.data,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -95,45 +84,29 @@ const search_inventory_with_name_use = async (field: search_with_name) => {
 const create_inventory_use = async (field: create_inventory) => {
     try {
         const isValid = validate_create_inventory(field);
-        if (!isValid?.error) {
-            if (
-                typeof field.product === 'string' &&
-                Object.values(Products).includes(field.product)
-            ) {
-                const department = await departmentRepository.getDepartmentById(
-                    field?.department_id,
-                );
-                if (department?.success) {
-                    const inventory = await inventoryRepository.create(field);
-                    if (inventory?.success) {
-                        return {
-                            success: true,
-                            data: inventory?.data,
-                        };
-                    } else {
-                        return {
-                            success: false,
-                            message: `${inventory?.message}`,
-                        };
-                    }
-                } else {
-                    return {
-                        success: false,
-                        message: department?.message,
-                    };
-                }
-            } else {
-                return {
-                    success: false,
-                    message: 'product name not valid',
-                };
-            }
-        } else {
-            return {
-                success: false,
-                message: `${isValid?.error?.message}`,
-            };
+        if (isValid?.error) {
+            throw new Error(`${isValid?.error.message}`);
         }
+        if (
+            typeof field.product != 'string' &&
+            !Object.values(Products).includes(field.product)
+        ) {
+            throw new Error('Product is not valid');
+        }
+        const department = await departmentRepository.getDepartmentById(
+            field?.department_id,
+        );
+        if (!department?.success) {
+            throw new Error(`${department?.message}`);
+        }
+        const inventory = await inventoryRepository.create(field);
+        if (!inventory?.success) {
+            throw new Error(`${inventory?.message}`);
+        }
+        return {
+            success: true,
+            data: inventory?.data,
+        };
     } catch (error: any) {
         return {
             success: false,

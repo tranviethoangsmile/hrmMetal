@@ -229,25 +229,17 @@ const create_daily_report_use = async (field: create_daily_report) => {
 const search_daily_report = async (data: search_report) => {
     try {
         const valid = valid_search_daily_report(data);
-        if (!valid?.error) {
-            const reports = await dailyReportRepository.find_report(data);
-            if (reports?.success) {
-                return {
-                    success: true,
-                    data: reports?.data,
-                };
-            } else {
-                return {
-                    success: false,
-                    message: 'report not found',
-                };
-            }
-        } else {
-            return {
-                success: false,
-                message: valid?.error.message,
-            };
+        if (valid?.error) {
+            throw new Error(`${valid?.error.message}`);
         }
+        const reports = await dailyReportRepository.find_report(data);
+        if (!reports?.success) {
+            throw new Error(`${reports?.message}`);
+        }
+        return {
+            success: true,
+            data: reports?.data,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -279,28 +271,18 @@ const find_all_report_use = async (field: search_report) => {
 
 const find_rp_by_id = async (id: any) => {
     try {
-        const valid = await validation_id(id);
-        if (!valid?.error) {
-            const report = await dailyReportRepository.find_daily_report_by_id(
-                id,
-            );
-            if (report?.success) {
-                return {
-                    success: true,
-                    data: report?.data,
-                };
-            } else {
-                return {
-                    success: false,
-                    message: report?.message,
-                };
-            }
-        } else {
-            return {
-                success: false,
-                message: valid?.error.message,
-            };
+        const valid = validation_id(id);
+        if (valid?.error) {
+            throw new Error(`${valid?.error.message}`);
         }
+        const report = await dailyReportRepository.find_daily_report_by_id(id);
+        if (!report?.success) {
+            throw new Error(`${report?.message}`);
+        }
+        return {
+            success: true,
+            data: report?.data,
+        };
     } catch (error: any) {
         return {
             success: false,
