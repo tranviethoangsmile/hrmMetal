@@ -12,6 +12,13 @@ import {
     update,
     search,
 } from '../interfaces/paiLeaveRequest/paidLeaveRequest.interface';
+
+import {
+    create_checkin_interface,
+    update_checkin_interface,
+    is_Checked_interface,
+    get_checkin_in_date_of_position_interface,
+} from '../interfaces/checkin/checkin.interface';
 export {
     create_plan_production,
     update_plan_production,
@@ -21,4 +28,8 @@ export {
     create,
     update,
     search,
+    create_checkin_interface,
+    update_checkin_interface,
+    is_Checked_interface,
+    get_checkin_in_date_of_position_interface,
 };

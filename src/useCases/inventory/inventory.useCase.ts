@@ -9,8 +9,8 @@ import {
     validate_update_inventory,
 } from '../../validates/inventory/inventory.validate';
 import { Products } from '../../enum/product.enum';
-import { getDepartmentById } from '../../repositorys/department/department.repository';
-import { InventoryRepository } from '../../repositorys';
+import { InventoryRepository, DepartmentRepository } from '../../repositorys';
+const departmentRepository = new DepartmentRepository();
 const inventoryRepository = new InventoryRepository();
 const update_inventory_use = async (field: update_inventory) => {
     try {
@@ -100,7 +100,7 @@ const create_inventory_use = async (field: create_inventory) => {
                 typeof field.product === 'string' &&
                 Object.values(Products).includes(field.product)
             ) {
-                const department = await getDepartmentById(
+                const department = await departmentRepository.getDepartmentById(
                     field?.department_id,
                 );
                 if (department?.success) {
