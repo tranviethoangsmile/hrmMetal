@@ -47,6 +47,8 @@ const handleProductName = (value: string) => {
         case 'DK05RR_2':
         case 'DK05RR_1':
             return 'DK05RR';
+        case 'C84_BUV':
+            return 'C84';
         default:
             return value;
     }
@@ -64,7 +66,7 @@ const create_daily_report_use = async (field: create_daily_report) => {
         }
 
         if (!Object.values(Products).includes(field.product)) {
-            throw new Error('Product name not valid');
+            throw new Error(`${field.product} not valid`);
         }
 
         if (!Object.values(shift).includes(field.shift)) {
@@ -78,7 +80,9 @@ const create_daily_report_use = async (field: create_daily_report) => {
             throw new Error(department?.message || 'Department not found');
         }
 
-        const report = await dailyReportRepository.daily_report_create(field);
+        const report = await dailyReportRepository.daily_report_create({
+            ...field,
+        });
         if (!report?.success) {
             throw new Error(report?.message || 'Failed to create daily report');
         }

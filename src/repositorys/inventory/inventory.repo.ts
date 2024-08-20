@@ -29,17 +29,13 @@ class InventoryRepository implements IInventoryRepository {
     async create(field: any) {
         try {
             const inventory: Inventory | null = await Inventory.create(field);
-            if (inventory != null) {
-                return {
-                    success: true,
-                    data: inventory,
-                };
-            } else {
-                return {
-                    success: false,
-                    message: 'Error creating inventory',
-                };
+            if (inventory === null) {
+                throw new Error(`Error creating inventory`);
             }
+            return {
+                success: true,
+                data: inventory,
+            };
         } catch (error: any) {
             return {
                 success: false,
@@ -60,7 +56,7 @@ class InventoryRepository implements IInventoryRepository {
                     },
                 ],
             });
-            if (inventorys.length < 0) {
+            if (inventorys === null || inventorys.length < 1) {
                 throw new Error('Inventory not Exits');
             }
             return {
