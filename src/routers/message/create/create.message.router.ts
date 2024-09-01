@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+import { Socket } from 'socket.io';
 import { create_message_controller } from '../../../controllers';
 import { create_new_message } from '../../../interfaces';
 const createMessageRouter: Router = Router();

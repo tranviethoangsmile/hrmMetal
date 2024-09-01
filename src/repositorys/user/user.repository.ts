@@ -126,14 +126,8 @@ class UserRepository implements IUserRepository {
                     'avatar',
                     'is_officer',
                 ],
-                include: [
-                    {
-                        model: Department,
-                        as: 'department',
-                        attributes: ['name'],
-                    },
-                ],
             });
+
             if (user === null) {
                 throw new Error(`user not found`);
             }

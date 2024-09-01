@@ -68,6 +68,8 @@ PlanProduction.belongsTo(Department, { foreignKey: 'department_id' });
 Department.hasMany(PlanProduction, { foreignKey: 'department_id' });
 Notification.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(Notification, { foreignKey: 'user_id' });
+Message.belongsTo(User, { foreignKey: 'user_id' });
+User.hasMany(Message, { foreignKey: 'user_id' });
 export {
     User,
     Department,

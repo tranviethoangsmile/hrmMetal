@@ -15,6 +15,7 @@ import { IDailyReportRepository } from './dailyReport/IDailyReportRepository';
 import { IInformationRepository } from './information/IInformationRepository';
 import { IConversationRepository } from './conversation/IConversationRepository';
 import { IGroupMemberRepository } from './groupMember/IGroupMemberRepository.interface';
+import { IMessageRepository } from './message/IMessageRepository.interface';
 export {
     IEvencheckRepository,
     IPaidLeaveRequestRepo,
@@ -33,4 +34,5 @@ export {
     IInformationRepository,
     IConversationRepository,
     IGroupMemberRepository,
+    IMessageRepository,
 };

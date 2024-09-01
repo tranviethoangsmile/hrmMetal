@@ -15,6 +15,7 @@ import DailyReportRepository from './dailyReport/dailyReport.repository';
 import InformationRepository from './infomation/information.repo';
 import ConversationRepository from './conversation/conversation.repo';
 import GroupMemberRepository from './groupMember/groupMember.repo';
+import MessageRepository from './message/message.repo';
 export {
     PlanProductionRepository,
     LoginRepository,
@@ -33,4 +34,5 @@ export {
     InformationRepository,
     ConversationRepository,
     GroupMemberRepository,
+    MessageRepository,
 };
