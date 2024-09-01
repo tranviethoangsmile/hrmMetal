@@ -3,8 +3,8 @@ import db from '../dbs/db';
 
 class Message extends Model {
     public id!: string;
-    public conten!: string;
-    public sender_id!: string;
+    public message!: string;
+    public user_id!: string;
     public conversation_id!: string;
 }
 
@@ -16,11 +16,11 @@ Message.init(
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
-        content: {
+        message: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        sender_id: {
+        user_id: {
             type: DataTypes.UUID,
             allowNull: false,
         },

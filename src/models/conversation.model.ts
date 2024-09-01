@@ -3,7 +3,8 @@ import db from '../dbs/db';
 
 class Conversation extends Model {
     public id!: string;
-    public name!: string;
+    public title!: string;
+    public member_count!: number;
 }
 
 Conversation.init(
@@ -13,10 +14,15 @@ Conversation.init(
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
-        name: {
+        title: {
             type: DataTypes.STRING,
             allowNull: true,
-            defaultValue: 'new chat',
+            defaultValue: 'New chat',
+        },
+        member_count: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            defaultValue: 2,
         },
     },
     {

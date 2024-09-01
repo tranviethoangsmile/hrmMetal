@@ -6,6 +6,7 @@ import { shift } from './shift.enum';
 import { Dialect } from './dialect.enum';
 import { CodeError } from './codeError.enum';
 import { notification_type } from './notification.enum';
+import { groupMemberRole } from './groupMemberRole.enum';
 export {
     Position,
     Products,
@@ -15,4 +16,5 @@ export {
     Dialect,
     CodeError,
     notification_type,
+    groupMemberRole,
 };

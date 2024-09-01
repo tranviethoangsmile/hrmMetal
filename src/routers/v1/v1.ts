@@ -40,7 +40,7 @@ v1Router.use('/media', mediaRouter);
 v1Router.use('/chat', chatRouter);
 v1Router.use('/paidleave', paidLeaveRouter);
 v1Router.use('/conversations', conversationRouter);
-v1Router.use('/mess', messageRouter);
+v1Router.use('/message', messageRouter);
 v1Router.use('/checkin', checkinRouter);
 v1Router.use('/information', informationRouter);
 v1Router.use('/inventory', inventoryRouter);

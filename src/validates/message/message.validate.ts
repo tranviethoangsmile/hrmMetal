@@ -1,8 +1,8 @@
 import Joi from '@hapi/joi';
 
 const schema_message_valid = Joi.object({
-    content: Joi.string().max(1000).min(1).required(),
-    sender_id: Joi.string().guid().required(),
+    message: Joi.string().max(1000).min(1).required(),
+    user_id: Joi.string().guid().required(),
     conversation_id: Joi.string().guid().required(),
 });
 

@@ -1,7 +1,6 @@
 interface create_new_message {
-    id?: string;
-    content: string;
-    sender_id: string;
+    message: string;
+    user_id: string;
     conversation_id: string;
 }
 

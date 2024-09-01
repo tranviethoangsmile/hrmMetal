@@ -13,6 +13,8 @@ import { ICheckinRepository } from './checkin/ICheckinRepository';
 import { IDepartmentRepository } from './department/IDepaertmentRepository';
 import { IDailyReportRepository } from './dailyReport/IDailyReportRepository';
 import { IInformationRepository } from './information/IInformationRepository';
+import { IConversationRepository } from './conversation/IConversationRepository';
+import { IGroupMemberRepository } from './groupMember/IGroupMemberRepository.interface';
 export {
     IEvencheckRepository,
     IPaidLeaveRequestRepo,
@@ -29,4 +31,6 @@ export {
     IDepartmentRepository,
     IDailyReportRepository,
     IInformationRepository,
+    IConversationRepository,
+    IGroupMemberRepository,
 };

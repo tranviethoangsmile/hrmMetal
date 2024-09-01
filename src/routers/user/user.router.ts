@@ -14,7 +14,7 @@ import { CreateField } from '../../interfaces/user/user.interface';
 const userRouters: Router = Router();
 userRouters.use('/getuserwithdepartmentid', getUserWithDepartmentId);
 userRouters.use('/upload-avatar', uploadAvatar);
-userRouters.use('/findallwithfield', findUser);
+userRouters.use('/finduserwithfield', findUser);
 userRouters.use('/findbyname', userFindByNameRouter);
 userRouters.get('/', async (req: Request, res: Response) => {
     try {

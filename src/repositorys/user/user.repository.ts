@@ -202,6 +202,7 @@ class UserRepository implements IUserRepository {
                     'position',
                     'is_admin',
                     'is_officer',
+                    'avatar',
                 ],
                 include: [
                     {

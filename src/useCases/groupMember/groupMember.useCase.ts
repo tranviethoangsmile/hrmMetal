@@ -1,13 +1,12 @@
-import {
-    find_group_member,
-    create_group_member,
-} from '../../repositorys/groupMember/groupMember.repo';
 import moment from 'moment-timezone';
-const find_group_of_member = async (data: any) => {
+import { GroupMemberRepository } from '../../repositorys';
+import { create_group_member } from '../../interfaces';
+import { groupMemberRole } from '../../enum';
+const groupMemberRepo = new GroupMemberRepository();
+const find_group_of_member = async (id: string) => {
     try {
-        const groupMembersData = await find_group_member({
-            ...data,
-        });
+        const groupMembersData = await groupMemberRepo.find_group_member(id);
+
         if (!groupMembersData?.success) {
             throw new Error(`${groupMembersData?.message}`);
         }
@@ -18,17 +17,23 @@ const find_group_of_member = async (data: any) => {
     } catch (error: any) {
         return {
             success: false,
-            message: error.messgae,
+            message: error?.message,
         };
     }
 };
 
-const create_groupMember = async (data: any) => {
+const create_groupMember = async (data: create_group_member) => {
     try {
-        const date = moment().tz('Asia/Ho_Chi_Minh');
-        const new_group = await create_group_member({
+        if (!data || !data.conversation_id || !data.role || !data.user_id) {
+            throw new Error('Invalid data create group member');
+        }
+        if (!Object.values(groupMemberRole).includes(data.role)) {
+            throw new Error('Invalid role');
+        }
+        const date = moment().tz('Asia/Tokyo');
+        const new_group = await groupMemberRepo.create_group_member({
             ...data,
-            joined_datetime: date.format('YYYY-MM-DD HH:mm:ss'),
+            joined_at: date.format('YYYY-MM-DD HH:mm:ss'),
         });
         if (!new_group?.success) {
             throw new Error(`${new_group?.message}`);
@@ -40,7 +45,7 @@ const create_groupMember = async (data: any) => {
     } catch (error: any) {
         return {
             success: false,
-            message: error.messgae,
+            message: error?.message,
         };
     }
 };

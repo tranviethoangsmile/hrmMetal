@@ -1,26 +1,28 @@
 import { create_message } from '../../repositorys/message/message.repo';
 import { create_new_message } from '../../interfaces/message/message.interface';
 import { create_massage_validate } from '../../validates/message/message.validate';
-const create_new_message = async (data: create_new_message) => {
+import { findUserById } from '../user/user.useCase';
+const create_new_message = async (data: any) => {
     try {
         const valid = create_massage_validate(data);
-        if (!valid?.error) {
-            const new_message = await create_message(data);
-            if (new_message?.success) {
-                return {
-                    success: new_message?.success,
-                    data: new_message?.data,
-                };
-            } else {
-                return {
-                    success: new_message?.success,
-                    message: new_message?.message,
-                };
-            }
+        if (valid?.error) {
+            throw new Error(`${valid?.error.message}`);
+        }
+        const user = await findUserById(data?.user_id);
+        if (!user?.success) {
+            throw new Error(`${user?.message}`);
+        }
+
+        const new_message = await create_message(data);
+        if (new_message?.success) {
+            return {
+                success: new_message?.success,
+                data: new_message?.data,
+            };
         } else {
             return {
-                success: false,
-                message: valid?.error?.message,
+                success: new_message?.success,
+                message: new_message?.message,
             };
         }
     } catch (error: any) {

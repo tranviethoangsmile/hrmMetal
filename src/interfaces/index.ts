@@ -1,3 +1,4 @@
+import { create_conversation_interface } from './conversation/conversation.interface';
 import {
     create_information,
     search_all_information,
@@ -23,6 +24,9 @@ import {
     is_Checked_interface,
     get_checkin_in_date_of_position_interface,
 } from '../interfaces/checkin/checkin.interface';
+
+import { create_group_member } from './groupMember/groupMember.interface';
+import { create_new_message } from './message/message.interface';
 export {
     create_plan_production,
     update_plan_production,
@@ -38,4 +42,7 @@ export {
     get_checkin_in_date_of_position_interface,
     create_information,
     search_all_information,
+    create_conversation_interface,
+    create_group_member,
+    create_new_message,
 };

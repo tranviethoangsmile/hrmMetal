@@ -1,12 +1,13 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '../dbs/db';
-import Message from './message.model';
+import { groupMemberRole } from '../enum';
 
 class GroupMember extends Model {
     public id!: string;
     public user_id!: string;
     public conversation_id!: string;
-    public joined_datetime!: string;
+    public joined_at!: string;
+    public role!: Enumerator;
 }
 
 GroupMember.init(
@@ -25,9 +26,16 @@ GroupMember.init(
             type: DataTypes.UUID,
             allowNull: false,
         },
-        joined_datetime: {
+        joined_at: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        role: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            values: Object.values(groupMemberRole).map(value =>
+                value.toString(),
+            ),
         },
     },
     {

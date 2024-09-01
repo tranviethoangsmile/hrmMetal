@@ -13,6 +13,8 @@ import EventCheckRepository from './eventCheck/evenCheck.repo';
 import DepartmentRepository from './department/department.repository';
 import DailyReportRepository from './dailyReport/dailyReport.repository';
 import InformationRepository from './infomation/information.repo';
+import ConversationRepository from './conversation/conversation.repo';
+import GroupMemberRepository from './groupMember/groupMember.repo';
 export {
     PlanProductionRepository,
     LoginRepository,
@@ -29,4 +31,6 @@ export {
     DepartmentRepository,
     DailyReportRepository,
     InformationRepository,
+    ConversationRepository,
+    GroupMemberRepository,
 };
