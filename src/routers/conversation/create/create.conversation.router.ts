@@ -6,29 +6,24 @@ const createConversationRouter: Router = Router();
 
 createConversationRouter.post('/', async (req: Request, res: Response) => {
     try {
-        const responseData: create | undefined = req.body;
-        if (
-            !responseData ||
-            !responseData?.receiver_id ||
-            !responseData?.sender_id
-        ) {
+        const reqData: create | undefined = req.body;
+        if (!reqData || !reqData?.receiver_id || !reqData?.sender_id) {
             res.status(400).json({
                 success: true,
                 message: 'data not empty',
             });
+        }
+        const value = await create_conversation_controller(reqData);
+        if (value?.success) {
+            res.status(201).json({
+                success: value?.success,
+                data: value?.data,
+            });
         } else {
-            const value = await create_conversation_controller(responseData);
-            if (value?.success) {
-                res.status(201).json({
-                    success: value?.success,
-                    data: value?.data,
-                });
-            } else {
-                res.status(200).json({
-                    success: value?.success,
-                    meessage: value?.message,
-                });
-            }
+            res.status(200).json({
+                success: value?.success,
+                meessage: value?.message,
+            });
         }
     } catch (e: any) {
         res.status(500).send({

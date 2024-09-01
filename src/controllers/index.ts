@@ -15,7 +15,10 @@ import {
     search_notification_of_user_controller,
 } from '../controllers/notification/notification.controller';
 
-import { create_message_controller } from './message/message.controller';
+import {
+    create_message_controller,
+    search_all_message_of_conversation_controller,
+} from './message/message.controller';
 import { create_conversation_controller } from './conversation/conversation.controller';
 
 export {
@@ -32,4 +35,5 @@ export {
     findByName,
     create_message_controller,
     create_conversation_controller,
+    search_all_message_of_conversation_controller,
 };

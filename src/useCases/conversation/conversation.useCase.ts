@@ -11,10 +11,10 @@ const create_conversation_use = async (data: any) => {
     const t = await db.transaction();
     try {
         const sender = await findUserById(data.sender_id);
+
         if (!sender?.success) {
             throw new Error(`${sender?.message}`);
         }
-
         const receiver = await findUserById(data.receiver_id);
         if (!receiver?.success) {
             throw new Error(`${receiver?.message}`);
@@ -166,7 +166,7 @@ const create_conversation_use = async (data: any) => {
 const search_conversation_by_id_use = async (id: string) => {
     try {
         const isValid = validation_id(id);
-        if (isValid) {
+        if (isValid?.error) {
             throw new Error(`${isValid?.error?.message}`);
         }
         const conversation = await conversationRepo.search_conversation_by_id(

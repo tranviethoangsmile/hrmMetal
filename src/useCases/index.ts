@@ -32,6 +32,10 @@ import {
     userFindAllWithFieldUse,
     getUserForLeaveFeatureUse,
 } from '../useCases/user/user.useCase';
+import {
+    create_new_message,
+    search_all_message_of_conversation_use,
+} from './message/message.useCase';
 export {
     create_plan_production_use,
     update_plan_production_use,
@@ -55,4 +59,6 @@ export {
     userFindAllWithFieldUse,
     getUserForLeaveFeatureUse,
     search_conversation_by_id_use,
+    create_new_message,
+    search_all_message_of_conversation_use,
 };
