@@ -5,13 +5,16 @@ import {
     findUserById,
 } from '../index';
 import db from '../../dbs/db';
-import { validation_id } from '../../validates';
+import { validation_id, validate_create_conversation } from '../../validates';
 const conversationRepo = new ConversationRepository();
 const create_conversation_use = async (data: any) => {
-    const t = await db.transaction();
+    // const t = await db.transaction();
     try {
+        const isValid = validate_create_conversation(data);
+        if (isValid?.error) {
+            throw new Error(isValid?.error.message);
+        }
         const sender = await findUserById(data.sender_id);
-
         if (!sender?.success) {
             throw new Error(`${sender?.message}`);
         }
@@ -45,7 +48,7 @@ const create_conversation_use = async (data: any) => {
             if (!receiverOf?.success) {
                 throw new Error(`${receiverOf?.message}`);
             }
-            t.commit();
+            // t.commit();
             return {
                 success: true,
                 data: {
@@ -81,7 +84,7 @@ const create_conversation_use = async (data: any) => {
                 if (!receiverOf?.success) {
                     throw new Error(`${receiverOf?.message}`);
                 }
-                t.commit();
+                // t.commit();
                 return {
                     success: true,
                     data: {
@@ -145,7 +148,7 @@ const create_conversation_use = async (data: any) => {
                     throw new Error(`${receiverOf?.message}`);
                 }
 
-                await t.commit(); // Commit giao dịch nếu mọi thứ thành công
+                // await t.commit(); // Commit giao dịch nếu mọi thứ thành công
                 return {
                     success: true,
                     data: {
@@ -155,7 +158,7 @@ const create_conversation_use = async (data: any) => {
             }
         }
     } catch (error: any) {
-        await t.rollback();
+        // await t.rollback();
         return {
             success: false,
             message: error?.message,
