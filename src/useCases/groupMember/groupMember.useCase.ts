@@ -3,10 +3,28 @@ import { GroupMemberRepository } from '../../repositorys';
 import { create_group_member } from '../../interfaces';
 import { groupMemberRole } from '../../enum';
 const groupMemberRepo = new GroupMemberRepository();
+
+const get_group_member_of_user_use = async (id: string) => {
+    try {
+        const groupMembersData =
+            await groupMemberRepo.find_group_member_of_user(id);
+        if (!groupMembersData?.success) {
+            throw new Error(`${groupMembersData?.message}`);
+        }
+        return {
+            success: true,
+            data: groupMembersData?.data,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
 const find_group_of_member = async (id: string) => {
     try {
         const groupMembersData = await groupMemberRepo.find_group_member(id);
-
         if (!groupMembersData?.success) {
             throw new Error(`${groupMembersData?.message}`);
         }
@@ -50,4 +68,8 @@ const create_groupMember = async (data: create_group_member) => {
     }
 };
 
-export { find_group_of_member, create_groupMember };
+export {
+    find_group_of_member,
+    create_groupMember,
+    get_group_member_of_user_use,
+};

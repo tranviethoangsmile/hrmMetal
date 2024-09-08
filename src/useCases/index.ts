@@ -21,6 +21,7 @@ import {
 import {
     create_groupMember,
     find_group_of_member,
+    get_group_member_of_user_use,
 } from './groupMember/groupMember.useCase';
 import {
     createNewUser,
@@ -61,4 +62,5 @@ export {
     search_conversation_by_id_use,
     create_new_message,
     search_all_message_of_conversation_use,
+    get_group_member_of_user_use,
 };
