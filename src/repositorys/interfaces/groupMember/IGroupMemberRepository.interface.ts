@@ -12,4 +12,10 @@ export interface IGroupMemberRepository {
         data?: GroupMember[];
         message?: string;
     }>;
+
+    find_group_member_of_user(id: string): Promise<{
+        success: boolean;
+        data?: GroupMember[];
+        message?: string;
+    }>;
 }

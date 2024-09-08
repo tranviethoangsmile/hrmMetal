@@ -40,11 +40,11 @@ PaidLeaveRequest.belongsTo(User, { foreignKey: 'leader_id', as: 'leader' });
 PaidLeaveRequest.belongsTo(User, { foreignKey: 'admin_id', as: 'admin' });
 Message.belongsTo(Conversation, { foreignKey: 'conversation_id' });
 Conversation.hasMany(Message, { foreignKey: 'conversation_id' });
-GroupMember.belongsToMany(User, {
-    foreignKey: 'user_id',
-    through: 'GroupMember',
-});
 GroupMember.belongsTo(Conversation, { foreignKey: 'conversation_id' });
+GroupMember.belongsTo(User, {
+    foreignKey: 'user_id',
+    as: 'users',
+});
 User.hasMany(GroupMember, { foreignKey: 'user_id' });
 Checkin.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(Checkin, { foreignKey: 'user_id' });
