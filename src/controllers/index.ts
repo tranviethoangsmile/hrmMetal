@@ -21,7 +21,7 @@ import {
 } from './message/message.controller';
 import { create_conversation_controller } from './conversation/conversation.controller';
 
-import { find_group_member_of_user_controller } from './groupMember/groupmember.controller';
+import { find_group_member_of_user_controller } from './groupMember/groupMember.controller';
 
 export {
     create_plan_production_controller,
