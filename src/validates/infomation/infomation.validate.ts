@@ -1,6 +1,6 @@
 import Joi from '@hapi/joi';
 const schema_create_infomation_validate = Joi.object({
-    user_id: Joi.string().required(),
+    user_id: Joi.string().guid().required(),
     title: Joi.string().required(),
     content: Joi.string().required(),
     date: Joi.string().required(),
