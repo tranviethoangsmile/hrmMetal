@@ -1,7 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { create_information_controller } from '../../../controllers/information/information.controller';
 import { create_media_path } from '../../../middlewares/createTrainning.middleware';
-// import very_role from '../../../middlewares/veryRoleUpdate.middleware';
 import { upload } from '../../../utils/multer/upload.multer';
 
 const createInformationRouter: Router = Router();
@@ -13,38 +12,24 @@ createInformationRouter.post(
     async (req: Request, res: Response) => {
         try {
             const { media_url, ...rest } = req.body;
-            let value = rest;
+            let value = { ...rest };
+
             if (media_url) {
                 value.media = media_url;
-                const information = await create_information_controller({
-                    ...value,
+            }
+
+            const information = await create_information_controller(value);
+
+            if (information?.success) {
+                return res.status(201).json({
+                    success: true,
+                    data: information?.data,
                 });
-                if (information?.success) {
-                    return res.status(201).json({
-                        success: true,
-                        data: information?.data,
-                    });
-                } else {
-                    return res.status(200).json({
-                        success: false,
-                        message: information?.message,
-                    });
-                }
             } else {
-                const information = await create_information_controller({
-                    ...value,
+                return res.status(200).json({
+                    success: false,
+                    message: information?.message,
                 });
-                if (information?.success) {
-                    return res.status(201).json({
-                        success: true,
-                        date: information?.data,
-                    });
-                } else {
-                    return res.status(200).json({
-                        success: false,
-                        message: information?.message,
-                    });
-                }
             }
         } catch (error: any) {
             return res.status(500).json({

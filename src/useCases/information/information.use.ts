@@ -8,21 +8,42 @@ import { validation_id } from '../../validates';
 import { findUserById } from '../user/user.useCase';
 import { InformationRepository } from '../../repositorys';
 const informationRepository = new InformationRepository();
-const create_information_use = async (value: create_information) => {
+const create_information_use = async (value: any) => {
     try {
         const valid = validate_create_information(value);
         if (valid?.error) {
             throw new Error(`${valid?.error.message}`);
         }
         const user_created = await findUserById(value.user_id);
-        if (user_created?.success) {
+        if (!user_created?.success) {
             throw new Error(`${user_created?.message}`);
         }
-        let position = user_created?.data?.position;
-        const info_value = {
+        const position = user_created?.data?.position;
+        const info_value: create_information = {
             ...value,
             position: position,
         };
+
+        if (
+            !info_value ||
+            !info_value.content ||
+            !info_value.date ||
+            !info_value.position ||
+            !info_value.title ||
+            !info_value.user_id
+        ) {
+            const missingFields = [
+                !info_value.content && 'content',
+                !info_value.date && 'date',
+                !info_value.position && 'position',
+                !info_value.title && 'title',
+                !info_value.user_id && 'user_id',
+            ]
+                .filter(Boolean)
+                .join(', ');
+
+            throw new Error(`Missing required fields: ${missingFields}`);
+        }
         if (
             typeof info_value.position === 'string' &&
             !Object.values(Position).includes(info_value.position)
