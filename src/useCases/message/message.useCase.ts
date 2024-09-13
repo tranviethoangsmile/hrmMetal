@@ -62,4 +62,22 @@ const search_all_message_of_conversation_use = async (id: string) => {
     }
 };
 
-export { create_new_message, search_all_message_of_conversation_use };
+const destroy_message_with_id_use = async (id: string) => {
+    try {
+        const isValid = validation_id(id);
+        if (isValid?.error) {
+            throw new Error(`${isValid?.error.message}`);
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
+
+export {
+    create_new_message,
+    search_all_message_of_conversation_use,
+    destroy_message_with_id_use,
+};

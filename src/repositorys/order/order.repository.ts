@@ -134,7 +134,7 @@ class OrderRepository implements IOrderRepository {
 
     async delete_order(id: string) {
         try {
-            const result = await Order.destroy({
+            const result: number = await Order.destroy({
                 where: {
                     id: id,
                 },

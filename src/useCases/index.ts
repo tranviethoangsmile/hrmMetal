@@ -36,6 +36,7 @@ import {
 import {
     create_new_message,
     search_all_message_of_conversation_use,
+    destroy_message_with_id_use,
 } from './message/message.useCase';
 export {
     create_plan_production_use,
@@ -63,4 +64,5 @@ export {
     create_new_message,
     search_all_message_of_conversation_use,
     get_group_member_of_user_use,
+    destroy_message_with_id_use,
 };

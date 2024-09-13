@@ -12,4 +12,9 @@ export interface IMessageRepository {
         data?: Message[];
         message?: string;
     }>;
+
+    destroy_message_with_id(id: string): Promise<{
+        success: boolean;
+        message?: string;
+    }>;
 }

@@ -50,6 +50,28 @@ class MessageRepository implements IMessageRepository {
             };
         }
     }
+
+    async destroy_message_with_id(id: string) {
+        try {
+            const result: number = await Message.destroy({
+                where: {
+                    id: id,
+                },
+            });
+
+            if (result < 1) {
+                throw new Error(`delete message error`);
+            }
+            return {
+                success: true,
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: error?.message,
+            };
+        }
+    }
 }
 
 export default MessageRepository;
