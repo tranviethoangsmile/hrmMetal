@@ -16,6 +16,7 @@ import { IInformationRepository } from './information/IInformationRepository';
 import { IConversationRepository } from './conversation/IConversationRepository';
 import { IGroupMemberRepository } from './groupMember/IGroupMemberRepository.interface';
 import { IMessageRepository } from './message/IMessageRepository.interface';
+import { IDeleteMessage } from './deleteMessage/IDeleteMessageRepository.interface';
 export {
     IEvencheckRepository,
     IPaidLeaveRequestRepo,
@@ -35,4 +36,5 @@ export {
     IConversationRepository,
     IGroupMemberRepository,
     IMessageRepository,
+    IDeleteMessage,
 };

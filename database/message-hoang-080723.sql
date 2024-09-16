@@ -4,6 +4,7 @@ CREATE TABLE messages
     message VARCHAR(255) NOT NULL,
     user_id VARCHAR(255) NOT NULL,
     conversation_id VARCHAR NOT NULL,
+    is_unsend BOOLEAN NOT NULL DEFAULT FALSE,
     created_at DATE NOT NULL,
     updated_at DATE NOT NULL,
     deleted_at DATE NULL,

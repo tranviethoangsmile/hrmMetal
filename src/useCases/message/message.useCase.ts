@@ -34,7 +34,7 @@ const create_new_message = async (data: any) => {
     } catch (error: any) {
         return {
             success: false,
-            message: error?.message,
+            message: `use: ${error?.message}`,
         };
     }
 };
@@ -62,12 +62,48 @@ const search_all_message_of_conversation_use = async (id: string) => {
     }
 };
 
-const destroy_message_with_id_use = async (id: string) => {
+const unSend_message_with_id_use = async (id: string) => {
     try {
         const isValid = validation_id(id);
         if (isValid?.error) {
             throw new Error(`${isValid?.error.message}`);
         }
+        const message = await messageRepository.search_message_with_id(id);
+        if (!message?.success) {
+            throw new Error(`${message?.message}`);
+        }
+        const destroy_result = await messageRepository.unSend_message_with_id(
+            id,
+        );
+
+        if (!destroy_result?.success) {
+            throw new Error(`${destroy_result?.message}`);
+        }
+        return {
+            success: true,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
+
+const search_message_with_id = async (id: string) => {
+    try {
+        const isValid = validation_id(id);
+        if (isValid?.error) {
+            throw new Error(`${isValid?.error.message}`);
+        }
+        const message = await messageRepository.search_message_with_id(id);
+        if (!message?.success) {
+            throw new Error(`${message?.message}`);
+        }
+        return {
+            success: true,
+            data: message?.data,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -79,5 +115,6 @@ const destroy_message_with_id_use = async (id: string) => {
 export {
     create_new_message,
     search_all_message_of_conversation_use,
-    destroy_message_with_id_use,
+    unSend_message_with_id_use,
+    search_message_with_id,
 };

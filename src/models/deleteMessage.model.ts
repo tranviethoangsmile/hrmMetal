@@ -1,44 +1,32 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '../dbs/db';
 
-class Message extends Model {
+class DeleteMessage extends Model {
     public id!: string;
-    public message!: string;
+    public message_id!: string;
     public user_id!: string;
-    public conversation_id!: string;
-    public is_unsend!: boolean;
 }
 
-Message.init(
+DeleteMessage.init(
     {
         id: {
             type: DataTypes.UUID,
-            allowNull: false,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
-        },
-        message: {
-            type: DataTypes.STRING,
-            allowNull: false,
         },
         user_id: {
             type: DataTypes.UUID,
             allowNull: false,
         },
-        conversation_id: {
+        message_id: {
             type: DataTypes.UUID,
             allowNull: false,
-        },
-        is_unsend: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false,
         },
     },
     {
         sequelize: db,
-        modelName: 'message',
-        tableName: 'messages',
+        modelName: 'delete_message',
+        tableName: 'delete_messages',
         timestamps: true,
         paranoid: true,
         createdAt: 'created_at',
@@ -47,4 +35,4 @@ Message.init(
     },
 );
 
-export default Message;
+export default DeleteMessage;

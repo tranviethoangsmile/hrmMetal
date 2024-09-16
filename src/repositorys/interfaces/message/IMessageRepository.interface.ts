@@ -13,8 +13,14 @@ export interface IMessageRepository {
         message?: string;
     }>;
 
-    destroy_message_with_id(id: string): Promise<{
+    unSend_message_with_id(id: string): Promise<{
         success: boolean;
+        message?: string;
+    }>;
+
+    search_message_with_id(id: string): Promise<{
+        success: boolean;
+        data?: Message;
         message?: string;
     }>;
 }
