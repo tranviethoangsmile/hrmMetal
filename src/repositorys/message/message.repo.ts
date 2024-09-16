@@ -1,4 +1,4 @@
-import { Message, User } from '../../models';
+import { DeleteMessage, Message, User } from '../../models';
 import { IMessageRepository } from '../interfaces';
 class MessageRepository implements IMessageRepository {
     async create_message(data: any) {
@@ -27,18 +27,30 @@ class MessageRepository implements IMessageRepository {
                 where: {
                     conversation_id: id,
                 },
-                attributes: ['id', 'message', 'user_id', 'created_at'],
+                attributes: [
+                    'id',
+                    'message',
+                    'user_id',
+                    'created_at',
+                    'is_unsend',
+                ],
                 include: [
                     {
                         model: User,
                         as: 'user',
                         attributes: ['id', 'avatar'],
                     },
+                    {
+                        model: DeleteMessage,
+                        as: 'delete_messages',
+                        attributes: ['id', 'user_id', 'message_id'],
+                    },
                 ],
             });
             if (messages === null || messages.length < 1) {
                 throw new Error(`message not exist`);
             }
+
             return {
                 success: true,
                 data: messages,
@@ -51,19 +63,43 @@ class MessageRepository implements IMessageRepository {
         }
     }
 
-    async destroy_message_with_id(id: string) {
+    async unSend_message_with_id(id: string) {
         try {
-            const result: number = await Message.destroy({
-                where: {
-                    id: id,
+            const result: [number] = await Message.update(
+                {
+                    is_unsend: true,
                 },
-            });
-
-            if (result < 1) {
-                throw new Error(`delete message error`);
+                {
+                    where: {
+                        id: id,
+                    },
+                },
+            );
+            if (result[0] < 1) {
+                throw new Error(`update not successfully`);
             }
             return {
                 success: true,
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: error?.message,
+            };
+        }
+    }
+
+    async search_message_with_id(id: string) {
+        try {
+            const message: Message | null = await Message.findByPk(id, {
+                attributes: ['id', 'message', 'user_id', 'created_at'],
+            });
+            if (message === null) {
+                throw new Error(`message not exists`);
+            }
+            return {
+                success: true,
+                data: message,
             };
         } catch (error: any) {
             return {

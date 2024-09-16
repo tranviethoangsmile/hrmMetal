@@ -20,6 +20,7 @@ import EventChecks from './eventCheck.model';
 import Payroll from './payrolls.model';
 import PlanProduction from './planProductions.model';
 import Notification from './notification.model';
+import DeleteMessage from './deleteMessage.model';
 User.belongsTo(Department, { foreignKey: 'department_id', as: 'department' });
 Department.hasMany(User, { foreignKey: 'department_id', as: 'users' });
 Order.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
@@ -70,6 +71,11 @@ Notification.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(Notification, { foreignKey: 'user_id' });
 Message.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(Message, { foreignKey: 'user_id' });
+DeleteMessage.belongsTo(User, { foreignKey: 'user_id' });
+DeleteMessage.belongsTo(Message, { foreignKey: 'message_id' });
+Message.hasMany(DeleteMessage, { foreignKey: 'message_id' });
+User.hasMany(DeleteMessage, { foreignKey: 'user_id' });
+
 export {
     User,
     Department,
@@ -93,4 +99,5 @@ export {
     Payroll,
     PlanProduction,
     Notification,
+    DeleteMessage,
 };

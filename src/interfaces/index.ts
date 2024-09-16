@@ -27,6 +27,7 @@ import {
 
 import { create_group_member } from './groupMember/groupMember.interface';
 import { create_new_message } from './message/message.interface';
+import { create_delete_message } from './deleteMessage/deleteMessage.interface';
 export {
     create_plan_production,
     update_plan_production,
@@ -45,4 +46,5 @@ export {
     create_conversation_interface,
     create_group_member,
     create_new_message,
+    create_delete_message,
 };
