@@ -4,7 +4,7 @@ import { create_delete_conversation } from '../../../interfaces';
 
 const destroyConversationRouter: Router = Router();
 
-destroyConversationRouter.delete('/', async (req: Request, res: Response) => {
+destroyConversationRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field: create_delete_conversation | undefined = req.body;
         if (!field || !field?.conversation_id || !field?.user_id) {
@@ -13,7 +13,9 @@ destroyConversationRouter.delete('/', async (req: Request, res: Response) => {
                 message: `bad request`,
             });
         }
-        const dlConversation = await delete_conversation_controller(field);
+        const dlConversation = await delete_conversation_controller({
+            ...field,
+        });
         if (!dlConversation?.success) {
             return res.status(200).json({
                 success: false,

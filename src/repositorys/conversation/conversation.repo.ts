@@ -26,10 +26,7 @@ class ConversationRepository implements IConversationRepository {
     async search_conversation_by_id(id: string) {
         try {
             const conversation: Conversation | null =
-                await Conversation.findOne({
-                    where: {
-                        id: id,
-                    },
+                await Conversation.findByPk(id, {
                     attributes: ['id', 'title', 'member_count'],
                 });
             if (conversation === null) {
