@@ -3,6 +3,8 @@ import {
     find_group_of_member,
     create_groupMember,
     findUserById,
+    find_deleted_conversation_by_conversation_id_use,
+    destroy_delete_conversation_by_conversation_id_use,
 } from '../index';
 import db from '../../dbs/db';
 import { validation_id, validate_create_conversation } from '../../validates';
@@ -115,7 +117,15 @@ const create_conversation_use = async (data: any) => {
                             conversationId,
                         );
                     if (members?.data?.member_count === 2) {
-                        // Nếu số thành viên bằng 2, tức là chỉ có người gửi và người nhận
+                        const deleteConversation =
+                            await find_deleted_conversation_by_conversation_id_use(
+                                conversationId,
+                            );
+                        if (deleteConversation?.success) {
+                            await destroy_delete_conversation_by_conversation_id_use(
+                                conversationId,
+                            );
+                        }
                         return {
                             success: true,
                             data: {

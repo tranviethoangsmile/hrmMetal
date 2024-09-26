@@ -22,29 +22,6 @@ class ConversationRepository implements IConversationRepository {
             };
         }
     }
-    async search_conversation_of_user(id: string) {
-        try {
-            const conversation: Conversation[] | null =
-                await Conversation.findAll({
-                    where: {
-                        user_id: id,
-                    },
-                    attributes: ['id', 'name_conversation'],
-                });
-            if (conversation === null) {
-                throw new Error(`conversation not exist`);
-            }
-            return {
-                success: true,
-                data: conversation,
-            };
-        } catch (error: any) {
-            return {
-                success: false,
-                message: error?.message,
-            };
-        }
-    }
 
     async search_conversation_by_id(id: string) {
         try {

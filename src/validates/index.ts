@@ -23,6 +23,7 @@ import {
 } from './paidLeaveRequest/paidLeaveRequest.validate';
 import { validate_create_conversation } from './conversation/conversation.validate';
 import validate_create_delete_message from './deleteMessage/deleteMessage.validate';
+import validate_create_delete_conversation from './deleteConversation/deleteConversation.validate';
 const schema_id = Joi.string().guid().required();
 
 const validation_id = (id: string) => {
@@ -46,4 +47,5 @@ export {
     validate_update_paid,
     validate_create_conversation,
     validate_create_delete_message,
+    validate_create_delete_conversation,
 };
