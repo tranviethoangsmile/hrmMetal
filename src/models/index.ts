@@ -21,6 +21,8 @@ import Payroll from './payrolls.model';
 import PlanProduction from './planProductions.model';
 import Notification from './notification.model';
 import DeleteMessage from './deleteMessage.model';
+import FcmToken from './fcmToken.model';
+import DeleteConversation from './deleteConversation.model';
 User.belongsTo(Department, { foreignKey: 'department_id', as: 'department' });
 Department.hasMany(User, { foreignKey: 'department_id', as: 'users' });
 Order.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
@@ -75,7 +77,12 @@ DeleteMessage.belongsTo(User, { foreignKey: 'user_id' });
 DeleteMessage.belongsTo(Message, { foreignKey: 'message_id' });
 Message.hasMany(DeleteMessage, { foreignKey: 'message_id' });
 User.hasMany(DeleteMessage, { foreignKey: 'user_id' });
-
+FcmToken.belongsTo(User, { foreignKey: 'user_id' });
+User.hasMany(FcmToken, { foreignKey: 'user_id' });
+DeleteConversation.belongsTo(User, { foreignKey: 'user_id' });
+DeleteConversation.belongsTo(Conversation, { foreignKey: 'conversation_id' });
+Conversation.hasMany(DeleteConversation, { foreignKey: 'conversation_id' });
+User.hasMany(DeleteConversation, { foreignKey: 'user_id' });
 export {
     User,
     Department,
@@ -100,4 +107,6 @@ export {
     PlanProduction,
     Notification,
     DeleteMessage,
+    FcmToken,
+    DeleteConversation,
 };

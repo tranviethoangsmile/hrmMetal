@@ -17,6 +17,7 @@ import ConversationRepository from './conversation/conversation.repo';
 import GroupMemberRepository from './groupMember/groupMember.repo';
 import MessageRepository from './message/message.repo';
 import DeleteMessageRepository from './deleteMessage/deleteMessage.repository';
+import DeleteConversationRepository from './deleteConversation/deleteConversation.repository';
 export {
     PlanProductionRepository,
     LoginRepository,
@@ -37,4 +38,5 @@ export {
     GroupMemberRepository,
     MessageRepository,
     DeleteMessageRepository,
+    DeleteConversationRepository,
 };

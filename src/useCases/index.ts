@@ -41,6 +41,11 @@ import {
 } from './message/message.useCase';
 
 import { create_delete_message_use } from './deleteMessage/deleteMessage.usecase';
+import {
+    create_delete_conversation_use,
+    find_deleted_conversation_by_conversation_id_use,
+    destroy_delete_conversation_by_conversation_id_use,
+} from './deleteConversation/deleteConversation.usecase';
 export {
     create_plan_production_use,
     update_plan_production_use,
@@ -70,4 +75,7 @@ export {
     unSend_message_with_id_use,
     search_message_with_id,
     create_delete_message_use,
+    create_delete_conversation_use,
+    find_deleted_conversation_by_conversation_id_use,
+    destroy_delete_conversation_by_conversation_id_use,
 };

@@ -1,4 +1,9 @@
-import { Conversation, GroupMember, User } from '../../models';
+import {
+    Conversation,
+    DeleteConversation,
+    GroupMember,
+    User,
+} from '../../models';
 import { IGroupMemberRepository } from '../interfaces';
 import { Op } from 'sequelize';
 class GroupMemberRepository implements IGroupMemberRepository {
@@ -88,10 +93,17 @@ class GroupMemberRepository implements IGroupMemberRepository {
                         model: Conversation,
                         as: 'conversation',
                         attributes: ['member_count'],
+                        include: [
+                            {
+                                model: DeleteConversation,
+                                as: 'delete_conversations',
+                                attributes: ['user_id'],
+                            },
+                        ],
                     },
                     {
                         model: User,
-                        as: 'users', // Sử dụng alias khớp với định nghĩa quan hệ
+                        as: 'users',
                         attributes: ['id', 'name', 'avatar'],
                     },
                 ],

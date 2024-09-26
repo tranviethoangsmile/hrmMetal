@@ -14,9 +14,9 @@ const create_delete_message_use = async (field: any) => {
         if (!message?.success) {
             throw new Error(`${message?.message}`);
         }
-        if (message?.data?.user_id !== field?.user_id) {
-            throw new Error('You are not the owner of this message');
-        }
+        // if (message?.data?.user_id !== field?.user_id) {
+        //     throw new Error('You are not the owner of this message');
+        // }
         const user = await findUserById(field?.user_id);
         if (!user?.success) {
             throw new Error(`${user?.message}`);

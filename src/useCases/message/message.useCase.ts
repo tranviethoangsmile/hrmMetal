@@ -1,7 +1,12 @@
 import { create_new_message } from '../../interfaces/message/message.interface';
 import { create_massage_validate } from '../../validates/message/message.validate';
-import { findUserById } from '../user/user.useCase';
-import { search_conversation_by_id_use } from '../../useCases';
+import {
+    find_deleted_conversation_by_conversation_id_use,
+    find_group_of_member,
+    search_conversation_by_id_use,
+    findUserById,
+    destroy_delete_conversation_by_conversation_id_use,
+} from '../../useCases';
 import { MessageRepository } from '../../repositorys';
 import { validation_id } from '../../validates';
 const messageRepository = new MessageRepository();
@@ -22,7 +27,27 @@ const create_new_message = async (data: any) => {
         if (!conversation?.success) {
             throw new Error(`${conversation?.message}`);
         }
+        const conversations = await find_group_of_member(data?.user_id);
 
+        const isAuth = conversations?.data?.map(value => {
+            if (value?.conversation_id === data?.conversation_id) {
+                return true;
+            }
+            return false;
+        });
+        if (!isAuth) {
+            throw new Error(`authentication`);
+        }
+
+        const deleteConversation =
+            await find_deleted_conversation_by_conversation_id_use(
+                data.conversation_id,
+            );
+        if (deleteConversation?.success) {
+            await destroy_delete_conversation_by_conversation_id_use(
+                data.conversation_id,
+            );
+        }
         const new_message = await messageRepository.create_message(data);
         if (!new_message?.success) {
             throw new Error(`${new_message?.message}`);
