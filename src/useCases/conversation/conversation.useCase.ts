@@ -3,10 +3,7 @@ import {
     find_group_of_member,
     create_groupMember,
     findUserById,
-    find_deleted_conversation_by_conversation_id_use,
-    destroy_delete_conversation_by_conversation_id_use,
 } from '../index';
-import db from '../../dbs/db';
 import { validation_id, validate_create_conversation } from '../../validates';
 const conversationRepo = new ConversationRepository();
 const create_conversation_use = async (data: any) => {
@@ -94,7 +91,6 @@ const create_conversation_use = async (data: any) => {
                     },
                 };
             } else {
-                // lưu dữ liệu conversation_id của sender vào set
                 const senderConversationIds = new Set(
                     group_of_sender_id.data.map(
                         (group: { conversation_id: string }) =>
@@ -105,27 +101,17 @@ const create_conversation_use = async (data: any) => {
                     (group: { conversation_id: string }) =>
                         group.conversation_id,
                 );
-                // lọc các cuộc trò chuyện của sender và receiver trùng nhau.
+
                 const commonConversationIds = receiverConversationIds.filter(
                     (id: string) => senderConversationIds.has(id),
                 );
 
                 for (const conversationId of commonConversationIds) {
-                    // Kiểm tra số lượng thành viên trong mỗi cuộc trò chuyện chung
                     const members =
                         await conversationRepo.search_conversation_by_id(
                             conversationId,
                         );
                     if (members?.data?.member_count === 2) {
-                        const deleteConversation =
-                            await find_deleted_conversation_by_conversation_id_use(
-                                conversationId,
-                            );
-                        if (deleteConversation?.success) {
-                            await destroy_delete_conversation_by_conversation_id_use(
-                                conversationId,
-                            );
-                        }
                         return {
                             success: true,
                             data: {
@@ -158,7 +144,7 @@ const create_conversation_use = async (data: any) => {
                     throw new Error(`${receiverOf?.message}`);
                 }
 
-                // await t.commit(); // Commit giao dịch nếu mọi thứ thành công
+                // await t.commit();
                 return {
                     success: true,
                     data: {
