@@ -25,7 +25,6 @@ class FcmTokenRepository implements IFcmToken {
 
     async find_fcm_token_of_user(id: string) {
         try {
-            console.log(id);
             const fcmToken: FcmToken | null = await FcmToken.findOne({
                 where: {
                     user_id: id,
