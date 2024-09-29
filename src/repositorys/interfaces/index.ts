@@ -18,6 +18,7 @@ import { IGroupMemberRepository } from './groupMember/IGroupMemberRepository.int
 import { IMessageRepository } from './message/IMessageRepository.interface';
 import { IDeleteMessage } from './deleteMessage/IDeleteMessageRepository.interface';
 import { IDeleteConversation } from './deleteConversation/IDeleteConversationRepository.interface';
+import { IFcmToken } from './fcmToken/fcmToken.interface';
 export {
     IEvencheckRepository,
     IPaidLeaveRequestRepo,
@@ -39,4 +40,5 @@ export {
     IMessageRepository,
     IDeleteMessage,
     IDeleteConversation,
+    IFcmToken,
 };

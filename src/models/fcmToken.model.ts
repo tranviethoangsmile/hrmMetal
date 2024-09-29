@@ -50,7 +50,6 @@ FcmToken.init(
         modelName: 'fcmToken',
         tableName: 'fcm_tokens',
         timestamps: true,
-        paranoid: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
         deletedAt: 'deleted_at',
