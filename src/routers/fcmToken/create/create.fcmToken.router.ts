@@ -21,7 +21,6 @@ createFcm.post('/', async (req: Request, res: Response) => {
         }
 
         const fcm = await create_fcm_token_controller(field);
-        console.log(fcm);
         if (!fcm?.success) {
             return res.status(200).json({
                 success: false,
