@@ -24,8 +24,9 @@ import {
 import { validate_create_conversation } from './conversation/conversation.validate';
 import validate_create_delete_message from './deleteMessage/deleteMessage.validate';
 import validate_create_delete_conversation from './deleteConversation/deleteConversation.validate';
-const schema_id = Joi.string().guid().required();
+import { validate_create_fcm_token } from './fcmToken/fcmToken.validate';
 
+const schema_id = Joi.string().guid().required();
 const validation_id = (id: string) => {
     return schema_id.validate(id);
 };
@@ -48,4 +49,5 @@ export {
     validate_create_conversation,
     validate_create_delete_message,
     validate_create_delete_conversation,
+    validate_create_fcm_token,
 };

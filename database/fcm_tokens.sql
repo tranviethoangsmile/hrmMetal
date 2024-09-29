@@ -12,4 +12,5 @@ CREATE TABLE fcm_tokens
     FOREIGN KEY
     (user_id) REFERENCES users
     (id),
+    UNIQUE(user_id)
 );

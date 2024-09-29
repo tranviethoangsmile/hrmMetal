@@ -7,6 +7,7 @@ import { Dialect } from './dialect.enum';
 import { CodeError } from './codeError.enum';
 import { notification_type } from './notification.enum';
 import { groupMemberRole } from './groupMemberRole.enum';
+import { Device } from './device_type.enum';
 export {
     Position,
     Products,
@@ -17,4 +18,5 @@ export {
     CodeError,
     notification_type,
     groupMemberRole,
+    Device,
 };
