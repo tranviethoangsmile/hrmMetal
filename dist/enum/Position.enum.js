@@ -5,5 +5,8 @@ var Position;
 (function (Position) {
     Position[Position["HINO"] = 0] = "HINO";
     Position[Position["IZUMO"] = 1] = "IZUMO";
-    Position[Position["OSAKA"] = 2] = "OSAKA";
+    Position[Position["KYOTO"] = 2] = "KYOTO";
+    Position[Position["OSAKA"] = 3] = "OSAKA";
+    Position[Position["TOKYO"] = 4] = "TOKYO";
+    Position[Position["COMPORATION"] = 5] = "COMPORATION";
 })(Position = exports.Position || (exports.Position = {}));

@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.timeOrderLimit = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-const LIMIT_HOURS_ORDER_FROM = 7;
+const LIMIT_HOURS_ORDER_FROM = 1;
 const LIMIT_HOURS_ORDER_TO = 9;
 const timeOrderLimit = (req, res, next) => {
     const requestDateString = req.body.date;
@@ -36,7 +36,7 @@ const timeOrderLimit = (req, res, next) => {
     else {
         res.status(200).json({
             success: false,
-            message: 'time',
+            message: 'Order time has expired',
         });
     }
 };

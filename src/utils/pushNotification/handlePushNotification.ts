@@ -1,6 +1,6 @@
 import { required } from '@hapi/joi';
-import dotenv from 'dotenv';
 import admin from 'firebase-admin';
+import dotenv from 'dotenv';
 dotenv.config();
 const ENV = process.env;
 const serviceAccount = ENV.FIREBASE_CONFIG

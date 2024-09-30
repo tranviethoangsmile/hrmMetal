@@ -27,6 +27,10 @@ User.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
+    begin_date: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
+    },
     password: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
@@ -53,10 +57,36 @@ User.init({
         allowNull: false,
         unique: true,
     },
+    salary_hourly: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    shift_night_pay: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    travel_allowance_pay: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    paid_days: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
     is_active: {
         type: sequelize_1.DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true,
+    },
+    is_officer: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    },
+    is_offical_staff: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
     },
     is_admin: {
         type: sequelize_1.DataTypes.BOOLEAN,

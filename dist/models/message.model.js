@@ -14,17 +14,22 @@ Message.init({
         defaultValue: sequelize_1.DataTypes.UUIDV4,
         primaryKey: true,
     },
-    content: {
+    message: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
-    sender_id: {
+    user_id: {
         type: sequelize_1.DataTypes.UUID,
         allowNull: false,
     },
     conversation_id: {
         type: sequelize_1.DataTypes.UUID,
         allowNull: false,
+    },
+    is_unsend: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
     },
 }, {
     sequelize: db_1.default,

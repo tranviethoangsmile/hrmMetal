@@ -22,6 +22,10 @@ DailyReport.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
+    department_id: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
     date: {
         type: sequelize_1.DataTypes.DATE,
         allowNull: false,

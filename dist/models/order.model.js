@@ -46,7 +46,7 @@ Order.init({
     modelName: 'order',
     tableName: 'orders',
     timestamps: true,
-    paranoid: true,
+    // paranoid: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     deletedAt: 'deleted_at',
