@@ -2,9 +2,8 @@ import { required } from '@hapi/joi';
 import admin from 'firebase-admin';
 import dotenv from 'dotenv';
 dotenv.config();
-const ENV = process.env;
-const serviceAccount = ENV.FIREBASE_CONFIG
-    ? JSON.parse(ENV.FIREBASE_CONFIG)
+const serviceAccount = process.env.FIREBASE_CONFIG
+    ? JSON.parse(process.env.FIREBASE_CONFIG)
     : {};
 
 console.log(serviceAccount);
