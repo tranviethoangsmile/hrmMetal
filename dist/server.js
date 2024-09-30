@@ -17,9 +17,16 @@ const config_system_1 = __importDefault(require("./configs/config.system"));
 // require('./dbs/db.mongo');
 dotenv_1.default.config();
 const PORT = config_system_1.default.app.port;
-const HOSTNAME = process.env.PORT_SERVER || '';
+const HOSTNAME = process.env.HOST_SERVER || 'localhost';
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    next();
+});
 (0, socketIO_1.init)(server);
 app.use((0, cors_1.default)());
 app.use((0, morgan_1.default)('combined'));
@@ -31,7 +38,7 @@ app.use(body_parser_1.default.json());
 app.use(express_1.default.static('public'));
 app.use(routers_1.default);
 server.listen(PORT, () => {
-    console.warn(`server runing on port ${PORT}`);
+    console.warn(`server runing on port ${HOSTNAME}:${PORT}`);
 });
 process.on('SIGINT', () => {
     server.close(() => {

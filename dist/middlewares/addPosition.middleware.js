@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const user_useCase_1 = require("../useCases/user.useCase");
+const user_useCase_1 = require("../useCases/user/user.useCase");
 const addPosition = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const user_id = req.body.user_id;

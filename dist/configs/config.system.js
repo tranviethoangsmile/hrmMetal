@@ -18,6 +18,7 @@ const pro = {
         dialect: dialect_enum_1.Dialect.POSTGRES,
         username: ENV.PRO_DB_USERNAME,
         password: ENV.PRO_DB_PASSWORD,
+        timezone: '+09:00',
     },
 };
 const dev = {
@@ -31,6 +32,7 @@ const dev = {
         dialect: dialect_enum_1.Dialect.POSTGRES,
         username: ENV.DEV_DB_USERNAME,
         password: ENV.DEV_DB_PASSWORD,
+        timezone: '+09:00',
     },
 };
 const config = ENV.NODE_ENV === 'dev' ? dev : pro;

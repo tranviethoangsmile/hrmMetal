@@ -11,7 +11,7 @@ const db = new sequelize_1.Sequelize(CONFIG.name, CONFIG.username, CONFIG.passwo
     host: CONFIG.host,
     logging: false,
     port: CONFIG.port,
-    // timezone: TIMEZONE
+    timezone: CONFIG.timezone,
 });
 db.authenticate()
     .then(() => console.log('Connection into database hrmMetal successfully.'))

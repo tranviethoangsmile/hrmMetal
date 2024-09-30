@@ -13,10 +13,15 @@ Conversation.init({
         defaultValue: sequelize_1.DataTypes.UUIDV4,
         primaryKey: true,
     },
-    name: {
+    title: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: true,
-        defaultValue: 'new chat',
+        defaultValue: 'New chat',
+    },
+    member_count: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 2,
     },
 }, {
     sequelize: db_1.default,

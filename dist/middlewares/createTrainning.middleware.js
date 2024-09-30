@@ -19,41 +19,37 @@ const fs_1 = __importDefault(require("fs"));
 dotenv_1.default.config();
 const ENV = process.env;
 cloudinary_1.default.v2.config({
-    cloud_name: ENV.CLOUD_NAME,
-    api_key: ENV.API_KEY_CLOUD,
-    api_secret: ENV.API_SECRET_CLOUD,
+    cloud_name: ENV.CLOUD_DINARY_NAME,
+    api_key: ENV.API_KEY_CLOUD_DINARY,
+    api_secret: ENV.API_SECRET_CLOUD_DINARY,
 });
 const create_media_path = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const files = req.files;
-        const urlMedias = [];
-        const uploadPromises = files.map((file) => __awaiter(void 0, void 0, void 0, function* () {
-            const result = yield cloudinary_1.default.v2.uploader.upload(file.path, {
-                resource_type: 'auto',
-            });
-            fs_1.default.unlink(file.path, () => {
-                console.log('deleted path');
-            });
-            return result;
-        }));
-        Promise.all(uploadPromises)
-            .then(results => {
-            const urls = results.map(result => result.secure_url);
-            urlMedias.push(urls);
-            req.body.media_path = urlMedias;
-            next();
-        })
-            .catch(error => {
-            res.status(203).json({
-                success: false,
-                message: error === null || error === void 0 ? void 0 : error.message,
-            });
+        const file = req.file;
+        if (!file) {
+            return next();
+        }
+        const result = yield cloudinary_1.default.v2.uploader.upload(file.path, {
+            resource_type: 'auto', // Adjust resource_type if needed
         });
+        if (!result || !result.secure_url) {
+            return res
+                .status(400)
+                .json({ success: false, message: 'Failed to upload media' });
+        }
+        fs_1.default.unlink(file.path, err => {
+            if (err)
+                console.error('Failed to delete file:', err);
+            else
+                console.log('File deleted successfully');
+        });
+        req.body.media_url = result.secure_url;
+        next();
     }
     catch (error) {
         res.status(500).json({
             success: false,
-            message: 'server error: ' + error.mesage,
+            message: 'Server error: ' + error.message,
         });
     }
 });
