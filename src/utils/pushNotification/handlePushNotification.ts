@@ -6,6 +6,8 @@ const ENV = process.env;
 const serviceAccount = ENV.FIREBASE_CONFIG
     ? JSON.parse(ENV.FIREBASE_CONFIG)
     : {};
+
+console.log(serviceAccount);
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
