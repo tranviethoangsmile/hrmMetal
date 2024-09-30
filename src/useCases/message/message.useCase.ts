@@ -6,9 +6,12 @@ import {
     search_conversation_by_id_use,
     findUserById,
     destroy_delete_conversation_by_conversation_id_use,
+    find_user_by_conversation_id_use,
+    find_fcm_token_of_user_use,
 } from '../../useCases';
 import { MessageRepository } from '../../repositorys';
 import { validation_id } from '../../validates';
+import { sendPushNotification } from '../../utils';
 const messageRepository = new MessageRepository();
 const create_new_message = async (data: any) => {
     try {
@@ -27,14 +30,12 @@ const create_new_message = async (data: any) => {
         if (!conversation?.success) {
             throw new Error(`${conversation?.message}`);
         }
+
         const conversations = await find_group_of_member(data?.user_id);
 
-        const isAuth = conversations?.data?.map(value => {
-            if (value?.conversation_id === data?.conversation_id) {
-                return true;
-            }
-            return false;
-        });
+        const isAuth = conversations?.data?.some(
+            value => value?.conversation_id === data?.conversation_id,
+        );
         if (!isAuth) {
             throw new Error(`authentication`);
         }
@@ -52,6 +53,27 @@ const create_new_message = async (data: any) => {
         if (!new_message?.success) {
             throw new Error(`${new_message?.message}`);
         }
+
+        const users = await find_user_by_conversation_id_use(
+            data?.conversation_id,
+        );
+        if (users?.success) {
+            const receiver_ids = users?.data?.filter(
+                user =>
+                    String(user.dataValues.user_id) !== String(data?.user_id),
+            );
+
+            const fcm_token = await find_fcm_token_of_user_use(
+                receiver_ids![0].user_id,
+            );
+            if (fcm_token?.success) {
+                const fcmToken = fcm_token?.data;
+                const title = 'new Message';
+                const body = new_message?.data?.message;
+                await sendPushNotification({ fcmToken, title, body });
+            }
+        }
+
         return {
             success: true,
             data: new_message?.data,

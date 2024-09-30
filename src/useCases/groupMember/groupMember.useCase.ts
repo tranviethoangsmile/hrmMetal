@@ -68,8 +68,27 @@ const create_groupMember = async (data: create_group_member) => {
     }
 };
 
+const find_user_by_conversation_id_use = async (id: string) => {
+    try {
+        const users = await groupMemberRepo.find_user_by_conversation_id(id);
+        if (!users?.success) {
+            throw new Error(`${users?.message}`);
+        }
+        return {
+            success: true,
+            data: users?.data,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
+
 export {
     find_group_of_member,
     create_groupMember,
     get_group_member_of_user_use,
+    find_user_by_conversation_id_use,
 };

@@ -1,6 +1,6 @@
 import { Server, Socket } from 'socket.io';
 import moment from 'moment';
-import { handleMessage } from '../utils/handleMessageChatAi';
+import { handleMessage } from '../utils/AIChat/handleMessageChatAi';
 import { create_new_message } from '../interfaces';
 import { create_message_controller } from '../controllers';
 let io: Server;
