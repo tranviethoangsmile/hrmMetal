@@ -29,6 +29,7 @@ class FcmTokenRepository implements IFcmToken {
                 where: {
                     user_id: id,
                 },
+                attributes: ['fcm_token'],
             });
 
             if (!fcmToken) {

@@ -1,5 +1,5 @@
 import { FcmTokenRepository } from '../../repositorys';
-import { validate_create_fcm_token } from '../../validates';
+import { validate_create_fcm_token, validation_id } from '../../validates';
 import { Device } from '../../enum';
 import { findUserById } from '../../useCases';
 const fcmTokenRepository = new FcmTokenRepository();
@@ -41,4 +41,26 @@ const create_fcm_token_use = async (field: any) => {
     }
 };
 
-export { create_fcm_token_use };
+const find_fcm_token_of_user_use = async (id: string) => {
+    try {
+        const isValid = validation_id(id);
+        if (isValid?.error) {
+            throw new Error(`${isValid?.error.message}`);
+        }
+        const fcmToken = await fcmTokenRepository.find_fcm_token_of_user(id);
+        if (!fcmToken?.success) {
+            throw new Error(`${fcmToken?.message}`);
+        }
+        return {
+            success: true,
+            data: fcmToken?.data?.fcm_token,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `use -- ${error?.message}`,
+        };
+    }
+};
+
+export { create_fcm_token_use, find_fcm_token_of_user_use };

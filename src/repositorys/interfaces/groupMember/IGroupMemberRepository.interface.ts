@@ -18,4 +18,10 @@ export interface IGroupMemberRepository {
         data?: GroupMember[];
         message?: string;
     }>;
+
+    find_user_by_conversation_id(id: string): Promise<{
+        success: boolean;
+        data?: GroupMember[];
+        message?: string;
+    }>;
 }

@@ -22,6 +22,7 @@ import {
     create_groupMember,
     find_group_of_member,
     get_group_member_of_user_use,
+    find_user_by_conversation_id_use,
 } from './groupMember/groupMember.useCase';
 import {
     createNewUser,
@@ -47,7 +48,10 @@ import {
     destroy_delete_conversation_by_conversation_id_use,
 } from './deleteConversation/deleteConversation.usecase';
 
-import { create_fcm_token_use } from './fcmToken/fcmToken.usecase';
+import {
+    create_fcm_token_use,
+    find_fcm_token_of_user_use,
+} from './fcmToken/fcmToken.usecase';
 export {
     create_plan_production_use,
     update_plan_production_use,
@@ -81,4 +85,6 @@ export {
     find_deleted_conversation_by_conversation_id_use,
     destroy_delete_conversation_by_conversation_id_use,
     create_fcm_token_use,
+    find_user_by_conversation_id_use,
+    find_fcm_token_of_user_use,
 };

@@ -60,15 +60,12 @@ class GroupMemberRepository implements IGroupMemberRepository {
 
     async find_group_member_of_user(id: string) {
         try {
-            // Bước 1: Lấy tất cả conversation_id mà người dùng đang tham gia
             const userConversations = await GroupMember.findAll({
                 where: {
                     user_id: id,
                 },
                 attributes: ['conversation_id'],
             });
-
-            // Trích xuất conversation_id thành một mảng
             const conversationIds = userConversations.map(
                 gm => gm.conversation_id,
             );
@@ -121,6 +118,30 @@ class GroupMemberRepository implements IGroupMemberRepository {
             return {
                 success: false,
                 message: error?.message,
+            };
+        }
+    }
+
+    async find_user_by_conversation_id(id: string) {
+        try {
+            const users: GroupMember[] | null = await GroupMember.findAll({
+                where: {
+                    conversation_id: id,
+                },
+                attributes: ['user_id'],
+            });
+
+            if (users === null || users.length < 1) {
+                throw new Error('No user found in the conversation');
+            }
+            return {
+                success: true,
+                data: users,
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `repo -- ${error?.message}`,
             };
         }
     }
