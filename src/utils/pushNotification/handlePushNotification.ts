@@ -21,13 +21,22 @@ const serviceAccount = process.env.FIREBASE_CONFIG
               'https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-769h3%40hrm-metal-745e1.iam.gserviceaccount.com',
           universe_domain: 'googleapis.com',
       };
-
-console.log(serviceAccount);
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
 
-const sendPushNotification = async ({ fcmToken, title, body }: any) => {
+const sendPushNotification = async ({
+    fcmToken,
+    title,
+    body,
+}: {
+    fcmToken: string;
+    title: string;
+    body: string;
+}) => {
+    if (!fcmToken || !title || !body) {
+        return;
+    }
     const message = {
         notification: {
             title: title,
@@ -35,15 +44,14 @@ const sendPushNotification = async ({ fcmToken, title, body }: any) => {
         },
         token: fcmToken,
         data: {
-            click_action: 'OPEN_ACTIVITY',
+            click_action: 'MESSAGE',
         },
     };
 
     try {
-        const response = await admin.messaging().send(message);
-        console.log('Successfully sent message:', response);
-    } catch (error) {
-        console.error('Error sending message:', error);
+        await admin.messaging().send(message);
+    } catch (error: any) {
+        console.error('Error sending message:', error?.message);
     }
 };
 
