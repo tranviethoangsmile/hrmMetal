@@ -63,14 +63,17 @@ const create_new_message = async (data: any) => {
                     String(user.dataValues.user_id) !== String(data?.user_id),
             );
 
-            const fcm_token = await find_fcm_token_of_user_use(
-                receiver_ids![0].user_id,
-            );
-            if (fcm_token?.success) {
-                const fcmToken = fcm_token?.data;
-                const title = 'new Message';
-                const body = new_message?.data?.message;
-                await sendPushNotification({ fcmToken, title, body });
+            for (const receiver of receiver_ids!) {
+                const fcm_token = await find_fcm_token_of_user_use(
+                    receiver.user_id,
+                );
+
+                if (fcm_token?.success) {
+                    const fcmToken = fcm_token.data ?? '';
+                    const title = 'New Message';
+                    const body = new_message?.data?.message ?? '';
+                    await sendPushNotification({ fcmToken, title, body });
+                }
             }
         }
 
