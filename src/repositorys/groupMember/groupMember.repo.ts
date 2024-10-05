@@ -129,6 +129,13 @@ class GroupMemberRepository implements IGroupMemberRepository {
                     conversation_id: id,
                 },
                 attributes: ['user_id'],
+                include: [
+                    {
+                        model: User,
+                        as: 'users',
+                        attributes: ['id', 'name', 'avatar'],
+                    },
+                ],
             });
 
             if (users === null || users.length < 1) {

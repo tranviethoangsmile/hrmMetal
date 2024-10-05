@@ -58,6 +58,9 @@ const create_new_message = async (data: any) => {
             data?.conversation_id,
         );
         if (users?.success) {
+            const sender_info = users?.data?.find(user => {
+                return user?.user_id === data?.user_id;
+            });
             const receiver_ids = users?.data?.filter(
                 user =>
                     String(user.dataValues.user_id) !== String(data?.user_id),
@@ -70,7 +73,8 @@ const create_new_message = async (data: any) => {
 
                 if (fcm_token?.success) {
                     const fcmToken = fcm_token.data ?? '';
-                    const title = 'New Message';
+                    const title =
+                        sender_info?.dataValues.users.name ?? 'New message';
                     const body = new_message?.data?.message ?? '';
                     await sendPushNotification({ fcmToken, title, body });
                 }
