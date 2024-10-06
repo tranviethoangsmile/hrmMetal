@@ -25,6 +25,13 @@ import {
 import { find_group_member_of_user_controller } from './groupMember/groupMember.controller';
 import { create_delete_message_cotroller } from './deleteMessage/deleteMessage.controller';
 import { create_fcm_token_controller } from './fcmToken/fcmToken.controller';
+import {
+    create_events_controller,
+    delete_event_controller,
+    update_events_controller,
+    search_event_by_id_controller,
+    get_all_events_controller,
+} from './events/events.controller';
 export {
     create_plan_production_controller,
     update_plan_production_controller,
@@ -45,4 +52,9 @@ export {
     unSend_message_with_id_controller,
     create_delete_message_cotroller,
     create_fcm_token_controller,
+    create_events_controller,
+    delete_event_controller,
+    update_events_controller,
+    search_event_by_id_controller,
+    get_all_events_controller,
 };

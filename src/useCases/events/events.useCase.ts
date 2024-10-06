@@ -1,12 +1,13 @@
 import { EventRepository } from '../../repositorys';
-import { validation_id } from '../../validates';
 import {
+    validation_id,
     validate_create_events,
     validate_update_events,
-} from '../../validates/events/events.validate';
-import { Position } from '../../enum/Position.enum';
-
+} from '../../validates';
+import { Position } from '../../enum';
+import { PushNotificationService } from '../../services';
 const eventRepository = new EventRepository();
+const pushNotiService = new PushNotificationService();
 const create_events_use = async (field: any) => {
     try {
         const isValid = validate_create_events(field);
@@ -20,8 +21,12 @@ const create_events_use = async (field: any) => {
             throw new Error('position is not valid');
         }
         const event = await eventRepository.create_events_repo(field);
+
         if (!event?.success) {
             throw new Error(event?.message);
+        }
+        if (event?.data?.is_safety) {
+            await pushNotiService.handlePushNotiForEvent(event?.data?.position);
         }
         return {
             success: true,

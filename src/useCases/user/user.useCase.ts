@@ -38,7 +38,7 @@ const getUserForLeaveFeatureUse = async (id: any) => {
         };
     }
 };
-const userFindAllWithFieldUse = async (field: FindAllField) => {
+const userFindAllWithFieldUse = async (field: any) => {
     try {
         const isValid = valid_user_find_all_with_field(field);
         if (isValid.error) {
