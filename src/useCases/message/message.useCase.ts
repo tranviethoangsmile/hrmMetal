@@ -1,5 +1,4 @@
-import { create_new_message } from '../../interfaces/message/message.interface';
-import { create_massage_validate } from '../../validates/message/message.validate';
+import { create_new_message } from '../../interfaces';
 import {
     find_deleted_conversation_by_conversation_id_use,
     find_group_of_member,
@@ -10,9 +9,10 @@ import {
     find_fcm_token_of_user_use,
 } from '../../useCases';
 import { MessageRepository } from '../../repositorys';
-import { validation_id } from '../../validates';
-import { sendPushNotification } from '../../utils';
+import { validation_id, create_massage_validate } from '../../validates';
+import { PushNotificationService } from '../../services';
 const messageRepository = new MessageRepository();
+const pushNotificationService = new PushNotificationService();
 const create_new_message = async (data: any) => {
     try {
         const valid = create_massage_validate(data);
@@ -76,7 +76,11 @@ const create_new_message = async (data: any) => {
                     const title =
                         sender_info?.dataValues.users.name ?? 'New message';
                     const body = new_message?.data?.message ?? '';
-                    await sendPushNotification({ fcmToken, title, body });
+                    await pushNotificationService.handlePushNotiForMessage({
+                        fcmToken,
+                        title,
+                        body,
+                    });
                 }
             }
         }
