@@ -47,9 +47,8 @@ const sendPushNotification = async ({
             click_action: 'MESSAGE',
         },
     };
-
     try {
-        await admin.messaging().send(message);
+        return await admin.messaging().send(message);
     } catch (error: any) {
         console.error('Error sending message:', error?.message);
     }

@@ -4,7 +4,7 @@ import {
     update_events_use,
     search_event_by_id_use,
     get_all_events_use,
-} from '../../useCases/events/events.useCase';
+} from '../../useCases';
 
 const create_events_controller = async (field: any) => {
     return await create_events_use(field);

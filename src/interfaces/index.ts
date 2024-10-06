@@ -30,6 +30,11 @@ import { create_new_message } from './message/message.interface';
 import { create_delete_message } from './deleteMessage/deleteMessage.interface';
 import { create_delete_conversation } from './deleteConversation/deleteConversation.interface';
 import { create_fcm_token } from './fcmToken/fcmToken.interface';
+
+import {
+    create_events_interface,
+    update_events_interface,
+} from './events/events.interface';
 export {
     create_plan_production,
     update_plan_production,
@@ -51,4 +56,6 @@ export {
     create_delete_message,
     create_delete_conversation,
     create_fcm_token,
+    create_events_interface,
+    update_events_interface,
 };

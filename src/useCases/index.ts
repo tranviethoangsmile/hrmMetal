@@ -52,6 +52,14 @@ import {
     create_fcm_token_use,
     find_fcm_token_of_user_use,
 } from './fcmToken/fcmToken.usecase';
+
+import {
+    create_events_use,
+    delete_events_use,
+    update_events_use,
+    search_event_by_id_use,
+    get_all_events_use,
+} from './events/events.useCase';
 export {
     create_plan_production_use,
     update_plan_production_use,
@@ -87,4 +95,9 @@ export {
     create_fcm_token_use,
     find_user_by_conversation_id_use,
     find_fcm_token_of_user_use,
+    create_events_use,
+    delete_events_use,
+    update_events_use,
+    search_event_by_id_use,
+    get_all_events_use,
 };
