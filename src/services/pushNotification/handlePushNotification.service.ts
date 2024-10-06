@@ -1,4 +1,3 @@
-import { Position } from '../../enum';
 import {
     userFindAllWithFieldUse,
     findAllUser,
@@ -33,6 +32,28 @@ class PushNotificationService implements IPushNotification {
             }),
         );
     }
+
+    private async sendPushNotificationToUser({
+        fcmToken,
+        title,
+        body,
+    }: {
+        fcmToken: string;
+        title: string;
+        body: string;
+    }) {
+        try {
+            await sendPushNotification({
+                fcmToken,
+                title,
+                body,
+            });
+        } catch (error: any) {
+            console.error(
+                `Failed to send notification to user ${title}: ${error?.message}`,
+            );
+        }
+    }
     async handlePushNotiForEvent(position: any) {
         try {
             let users;
@@ -51,6 +72,28 @@ class PushNotificationService implements IPushNotification {
                 await this.sendNotificationsToUsers(userIds, title, body);
             }
 
+            return {
+                success: true,
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `service -- ${error?.message}`,
+            };
+        }
+    }
+
+    async handlePushNotiForMessage({
+        fcmToken,
+        title,
+        body,
+    }: {
+        fcmToken: string;
+        title: string;
+        body: string;
+    }) {
+        try {
+            await this.sendPushNotificationToUser({ fcmToken, title, body });
             return {
                 success: true,
             };

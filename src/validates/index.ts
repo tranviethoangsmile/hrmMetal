@@ -29,7 +29,7 @@ import {
     validate_create_events,
     validate_update_events,
 } from './events/events.validate';
-
+import { create_massage_validate } from './message/message.validate';
 const schema_id = Joi.string().guid().required();
 const validation_id = (id: string) => {
     return schema_id.validate(id);
@@ -56,4 +56,5 @@ export {
     validate_create_fcm_token,
     validate_create_events,
     validate_update_events,
+    create_massage_validate,
 };
