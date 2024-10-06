@@ -1,3 +1,4 @@
+import { Position } from '../../enum';
 import {
     userFindAllWithFieldUse,
     findAllUser,
@@ -7,52 +8,47 @@ import { sendPushNotification } from '../../utils';
 import { IPushNotification } from '../interfaces';
 
 class PushNotificationService implements IPushNotification {
+    private async sendNotificationsToUsers(
+        userIds: string[],
+        title: string,
+        body: string,
+    ) {
+        await Promise.all(
+            userIds.map(async userId => {
+                try {
+                    const fcm_token = await find_fcm_token_of_user_use(userId);
+                    if (fcm_token?.success) {
+                        const fcmToken = fcm_token.data ?? '';
+                        await sendPushNotification({
+                            fcmToken,
+                            title,
+                            body,
+                        });
+                    }
+                } catch (error: any) {
+                    console.error(
+                        `Failed to send notification to user ${userId}: ${error?.message}`,
+                    );
+                }
+            }),
+        );
+    }
     async handlePushNotiForEvent(position: any) {
         try {
+            let users;
             if (position === 'COMPORATION') {
-                const users = await findAllUser();
-                if (users?.success) {
-                    const userIds: any = users?.data?.map(user => {
-                        return user.id;
-                    });
-                    for (const userId of userIds) {
-                        const fcm_token = await find_fcm_token_of_user_use(
-                            userId,
-                        );
-                        if (fcm_token?.success) {
-                            const fcmToken = fcm_token.data ?? '';
-                            const title = 'safety check';
-                            const body = 'check now !!';
-                            await sendPushNotification({
-                                fcmToken,
-                                title,
-                                body,
-                            });
-                        }
-                    }
-                }
+                users = await findAllUser();
             } else {
-                const users = await userFindAllWithFieldUse({ position });
-                if (users?.success) {
-                    const userIds: any = users?.data?.map(user => {
-                        return user.id;
-                    });
-                    for (const userId of userIds) {
-                        const fcm_token = await find_fcm_token_of_user_use(
-                            userId,
-                        );
-                        if (fcm_token?.success) {
-                            const fcmToken = fcm_token.data ?? '';
-                            const title = 'safety check';
-                            const body = 'check now !!';
-                            await sendPushNotification({
-                                fcmToken,
-                                title,
-                                body,
-                            });
-                        }
-                    }
-                }
+                users = await userFindAllWithFieldUse({ position });
+            }
+
+            if (users?.success) {
+                const userIds: any = users?.data?.map((user: any) => user.id);
+                const title = `Safety Check Required! from ${position}`;
+                const body = `Please confirm your safety status as soon as possible.`;
+
+                // Gửi thông báo đến danh sách người dùng
+                await this.sendNotificationsToUsers(userIds, title, body);
             }
 
             return {
@@ -66,4 +62,5 @@ class PushNotificationService implements IPushNotification {
         }
     }
 }
+
 export default PushNotificationService;
