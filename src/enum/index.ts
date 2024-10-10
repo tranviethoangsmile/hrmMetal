@@ -8,6 +8,7 @@ import { CodeError } from './codeError.enum';
 import { notification_type } from './notification.enum';
 import { groupMemberRole } from './groupMemberRole.enum';
 import { Device } from './device_type.enum';
+import { E_message_type } from './message_type.enum';
 export {
     Position,
     Products,
@@ -19,4 +20,5 @@ export {
     notification_type,
     groupMemberRole,
     Device,
+    E_message_type,
 };

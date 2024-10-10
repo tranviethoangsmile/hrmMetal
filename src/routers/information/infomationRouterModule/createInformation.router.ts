@@ -1,23 +1,21 @@
 import { Request, Response, Router } from 'express';
 import { create_information_controller } from '../../../controllers/information/information.controller';
-import { create_media_path } from '../../../middlewares/createTrainning.middleware';
-import { upload } from '../../../utils/multer/upload.multer';
+// import { create_media_path } from '../../../middlewares/createTrainning.middleware';
+import { create_media_path } from '../../../middlewares';
 
 const createInformationRouter: Router = Router();
 
 createInformationRouter.post(
     '/',
-    upload.single('media'),
     create_media_path,
     async (req: Request, res: Response) => {
         try {
-            const { media_url, ...rest } = req.body;
+            const { media_path, ...rest } = req.body;
             let value = { ...rest };
 
-            if (media_url) {
-                value.media = media_url;
+            if (media_path) {
+                value.media = media_path;
             }
-
             const information = await create_information_controller(value);
 
             if (information?.success) {

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import cloudinary from '../utils/cloudinary/cloudinary.config';
-import fs from 'fs';
+import busboy from 'busboy';
+import { Readable } from 'stream';
 
 const create_media_path = async (
     req: Request,
@@ -8,34 +9,60 @@ const create_media_path = async (
     next: NextFunction,
 ) => {
     try {
-        const files = req.files as Express.Multer.File[];
-        const urlMedias: any[] = [];
-        const uploadPromises = files.map(async (file: any) => {
-            const result = await cloudinary.v2.uploader.upload(file.path, {
-                resource_type: 'auto',
-            });
-            fs.unlink(file.path, () => {
-                console.log('deleted path');
-            });
-            return result;
-        });
-        Promise.all(uploadPromises)
-            .then(results => {
-                const urls = results.map(result => result.secure_url);
-                urlMedias.push(urls);
-                req.body.media_path = urlMedias;
-                next();
-            })
-            .catch(error => {
-                res.status(203).json({
-                    success: false,
-                    message: error?.message,
+        const bb = busboy({ headers: req.headers });
+        const urlMedias: string[] = [];
+        const uploadPromises: Promise<void>[] = []; // Mảng chứa các Promise cho upload
+
+        bb.on(
+            'file',
+            (
+                fieldname: string,
+                file: Readable,
+                filename: string,
+                encoding: string,
+                mimetype: string,
+            ) => {
+                const uploadPromise = new Promise<void>((resolve, reject) => {
+                    const cloudinaryStream =
+                        cloudinary.v2.uploader.upload_stream(
+                            { resource_type: 'auto' },
+                            (err, result) => {
+                                if (err) {
+                                    return reject(
+                                        res.status(200).json({
+                                            success: false,
+                                            message: `update media err -- ${err?.message}`,
+                                        }),
+                                    );
+                                }
+                                if (result) {
+                                    urlMedias.push(result.secure_url);
+                                }
+                                resolve();
+                            },
+                        );
+                    file.pipe(cloudinaryStream);
                 });
-            });
+                uploadPromises.push(uploadPromise);
+            },
+        );
+        bb.on('field', (fieldname, val) => {
+            req.body[fieldname] = val; // Cập nhật req.body với các trường dữ liệu
+        });
+        bb.on('finish', async () => {
+            await Promise.all(uploadPromises);
+            req.body = {
+                ...req.body,
+                media_path: urlMedias.join(','),
+            };
+            next();
+        });
+
+        req.pipe(bb); // Pipe request vào busboy
     } catch (error: any) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
-            message: 'server error: ' + error.mesage,
+            message: 'server error: ' + error?.message,
         });
     }
 };

@@ -33,6 +33,7 @@ class MessageRepository implements IMessageRepository {
                     'user_id',
                     'created_at',
                     'is_unsend',
+                    'message_type',
                 ],
                 include: [
                     {

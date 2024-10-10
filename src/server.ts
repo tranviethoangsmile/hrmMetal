@@ -42,6 +42,7 @@ app.use(router);
 server.listen(PORT, () => {
     console.warn(`server runing on port ${HOSTNAME}:${PORT}`);
 });
+process.title = 'node 4000';
 
 process.on('SIGINT', () => {
     server.close(() => {
