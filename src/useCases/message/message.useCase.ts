@@ -11,6 +11,7 @@ import {
 import { MessageRepository } from '../../repositorys';
 import { validation_id, create_massage_validate } from '../../validates';
 import { PushNotificationService } from '../../services';
+import { E_message_type } from '../../enum';
 const messageRepository = new MessageRepository();
 const pushNotificationService = new PushNotificationService();
 const create_new_message = async (data: any) => {
@@ -18,6 +19,9 @@ const create_new_message = async (data: any) => {
         const valid = create_massage_validate(data);
         if (valid?.error) {
             throw new Error(`${valid?.error.message}`);
+        }
+        if (!Object.values(E_message_type).includes(data.message_type)) {
+            throw new Error(`message_type not valid`);
         }
         const user = await findUserById(data?.user_id);
         if (!user?.success) {

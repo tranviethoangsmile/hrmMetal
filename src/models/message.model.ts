@@ -1,5 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '../dbs/db';
+import { E_message_type } from '../enum';
 
 class Message extends Model {
     public id!: string;
@@ -7,6 +8,7 @@ class Message extends Model {
     public user_id!: string;
     public conversation_id!: string;
     public is_unsend!: boolean;
+    public message_type!: Enumerator;
 }
 
 Message.init(
@@ -33,6 +35,13 @@ Message.init(
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false,
+        },
+        message_type: {
+            type: DataTypes.ENUM,
+            allowNull: false,
+            values: Object.values(E_message_type).map(value =>
+                value.toString(),
+            ),
         },
     },
     {
