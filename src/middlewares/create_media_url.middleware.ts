@@ -11,7 +11,7 @@ const create_media_path = async (
     try {
         const bb = busboy({ headers: req.headers });
         const urlMedias: string[] = [];
-        const uploadPromises: Promise<void>[] = []; // Mảng chứa các Promise cho upload
+        const uploadPromises: Promise<void>[] = [];
 
         bb.on(
             'file',
@@ -47,7 +47,7 @@ const create_media_path = async (
             },
         );
         bb.on('field', (fieldname, val) => {
-            req.body[fieldname] = val; // Cập nhật req.body với các trường dữ liệu
+            req.body[fieldname] = val;
         });
         bb.on('finish', async () => {
             await Promise.all(uploadPromises);
