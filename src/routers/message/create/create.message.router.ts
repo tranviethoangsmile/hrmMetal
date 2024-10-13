@@ -9,16 +9,12 @@ createMessageRouter.post(
     async (req: Request, res: Response) => {
         try {
             const { media_path } = req.body;
-            console.log(media_path);
-            // Kiểm tra nếu media_path không tồn tại hoặc là chuỗi rỗng
             if (!media_path || media_path.trim() === '') {
                 return res.status(400).json({
                     success: false,
                     message: 'media_path not available',
                 });
             }
-
-            // Trả về media_path
             return res.status(201).json({
                 success: true,
                 data: media_path,
