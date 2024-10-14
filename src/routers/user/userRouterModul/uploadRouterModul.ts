@@ -1,18 +1,15 @@
 import { Request, Response, Router } from 'express';
 const uploadAvatar: Router = Router();
-import multer from 'multer';
-import { create_media_path } from '../../../middlewares/createTrainning.middleware';
+import { create_media_path } from '../../../middlewares';
 import { update } from '../../../controllers/user/user.controller';
-import { upload } from '../../../utils/multer/upload.multer';
 
 uploadAvatar.post(
     '/',
-    upload.single('avatar'),
     create_media_path,
     async (req: Request, res: Response) => {
         const user_field = {
             id: req.body.id,
-            avatar: req.body.media_url,
+            avatar: req.body.media_path,
         };
         try {
             const result = await update(user_field);
