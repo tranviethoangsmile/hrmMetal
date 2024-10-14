@@ -3,6 +3,7 @@ import {
     validation_id,
     validate_create_events,
     validate_update_events,
+    validate_get_event_with_position,
 } from '../../validates';
 import { Position } from '../../enum';
 import { PushNotificationService } from '../../services';
@@ -127,10 +128,35 @@ const get_all_events_use = async () => {
     }
 };
 
+const get_events_with_position_use = async (position: string) => {
+    try {
+        const isValid = validate_get_event_with_position(position);
+        if (isValid?.error) {
+            throw new Error(`${isValid?.error.message}`);
+        }
+        const events = await eventRepository.get_events_with_position_repo(
+            position,
+        );
+        if (!events?.success) {
+            throw new Error(`${events?.message}`);
+        }
+        return {
+            success: true,
+            data: events?.data,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `usecase: ${error?.message}`,
+        };
+    }
+};
+
 export {
     create_events_use,
     delete_events_use,
     update_events_use,
     search_event_by_id_use,
     get_all_events_use,
+    get_events_with_position_use,
 };

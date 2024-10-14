@@ -28,6 +28,7 @@ import { validate_create_fcm_token } from './fcmToken/fcmToken.validate';
 import {
     validate_create_events,
     validate_update_events,
+    validate_get_event_with_position,
 } from './events/events.validate';
 import { create_massage_validate } from './message/message.validate';
 const schema_id = Joi.string().guid().required();
@@ -57,4 +58,5 @@ export {
     validate_create_events,
     validate_update_events,
     create_massage_validate,
+    validate_get_event_with_position,
 };

@@ -31,6 +31,7 @@ import {
     update_events_controller,
     search_event_by_id_controller,
     get_all_events_controller,
+    get_events_with_position_controller,
 } from './events/events.controller';
 export {
     create_plan_production_controller,
@@ -57,4 +58,5 @@ export {
     update_events_controller,
     search_event_by_id_controller,
     get_all_events_controller,
+    get_events_with_position_controller,
 };
