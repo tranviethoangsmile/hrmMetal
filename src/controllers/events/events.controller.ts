@@ -4,6 +4,7 @@ import {
     update_events_use,
     search_event_by_id_use,
     get_all_events_use,
+    get_events_with_position_use,
 } from '../../useCases';
 
 const create_events_controller = async (field: any) => {
@@ -26,10 +27,15 @@ const get_all_events_controller = async () => {
     return await get_all_events_use();
 };
 
+const get_events_with_position_controller = async (position: any) => {
+    return await get_events_with_position_use(position);
+};
+
 export {
     create_events_controller,
     delete_event_controller,
     update_events_controller,
     search_event_by_id_controller,
     get_all_events_controller,
+    get_events_with_position_controller,
 };

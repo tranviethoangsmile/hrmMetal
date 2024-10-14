@@ -24,4 +24,9 @@ export interface IEventRepository {
         data?: Events[];
         message?: string;
     }>;
+    get_events_with_position_repo(position: string): Promise<{
+        success: boolean;
+        data?: Events[];
+        message?: string;
+    }>;
 }

@@ -2,19 +2,18 @@ import { Request, Response, Router } from 'express';
 import { upload } from '../../../utils/multer/upload.multer';
 import { create_events_interface } from '../../../interfaces';
 import { create_events_controller } from '../../../controllers';
-import { create_media_path } from '../../../middlewares/createTrainning.middleware';
+import { create_media_path } from '../../../middlewares';
 const createEventsRouter: Router = Router();
 
 createEventsRouter.post(
     '/',
-    upload.single('media'),
     create_media_path,
     async (req: Request, res: Response) => {
         try {
-            const { media_url, ...rest } = req.body;
+            const { media_path, ...rest } = req.body;
             const field: create_events_interface = rest;
-            if (media_url) {
-                field.media = media_url;
+            if (media_path) {
+                field.media = media_path;
             }
             if (
                 !field ||
@@ -43,7 +42,7 @@ createEventsRouter.post(
         } catch (error: any) {
             return res.status(500).json({
                 success: false,
-                message: `server: ${error.message}`,
+                message: `server -- ${error.message}`,
             });
         }
     },

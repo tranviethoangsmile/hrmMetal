@@ -34,6 +34,7 @@ import { create_fcm_token } from './fcmToken/fcmToken.interface';
 import {
     create_events_interface,
     update_events_interface,
+    get_events_with_position,
 } from './events/events.interface';
 export {
     create_plan_production,
@@ -58,4 +59,5 @@ export {
     create_fcm_token,
     create_events_interface,
     update_events_interface,
+    get_events_with_position,
 };

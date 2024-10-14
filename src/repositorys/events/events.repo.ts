@@ -1,6 +1,6 @@
 import { Events } from '../../models';
 import { IEventRepository } from '../interfaces/events/IEventRepository';
-
+import { Op } from 'sequelize';
 class EventRepository implements IEventRepository {
     async create_events_repo(field: any) {
         try {
@@ -108,6 +108,35 @@ class EventRepository implements IEventRepository {
             return {
                 success: false,
                 message: `repo: ${error.message}`,
+            };
+        }
+    }
+
+    async get_events_with_position_repo(position: string) {
+        try {
+            const events: Events[] = await Events.findAll({
+                where: {
+                    [Op.and]: [
+                        {
+                            is_active: true,
+                            position: {
+                                [Op.or]: [position, 'COMPORATION'],
+                            },
+                        },
+                    ],
+                },
+            });
+            if (events.length < 1) {
+                throw new Error(`--event not exist--`);
+            }
+            return {
+                success: true,
+                data: events,
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `repo ${error.message}`,
             };
         }
     }

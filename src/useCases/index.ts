@@ -59,6 +59,7 @@ import {
     update_events_use,
     search_event_by_id_use,
     get_all_events_use,
+    get_events_with_position_use,
 } from './events/events.useCase';
 export {
     create_plan_production_use,
@@ -100,4 +101,5 @@ export {
     update_events_use,
     search_event_by_id_use,
     get_all_events_use,
+    get_events_with_position_use,
 };

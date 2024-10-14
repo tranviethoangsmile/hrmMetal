@@ -6,7 +6,6 @@ const createSafetyCheckRouter: Router = Router();
 createSafetyCheckRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field: create_safety_check_interface = req.body;
-        console.log(field);
         if (
             !field ||
             !field.event_id ||
@@ -22,7 +21,10 @@ createSafetyCheckRouter.post('/', async (req: Request, res: Response) => {
 
         const create_safety_check = await create_safety_check_controller(field);
         if (!create_safety_check?.success) {
-            throw new Error(create_safety_check?.message);
+            return res.status(200).json({
+                success: false,
+                message: `${create_safety_check?.message}`,
+            });
         }
         return res.status(201).json({
             success: true,

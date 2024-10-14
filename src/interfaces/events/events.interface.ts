@@ -15,4 +15,12 @@ interface update_events_interface {
     is_safety?: boolean;
     is_active?: boolean;
 }
-export { create_events_interface, update_events_interface };
+
+interface get_events_with_position {
+    position: string;
+}
+export {
+    create_events_interface,
+    update_events_interface,
+    get_events_with_position,
+};
