@@ -1,5 +1,4 @@
 import { Request, Response, Router } from 'express';
-import { upload } from '../../../utils/multer/upload.multer';
 import { create_events_interface } from '../../../interfaces';
 import { create_events_controller } from '../../../controllers';
 import { create_media_path } from '../../../middlewares';
