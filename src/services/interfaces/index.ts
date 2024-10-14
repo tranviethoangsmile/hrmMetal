@@ -1,3 +1,3 @@
-import { IPushNotification } from './pushNotification/pushNotification.interface';
+import { IPushNotification } from './pushNotification/IPushNotification.interface';
 
 export { IPushNotification };
