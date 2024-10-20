@@ -61,6 +61,7 @@ import {
     get_all_events_use,
     get_events_with_position_use,
 } from './events/events.useCase';
+import { create_uniform_order_use } from '../useCases/uniformOrder/uniformOrder.usecase';
 export {
     create_plan_production_use,
     update_plan_production_use,
@@ -102,4 +103,5 @@ export {
     search_event_by_id_use,
     get_all_events_use,
     get_events_with_position_use,
+    create_uniform_order_use,
 };

@@ -33,6 +33,8 @@ import {
     get_all_events_controller,
     get_events_with_position_controller,
 } from './events/events.controller';
+
+import { create_uniform_order_controller } from './uniformOrder/uniformOrder.controller';
 export {
     create_plan_production_controller,
     update_plan_production_controller,
@@ -59,4 +61,5 @@ export {
     search_event_by_id_controller,
     get_all_events_controller,
     get_events_with_position_controller,
+    create_uniform_order_controller,
 };

@@ -31,6 +31,7 @@ import {
     validate_get_event_with_position,
 } from './events/events.validate';
 import { create_massage_validate } from './message/message.validate';
+import { validate_create_uniform_order } from './uniformOrder/uniformOrder.validate';
 const schema_id = Joi.string().guid().required();
 const validation_id = (id: string) => {
     return schema_id.validate(id);
@@ -59,4 +60,5 @@ export {
     validate_update_events,
     create_massage_validate,
     validate_get_event_with_position,
+    validate_create_uniform_order,
 };

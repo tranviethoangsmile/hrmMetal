@@ -1,5 +1,5 @@
 import { Events } from '../../models';
-import { IEventRepository } from '../interfaces/events/IEventRepository';
+import { IEventRepository } from '../interfaces/events/IEventRepository.interface';
 import { Op } from 'sequelize';
 class EventRepository implements IEventRepository {
     async create_events_repo(field: any) {

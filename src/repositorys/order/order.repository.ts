@@ -2,7 +2,7 @@ import { Order, User } from '../../models';
 import Department from '../../models/department.model';
 import moment from 'moment-timezone';
 import { Op } from 'sequelize';
-import { IOrderRepository } from '../interfaces/order/IOrderRepository';
+import { IOrderRepository } from '../interfaces/order/IOrderRepository.interface';
 class OrderRepository implements IOrderRepository {
     async create(order: any) {
         try {

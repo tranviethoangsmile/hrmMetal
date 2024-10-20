@@ -1,5 +1,5 @@
 import { SafetyChecks } from '../../models';
-import { ISafetyCheckRepository } from '../interfaces/safetyCheck/ISafetyCheckRepository';
+import { ISafetyCheckRepository } from '../interfaces/safetyCheck/ISafetyCheckRepository.interface';
 
 class SafetyCheckRepository implements ISafetyCheckRepository {
     async create_safety_check_repo(field: any) {

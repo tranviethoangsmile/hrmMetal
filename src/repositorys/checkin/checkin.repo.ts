@@ -1,7 +1,7 @@
 import { Checkin, Department, User } from '../../models';
 import moment from 'moment-timezone';
 import { Op } from 'sequelize';
-import { ICheckinRepository } from '../interfaces/checkin/ICheckinRepository';
+import { ICheckinRepository } from '../interfaces/checkin/ICheckinRepository.interface';
 
 class CheckinRepository implements ICheckinRepository {
     async create_checkin(data: any) {

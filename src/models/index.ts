@@ -23,6 +23,7 @@ import Notification from './notification.model';
 import DeleteMessage from './deleteMessage.model';
 import FcmToken from './fcmToken.model';
 import DeleteConversation from './deleteConversation.model';
+import UniformOrder from './uniformOrder.model';
 User.belongsTo(Department, { foreignKey: 'department_id', as: 'department' });
 Department.hasMany(User, { foreignKey: 'department_id', as: 'users' });
 Order.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
@@ -83,6 +84,8 @@ DeleteConversation.belongsTo(User, { foreignKey: 'user_id' });
 DeleteConversation.belongsTo(Conversation, { foreignKey: 'conversation_id' });
 Conversation.hasMany(DeleteConversation, { foreignKey: 'conversation_id' });
 User.hasMany(DeleteConversation, { foreignKey: 'user_id' });
+UniformOrder.belongsTo(User, { foreignKey: 'user_id' });
+User.hasMany(UniformOrder, { foreignKey: 'user_id' });
 export {
     User,
     Department,
@@ -109,4 +112,5 @@ export {
     DeleteMessage,
     FcmToken,
     DeleteConversation,
+    UniformOrder,
 };

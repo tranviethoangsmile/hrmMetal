@@ -1,5 +1,5 @@
 import { Payroll } from '../../models';
-import { IPayrollRepository } from '../interfaces/payroll/IPayrollRepository';
+import { IPayrollRepository } from '../interfaces/payroll/IPayrollRepository.interface';
 
 class PayrollRepository implements IPayrollRepository {
     async create_payroll_repo(field: any) {

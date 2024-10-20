@@ -1,6 +1,6 @@
 import { Department, PaidLeaveRequest, User } from '../../models';
 
-import { IPaidLeaveRequestRepo } from '../interfaces/paidLeaveRequest/IPaidLeaveRequestRepo';
+import { IPaidLeaveRequestRepo } from '../interfaces/paidLeaveRequest/IPaidLeaveRequestRepo.interface';
 
 class PaidLeaveRequestRepository implements IPaidLeaveRequestRepo {
     async get_paid_lead_with_id_repo(id: string) {

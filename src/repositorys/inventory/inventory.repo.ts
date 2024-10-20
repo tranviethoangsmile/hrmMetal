@@ -1,5 +1,5 @@
 import { Department, Inventory } from '../../models';
-import { IInventoryRepository } from '../interfaces/inventory/IInventoryRepository';
+import { IInventoryRepository } from '../interfaces/inventory/IInventoryRepository.interface';
 class InventoryRepository implements IInventoryRepository {
     async update_inventory_repo(field: any) {
         try {
