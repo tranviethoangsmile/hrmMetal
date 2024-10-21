@@ -19,8 +19,13 @@ const schema_create_uniform_order = Joi.object({
         .required(),
 });
 
+const schema_search_uniform_order_with_position = Joi.string().required();
+
 const validate_create_uniform_order = (field: any) => {
     return schema_create_uniform_order.validate(field);
 };
 
-export { validate_create_uniform_order };
+const validate_position = (position: string) => {
+    return schema_search_uniform_order_with_position.validate(position);
+};
+export { validate_create_uniform_order, validate_position };

@@ -3,7 +3,6 @@ import { IUniformOrder } from '../interfaces';
 
 class UniformOrderRepository implements IUniformOrder {
     async create(field: any) {
-        console.log(field);
         try {
             const uniformOrder: UniformOrder | null = await UniformOrder.create(
                 { ...field },
@@ -14,6 +13,48 @@ class UniformOrderRepository implements IUniformOrder {
             return {
                 success: true,
                 data: uniformOrder,
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `--${error?.message}--`,
+            };
+        }
+    }
+    async search_all_uniform_order_by_position(position: string) {
+        try {
+            const uniformOrders: UniformOrder[] = await UniformOrder.findAll({
+                where: {
+                    position: position,
+                },
+            });
+            if (uniformOrders.length < 1) {
+                throw new Error(`uniform order not found`);
+            }
+            return {
+                success: true,
+                data: uniformOrders,
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `--${error?.message}--`,
+            };
+        }
+    }
+    async search_all_uniform_order_by_user_id(user_id: string) {
+        try {
+            const uniformOrders: UniformOrder[] = await UniformOrder.findAll({
+                where: {
+                    user_id: user_id,
+                },
+            });
+            if (uniformOrders.length < 1) {
+                throw new Error(`uniform order not found`);
+            }
+            return {
+                success: true,
+                data: uniformOrders,
             };
         } catch (error: any) {
             return {

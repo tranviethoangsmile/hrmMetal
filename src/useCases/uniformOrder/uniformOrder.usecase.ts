@@ -1,7 +1,11 @@
 import { UniformOrderRepository } from '../../repositorys';
 import { Position, UniformSize, UniformType } from '../../enum';
 import { findUserById } from '../user/user.useCase';
-import { validate_create_uniform_order } from '../../validates';
+import {
+    validate_create_uniform_order,
+    validate_position,
+    validation_id,
+} from '../../validates';
 const uniformOrderRepo = new UniformOrderRepository();
 const create_uniform_order_use = async (field: any) => {
     try {
@@ -58,4 +62,60 @@ const create_uniform_order_use = async (field: any) => {
     }
 };
 
-export { create_uniform_order_use };
+const search_uniform_order_with_position_use = async (position: string) => {
+    try {
+        const isValid = validate_position(position);
+        if (isValid?.error) {
+            throw new Error(`${isValid?.error.message}`);
+        }
+        if (!Object.values(Position).includes(position)) {
+            throw new Error(`position of user invalid`);
+        }
+        const uniformOrders =
+            await uniformOrderRepo.search_all_uniform_order_by_position(
+                position,
+            );
+        if (!uniformOrders?.success) {
+            throw new Error(`${uniformOrders?.message}`);
+        }
+        return {
+            success: true,
+            data: uniformOrders.data,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `use -- ${error.message}`,
+        };
+    }
+};
+
+const search_uniform_order_with_user_id_use = async (user_id: string) => {
+    try {
+        const isValid = validation_id(user_id);
+        if (isValid?.error) {
+            throw new Error(`${isValid?.error.message}`);
+        }
+
+        const uniformOrders =
+            await uniformOrderRepo.search_all_uniform_order_by_user_id(user_id);
+        if (!uniformOrders?.success) {
+            throw new Error(`${uniformOrders?.message}`);
+        }
+        return {
+            success: true,
+            data: uniformOrders.data,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `use -- ${error.message}`,
+        };
+    }
+};
+
+export {
+    create_uniform_order_use,
+    search_uniform_order_with_position_use,
+    search_uniform_order_with_user_id_use,
+};

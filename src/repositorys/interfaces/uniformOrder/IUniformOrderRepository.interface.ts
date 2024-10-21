@@ -6,16 +6,16 @@ export interface IUniformOrder {
         data?: UniformOrder;
         message?: string;
     }>;
-    // search_all_uniform_order_by_position(position: string): Promise<{
-    //     success: boolean;
-    //     data?: UniformOrder[];
-    //     message?: string;
-    // }>;
-    // search_all_uniform_order_by_user_id(id: string): Promise<{
-    //     success: boolean;
-    //     data?: UniformOrder[];
-    //     message?: string;
-    // }>;
+    search_all_uniform_order_by_position(position: string): Promise<{
+        success: boolean;
+        data?: UniformOrder[];
+        message?: string;
+    }>;
+    search_all_uniform_order_by_user_id(id: string): Promise<{
+        success: boolean;
+        data?: UniformOrder[];
+        message?: string;
+    }>;
     // delete_uniform_order_by_id(id: string): Promise<{
     //     success: boolean;
     //     message?: string;
