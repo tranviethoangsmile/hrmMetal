@@ -21,6 +21,15 @@ const schema_create_uniform_order = Joi.object({
 
 const schema_search_uniform_order_with_position = Joi.string().required();
 
+const schema_update_uniform_order = Joi.object({
+    id: Joi.string().guid().required(),
+    order_status: Joi.string(),
+    delivery_date: Joi.string(),
+    uniform_size: Joi.string(),
+    quantity: Joi.number(),
+    notes: Joi.string(),
+});
+
 const validate_create_uniform_order = (field: any) => {
     return schema_create_uniform_order.validate(field);
 };
@@ -28,4 +37,12 @@ const validate_create_uniform_order = (field: any) => {
 const validate_position = (position: string) => {
     return schema_search_uniform_order_with_position.validate(position);
 };
-export { validate_create_uniform_order, validate_position };
+
+const validate_update_uniform_order = (field: any) => {
+    return schema_update_uniform_order.validate(field);
+};
+export {
+    validate_create_uniform_order,
+    validate_position,
+    validate_update_uniform_order,
+};

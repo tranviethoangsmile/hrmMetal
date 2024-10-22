@@ -65,6 +65,9 @@ import {
     create_uniform_order_use,
     search_uniform_order_with_position_use,
     search_uniform_order_with_user_id_use,
+    delete_uniform_order_with_id_use,
+    get_uniform_order_detail_by_id_use,
+    update_uniform_order_use,
 } from '../useCases/uniformOrder/uniformOrder.usecase';
 export {
     create_plan_production_use,
@@ -110,4 +113,7 @@ export {
     create_uniform_order_use,
     search_uniform_order_with_position_use,
     search_uniform_order_with_user_id_use,
+    delete_uniform_order_with_id_use,
+    get_uniform_order_detail_by_id_use,
+    update_uniform_order_use,
 };

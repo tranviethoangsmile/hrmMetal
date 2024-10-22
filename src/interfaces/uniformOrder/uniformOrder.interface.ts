@@ -13,3 +13,12 @@ interface UniformItem {
     uniform_size: string;
     quantity: number;
 }
+
+export interface update_uniform_order {
+    id: string;
+    uniform_size?: string;
+    quantity?: number;
+    delivery_date?: string;
+    order_status?: string;
+    notes?: string;
+}

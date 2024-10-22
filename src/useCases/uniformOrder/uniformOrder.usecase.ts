@@ -5,6 +5,7 @@ import {
     validate_create_uniform_order,
     validate_position,
     validation_id,
+    validate_update_uniform_order,
 } from '../../validates';
 const uniformOrderRepo = new UniformOrderRepository();
 const create_uniform_order_use = async (field: any) => {
@@ -52,7 +53,7 @@ const create_uniform_order_use = async (field: any) => {
             .map(order => order.data);
         return {
             success: true,
-            data: successfulOrders, // Trả về toàn bộ mảng đơn hàng đã tạo thành công
+            data: successfulOrders,
         };
     } catch (error: any) {
         return {
@@ -114,8 +115,87 @@ const search_uniform_order_with_user_id_use = async (user_id: string) => {
     }
 };
 
+const delete_uniform_order_with_id_use = async (id: string) => {
+    try {
+        const isValid = validation_id(id);
+        if (isValid?.error) {
+            throw new Error(`${isValid?.error.message}`);
+        }
+        const result = await uniformOrderRepo.delete_uniform_order_by_id(id);
+        if (!result?.success) {
+            throw new Error(`${result?.message}`);
+        }
+        return {
+            success: true,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `use -- ${error.message}`,
+        };
+    }
+};
+
+const get_uniform_order_detail_by_id_use = async (id: string) => {
+    try {
+        const isValid = validation_id(id);
+        if (isValid?.error) {
+            throw new Error(`${isValid?.error.message}`);
+        }
+        const uniformOrderDetail =
+            await uniformOrderRepo.get_order_detail_by_id(id);
+        if (!uniformOrderDetail?.success) {
+            throw new Error(`${uniformOrderDetail?.message}`);
+        }
+        return {
+            success: true,
+            data: uniformOrderDetail?.data,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `use -- ${error.message}`,
+        };
+    }
+};
+
+const update_uniform_order_use = async (field: any) => {
+    try {
+        const isValid = validate_update_uniform_order(field);
+        if (isValid?.error) {
+            throw new Error(`${isValid?.error.message}`);
+        }
+        const uniformOrder = await get_uniform_order_detail_by_id_use(field.id);
+        if (!uniformOrder?.success) {
+            throw new Error(`${uniformOrder?.message}`);
+        }
+        if (field.uniform_size) {
+            if (!Object.keys(UniformSize).includes(field.uniform_size)) {
+                throw new Error('Invalid uniform size');
+            }
+        }
+        const result = await uniformOrderRepo.update_uniform_order_by_field({
+            ...field,
+        });
+        if (!result?.success) {
+            throw new Error(`${result?.message}`);
+        }
+        return {
+            success: true,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `use -- ${error.message}`,
+        };
+    }
+};
+
 export {
     create_uniform_order_use,
     search_uniform_order_with_position_use,
     search_uniform_order_with_user_id_use,
+    delete_uniform_order_with_id_use,
+    get_uniform_order_detail_by_id_use,
+    update_uniform_order_use,
 };

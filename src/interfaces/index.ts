@@ -37,7 +37,10 @@ import {
     get_events_with_position,
 } from './events/events.interface';
 
-import { create_uniform_order } from './uniformOrder/uniformOrder.interface';
+import {
+    create_uniform_order,
+    update_uniform_order,
+} from './uniformOrder/uniformOrder.interface';
 export {
     create_plan_production,
     update_plan_production,
@@ -63,4 +66,5 @@ export {
     update_events_interface,
     get_events_with_position,
     create_uniform_order,
+    update_uniform_order,
 };

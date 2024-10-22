@@ -16,17 +16,17 @@ export interface IUniformOrder {
         data?: UniformOrder[];
         message?: string;
     }>;
-    // delete_uniform_order_by_id(id: string): Promise<{
-    //     success: boolean;
-    //     message?: string;
-    // }>;
-    // order_detail_by_id(id: string): Promise<{
-    //     success: boolean;
-    //     data?: UniformOrder;
-    //     message?: string;
-    // }>;
-    // update_uniform_order_by_field(field: any): Promise<{
-    //     success: boolean;
-    //     message?: string;
-    // }>;
+    delete_uniform_order_by_id(id: string): Promise<{
+        success: boolean;
+        message?: string;
+    }>;
+    get_order_detail_by_id(id: string): Promise<{
+        success: boolean;
+        data?: UniformOrder;
+        message?: string;
+    }>;
+    update_uniform_order_by_field(field: any): Promise<{
+        success: boolean;
+        message?: string;
+    }>;
 }

@@ -5,11 +5,11 @@ const destroyPayrollRouter: Router = Router();
 
 destroyPayrollRouter.post('/', async (req: Request, res: Response) => {
     try {
-        const id: string = req.body.id;
-        if (typeof id !== 'string') {
+        const id: string | undefined = req.body.id;
+        if (!id) {
             return res
                 .status(400)
-                .json({ success: false, message: 'id is not a string' });
+                .json({ success: false, message: 'id is required' });
         }
         const result = await destroy_payroll_controller(id);
         if (!result.success) {
