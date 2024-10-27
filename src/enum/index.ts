@@ -9,6 +9,8 @@ import { notification_type } from './notification.enum';
 import { groupMemberRole } from './groupMemberRole.enum';
 import { Device } from './device_type.enum';
 import { E_message_type } from './message_type.enum';
+import { UniformType } from './uniformType.enum';
+import { UniformSize } from './uniformSize.enum';
 export {
     Position,
     Products,
@@ -21,4 +23,6 @@ export {
     groupMemberRole,
     Device,
     E_message_type,
+    UniformType,
+    UniformSize,
 };

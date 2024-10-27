@@ -4,7 +4,7 @@ import { Department } from '../models';
 import { Role } from '../enum/Role.enum';
 import { Position } from '../enum/Position.enum';
 class User extends Model {
-    public id!: number;
+    public id!: string;
     public name!: string;
     public user_name!: string;
     public email!: string;
