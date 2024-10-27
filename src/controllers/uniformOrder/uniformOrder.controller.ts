@@ -17,10 +17,8 @@ const search_uniform_order_with_position_controller = async (
     return await search_uniform_order_with_position_use(position);
 };
 
-const search_uniform_order_with_user_id_controller = async (
-    user_id: string,
-) => {
-    return await search_uniform_order_with_user_id_use(user_id);
+const search_uniform_order_with_user_id_controller = async (field: any) => {
+    return await search_uniform_order_with_user_id_use(field);
 };
 
 const delete_uniform_order_with_id_controller = async (id: string) => {

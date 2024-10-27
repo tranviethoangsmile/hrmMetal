@@ -6,12 +6,14 @@ import {
     validate_position,
     validation_id,
     validate_update_uniform_order,
+    validate_seach_order_processing,
 } from '../../validates';
 const uniformOrderRepo = new UniformOrderRepository();
 const create_uniform_order_use = async (field: any) => {
     try {
         const isValid = validate_create_uniform_order(field);
         if (isValid?.error) {
+            console.log(isValid.error);
             throw new Error(isValid?.error.message);
         }
         const user = await findUserById(field.user_id);
@@ -23,8 +25,8 @@ const create_uniform_order_use = async (field: any) => {
         }
         for (const item of field.items) {
             if (
-                !Object.keys(UniformSize).includes(item.uniform_size) ||
-                !Object.keys(UniformType).includes(item.uniform_type)
+                !Object.values(UniformSize).includes(item.uniform_size) ||
+                !Object.values(UniformType).includes(item.uniform_type)
             ) {
                 throw new Error('Invalid uniform size or type');
             }
@@ -38,6 +40,7 @@ const create_uniform_order_use = async (field: any) => {
                         date: field.date,
                         uniform_type: item.uniform_type,
                         uniform_size: item.uniform_size,
+                        quantity: item.quantity,
                         notes: field.notes,
                     });
                 } catch (error: any) {
@@ -51,6 +54,9 @@ const create_uniform_order_use = async (field: any) => {
         const successfulOrders = uniformOrder
             .filter(order => order.success)
             .map(order => order.data);
+        if (successfulOrders.length < 1) {
+            throw new Error('No uniform orders created');
+        }
         return {
             success: true,
             data: successfulOrders,
@@ -91,15 +97,15 @@ const search_uniform_order_with_position_use = async (position: string) => {
     }
 };
 
-const search_uniform_order_with_user_id_use = async (user_id: string) => {
+const search_uniform_order_with_user_id_use = async (field: any) => {
     try {
-        const isValid = validation_id(user_id);
+        const isValid = validate_seach_order_processing(field);
         if (isValid?.error) {
             throw new Error(`${isValid?.error.message}`);
         }
 
         const uniformOrders =
-            await uniformOrderRepo.search_all_uniform_order_by_user_id(user_id);
+            await uniformOrderRepo.search_all_uniform_order_by_user_id(field);
         if (!uniformOrders?.success) {
             throw new Error(`${uniformOrders?.message}`);
         }
@@ -120,6 +126,10 @@ const delete_uniform_order_with_id_use = async (id: string) => {
         const isValid = validation_id(id);
         if (isValid?.error) {
             throw new Error(`${isValid?.error.message}`);
+        }
+        const unoformOrder = await get_uniform_order_detail_by_id_use(id);
+        if (!unoformOrder?.success) {
+            throw new Error(`${unoformOrder?.message}`);
         }
         const result = await uniformOrderRepo.delete_uniform_order_by_id(id);
         if (!result?.success) {

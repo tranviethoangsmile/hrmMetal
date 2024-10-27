@@ -9,7 +9,7 @@ const uniformOrderRouter: Router = Router();
 uniformOrderRouter.use('/create', createUniformOrderRouter);
 uniformOrderRouter.use('/search', searchUniOrderWithPositionRouter);
 uniformOrderRouter.use('/search', searchUniOrderWithUserIdRouter);
-uniformOrderRouter.use('/destroy', deleteUniOrderWithIdRouter);
+uniformOrderRouter.use('/delete', deleteUniOrderWithIdRouter);
 uniformOrderRouter.use('/getuniformorderdetail', getUniformOrderDetailRouter);
 uniformOrderRouter.use('/update', updateUniformOrderRouter);
 

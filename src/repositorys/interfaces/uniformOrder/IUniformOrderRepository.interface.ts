@@ -11,7 +11,7 @@ export interface IUniformOrder {
         data?: UniformOrder[];
         message?: string;
     }>;
-    search_all_uniform_order_by_user_id(id: string): Promise<{
+    search_all_uniform_order_by_user_id(field: any): Promise<{
         success: boolean;
         data?: UniformOrder[];
         message?: string;

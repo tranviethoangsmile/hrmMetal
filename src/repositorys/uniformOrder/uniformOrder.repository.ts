@@ -42,11 +42,12 @@ class UniformOrderRepository implements IUniformOrder {
             };
         }
     }
-    async search_all_uniform_order_by_user_id(user_id: string) {
+    async search_all_uniform_order_by_user_id(field: any) {
         try {
             const uniformOrders: UniformOrder[] = await UniformOrder.findAll({
                 where: {
-                    user_id: user_id,
+                    user_id: field.user_id,
+                    order_status: field.order_status,
                 },
             });
             if (uniformOrders.length < 1) {

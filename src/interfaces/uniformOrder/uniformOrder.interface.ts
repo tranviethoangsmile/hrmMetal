@@ -14,6 +14,11 @@ interface UniformItem {
     quantity: number;
 }
 
+export interface search_processing_uniform_order {
+    user_id: string;
+    order_status?: string;
+}
+
 export interface update_uniform_order {
     id: string;
     uniform_size?: string;

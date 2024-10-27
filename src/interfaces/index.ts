@@ -40,6 +40,7 @@ import {
 import {
     create_uniform_order,
     update_uniform_order,
+    search_processing_uniform_order,
 } from './uniformOrder/uniformOrder.interface';
 export {
     create_plan_production,
@@ -67,4 +68,5 @@ export {
     get_events_with_position,
     create_uniform_order,
     update_uniform_order,
+    search_processing_uniform_order,
 };

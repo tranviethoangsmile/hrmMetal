@@ -35,6 +35,7 @@ import {
     validate_create_uniform_order,
     validate_position,
     validate_update_uniform_order,
+    validate_seach_order_processing,
 } from './uniformOrder/uniformOrder.validate';
 const schema_id = Joi.string().guid().required();
 const validation_id = (id: string) => {
@@ -67,4 +68,5 @@ export {
     validate_create_uniform_order,
     validate_position,
     validate_update_uniform_order,
+    validate_seach_order_processing,
 };
