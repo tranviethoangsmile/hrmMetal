@@ -1,4 +1,7 @@
-import { create_conversation_interface } from './conversation/conversation.interface';
+import {
+    create_conversation_interface,
+    create_conversation_group_interface,
+} from './conversation/conversation.interface';
 import {
     create_information,
     search_all_information,
@@ -69,4 +72,5 @@ export {
     create_uniform_order,
     update_uniform_order,
     search_processing_uniform_order,
+    create_conversation_group_interface,
 };

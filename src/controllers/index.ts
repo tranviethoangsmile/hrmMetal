@@ -21,6 +21,7 @@ import {
 import {
     create_conversation_controller,
     delete_conversation_controller,
+    create_conversation_group_controller,
 } from './conversation/conversation.controller';
 import { find_group_member_of_user_controller } from './groupMember/groupMember.controller';
 import { create_delete_message_cotroller } from './deleteMessage/deleteMessage.controller';
@@ -74,4 +75,5 @@ export {
     delete_uniform_order_with_id_controller,
     get_uniform_order_detail_by_id_controller,
     update_uniform_order_controller,
+    create_conversation_group_controller,
 };
