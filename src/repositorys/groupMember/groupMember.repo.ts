@@ -3,6 +3,7 @@ import {
     DeleteConversation,
     GroupMember,
     User,
+    Message
 } from '../../models';
 import { IGroupMemberRepository } from '../interfaces';
 import { Op } from 'sequelize';
@@ -69,12 +70,9 @@ class GroupMemberRepository implements IGroupMemberRepository {
             const conversationIds = userConversations.map(
                 gm => gm.conversation_id,
             );
-
-            if (conversationIds.length === 0) {
+            if (conversationIds.length < 1) {
                 throw new Error('User is not part of any conversations.');
             }
-
-            // Bước 2: Lấy tất cả các GroupMember trong các conversation đó, ngoại trừ người dùng hiện tại
             const groupMembers = await GroupMember.findAll({
                 where: {
                     conversation_id: {
@@ -90,12 +88,23 @@ class GroupMemberRepository implements IGroupMemberRepository {
                         model: Conversation,
                         as: 'conversation',
                         attributes: ['member_count'],
+                        where: {
+                            member_count: 2,
+                        },
                         include: [
                             {
                                 model: DeleteConversation,
                                 as: 'delete_conversations',
                                 attributes: ['user_id'],
                             },
+                            {
+                                model: Message,
+                                as: 'messages',
+                                attributes: ['message','message_type','is_unsend', 'user_id'],
+                                where:{
+                                    conversation_id: conversationIds
+                                }
+                            }
                         ],
                     },
                     {
@@ -103,6 +112,7 @@ class GroupMemberRepository implements IGroupMemberRepository {
                         as: 'users',
                         attributes: ['id', 'name', 'avatar'],
                     },
+                   
                 ],
             });
 

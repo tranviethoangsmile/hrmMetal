@@ -21,7 +21,7 @@ const create_conversation_group_use = async (data: any) => {
         if (!sender?.success) {
             throw new Error(`${sender?.message}`);
         }
-        const checkUser = await Promise.all(
+        await Promise.all(
             data.receivers.map(async ({ user_id }: { user_id: string }) => {
                 const receiver = await findUserById(user_id);
                 console.log(receiver);
