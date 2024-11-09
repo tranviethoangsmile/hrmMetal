@@ -11,6 +11,7 @@ class PushNotificationService implements IPushNotification {
         userIds: string[],
         title: string,
         body: string,
+        key: string
     ) {
         await Promise.all(
             userIds.map(async userId => {
@@ -22,6 +23,7 @@ class PushNotificationService implements IPushNotification {
                             fcmToken,
                             title,
                             body,
+                            key
                         });
                     }
                 } catch (error: any) {
@@ -49,6 +51,7 @@ class PushNotificationService implements IPushNotification {
                 fcmToken,
                 title,
                 body,
+                key
             });
         } catch (error: any) {
             console.error(
@@ -69,9 +72,9 @@ class PushNotificationService implements IPushNotification {
                 const userIds: any = users?.data?.map((user: any) => user.id);
                 const title = `Safety Check Required! from ${position}`;
                 const body = `Please confirm your safety status as soon as possible.`;
-
+                const key = ''
                 // Gửi thông báo đến danh sách người dùng
-                await this.sendNotificationsToUsers(userIds, title, body);
+                await this.sendNotificationsToUsers(userIds, title, body, key);
             }
 
             return {
