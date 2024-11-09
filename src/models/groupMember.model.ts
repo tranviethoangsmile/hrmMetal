@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '../dbs/db';
-import { groupMemberRole } from '../enum';
+import { groupMemberRole, GR_TYPE } from '../enum';
 
 class GroupMember extends Model {
     public id!: string;
@@ -8,6 +8,7 @@ class GroupMember extends Model {
     public conversation_id!: string;
     public joined_at!: string;
     public role!: Enumerator;
+    public group_type!: Enumerator;
 }
 
 GroupMember.init(
@@ -34,6 +35,13 @@ GroupMember.init(
             type: DataTypes.STRING,
             allowNull: false,
             values: Object.values(groupMemberRole).map(value =>
+                value.toString(),
+            ),
+        },
+        group_type: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            values: Object.values(GR_TYPE).map(value =>
                 value.toString(),
             ),
         },

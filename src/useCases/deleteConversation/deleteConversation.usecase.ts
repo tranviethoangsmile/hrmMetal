@@ -28,7 +28,6 @@ const create_delete_conversation_use = async (field: any) => {
         }
 
         const conversations = await find_group_of_member(field?.user_id);
-
         const isAuth = conversations?.data?.map(value => {
             if (value?.conversation_id === field?.conversation_id) {
                 return true;
@@ -38,6 +37,7 @@ const create_delete_conversation_use = async (field: any) => {
         if (!isAuth) {
             throw new Error(`authentication`);
         }
+
         const user = await findUserById(field.user_id);
         if (!user?.success) {
             throw new Error(`${user?.message}`);

@@ -17,6 +17,7 @@ import {
 import {
     create_conversation_use,
     search_conversation_by_id_use,
+    create_conversation_group_use,
 } from './conversation/conversation.useCase';
 import {
     create_groupMember,
@@ -116,4 +117,5 @@ export {
     delete_uniform_order_with_id_use,
     get_uniform_order_detail_by_id_use,
     update_uniform_order_use,
+    create_conversation_group_use,
 };

@@ -4,8 +4,75 @@ import {
     create_groupMember,
     findUserById,
 } from '../index';
-import { validation_id, validate_create_conversation } from '../../validates';
+import {
+    validation_id,
+    validate_create_conversation,
+    validate_create_conversation_group,
+} from '../../validates';
 const conversationRepo = new ConversationRepository();
+
+const create_conversation_group_use = async (data: any) => {
+    try {
+        const isValid = validate_create_conversation_group(data);
+        if (isValid?.error) {
+            throw new Error(`-validate- ${isValid?.error.message}`);
+        }
+        const sender = await findUserById(data.sender_id);
+        if (!sender?.success) {
+            throw new Error(`${sender?.message}`);
+        }
+        await Promise.all(
+            data.receivers.map(async ({ user_id }: { user_id: string }) => {
+                const receiver = await findUserById(user_id);
+                if (!receiver?.success) {
+                    throw new Error(`${receiver?.message}`);
+                }
+            }),
+        );
+        const new_conversation = await conversationRepo.create_conversation({
+            title: data.title,
+            member_count: data?.receivers.length + 1,
+        });
+        if (!new_conversation?.success) {
+            throw new Error(`${new_conversation?.message}`);
+        }
+        const senderOf = await create_groupMember({
+            user_id: data.sender_id,
+            conversation_id: new_conversation?.data?.id!,
+            role: 'ADMIN',
+            group_type:"GROUP"
+        });
+        if (!senderOf?.success) {
+            throw new Error(`${senderOf?.message}`);
+        }
+
+        await Promise.all(
+            data.receivers.map(async ({ user_id }: { user_id: string }) => {
+                console.log('id', user_id);
+                const receiverOf = await create_groupMember({
+                    user_id: user_id,
+                    conversation_id: new_conversation?.data?.id!,
+                    role: 'MEMBER',
+                    group_type:"GROUP"
+                });
+                if (!receiverOf?.success) {
+                    throw new Error(`${receiverOf?.message}`);
+                }
+            }),
+        );
+        return {
+            success: true,
+            data: {
+                conversation_id: new_conversation?.data?.id,
+            },
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `--use--${error?.message}`,
+        };
+    }
+};
 const create_conversation_use = async (data: any) => {
     // const t = await db.transaction();
     try {
@@ -35,6 +102,7 @@ const create_conversation_use = async (data: any) => {
                 user_id: data.sender_id,
                 conversation_id: new_conversation?.data?.id!,
                 role: 'ADMIN',
+                group_type: 'SINGLE'
             });
             if (!senderOf?.success) {
                 throw new Error(`${senderOf?.message}`);
@@ -43,6 +111,7 @@ const create_conversation_use = async (data: any) => {
                 user_id: data.receiver_id,
                 conversation_id: new_conversation?.data?.id!,
                 role: 'MEMBER',
+                group_type: 'SINGLE'
             });
             if (!receiverOf?.success) {
                 throw new Error(`${receiverOf?.message}`);
@@ -69,6 +138,8 @@ const create_conversation_use = async (data: any) => {
                     user_id: data.sender_id,
                     conversation_id: new_conversation?.data?.id!,
                     role: 'ADMIN',
+                    group_type: 'SINGLE'
+
                 });
 
                 if (!senderOf?.success) {
@@ -78,6 +149,8 @@ const create_conversation_use = async (data: any) => {
                     user_id: data.receiver_id,
                     conversation_id: new_conversation?.data?.id!,
                     role: 'MEMBER',
+                    group_type: 'SINGLE'
+
                 });
 
                 if (!receiverOf?.success) {
@@ -130,6 +203,8 @@ const create_conversation_use = async (data: any) => {
                     user_id: data.sender_id,
                     conversation_id: new_conversation?.data?.id!,
                     role: 'ADMIN',
+                    group_type: 'SINGLE'
+
                 });
                 if (!senderOf?.success) {
                     throw new Error(`${senderOf?.message}`);
@@ -139,6 +214,7 @@ const create_conversation_use = async (data: any) => {
                     user_id: data.receiver_id,
                     conversation_id: new_conversation?.data?.id!,
                     role: 'MEMBER',
+                    group_type: 'SINGLE'
                 });
                 if (!receiverOf?.success) {
                     throw new Error(`${receiverOf?.message}`);
@@ -186,4 +262,8 @@ const search_conversation_by_id_use = async (id: string) => {
     }
 };
 
-export { create_conversation_use, search_conversation_by_id_use };
+export {
+    create_conversation_use,
+    search_conversation_by_id_use,
+    create_conversation_group_use,
+};
