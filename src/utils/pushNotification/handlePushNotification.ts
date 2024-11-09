@@ -43,11 +43,11 @@ const sendPushNotification = async ({
         notification: {
             title: title,
             body: body,
-            key: key
         },
         token: fcmToken,
         data: {
             click_action: 'MESSAGE',
+            key: key
         },
     };
     try {

@@ -11,7 +11,7 @@ class PushNotificationService implements IPushNotification {
         userIds: string[],
         title: string,
         body: string,
-        key: string
+        keyDescrypt: string
     ) {
         await Promise.all(
             userIds.map(async userId => {
@@ -19,6 +19,7 @@ class PushNotificationService implements IPushNotification {
                     const fcm_token = await find_fcm_token_of_user_use(userId);
                     if (fcm_token?.success) {
                         const fcmToken = fcm_token.data ?? '';
+                        const key = keyDescrypt 
                         await sendPushNotification({
                             fcmToken,
                             title,
@@ -93,14 +94,16 @@ class PushNotificationService implements IPushNotification {
         title,
         body,
         key
+        
     }: {
         fcmToken: string;
         title: string;
         body: string;
         key: string
+        
     }) {
         try {
-            await this.sendPushNotificationToUser({ fcmToken, title, body, key });
+            await this.sendPushNotificationToUser({ fcmToken, title, body, key  });
             return {
                 success: true,
             };
