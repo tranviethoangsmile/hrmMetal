@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 import { GroupMemberRepository } from '../../repositorys';
 import { create_group_member } from '../../interfaces';
-import { groupMemberRole } from '../../enum';
+import { GR_TYPE, groupMemberRole } from '../../enum';
 const groupMemberRepo = new GroupMemberRepository();
 
 const get_group_member_of_user_use = async (id: string) => {
@@ -42,11 +42,14 @@ const find_group_of_member = async (id: string) => {
 
 const create_groupMember = async (data: create_group_member) => {
     try {
-        if (!data || !data.conversation_id || !data.role || !data.user_id) {
+        if (!data || !data.conversation_id || !data.role || !data.user_id || !data.group_type) {
             throw new Error('Invalid data create group member');
         }
         if (!Object.values(groupMemberRole).includes(data.role)) {
             throw new Error('Invalid role');
+        }
+        if(typeof data.group_type !== 'string' || !Object.keys(GR_TYPE).includes(data.group_type)){
+            throw new Error (`Invalid group_type`)
         }
         const date = moment().tz('Asia/Tokyo');
         const new_group = await groupMemberRepo.create_group_member({

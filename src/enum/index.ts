@@ -11,6 +11,7 @@ import { Device } from './device_type.enum';
 import { E_message_type } from './message_type.enum';
 import { UniformType } from './uniformType.enum';
 import { UniformSize } from './uniformSize.enum';
+import { GR_TYPE } from './groupMember_type.enum'
 export {
     Position,
     Products,
@@ -25,4 +26,5 @@ export {
     E_message_type,
     UniformType,
     UniformSize,
+    GR_TYPE
 };

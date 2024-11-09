@@ -58,7 +58,6 @@ class GroupMemberRepository implements IGroupMemberRepository {
             };
         }
     }
-
     async find_group_member_of_user(id: string) {
         try {
             const userConversations = await GroupMember.findAll({
@@ -70,7 +69,8 @@ class GroupMemberRepository implements IGroupMemberRepository {
             const conversationIds = userConversations.map(
                 gm => gm.conversation_id,
             );
-            if (conversationIds.length < 1) {
+
+            if (conversationIds.length === 0) {
                 throw new Error('User is not part of any conversations.');
             }
             const groupMembers = await GroupMember.findAll({
@@ -79,18 +79,15 @@ class GroupMemberRepository implements IGroupMemberRepository {
                         [Op.in]: conversationIds,
                     },
                     user_id: {
-                        [Op.ne]: id, // Loại trừ người dùng hiện tại
+                        [Op.ne]: id, 
                     },
                 },
-                attributes: ['conversation_id', 'id', 'joined_at'],
+                attributes: ['conversation_id', 'id', 'joined_at','group_type'],
                 include: [
                     {
                         model: Conversation,
                         as: 'conversation',
-                        attributes: ['member_count'],
-                        where: {
-                            member_count: 2,
-                        },
+                        attributes: ['member_count','title'],
                         include: [
                             {
                                 model: DeleteConversation,
@@ -98,13 +95,10 @@ class GroupMemberRepository implements IGroupMemberRepository {
                                 attributes: ['user_id'],
                             },
                             {
-                                model: Message,
+                               model: Message,
                                 as: 'messages',
-                                attributes: ['message','message_type','is_unsend', 'user_id'],
-                                where:{
-                                    conversation_id: conversationIds
-                                }
-                            }
+                                attributes: ['message', 'message_type', 'is_unsend', 'user_id'],
+                            },
                         ],
                     },
                     {
@@ -112,14 +106,12 @@ class GroupMemberRepository implements IGroupMemberRepository {
                         as: 'users',
                         attributes: ['id', 'name', 'avatar'],
                     },
-                   
                 ],
             });
 
             if (groupMembers.length === 0) {
                 throw new Error('No other group members found.');
             }
-
             return {
                 success: true,
                 data: groupMembers,
@@ -131,7 +123,6 @@ class GroupMemberRepository implements IGroupMemberRepository {
             };
         }
     }
-
     async find_user_by_conversation_id(id: string) {
         try {
             const users: GroupMember[] | null = await GroupMember.findAll({
