@@ -80,10 +80,12 @@ const create_new_message = async (data: any) => {
                     const title =
                         sender_info?.dataValues.users.name ?? 'New message';
                     const body = new_message?.data?.message ?? '';
+                    const key = data?.conversation_id
                     await pushNotificationService.handlePushNotiForMessage({
                         fcmToken,
                         title,
                         body,
+                        key
                     });
                 }
             }
