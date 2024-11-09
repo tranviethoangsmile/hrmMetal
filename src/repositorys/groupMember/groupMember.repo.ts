@@ -70,7 +70,7 @@ class GroupMemberRepository implements IGroupMemberRepository {
                 gm => gm.conversation_id,
             );
 
-            if (conversationIds.length === 0) {
+            if (conversationIds.length < 1) {
                 throw new Error('User is not part of any conversations.');
             }
             const groupMembers = await GroupMember.findAll({
@@ -109,7 +109,7 @@ class GroupMemberRepository implements IGroupMemberRepository {
                 ],
             });
 
-            if (groupMembers.length === 0) {
+            if (groupMembers.length < 1) {
                 throw new Error('No other group members found.');
             }
             return {

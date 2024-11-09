@@ -37,10 +37,12 @@ class PushNotificationService implements IPushNotification {
         fcmToken,
         title,
         body,
+        key
     }: {
         fcmToken: string;
         title: string;
         body: string;
+        key: string
     }) {
         try {
             await sendPushNotification({
@@ -87,13 +89,15 @@ class PushNotificationService implements IPushNotification {
         fcmToken,
         title,
         body,
+        key
     }: {
         fcmToken: string;
         title: string;
         body: string;
+        key: string
     }) {
         try {
-            await this.sendPushNotificationToUser({ fcmToken, title, body });
+            await this.sendPushNotificationToUser({ fcmToken, title, body, key });
             return {
                 success: true,
             };
