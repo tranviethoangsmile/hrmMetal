@@ -9,9 +9,21 @@ class MessageRepository implements IMessageRepository {
             if (message === null) {
                 throw new Error(`create message failed`);
             }
+            const fullMessage: Message | null = await Message.findByPk(
+                message.id,
+                {
+                    include: [
+                        {
+                            model: User,
+                            as: 'user',
+                            attributes: ['id', 'avatar'],
+                        },
+                    ],
+                },
+            );
             return {
                 success: true,
-                data: message,
+                data: fullMessage,
             };
         } catch (error: any) {
             return {

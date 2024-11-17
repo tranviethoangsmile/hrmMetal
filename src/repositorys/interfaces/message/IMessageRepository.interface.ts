@@ -3,7 +3,7 @@ import { Message } from '../../../models';
 export interface IMessageRepository {
     create_message(data: create_new_message): Promise<{
         success: boolean;
-        data?: Message;
+        data?: any;
         message?: string;
     }>;
 
