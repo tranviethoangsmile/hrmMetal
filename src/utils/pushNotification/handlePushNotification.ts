@@ -29,12 +29,12 @@ const sendPushNotification = async ({
     fcmToken,
     title,
     body,
-    key
+    key,
 }: {
     fcmToken: string;
     title: string;
     body: string;
-    key: string
+    key: string;
 }) => {
     if (!fcmToken || !title || !body) {
         return;
@@ -47,7 +47,7 @@ const sendPushNotification = async ({
         token: fcmToken,
         data: {
             click_action: 'MESSAGE',
-            key: key
+            key: key,
         },
     };
     try {
