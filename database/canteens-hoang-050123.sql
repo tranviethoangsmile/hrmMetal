@@ -7,3 +7,4 @@ CREATE TABLE canteens
   updated_at DATE NOT NULL,
   deleted_at DATE NULL
 );
+//hi
