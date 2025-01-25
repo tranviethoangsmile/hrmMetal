@@ -1,4 +1,5 @@
-CREATE TABLE codeerrors(
+CREATE TABLE codeerrors
+(
     id VARCHAR PRIMARY KEY,
     code VARCHAR NOT NULL,
     description VARCHAR NOT NULL,
@@ -7,5 +8,5 @@ CREATE TABLE codeerrors(
     created_at DATE NOT NULL,
     updated_at DATE NOT NULL,
     deleted_at DATE NULL,
-    FOREIGN KEY(daily_report_id) REFERENCES dailyreports(id)
+    FOREIGN KEY(daily_report_id) REFERENCES dailyReports(id)
 );
