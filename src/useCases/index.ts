@@ -70,6 +70,15 @@ import {
     get_uniform_order_detail_by_id_use,
     update_uniform_order_use,
 } from '../useCases/uniformOrder/uniformOrder.usecase';
+
+import { getDepById } from './department/department.useCase';
+
+import {
+    create_safety_report_usecase,
+    update_safety_report_usecase,
+    confirm_safety_report_usecase,
+    delete_safety_report_usecase,
+} from './safetyReport/safetyReport.useCase';
 export {
     create_plan_production_use,
     update_plan_production_use,
@@ -118,4 +127,9 @@ export {
     get_uniform_order_detail_by_id_use,
     update_uniform_order_use,
     create_conversation_group_use,
+    getDepById,
+    create_safety_report_usecase,
+    update_safety_report_usecase,
+    confirm_safety_report_usecase,
+    delete_safety_report_usecase,
 };

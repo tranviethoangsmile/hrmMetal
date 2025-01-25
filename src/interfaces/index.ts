@@ -45,6 +45,12 @@ import {
     update_uniform_order,
     search_processing_uniform_order,
 } from './uniformOrder/uniformOrder.interface';
+
+import {
+    ICreateSafetyReport,
+    IUpdateSafetyReport,
+    IConfirmSafetyReport,
+} from './safetyReport/safetyReport.interface';
 export {
     create_plan_production,
     update_plan_production,
@@ -73,4 +79,7 @@ export {
     update_uniform_order,
     search_processing_uniform_order,
     create_conversation_group_interface,
+    ICreateSafetyReport,
+    IUpdateSafetyReport,
+    IConfirmSafetyReport,
 };

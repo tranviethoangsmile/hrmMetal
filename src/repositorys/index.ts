@@ -20,6 +20,7 @@ import DeleteMessageRepository from './deleteMessage/deleteMessage.repository';
 import DeleteConversationRepository from './deleteConversation/deleteConversation.repository';
 import FcmTokenRepository from './fcmToken/fcmToken.repository';
 import UniformOrderRepository from './uniformOrder/uniformOrder.repository';
+import SafetyReportRepository from './safetyReport/safetyReport.repo';
 export {
     PlanProductionRepository,
     LoginRepository,
@@ -43,4 +44,5 @@ export {
     DeleteConversationRepository,
     FcmTokenRepository,
     UniformOrderRepository,
+    SafetyReportRepository,
 };
