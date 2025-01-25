@@ -20,8 +20,8 @@ CREATE TABLE checkins
     (user_id, date)
 );
 
-ALTER TABLE checkins
-ALTER time_in
-DROP NOT NULL,
-ADD is_paid_leave BOOLEAN DEFAULT FALSE;
+-- ALTER TABLE checkins
+-- ALTER time_in
+-- DROP NOT NULL,
+-- ADD is_paid_leave BOOLEAN DEFAULT FALSE;
 
