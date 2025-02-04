@@ -1,10 +1,12 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '../dbs/db';
+import { User, Department } from './index';
 
 class SafetyReport extends Model {
     public id!: string;
     public user_id!: string;
     public leader_id!: string;
+    public department_id!: string;
     public title!: string;
     public content!: string;
     public is_confirm!: boolean;
@@ -18,6 +20,47 @@ SafetyReport.init(
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
+        user_id: {
+            type: DataTypes.UUID,
+            allowNull: false,
+            references: {
+                model: User,
+                key: 'id',
+            },
+        },
+        leader_id: {
+            type: DataTypes.UUID,
+            allowNull: true,
+            references: {
+                model: User,
+                key: 'id',
+            },
+        },
+        department_id: {
+            type: DataTypes.UUID,
+            allowNull: false,
+            references: {
+                model: Department,
+                key: 'id',
+            },
+        },
+        title: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        content: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+        },
+        is_confirm: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+        },
+        date: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
     },
     {
         sequelize: db,
@@ -30,3 +73,5 @@ SafetyReport.init(
         deletedAt: 'deleted_at',
     },
 );
+
+export default SafetyReport;

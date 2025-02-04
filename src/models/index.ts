@@ -24,6 +24,7 @@ import DeleteMessage from './deleteMessage.model';
 import FcmToken from './fcmToken.model';
 import DeleteConversation from './deleteConversation.model';
 import UniformOrder from './uniformOrder.model';
+import SafetyReport from './safetyReport.model';
 User.belongsTo(Department, { foreignKey: 'department_id', as: 'department' });
 Department.hasMany(User, { foreignKey: 'department_id', as: 'users' });
 Order.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
@@ -86,6 +87,10 @@ Conversation.hasMany(DeleteConversation, { foreignKey: 'conversation_id' });
 User.hasMany(DeleteConversation, { foreignKey: 'user_id' });
 UniformOrder.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(UniformOrder, { foreignKey: 'user_id' });
+SafetyReport.belongsTo(User, { foreignKey: 'user_id', as: 'userDetail' });
+User.hasMany(SafetyReport, { foreignKey: 'user_id' });
+SafetyReport.belongsTo(User, { foreignKey: 'leader_id', as: 'leaderDetail' });
+User.hasMany(SafetyReport, { foreignKey: 'leader_id' });
 export {
     User,
     Department,
@@ -113,4 +118,5 @@ export {
     FcmToken,
     DeleteConversation,
     UniformOrder,
+    SafetyReport,
 };

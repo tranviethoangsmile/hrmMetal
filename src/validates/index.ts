@@ -40,6 +40,12 @@ import {
     validate_update_uniform_order,
     validate_seach_order_processing,
 } from './uniformOrder/uniformOrder.validate';
+
+import {
+    validate_create_safetyReport,
+    validate_update_safetyReport,
+    validate_confirm_safetyReport,
+} from './safetyReport/safetyReport.validate';
 const schema_id = Joi.string().guid().required();
 const validation_id = (id: string) => {
     return schema_id.validate(id);
@@ -73,4 +79,7 @@ export {
     validate_position,
     validate_update_uniform_order,
     validate_seach_order_processing,
+    validate_create_safetyReport,
+    validate_update_safetyReport,
+    validate_confirm_safetyReport,
 };

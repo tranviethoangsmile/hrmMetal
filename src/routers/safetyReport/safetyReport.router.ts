@@ -1,0 +1,15 @@
+import { Router } from 'express';
+import createSafetyReportRouter from './create/createSafetyReport.router';
+import safetyReportUpdateRouter from './update/safetyReportUpdate.router';
+import confirmSafetyReportRouter from './confirm/confirmSafetyReportRouter.router';
+import deleteSafetyReportRouter from './delete/deleteSafetyReport.router';
+import getByUserIdRouter from './get/getByUserId.router';
+import getByDepartmentIdRouter from './get/getByDepartmentId.router';
+const safetyReportRouterRoot: Router = Router();
+safetyReportRouterRoot.use('/create', createSafetyReportRouter);
+safetyReportRouterRoot.use('/update', safetyReportUpdateRouter);
+safetyReportRouterRoot.use('/confirm', confirmSafetyReportRouter);
+safetyReportRouterRoot.use('/delete', deleteSafetyReportRouter);
+safetyReportRouterRoot.use('/getbyuserid', getByUserIdRouter);
+safetyReportRouterRoot.use('/getbydepartmentid', getByDepartmentIdRouter);
+export default safetyReportRouterRoot;

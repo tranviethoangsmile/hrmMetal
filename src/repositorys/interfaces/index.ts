@@ -20,6 +20,7 @@ import { IDeleteMessage } from './deleteMessage/IDeleteMessageRepository.interfa
 import { IDeleteConversation } from './deleteConversation/IDeleteConversationRepository.interface';
 import { IFcmToken } from './fcmToken/fcmToken.interface';
 import { IUniformOrder } from './uniformOrder/IUniformOrderRepository.interface';
+import { ISafetyReport } from './safetyReport/ISafetyReport.interface';
 export {
     IEvencheckRepository,
     IPaidLeaveRequestRepo,
@@ -43,4 +44,5 @@ export {
     IDeleteConversation,
     IFcmToken,
     IUniformOrder,
+    ISafetyReport,
 };
