@@ -49,6 +49,8 @@ import {
     update_safety_report_controller,
     confirm_safety_report_controller,
     delete_safety_report_controller,
+    get_all_safety_report_by_user_id_controller,
+    get_all_safety_report_by_department_id_controller,
 } from './safetyReport/safetyReport.controller';
 export {
     create_plan_production_controller,
@@ -87,4 +89,6 @@ export {
     update_safety_report_controller,
     confirm_safety_report_controller,
     delete_safety_report_controller,
+    get_all_safety_report_by_user_id_controller,
+    get_all_safety_report_by_department_id_controller,
 };

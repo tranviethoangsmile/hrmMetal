@@ -127,9 +127,57 @@ const delete_safety_report_usecase = async (id: string) => {
     }
 };
 
+const get_all_safety_report_by_user_id_usecase = async (id: string) => {
+    try {
+        const isValid = validation_id(id);
+        if (isValid?.error) {
+            throw new Error(`-validate: ${isValid?.error.message}`);
+        }
+        const safetyReports = await safetyReportRepo.GET_ALL_BY_USER_ID(id);
+        if (!safetyReports?.success) {
+            throw new Error(`${safetyReports?.message}`);
+        }
+        return {
+            success: true,
+            data: safetyReports?.data,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `- usecase message : ${error.message}`,
+        };
+    }
+};
+
+const get_all_safety_report_by_department_id_usecase = async (id: string) => {
+    try {
+        const isValid = validation_id(id);
+        if (isValid?.error) {
+            throw new Error(`-validate: ${isValid?.error.message}`);
+        }
+        const safetyReports = await safetyReportRepo.GET_ALL_BY_DEPARTMENT_ID(
+            id,
+        );
+        if (!safetyReports?.success) {
+            throw new Error(`${safetyReports?.message}`);
+        }
+        return {
+            success: true,
+            data: safetyReports?.data,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `- usecase message : ${error.message}`,
+        };
+    }
+};
+
 export {
     create_safety_report_usecase,
     update_safety_report_usecase,
     confirm_safety_report_usecase,
     delete_safety_report_usecase,
+    get_all_safety_report_by_user_id_usecase,
+    get_all_safety_report_by_department_id_usecase,
 };

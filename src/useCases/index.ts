@@ -78,6 +78,8 @@ import {
     update_safety_report_usecase,
     confirm_safety_report_usecase,
     delete_safety_report_usecase,
+    get_all_safety_report_by_user_id_usecase,
+    get_all_safety_report_by_department_id_usecase,
 } from './safetyReport/safetyReport.useCase';
 export {
     create_plan_production_use,
@@ -132,4 +134,6 @@ export {
     update_safety_report_usecase,
     confirm_safety_report_usecase,
     delete_safety_report_usecase,
+    get_all_safety_report_by_user_id_usecase,
+    get_all_safety_report_by_department_id_usecase,
 };
