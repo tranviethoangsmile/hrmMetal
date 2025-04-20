@@ -1,4 +1,10 @@
-import express, { Application, Request, Response, NextFunction } from 'express';
+import express, {
+    Application,
+    Request,
+    Response,
+    NextFunction,
+    Express,
+} from 'express';
 import cors from 'cors';
 import router from './routers';
 import dotenv from 'dotenv';
@@ -9,12 +15,14 @@ import compression from 'compression';
 import http from 'http';
 import { init } from './socket/socketIO';
 import config from './configs/config.system';
+import swaggerDocs from './swagger/swagger.config';
 // require('./dbs/db.mongo');
 dotenv.config();
 const PORT = config.app.port;
 const HOSTNAME = process.env.HOST_SERVER || 'localhost';
 const app: Application = express();
 const server = http.createServer(app);
+
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header(
@@ -28,6 +36,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
 });
+swaggerDocs(app as Express, PORT);
 
 init(server);
 app.use(cors());
