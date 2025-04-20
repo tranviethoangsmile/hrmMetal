@@ -19,18 +19,15 @@
  *           schema:
  *             type: object
  *             properties:
- *               product_id:
- *                 type: string
- *                 description: ID of the product being ordered
- *                 example: "prod123"
- *               quantity:
- *                 type: number
- *                 description: Quantity of the product
- *                 example: 10
+ *               date:
+ *                type: string
  *               user_id:
  *                 type: string
  *                 description: ID of the user placing the order
- *                 example: "user456"
+ *                 example: "c13r-cdsdf-đsad"
+ *               dayOrNight:
+ *                type: string
+ *                example: "DAY"
  *     responses:
  *       201:
  *         description: Order created successfully
