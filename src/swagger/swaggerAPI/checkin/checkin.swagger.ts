@@ -75,7 +75,7 @@
  * @swagger
  * /checkin/getcheckinindateofposition:
  *   get:
- *     summary: "Get check-ins by position on a specific date"
+ *     summary: "Get check-ins by position on a specific date "
  *     tags: [Checkins]
  *     description: "Retrieve all check-ins for a specific position on a given date."
  *     parameters:
