@@ -21,6 +21,7 @@ import { IDeleteConversation } from './deleteConversation/IDeleteConversationRep
 import { IFcmToken } from './fcmToken/fcmToken.interface';
 import { IUniformOrder } from './uniformOrder/IUniformOrderRepository.interface';
 import { ISafetyReport } from './safetyReport/ISafetyReport.interface';
+import { IDayOffs } from './dayOffs/IDayOffsRepository.interface';
 export {
     IEvencheckRepository,
     IPaidLeaveRequestRepo,
@@ -45,4 +46,5 @@ export {
     IFcmToken,
     IUniformOrder,
     ISafetyReport,
+    IDayOffs,
 };

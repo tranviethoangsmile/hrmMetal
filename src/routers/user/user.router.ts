@@ -50,9 +50,13 @@ userRouters.post('/', async (req: Request, res: Response) => {
             !user.password ||
             !user.dob ||
             !user.employee_id ||
-            !user.department_id
+            !user.department_id ||
+            !user.role
         ) {
-            throw new Error('bad request');
+            return res.status(400).json({
+                success: false,
+                message: `bad request :: Invalid input: Missing required fields`,
+            });
         }
         if (
             user.salary_hourly === undefined &&
@@ -60,16 +64,19 @@ userRouters.post('/', async (req: Request, res: Response) => {
             user.shift_night_pay === undefined &&
             user.paid_days === undefined
         ) {
-            throw new Error('salary or other not empty');
+            return res.status(400).json({
+                success: false,
+                message: `bad request:: Invalid input: Missing required fields`,
+            });
         }
         const data = await create(user);
         if (data?.success) {
-            res.status(201).send({
+            return res.status(201).send({
                 success: true,
                 data: data?.data,
             });
         } else {
-            res.status(200).send({
+            return res.status(200).send({
                 success: false,
                 message: data?.message,
             });

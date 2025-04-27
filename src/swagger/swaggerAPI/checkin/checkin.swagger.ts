@@ -9,38 +9,106 @@
  * @swagger
  * /checkin/create:
  *   post:
- *     summary: "Create a new check-in"
+ *     summary: "Create a new check-in or check-out"
  *     tags: [Checkins]
- *     description: "Endpoint to create a new check-in record for an employee."
+ *     description: "Endpoint to create a new check-in or check-out record for an employee."
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - user_id
+ *               - date
+ *               - check_time
+ *               - work_shift
  *             properties:
  *               user_id:
  *                 type: string
- *                 description: "ID of the user checking in"
+ *                 description: "ID of the user checking in or out"
  *                 example: "user123"
- *               checkin_time:
+ *               date:
  *                 type: string
- *                 format: date-time
- *                 description: "Time of the check-in"
- *                 example: "2025-04-20T08:00:00Z"
- *               location:
+ *                 format: date
+ *                 description: "Date of the check-in or check-out (format: YYYY-MM-DD)"
+ *                 example: "2025-04-20"
+ *               check_time:
  *                 type: string
- *                 description: "Location of the check-in"
- *                 example: "Office A"
+ *                 format: time
+ *                 description: "Time of the check-in or check-out (format: HH:mm)"
+ *                 example: "08:00"
+ *               work_shift:
+ *                 type: string
+ *                 description: "Work shift of the user (e.g., DAY, NIGHT)"
+ *                 example: "DAY"
  *     responses:
  *       201:
- *         description: "Check-in created successfully"
+ *         description: "Check-in or check-out created successfully"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                   description: "Details of the created check-in or check-out"
+ *       202:
+ *         description: "Check-in or check-out already exists"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "checked"
+ *       200:
+ *         description: "Check-in or check-out failed due to invalid data or other issues"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "checkin unSuccess"
  *       400:
- *         description: "Bad request (e.g., missing data)"
+ *         description: "Bad request (e.g., missing or invalid input)"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "data not empty"
  *       500:
  *         description: "Server error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Server error: <error message>"
  */
-
 /**
  * @swagger
  * /checkin/search:

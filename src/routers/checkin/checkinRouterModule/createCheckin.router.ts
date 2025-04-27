@@ -7,10 +7,10 @@ import {
 } from '../../../controllers/checkin/checkin.controller';
 const createCheckin: Router = Router();
 import { io } from '../../../socket/socketIO';
-import { Socket } from 'socket.io';
 import { findById } from '../../../controllers/user/user.controller';
 import { check_value_request_checkin } from '../../../interfaces/checkin/checkin.interface';
 import { create_notification_usecase } from '../../../useCases';
+import { get_all_day_off_controller } from '../../../controllers';
 createCheckin.post('/', async (req: Request, res: Response) => {
     try {
         function handleTime(value: any) {
@@ -37,9 +37,15 @@ createCheckin.post('/', async (req: Request, res: Response) => {
             user_id: data.user_id,
             date: data.date,
         };
+
+        const dayOffs = await get_all_day_off_controller();
+        const isDayOff = dayOffs.data?.some((dayOff: any) => {
+            return dayOff.date === data.date;
+        });
         const isWeekend =
             moment(data.date, 'YYYY-MM-DD').isoWeekday() === 6 ||
-            moment(data.date, 'YYYY-MM-DD').isoWeekday() === 7;
+            moment(data.date, 'YYYY-MM-DD').isoWeekday() === 7 ||
+            isDayOff;
         if (!isWeekend) {
             const isChecked = await is_checked_controller(check_field);
             if (!isChecked?.success) {

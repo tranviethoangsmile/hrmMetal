@@ -42,65 +42,90 @@
  *   post:
  *     summary: Create a new user
  *     tags: [Users]
+ *     description: Endpoint to create a new user. All fields are required.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - user_name
+ *               - password
+ *               - dob
+ *               - employee_id
+ *               - department_id
+ *               - salary_hourly
+ *               - travel_allowance_pay
+ *               - shift_night_pay
+ *               - paid_days
+ *               - role
+ *               - position
+ *               - begin_date
  *             properties:
  *               name:
  *                 type: string
+ *                 description: Full name of the user
+ *                 example: "hoangdev2"
  *               email:
  *                 type: string
+ *                 description: Email address of the user
+ *                 example: "string@gmail.com"
  *               user_name:
  *                 type: string
+ *                 description: Username for the user
+ *                 example: "hoangdev3"
  *               password:
  *                 type: string
+ *                 description: Password for the user
+ *                 example: "000000"
  *               dob:
  *                 type: string
  *                 format: date
+ *                 description: Date of birth (format -> yyyy-mm-dd)
+ *                 example: "2025-04-20"
  *               employee_id:
  *                 type: number
+ *                 description: Employee ID
+ *                 example: 6962
  *               department_id:
  *                 type: string
+ *                 description: Department ID (UUID format)
+ *                 example: "cab9ec71-1a35-483a-bb64-a76f81080d46"
  *               salary_hourly:
  *                 type: number
+ *                 description: Hourly salary of the user
+ *                 example: 1000
  *               travel_allowance_pay:
  *                 type: number
+ *                 description: Travel allowance pay
+ *                 example: 1000
  *               shift_night_pay:
  *                 type: number
+ *                 description: Night shift pay
+ *                 example: 5000
  *               paid_days:
  *                 type: number
+ *                 description: Number of paid days
+ *                 example: 0
  *               role:
- *                type: string
+ *                 type: string
+ *                 description: Role of the user
+ *                 example: "ADMIN"
  *               position:
- *                type: string
+ *                 type: string
+ *                 description: Position of the user
+ *                 example: "HINO"
+ *               begin_date:
+ *                 type: string
+ *                 format: date
+ *                 description: Begin date of employment (format -> yyyy-mm-dd)
+ *                 example: "2000-01-20"
  *     responses:
  *       201:
  *         description: User created successfully
- *       400:
- *         description: Bad request
- *       500:
- *         description: Server error
- */
-
-/**
- * @swagger
- * /users/{id}:
- *   get:
- *     summary: Get a user by ID
- *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: The user ID
- *     responses:
- *       200:
- *         description: User found
  *         content:
  *           application/json:
  *             schema:
@@ -108,71 +133,50 @@
  *               properties:
  *                 success:
  *                   type: boolean
+ *                   example: true
  *                 data:
  *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                     name:
- *                       type: string
- *                     email:
- *                       type: string
+ *                   description: Details of the created user
+ *       200:
+ *         description: Request processed but not successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "User creation failed due to invalid data"
  *       400:
- *         description: Bad request
+ *         description: Bad request (e.g., missing or invalid input)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Invalid input: Missing required fields"
  *       500:
  *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Server error: <error message>"
  */
-
-/**
- * @swagger
- * /users/{id}:
- *   delete:
- *     summary: Delete a user by ID
- *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: The user ID
- *     responses:
- *       202:
- *         description: User deleted successfully
- *       400:
- *         description: Bad request
- *       500:
- *         description: Server error
- */
-
-/**
- * @swagger
- * /users:
- *   put:
- *     summary: Update an existing user
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               id:
- *                 type: string
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *     responses:
- *       202:
- *         description: User updated successfully
- *       400:
- *         description: Bad request
- *       500:
- *         description: Server error
- */
-
 /**
  * @swagger
  * tags:

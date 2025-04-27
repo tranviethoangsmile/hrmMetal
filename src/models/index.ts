@@ -25,6 +25,7 @@ import FcmToken from './fcmToken.model';
 import DeleteConversation from './deleteConversation.model';
 import UniformOrder from './uniformOrder.model';
 import SafetyReport from './safetyReport.model';
+import DayOffs from './dayOffs.model';
 User.belongsTo(Department, { foreignKey: 'department_id', as: 'department' });
 Department.hasMany(User, { foreignKey: 'department_id', as: 'users' });
 Order.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
@@ -91,6 +92,8 @@ SafetyReport.belongsTo(User, { foreignKey: 'user_id', as: 'userDetail' });
 User.hasMany(SafetyReport, { foreignKey: 'user_id' });
 SafetyReport.belongsTo(User, { foreignKey: 'leader_id', as: 'leaderDetail' });
 User.hasMany(SafetyReport, { foreignKey: 'leader_id' });
+User.hasMany(DayOffs, { foreignKey: 'user_id' });
+DayOffs.belongsTo(User, { foreignKey: 'user_id', as: 'userDetail' });
 export {
     User,
     Department,
@@ -119,4 +122,5 @@ export {
     DeleteConversation,
     UniformOrder,
     SafetyReport,
+    DayOffs,
 };

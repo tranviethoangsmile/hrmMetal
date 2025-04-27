@@ -52,6 +52,10 @@ import {
     get_all_safety_report_by_user_id_controller,
     get_all_safety_report_by_department_id_controller,
 } from './safetyReport/safetyReport.controller';
+import {
+    create_day_off_controller,
+    get_all_day_off_controller,
+} from './dayOff/dayOff.controller';
 export {
     create_plan_production_controller,
     update_plan_production_controller,
@@ -91,4 +95,6 @@ export {
     delete_safety_report_controller,
     get_all_safety_report_by_user_id_controller,
     get_all_safety_report_by_department_id_controller,
+    create_day_off_controller,
+    get_all_day_off_controller,
 };

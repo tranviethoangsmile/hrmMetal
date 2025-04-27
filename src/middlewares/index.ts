@@ -5,7 +5,7 @@ import veyrTimeCheck from './veryTimeCheck.middleware';
 import { very_token_order } from './veryTokenOrder.middleware';
 import delete_media_path from './delete_media_url.middleware';
 import addPosition from './addPosition.middleware';
-
+import authAdminRole from './veryRoleAdmin.middleware';
 export {
     create_media_path,
     timeOrderLimit,
@@ -14,4 +14,5 @@ export {
     very_token_order,
     delete_media_path,
     addPosition,
+    authAdminRole,
 };

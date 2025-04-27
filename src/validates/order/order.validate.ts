@@ -1,6 +1,11 @@
 import Joi from '@hapi/joi';
 const schema_create_order = Joi.object({
-    date: Joi.string().min(8).max(12).required(),
+    date: Joi.string()
+        .pattern(/^\d{4}-\d{2}-\d{2}$/)
+        .required()
+        .messages({
+            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
+        }),
     dayOrNight: Joi.string().min(3).max(5).required(),
     user_id: Joi.string().guid().required(),
     position: Joi.string().min(3).max(10).required(),
@@ -9,7 +14,12 @@ const schema_create_order = Joi.object({
 const schema_search_order = Joi.object({
     id: Joi.string(),
     user_id: Joi.string(),
-    date: Joi.string(),
+    date: Joi.string()
+        .pattern(/^\d{4}-\d{2}-\d{2}$/)
+        .required()
+        .messages({
+            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
+        }),
     position: Joi.string(),
     canteen_id: Joi.string(),
     created_at: Joi.date(),

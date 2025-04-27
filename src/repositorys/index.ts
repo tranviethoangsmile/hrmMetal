@@ -21,6 +21,7 @@ import DeleteConversationRepository from './deleteConversation/deleteConversatio
 import FcmTokenRepository from './fcmToken/fcmToken.repository';
 import UniformOrderRepository from './uniformOrder/uniformOrder.repository';
 import SafetyReportRepository from './safetyReport/safetyReport.repo';
+import DayOffsRepository from './dayOffs/dayOffs.repository';
 export {
     PlanProductionRepository,
     LoginRepository,
@@ -45,4 +46,5 @@ export {
     FcmTokenRepository,
     UniformOrderRepository,
     SafetyReportRepository,
+    DayOffsRepository,
 };
