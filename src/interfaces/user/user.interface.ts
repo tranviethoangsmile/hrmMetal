@@ -13,7 +13,7 @@ interface UpdateField {
     employee_id?: number;
     is_active?: boolean;
     is_admin?: boolean;
-    role?: string;
+    role: string;
     position?: string;
     department_id?: string;
     is_officer?: boolean;

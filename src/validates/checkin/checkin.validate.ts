@@ -2,7 +2,12 @@ import Joi from '@hapi/joi';
 const scheme_create_checkin = Joi.object({
     user_id: Joi.string().required(),
     time_in: Joi.string().required(),
-    date: Joi.string().required(),
+    date: Joi.string()
+        .pattern(/^\d{4}-\d{2}-\d{2}$/)
+        .required()
+        .messages({
+            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
+        }),
     work_shift: Joi.string().required(),
     is_weekend: Joi.boolean(),
 });
@@ -10,7 +15,12 @@ const scheme_create_checkin = Joi.object({
 const scheme_update_checkin = Joi.object({
     user_id: Joi.string().required(),
     time_out: Joi.string().required(),
-    date: Joi.string().required(),
+    date: Joi.string()
+        .pattern(/^\d{4}-\d{2}-\d{2}$/)
+        .required()
+        .messages({
+            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
+        }),
     work_shift: Joi.string().required(),
     is_checked: Joi.boolean().required(),
     work_time: Joi.number(),
@@ -18,12 +28,22 @@ const scheme_update_checkin = Joi.object({
 });
 
 const schema_get_checkin_in_date_of_position = Joi.object({
-    date: Joi.string().required(),
+    date: Joi.string()
+        .pattern(/^\d{4}-\d{2}-\d{2}$/)
+        .required()
+        .messages({
+            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
+        }),
     position: Joi.string().required(),
 });
 
 const schema_get_checkin_detail_in_date_of_user = Joi.object({
-    date: Joi.string().required(),
+    date: Joi.string()
+        .pattern(/^\d{4}-\d{2}-\d{2}$/)
+        .required()
+        .messages({
+            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
+        }),
     user_id: Joi.string().required(),
 });
 

@@ -3,9 +3,19 @@ import Joi from '@hapi/joi';
 const schema_create_uniform_order = Joi.object({
     user_id: Joi.string().guid().required(),
     position: Joi.string().required(),
-    date: Joi.string().required(),
+    date: Joi.string()
+        .pattern(/^\d{4}-\d{2}-\d{2}$/)
+        .required()
+        .messages({
+            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
+        }),
     order_status: Joi.string(),
-    delivery_date: Joi.string(),
+    delivery_date: Joi.string()
+        .pattern(/^\d{4}-\d{2}-\d{2}$/)
+        .required()
+        .messages({
+            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
+        }),
     notes: Joi.string().allow(''),
     items: Joi.array()
         .items(
@@ -29,7 +39,12 @@ const schema_search_uniform_order_with_position = Joi.string().required();
 const schema_update_uniform_order = Joi.object({
     id: Joi.string().guid().required(),
     order_status: Joi.string(),
-    delivery_date: Joi.string(),
+    delivery_date: Joi.string()
+        .pattern(/^\d{4}-\d{2}-\d{2}$/)
+        .required()
+        .messages({
+            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
+        }),
     uniform_size: Joi.string(),
     quantity: Joi.number(),
     notes: Joi.string(),

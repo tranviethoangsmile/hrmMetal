@@ -1,3 +1,5 @@
+import moment from 'moment-timezone';
+import { CheckinRepository } from '../../repositorys';
 import {
     create_checkin_interface,
     update_checkin_interface,
@@ -11,9 +13,7 @@ import {
     get_checkin_in_date_of_position_validate,
     get_checkin_detail_in_day_of_user_validate,
 } from '../../validates';
-import { CheckinRepository } from '../../repositorys';
-import moment from 'moment-timezone';
-
+import { shift_work } from '../../enum';
 const checkinRepository = new CheckinRepository();
 
 const get_checkin_detail_in_date_of_user_use = async (
@@ -65,6 +65,9 @@ const create_checkin_use = async (data: create_checkin_interface) => {
         if (valid.error) {
             throw new Error(`${valid?.error.message}`);
         }
+        if (!Object.keys(shift_work).includes(data.work_shift)) {
+            throw new Error(`shift work not avaliable`);
+        }
         const result_create = await checkinRepository.create_checkin(data);
         if (!result_create?.success) {
             throw new Error(`${result_create?.message}`);
@@ -86,6 +89,9 @@ const update_checkin_use = async (field: update_checkin_interface) => {
         const isValid = update_checkin_validate(field);
         if (isValid?.error) {
             throw new Error(`${isValid?.error.message}`);
+        }
+        if (!Object.keys(shift_work).includes(field.work_shift)) {
+            throw new Error(`shift work not avaliable`);
         }
         const result_update = await checkinRepository.update_checkin({
             ...field,

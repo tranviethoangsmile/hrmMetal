@@ -66,14 +66,17 @@ const createNewUser = async (user: any) => {
             throw new Error(`${valid?.error.message}`);
         }
         if (
-            typeof user.role === 'string' &&
-            !Object.values(Role).includes(user.role) &&
-            typeof user.position === 'string' &&
+            typeof user.role !== 'string' ||
+            !Object.values(Role).includes(user.role)
+        ) {
+            throw new Error('User create failed -- Role not available');
+        }
+
+        if (
+            typeof user.position !== 'string' ||
             !Object.values(Position).includes(user.position)
         ) {
-            throw new Error(
-                'User create failed Role or Position not available',
-            );
+            throw new Error('User create failed -- Position not available');
         }
         const department = await getDepartmentById(user.department_id);
         if (!department?.success) {

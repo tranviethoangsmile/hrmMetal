@@ -5,8 +5,18 @@ const schema_create_events = Joi.object({
     is_safety: Joi.boolean().required(),
     is_active: Joi.boolean().required(),
     description: Joi.string().required(),
-    date_start: Joi.string().required(),
-    date_end: Joi.string().required(),
+    date_start: Joi.string()
+        .pattern(/^\d{4}-\d{2}-\d{2}$/)
+        .required()
+        .messages({
+            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
+        }),
+    date_end: Joi.string()
+        .pattern(/^\d{4}-\d{2}-\d{2}$/)
+        .required()
+        .messages({
+            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
+        }),
     position: Joi.string().required(),
     media: Joi.string(),
 });
