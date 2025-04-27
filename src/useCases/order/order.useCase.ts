@@ -1,10 +1,11 @@
 import { validation_id } from '../../validates';
-import { search_order } from '../../interfaces/order/order.interface';
+import { search_order } from '../../interfaces';
 import {
     validate_create_order,
     validate_search_order,
     validate_checkin_picked_order,
-} from '../../validates/order/order.validate';
+} from '../../validates';
+import { shift_work } from '../../enum';
 import { create_notification_usecase } from '../notification/notification.usecase';
 import { OrderRepository, UserRepository } from '../../repositorys';
 const userRepository = new UserRepository();
@@ -18,6 +19,9 @@ const create_order = async (order: any) => {
         const user = await userRepository.userFindById(order.user_id);
         if (!user?.success) {
             throw new Error(`${user?.message}`);
+        }
+        if (!Object.keys(shift_work).includes(order.dayOrNight)) {
+            throw new Error('shift work not valid');
         }
         const created_order = await orderRepository.create(order);
         if (!created_order?.success) {

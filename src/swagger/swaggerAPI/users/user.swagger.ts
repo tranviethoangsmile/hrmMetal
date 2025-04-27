@@ -61,7 +61,7 @@
  *                 type: string
  *                 format: date
  *               employee_id:
- *                 type: string
+ *                 type: number
  *               department_id:
  *                 type: string
  *               salary_hourly:
@@ -72,6 +72,10 @@
  *                 type: number
  *               paid_days:
  *                 type: number
+ *               role:
+ *                type: string
+ *               position:
+ *                type: string
  *     responses:
  *       201:
  *         description: User created successfully

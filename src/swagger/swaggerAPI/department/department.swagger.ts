@@ -56,10 +56,6 @@
  *                 type: string
  *                 description: Name of the department
  *                 example: "Human Resources"
- *               description:
- *                 type: string
- *                 description: Description of the department
- *                 example: "Handles employee-related matters"
  *     responses:
  *       201:
  *         description: Department created successfully

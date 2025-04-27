@@ -51,6 +51,7 @@ import {
     IUpdateSafetyReport,
     IConfirmSafetyReport,
 } from './safetyReport/safetyReport.interface';
+import { search_order, checkin_picked_order } from './order/order.interface';
 export {
     create_plan_production,
     update_plan_production,
@@ -82,4 +83,6 @@ export {
     ICreateSafetyReport,
     IUpdateSafetyReport,
     IConfirmSafetyReport,
+    search_order,
+    checkin_picked_order,
 };

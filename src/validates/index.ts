@@ -46,6 +46,11 @@ import {
     validate_update_safetyReport,
     validate_confirm_safetyReport,
 } from './safetyReport/safetyReport.validate';
+import {
+    validate_create_order,
+    validate_search_order,
+    validate_checkin_picked_order,
+} from './order/order.validate';
 const schema_id = Joi.string().guid().required();
 const validation_id = (id: string) => {
     return schema_id.validate(id);
@@ -82,4 +87,7 @@ export {
     validate_create_safetyReport,
     validate_update_safetyReport,
     validate_confirm_safetyReport,
+    validate_create_order,
+    validate_search_order,
+    validate_checkin_picked_order,
 };
