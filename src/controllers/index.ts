@@ -55,6 +55,8 @@ import {
 import {
     create_day_off_controller,
     get_all_day_off_controller,
+    get_day_off_by_id_controller,
+    delete_day_off_by_id_controller,
 } from './dayOff/dayOff.controller';
 export {
     create_plan_production_controller,

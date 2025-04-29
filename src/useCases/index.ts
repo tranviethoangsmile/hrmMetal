@@ -79,6 +79,8 @@ import {
 import {
     create_day_off_use,
     get_all_day_off_use,
+    get_day_off_by_id_use,
+    delete_day_off_by_id_use,
 } from './dayOff/dayOff.usecase';
 export {
     create_plan_production_use,
@@ -137,4 +139,6 @@ export {
     get_all_safety_report_by_department_id_usecase,
     create_day_off_use,
     get_all_day_off_use,
+    get_day_off_by_id_use,
+    delete_day_off_by_id_use,
 };
