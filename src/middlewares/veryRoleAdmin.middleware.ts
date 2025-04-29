@@ -8,7 +8,7 @@ const authAdminRole = async (
 ) => {
     try {
         const { user_id } = req.body;
-        if (!user_id || typeof user_id !== 'string') {
+        if (!user_id || typeof user_id !== 'string' || user_id.trim() === '') {
             return res.status(400).json({
                 success: false,
                 message: 'User ID is required and must be a string',
