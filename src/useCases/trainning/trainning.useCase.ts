@@ -16,7 +16,6 @@ import {
 const Create = async (trainning: Trainning) => {
     try {
         const valid = validate_schema_trainning(trainning);
-        console.log(trainning);
         if (!valid?.error) {
             const user = await findUserById(trainning.user_id);
             if (user.success) {

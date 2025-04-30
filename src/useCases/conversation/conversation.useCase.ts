@@ -40,7 +40,7 @@ const create_conversation_group_use = async (data: any) => {
             user_id: data.sender_id,
             conversation_id: new_conversation?.data?.id!,
             role: 'ADMIN',
-            group_type:"GROUP"
+            group_type: 'GROUP',
         });
         if (!senderOf?.success) {
             throw new Error(`${senderOf?.message}`);
@@ -48,12 +48,11 @@ const create_conversation_group_use = async (data: any) => {
 
         await Promise.all(
             data.receivers.map(async ({ user_id }: { user_id: string }) => {
-                console.log('id', user_id);
                 const receiverOf = await create_groupMember({
                     user_id: user_id,
                     conversation_id: new_conversation?.data?.id!,
                     role: 'MEMBER',
-                    group_type:"GROUP"
+                    group_type: 'GROUP',
                 });
                 if (!receiverOf?.success) {
                     throw new Error(`${receiverOf?.message}`);
@@ -102,7 +101,7 @@ const create_conversation_use = async (data: any) => {
                 user_id: data.sender_id,
                 conversation_id: new_conversation?.data?.id!,
                 role: 'ADMIN',
-                group_type: 'SINGLE'
+                group_type: 'SINGLE',
             });
             if (!senderOf?.success) {
                 throw new Error(`${senderOf?.message}`);
@@ -111,7 +110,7 @@ const create_conversation_use = async (data: any) => {
                 user_id: data.receiver_id,
                 conversation_id: new_conversation?.data?.id!,
                 role: 'MEMBER',
-                group_type: 'SINGLE'
+                group_type: 'SINGLE',
             });
             if (!receiverOf?.success) {
                 throw new Error(`${receiverOf?.message}`);
@@ -138,8 +137,7 @@ const create_conversation_use = async (data: any) => {
                     user_id: data.sender_id,
                     conversation_id: new_conversation?.data?.id!,
                     role: 'ADMIN',
-                    group_type: 'SINGLE'
-
+                    group_type: 'SINGLE',
                 });
 
                 if (!senderOf?.success) {
@@ -149,8 +147,7 @@ const create_conversation_use = async (data: any) => {
                     user_id: data.receiver_id,
                     conversation_id: new_conversation?.data?.id!,
                     role: 'MEMBER',
-                    group_type: 'SINGLE'
-
+                    group_type: 'SINGLE',
                 });
 
                 if (!receiverOf?.success) {
@@ -203,8 +200,7 @@ const create_conversation_use = async (data: any) => {
                     user_id: data.sender_id,
                     conversation_id: new_conversation?.data?.id!,
                     role: 'ADMIN',
-                    group_type: 'SINGLE'
-
+                    group_type: 'SINGLE',
                 });
                 if (!senderOf?.success) {
                     throw new Error(`${senderOf?.message}`);
@@ -214,7 +210,7 @@ const create_conversation_use = async (data: any) => {
                     user_id: data.receiver_id,
                     conversation_id: new_conversation?.data?.id!,
                     role: 'MEMBER',
-                    group_type: 'SINGLE'
+                    group_type: 'SINGLE',
                 });
                 if (!receiverOf?.success) {
                     throw new Error(`${receiverOf?.message}`);

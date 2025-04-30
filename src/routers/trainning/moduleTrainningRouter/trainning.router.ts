@@ -6,7 +6,6 @@ const TrainningRouter = Router();
 TrainningRouter.get('/:product_name', async (req: Request, res: Response) => {
     try {
         const data = req.params.product_name;
-        console.log(data);
         if (!data) {
             res.status(400).send({
                 success: false,

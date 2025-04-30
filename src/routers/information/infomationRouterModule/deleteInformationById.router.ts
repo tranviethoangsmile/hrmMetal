@@ -8,7 +8,6 @@ deleteInformation.post(
     async (req: Request, res: Response) => {
         try {
             const id: string | undefined = req.body?.id;
-            console.log(id);
             if (!id) {
                 return res.status(400).json({
                     success: false,

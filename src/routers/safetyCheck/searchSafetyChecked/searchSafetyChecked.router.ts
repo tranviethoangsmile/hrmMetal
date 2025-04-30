@@ -6,7 +6,6 @@ const searchSafetyCheckedRouter: Router = Router();
 searchSafetyCheckedRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field: search_safety_checked_interface = req.body;
-        console.log(field);
         if (!field || !field.event_id || !field.user_id) {
             return res
                 .status(400)

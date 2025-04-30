@@ -464,7 +464,6 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                             handleTimeMoment('00:00') &&
                         handleTimeMoment(time_out) <= handleTimeMoment('01:00')
                     ) {
-                        console.log('here');
                         work_time = moment
                             .duration(
                                 handleTimeMoment('00:00')

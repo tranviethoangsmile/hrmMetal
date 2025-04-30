@@ -16,7 +16,6 @@ rpRouter.post('/', async (req: Request, res: Response) => {
         const data = req.body;
         if (data != null) {
             const created_rp = await daily_report_create(data);
-            console.log(created_rp);
             if (created_rp?.success) {
                 res.status(201).send({
                     success: true,

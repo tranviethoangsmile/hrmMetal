@@ -13,7 +13,6 @@ const create_uniform_order_use = async (field: any) => {
     try {
         const isValid = validate_create_uniform_order(field);
         if (isValid?.error) {
-            console.log(isValid.error);
             throw new Error(isValid?.error.message);
         }
         const user = await findUserById(field.user_id);

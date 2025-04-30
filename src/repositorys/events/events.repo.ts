@@ -45,7 +45,6 @@ class EventRepository implements IEventRepository {
 
     async update_events_repo(field: any) {
         try {
-            console.log(field);
             const event = await Events.update(
                 { ...field },
                 {
