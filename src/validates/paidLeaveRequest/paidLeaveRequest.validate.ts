@@ -4,18 +4,12 @@ const schema_create = Joi.object({
     reason: Joi.string().required(),
     user_id: Joi.string().guid().required(),
     leader_id: Joi.string().guid().required(),
-    date_request: Joi.string()
-        .pattern(/^\d{4}-\d{2}-\d{2}$/)
-        .required()
-        .messages({
-            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
-        }),
-    date_leave: Joi.string()
-        .pattern(/^\d{4}-\d{2}-\d{2}$/)
-        .required()
-        .messages({
-            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
-        }),
+    date_request: Joi.date().iso().required().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
+    date_leave: Joi.date().iso().required().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
     is_paid: Joi.boolean(),
     position: Joi.string().required(),
     is_half: Joi.boolean().required(),
@@ -40,18 +34,12 @@ const validate_update_paid = (date: any) => {
 const schema_search_leave_request_with_field = Joi.object({
     user_id: Joi.string().guid(),
     leader_id: Joi.string().guid(),
-    date_request: Joi.string()
-        .pattern(/^\d{4}-\d{2}-\d{2}$/)
-        .required()
-        .messages({
-            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
-        }),
-    date_leave: Joi.string()
-        .pattern(/^\d{4}-\d{2}-\d{2}$/)
-        .required()
-        .messages({
-            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
-        }),
+    date_request: Joi.date().iso().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
+    date_leave: Joi.date().iso().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
     position: Joi.string(),
     is_confirm: Joi.boolean(),
     is_approve: Joi.boolean(),

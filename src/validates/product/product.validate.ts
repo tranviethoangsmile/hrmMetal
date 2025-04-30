@@ -5,12 +5,9 @@ const schema_product_create = Joi.object({
     ic_card: Joi.string().required(),
     user_id: Joi.string().guid(),
     shift: Joi.string().max(1).required(),
-    date: Joi.string()
-        .pattern(/^\d{4}-\d{2}-\d{2}$/)
-        .required()
-        .messages({
-            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
-        }),
+    date: Joi.date().iso().required().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
     quantity: Joi.number().min(1).max(999).required(),
     day_code: Joi.string().required(),
 });
@@ -20,12 +17,9 @@ const schema_product_search = Joi.object({
     ic_card: Joi.string(),
     user_id: Joi.string().guid(),
     shift: Joi.string().max(1),
-    date: Joi.string()
-        .pattern(/^\d{4}-\d{2}-\d{2}$/)
-        .required()
-        .messages({
-            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
-        }),
+    date: Joi.date().iso().required().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
     quantity: Joi.number().min(1).max(999),
     day_code: Joi.string(),
 });
