@@ -282,3 +282,92 @@
  *                   type: string
  *                   example: "server error :: Unexpected error occurred"
  */
+/**
+ * @swagger
+ * /dayOff/update:
+ *   put:
+ *     summary: Update a day-off record by ID
+ *     tags: [DayOff]
+ *     description: Endpoint to update a specific day-off record by its ID.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 description: The ID of the day-off record to update
+ *                 example: "550e8400-e29b-41d4-a716-446655440000"
+ *               date:
+ *                 type: string
+ *                 format: date
+ *                 description: The updated date of the day-off (ISO 8601 format)
+ *                 example: "2025-04-20"
+ *               user_id:
+ *                 type: string
+ *                 description: The ID of the user requesting the update
+ *                 example: "user123"
+ *     responses:
+ *       202:
+ *         description: Day-off record updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *       200:
+ *         description: Update failed due to invalid data or other issues
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - success
+ *                 - message
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Day-off record not found or update failed"
+ *       400:
+ *         description: Bad request (e.g., missing or invalid ID)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - success
+ *                 - message
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "id is required"
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - success
+ *                 - message
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "server error :: Unexpected error occurred"
+ */
