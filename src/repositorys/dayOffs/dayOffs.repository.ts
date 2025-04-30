@@ -63,10 +63,7 @@ class DayOffsRepository implements IDayOffs {
      */
     async GET_BY_ID(id: string) {
         try {
-            const dayOff: DayOffs | null = await DayOffs.findOne({
-                where: {
-                    id,
-                },
+            const dayOff: DayOffs | null = await DayOffs.findByPk(id, {
                 include: [
                     {
                         model: User,
@@ -76,7 +73,6 @@ class DayOffsRepository implements IDayOffs {
                 ],
                 attributes: ['id', 'user_id', 'date'],
             });
-
             if (!dayOff) {
                 throw new Error(`Day-off record not found`);
             }
@@ -114,6 +110,27 @@ class DayOffsRepository implements IDayOffs {
             return {
                 success: false,
                 message: `${error?.message}`,
+            };
+        }
+    }
+
+    async UPDATE(field: any) {
+        try {
+            const dayOff = await DayOffs.update(field, {
+                where: {
+                    id: field.id,
+                },
+            });
+            if (dayOff[0] === 0) {
+                throw new Error(`Failed to update day off`);
+            }
+            return {
+                success: true,
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `repository:: ${error?.message}`,
             };
         }
     }

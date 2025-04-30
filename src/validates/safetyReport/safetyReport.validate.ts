@@ -5,12 +5,9 @@ const schema_create_safetyReport = Joi.object({
     content: Joi.string().required(),
     title: Joi.string().required(),
     department_id: Joi.string().guid().required(),
-    date: Joi.string()
-        .pattern(/^\d{4}-\d{2}-\d{2}$/)
-        .required()
-        .messages({
-            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
-        }),
+    date: Joi.date().iso().required().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
 });
 
 const schema_update_safetyReport = Joi.object({

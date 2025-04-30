@@ -5,10 +5,10 @@ export interface IDayOffs {
         data?: DayOffs;
         message?: string;
     }>;
-    // UPDATE(field: any): Promise<{
-    //     success: boolean;
-    //     message?: string;
-    // }>;
+    UPDATE(field: any): Promise<{
+        success: boolean;
+        message?: string;
+    }>;
     DELETE(id: string): Promise<{
         success: boolean;
         message?: string;

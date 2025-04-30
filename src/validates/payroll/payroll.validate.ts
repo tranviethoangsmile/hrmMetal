@@ -2,18 +2,12 @@ import Joi from '@hapi/joi';
 
 const schema_create_payroll = Joi.object({
     user_id: Joi.string().guid().required(),
-    date: Joi.string()
-        .pattern(/^\d{4}-\d{2}-\d{2}$/)
-        .required()
-        .messages({
-            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
-        }),
-    pay_date: Joi.string()
-        .pattern(/^\d{4}-\d{2}-\d{2}$/)
-        .required()
-        .messages({
-            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
-        }),
+    date: Joi.date().iso().required().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
+    pay_date: Joi.date().iso().required().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
     work_time: Joi.number().min(0).max(248),
     over_time: Joi.number().min(0).max(728),
     paid_vacation_days: Joi.number().min(0).max(31),
@@ -51,8 +45,12 @@ const schema_search_payroll_of_user = Joi.object({
 const schema_update_payroll = Joi.object({
     id: Joi.string().guid().required(),
     user_id: Joi.string().guid(),
-    date: Joi.string(),
-    pay_date: Joi.string(),
+    date: Joi.date().iso().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
+    pay_date: Joi.date().iso().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
     work_time: Joi.number().min(0).max(248),
     over_time: Joi.number().min(0).max(728),
     paid_vacation_days: Joi.number().min(0).max(31),

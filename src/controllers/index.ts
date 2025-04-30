@@ -57,6 +57,7 @@ import {
     get_all_day_off_controller,
     get_day_off_by_id_controller,
     delete_day_off_by_id_controller,
+    update_day_off_by_id_controller,
 } from './dayOff/dayOff.controller';
 export {
     create_plan_production_controller,
@@ -99,4 +100,7 @@ export {
     get_all_safety_report_by_department_id_controller,
     create_day_off_controller,
     get_all_day_off_controller,
+    get_day_off_by_id_controller,
+    delete_day_off_by_id_controller,
+    update_day_off_by_id_controller,
 };

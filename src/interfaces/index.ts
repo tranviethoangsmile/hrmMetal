@@ -52,7 +52,7 @@ import {
     IConfirmSafetyReport,
 } from './safetyReport/safetyReport.interface';
 import { search_order, checkin_picked_order } from './order/order.interface';
-import { create_day_off } from './dayOffs/dayOff.interface';
+import { create_day_off, update_day_off } from './dayOffs/dayOff.interface';
 export {
     create_plan_production,
     update_plan_production,
@@ -87,4 +87,5 @@ export {
     search_order,
     checkin_picked_order,
     create_day_off,
+    update_day_off,
 };

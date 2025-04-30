@@ -1,6 +1,9 @@
 import { DayOffsRepository } from '../../repositorys';
-import { validate_create_day_off, validation_id } from '../../validates';
-import { findUserById } from '../user/user.useCase';
+import {
+    validate_create_day_off,
+    validation_id,
+    validate_update_day_off,
+} from '../../validates';
 const dayOffsRepository = new DayOffsRepository();
 
 const create_day_off_use = async (field: any) => {
@@ -77,9 +80,33 @@ const delete_day_off_by_id_use = async (id: string) => {
     }
 };
 
+const update_day_off_by_id_use = async (field: any) => {
+    try {
+        const isValid = validate_update_day_off(field);
+        if (isValid.error) {
+            throw new Error(isValid.error?.message);
+        }
+        const dayOff = await dayOffsRepository.GET_BY_ID(field.id);
+        if (!dayOff?.success) {
+            throw new Error(dayOff.message);
+        }
+        const result = await dayOffsRepository.UPDATE(field);
+        if (!result?.success) {
+            throw new Error(dayOff.message);
+        }
+        return result;
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `usecase :: ${error.message}`,
+        };
+    }
+};
+
 export {
     create_day_off_use,
     get_all_day_off_use,
     delete_day_off_by_id_use,
     get_day_off_by_id_use,
+    update_day_off_by_id_use,
 };

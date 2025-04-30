@@ -81,6 +81,7 @@ import {
     get_all_day_off_use,
     get_day_off_by_id_use,
     delete_day_off_by_id_use,
+    update_day_off_by_id_use,
 } from './dayOff/dayOff.usecase';
 export {
     create_plan_production_use,
@@ -141,4 +142,5 @@ export {
     get_all_day_off_use,
     get_day_off_by_id_use,
     delete_day_off_by_id_use,
+    update_day_off_by_id_use,
 };

@@ -4,12 +4,9 @@ const schame_create_daily_report = Joi.object({
     product: Joi.string().required(),
     user_id: Joi.string().guid().required(),
     department_id: Joi.string().guid().required(),
-    date: Joi.string()
-        .pattern(/^\d{4}-\d{2}-\d{2}$/)
-        .required()
-        .messages({
-            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
-        }),
+    date: Joi.date().iso().required().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
     shift: Joi.string().length(1).required(),
     quantity: Joi.number().min(0).max(999).required(),
     operated_time: Joi.number().min(0).max(999).required(),
@@ -21,12 +18,9 @@ const schame_search_daily_report = Joi.object({
     product: Joi.string().allow(''),
     user_id: Joi.string(),
     department_id: Joi.string().guid().required(),
-    date: Joi.string()
-        .pattern(/^\d{4}-\d{2}-\d{2}$/)
-        .required()
-        .messages({
-            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
-        }),
+    date: Joi.date().iso().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
     shift: Joi.string().allow(''),
 });
 

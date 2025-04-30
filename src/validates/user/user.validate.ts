@@ -5,12 +5,9 @@ const schema_user_create = Joi.object({
     user_name: Joi.string().min(5).max(99).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(5).max(99).required(),
-    dob: Joi.string()
-        .pattern(/^\d{4}-\d{2}-\d{2}$/)
-        .required()
-        .messages({
-            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
-        }),
+    dob: Joi.date().iso().required().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
     phone: Joi.string().regex(/^[0-9]{10}$/),
     avatar: Joi.string(),
     ic_id: Joi.string(),
@@ -21,12 +18,9 @@ const schema_user_create = Joi.object({
     role: Joi.string().required(),
     position: Joi.string().required(),
     department_id: Joi.string().guid(),
-    begin_date: Joi.string()
-        .pattern(/^\d{4}-\d{2}-\d{2}$/)
-        .required()
-        .messages({
-            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
-        }),
+    begin_date: Joi.date().iso().required().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
     is_offical_staff: Joi.boolean().default(false),
     salary_hourly: Joi.number().integer().min(100).max(999999),
     shift_night_pay: Joi.number().integer().min(100).max(999999),
@@ -40,12 +34,9 @@ const schema_user_update = Joi.object({
     user_name: Joi.string().min(5).max(99),
     email: Joi.string().email(),
     password: Joi.string().min(5).max(99),
-    dob: Joi.string()
-        .pattern(/^\d{4}-\d{2}-\d{2}$/)
-        .required()
-        .messages({
-            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
-        }),
+    dob: Joi.date().iso().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
     phone: Joi.string().regex(/^[0-9]{10}$/),
     avatar: Joi.string(),
     ic_id: Joi.string(),
@@ -56,12 +47,9 @@ const schema_user_update = Joi.object({
     role: Joi.string(),
     position: Joi.string(),
     department_id: Joi.string().guid(),
-    begin_date: Joi.string()
-        .pattern(/^\d{4}-\d{2}-\d{2}$/)
-        .required()
-        .messages({
-            'string.pattern.base': 'Date must be in the format yyyy-mm-dd',
-        }),
+    begin_date: Joi.date().iso().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
     is_offical_staff: Joi.boolean().default(false),
     salary_hourly: Joi.number().integer().min(100).max(999999),
     shift_night_pay: Joi.number().integer().min(100).max(999999),
