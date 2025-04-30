@@ -11,14 +11,19 @@ const authAdminRole = async (
         if (!user_id || typeof user_id !== 'string' || user_id.trim() === '') {
             return res.status(400).json({
                 success: false,
-                message: 'User ID is required and must be a string',
+                message: 'User ID is required and must be a non-empty string',
             });
         }
         const user = await findUserById(user_id);
-        if (!user?.success || user?.data?.role.toString() !== 'ADMIN') {
+        if (
+            !user?.success ||
+            !user?.data ||
+            user?.data?.role.toString() !== 'ADMIN'
+        ) {
             return res.status(403).json({
                 success: false,
-                message: 'Access denied: Admin role is required',
+                message:
+                    'You do not have permission to perform this action because you are not an admin',
             });
         }
         next();
