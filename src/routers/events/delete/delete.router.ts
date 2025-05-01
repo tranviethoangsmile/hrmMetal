@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { delete_event_controller } from '../../../controllers/events/events.controller';
+import { delete_event_controller } from '../../../controllers';
 const deleteEventsRouter: Router = Router();
 deleteEventsRouter.post('/', async (req: Request, res: Response) => {
     try {

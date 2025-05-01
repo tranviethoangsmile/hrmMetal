@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
-import { search_event_checked_controller } from '../../../controllers/evenCheck/evenCheck.controller';
-import { search_event_checked } from '../../../interfaces/evenCheck/eventCheck.interface';
+import { search_event_checked_controller } from '../../../controllers';
+import { search_event_checked } from '../../../interfaces';
 const searchEventCheckedRouter: Router = Router();
 
 searchEventCheckedRouter.post('/', async (req: Request, res: Response) => {

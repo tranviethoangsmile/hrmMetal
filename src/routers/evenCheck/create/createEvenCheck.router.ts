@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
-import { create_event_check_controller } from '../../../controllers/evenCheck/evenCheck.controller';
-import { create_event_check_interface } from '../../../interfaces/evenCheck/eventCheck.interface';
+import { create_event_check_controller } from '../../../controllers';
+import { create_event_check_interface } from '../../../interfaces';
 const createEvenCheck: Router = Router();
 createEvenCheck.post('/', async (req: Request, res: Response) => {
     try {

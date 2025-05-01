@@ -1,4 +1,4 @@
-import { getDepById } from '../department/department.useCase';
+import { getDepById } from '../index';
 import {
     validate_create_plan_production,
     validate_update_plan_production,

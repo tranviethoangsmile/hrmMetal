@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
-import { update_events_controller } from '../../../controllers/events/events.controller';
-import { update_events_interface } from '../../../interfaces/events/events.interface';
+import { update_events_controller } from '../../../controllers';
+import { update_events_interface } from '../../../interfaces';
 const updateEventsRouter: Router = Router();
 
 updateEventsRouter.post('/', async (req: Request, res: Response) => {

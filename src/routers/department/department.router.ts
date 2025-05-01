@@ -4,7 +4,7 @@ import {
     createDep,
     departmentList,
     getDepartmentById,
-} from '../../controllers/department/department.controller';
+} from '../../controllers';
 
 router.get('/', async (req: Request, res: Response) => {
     try {

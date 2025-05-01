@@ -55,6 +55,36 @@ import {
     validate_create_day_off,
     validate_update_day_off,
 } from './dayOff/dayOff.validate';
+import {
+    valid_create_daily_report,
+    valid_search_daily_report,
+} from './dailyReport/dailyReport.validate';
+
+import {
+    validate_create_event_check,
+    validate_search_event_checked,
+} from './eventCheck/eventCheck.validate';
+import {
+    validate_create_inventory,
+    validate_search_with_name,
+    validate_update_inventory,
+} from './inventory/inventory.validate';
+import { validate_login } from './login/login.validate';
+import {
+    validate_create_payroll,
+    validate_update_payroll,
+    validate_search_payroll,
+} from './payroll/payroll.validate';
+import {
+    validate_create_safety_check,
+    validate_search_safety_checked,
+} from './safetyCheck/safetyCheck.validate';
+import {
+    valid_user_create,
+    valid_user_update,
+    valid_user_find_all_with_field,
+    valid_find_by_name,
+} from './user/user.validate';
 const schema_id = Joi.string().guid().required();
 const validation_id = (id: string) => {
     return schema_id.validate(id);
@@ -96,4 +126,21 @@ export {
     validate_checkin_picked_order,
     validate_create_day_off,
     validate_update_day_off,
+    valid_create_daily_report,
+    valid_search_daily_report,
+    validate_create_event_check,
+    validate_search_event_checked,
+    validate_create_inventory,
+    validate_search_with_name,
+    validate_update_inventory,
+    validate_login,
+    validate_create_payroll,
+    validate_update_payroll,
+    validate_search_payroll,
+    validate_create_safety_check,
+    validate_search_safety_checked,
+    valid_user_create,
+    valid_user_update,
+    valid_user_find_all_with_field,
+    valid_find_by_name,
 };

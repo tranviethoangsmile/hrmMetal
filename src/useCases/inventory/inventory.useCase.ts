@@ -2,13 +2,13 @@ import {
     create_inventory,
     search_with_name,
     update_inventory,
-} from '../../interfaces/inventory/inventory.interface';
+} from '../../interfaces';
 import {
     validate_create_inventory,
     validate_search_with_name,
     validate_update_inventory,
-} from '../../validates/inventory/inventory.validate';
-import { Products } from '../../enum/product.enum';
+} from '../../validates';
+import { Products } from '../../enum';
 import { InventoryRepository, DepartmentRepository } from '../../repositorys';
 const departmentRepository = new DepartmentRepository();
 const inventoryRepository = new InventoryRepository();

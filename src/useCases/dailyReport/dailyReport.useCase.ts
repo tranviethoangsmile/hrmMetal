@@ -1,22 +1,17 @@
-import {
-    create_daily_report,
-    search_report,
-} from '../../interfaces/dailyReport/dailyReport.interface';
+import { create_daily_report, search_report } from '../../interfaces';
 import {
     valid_create_daily_report,
     valid_search_daily_report,
-} from '../../validates/dailyReport/dailyReport.validate';
+} from '../../validates';
 import { validation_id } from '../../validates';
-import { Products } from '../../enum/product.enum';
-import { findUserById } from '../user/user.useCase';
-import { shift } from '../../enum/shift.enum';
+import { Products, shift } from '../../enum';
 import {
     InventoryRepository,
     DailyReportRepository,
     DepartmentRepository,
 } from '../../repositorys';
 import db from '../../dbs/db';
-import { create_notification_usecase } from '../notification/notification.usecase';
+import { create_notification_usecase, findUserById } from '../index';
 const inventoryRepository = new InventoryRepository();
 const dailyReportRepository = new DailyReportRepository();
 const departmentRepository = new DepartmentRepository();

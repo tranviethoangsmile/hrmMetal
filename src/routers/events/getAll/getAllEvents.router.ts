@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { get_all_events_controller } from '../../../controllers/events/events.controller';
+import { get_all_events_controller } from '../../../controllers';
 const getAllEventRouter: Router = Router();
 
 getAllEventRouter.get('/', async (req: Request, res: Response) => {

@@ -2,8 +2,8 @@ import { SafetyCheckRepository } from '../../repositorys';
 import {
     validate_create_safety_check,
     validate_search_safety_checked,
-} from '../../validates/safetyCheck/safetyCheck.validate';
-import { search_event_by_id_use } from '../events/events.useCase';
+} from '../../validates';
+import { search_event_by_id_use } from '../index';
 
 const safetyCheckRepository = new SafetyCheckRepository();
 const create_safety_check_use = async (field: any) => {
