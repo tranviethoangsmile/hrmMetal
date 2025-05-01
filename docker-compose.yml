@@ -1,4 +1,3 @@
-version: '3'
 services:
   hoangdev:
     image: tranviethoangsmile/hrm:latest
@@ -8,18 +7,4 @@ services:
       POSTGRES_USER: hoangdev
       POSTGRES_PASSWORD: ${PRO_DB_PASSWORD}
     volumes:
-      - /Users/hoangdev/Desktop/docker-data:/var/lib/postgresql/data   
-
-  server:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - 5000:5000
-    environment:
-      DB_HOST: hoangdev
-      DB_PORT: 5432
-      DB_USER: hoangdev
-      DB_PASSWORD: ${PRO_DB_PASSWORD}
-    depends_on:
-      - hoangdev
+      - /Users/hoangdev/Desktop/docker-data:/var/lib/postgresql/data
