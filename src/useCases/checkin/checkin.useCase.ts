@@ -6,8 +6,8 @@ import {
     is_Checked_interface,
     get_checkin_in_date_of_position_interface,
 } from '../../interfaces';
-import { validation_id } from '../../validates';
 import {
+    validation_id,
     create_checkin_validate,
     update_checkin_validate,
     get_checkin_in_date_of_position_validate,

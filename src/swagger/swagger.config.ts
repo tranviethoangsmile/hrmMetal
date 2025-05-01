@@ -13,23 +13,20 @@ const options: swaggerJSDoc.Options = {
         },
         servers: [
             {
-                url: `http://localhost:${config.app.port}`, // Update this to match your server URL
+                url: `http://localhost:${config.app.port}`,
             },
         ],
     },
     apis: [
         path.join(__dirname, '../routers/*.ts'),
         path.join(__dirname, './swaggerAPI/**/*.swagger.ts'),
-    ], // Adjust the path to your router files
+    ],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
 
 function swaggerDocs(app: Express, port: number) {
-    // Serve Swagger UI at /api-docs
     app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
-
-    // Serve raw Swagger JSON at /docs.json
     app.get('/docs.json', (req: Request, res: Response) => {
         res.setHeader('Content-Type', 'application/json');
         res.send(swaggerSpec);

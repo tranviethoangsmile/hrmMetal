@@ -6,7 +6,7 @@ import {
     validate_checkin_picked_order,
 } from '../../validates';
 import { shift_work } from '../../enum';
-import { create_notification_usecase } from '../notification/notification.usecase';
+import { create_notification_usecase } from '../index';
 import { OrderRepository, UserRepository } from '../../repositorys';
 const userRepository = new UserRepository();
 const orderRepository = new OrderRepository();

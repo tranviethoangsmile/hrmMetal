@@ -3,7 +3,6 @@ import { DeleteConversationRepository } from '../../repositorys';
 import {
     find_group_of_member,
     findUserById,
-    get_group_member_of_user_use,
     search_all_message_of_conversation_use,
     search_conversation_by_id_use,
 } from '../../useCases';

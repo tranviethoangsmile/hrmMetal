@@ -1,19 +1,14 @@
 import bcrypt from 'bcrypt';
 import {
+    validation_id,
     valid_user_create,
     valid_user_update,
     valid_user_find_all_with_field,
     valid_find_by_name,
-} from '../../validates/user/user.validate';
-import { validation_id } from '../../validates';
-import { Role } from '../../enum/Role.enum';
-import { Position } from '../../enum/Position.enum';
-import { getDepartmentById } from '../../controllers/department/department.controller';
-import {
-    UpdateField,
-    CreateField,
-    FindAllField,
-} from '../../interfaces/user/user.interface';
+} from '../../validates';
+import { Role, Position } from '../../enum';
+import { getDepartmentById } from '../../controllers';
+import { UpdateField, CreateField } from '../../interfaces';
 
 import { UserRepository } from '../../repositorys';
 const userRepository = new UserRepository();

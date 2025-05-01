@@ -2,8 +2,8 @@ import { EventCheckRepository } from '../../repositorys';
 import {
     validate_create_event_check,
     validate_search_event_checked,
-} from '../../validates/eventCheck/eventCheck.validate';
-import { search_event_by_id_use } from '../events/events.useCase';
+} from '../../validates';
+import { search_event_by_id_use } from '../index';
 const eventCheckRepository = new EventCheckRepository();
 const create_event_check_use = async (field: any) => {
     try {

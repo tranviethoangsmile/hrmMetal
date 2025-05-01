@@ -2,9 +2,9 @@ import {
     validate_create_payroll,
     validate_update_payroll,
     validate_search_payroll,
-} from '../../validates/payroll/payroll.validate';
+} from '../../validates';
 import { validation_id } from '../../validates';
-import { findUserById } from '../user/user.useCase';
+import { findUserById } from '../index';
 import { PayrollRepository } from '../../repositorys';
 
 const payrollRepository = new PayrollRepository();

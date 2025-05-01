@@ -59,7 +59,19 @@ import {
     delete_day_off_by_id_controller,
     update_day_off_by_id_controller,
 } from './dayOff/dayOff.controller';
+import {
+    create_event_check_controller,
+    search_event_checked_controller,
+} from './evenCheck/evenCheck.controller';
+import {
+    createDep,
+    departmentList,
+    getDepartmentById,
+} from './department/department.controller';
 export {
+    createDep,
+    departmentList,
+    getDepartmentById,
     create_plan_production_controller,
     update_plan_production_controller,
     search_plan_production_by_id_controller,
@@ -103,4 +115,6 @@ export {
     get_day_off_by_id_controller,
     delete_day_off_by_id_controller,
     update_day_off_by_id_controller,
+    search_event_checked_controller,
+    create_event_check_controller,
 };

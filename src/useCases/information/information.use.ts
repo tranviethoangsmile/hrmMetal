@@ -2,9 +2,9 @@ import { create_information, search_all_information } from '../../interfaces';
 import {
     validate_create_information,
     validate_search_all_information,
+    validation_id,
 } from '../../validates';
 import { Position } from '../../enum';
-import { validation_id } from '../../validates';
 import { findUserById } from '../user/user.useCase';
 import { InformationRepository } from '../../repositorys';
 const informationRepository = new InformationRepository();

@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { search_event_by_id_controller } from '../../../controllers/events/events.controller';
+import { search_event_by_id_controller } from '../../../controllers';
 
 const searchEventById: Router = Router();
 

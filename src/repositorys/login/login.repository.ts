@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import { Department, User } from '../../models';
 import jwt from 'jsonwebtoken';
-import { token_payload } from '../../interfaces/login/login.interface';
+import { token_payload } from '../../interfaces';
 import { ILoginRepository } from '../interfaces';
 dotenv.config();
 const SECRET: string = process.env.SECRET || '';

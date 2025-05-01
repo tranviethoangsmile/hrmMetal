@@ -53,6 +53,21 @@ import {
 } from './safetyReport/safetyReport.interface';
 import { search_order, checkin_picked_order } from './order/order.interface';
 import { create_day_off, update_day_off } from './dayOffs/dayOff.interface';
+import {
+    create_event_check_interface,
+    search_event_checked,
+} from './evenCheck/eventCheck.interface';
+import {
+    create_daily_report,
+    search_report,
+} from './dailyReport/dailyReport.interface';
+import {
+    create_inventory,
+    search_with_name,
+    update_inventory,
+} from './inventory/inventory.interface';
+import { login_data, token_payload } from './login/login.interface';
+import { UpdateField, CreateField, FindAllField } from './user/user.interface';
 export {
     create_plan_production,
     update_plan_production,
@@ -88,4 +103,16 @@ export {
     checkin_picked_order,
     create_day_off,
     update_day_off,
+    create_event_check_interface,
+    search_event_checked,
+    create_daily_report,
+    search_report,
+    create_inventory,
+    search_with_name,
+    update_inventory,
+    login_data,
+    token_payload,
+    UpdateField,
+    CreateField,
+    FindAllField,
 };

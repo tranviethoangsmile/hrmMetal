@@ -1,5 +1,5 @@
-import { login_data } from '../../interfaces/login/login.interface';
-import { validate_login } from '../../validates/login/login.validate';
+import { login_data } from '../../interfaces';
+import { validate_login } from '../../validates';
 import { LoginRepository } from '../../repositorys';
 const loginRepository = new LoginRepository();
 const login_user = async (user: login_data) => {

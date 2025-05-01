@@ -1,6 +1,6 @@
 import { UniformOrderRepository } from '../../repositorys';
 import { Position, UniformSize, UniformType } from '../../enum';
-import { findUserById } from '../user/user.useCase';
+import { findUserById } from '../index';
 import {
     validate_create_uniform_order,
     validate_position,
