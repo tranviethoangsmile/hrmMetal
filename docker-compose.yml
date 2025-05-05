@@ -8,3 +8,7 @@ services:
       POSTGRES_PASSWORD: ${PRO_DB_PASSWORD}
     volumes:
       - /Users/hoangdev/Desktop/docker-data:/var/lib/postgresql/data
+  hrm: 
+    image: tranviethoangsmile/be-v1:latest
+    ports:
+      - 5000:5000
