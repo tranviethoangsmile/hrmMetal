@@ -1,6 +1,6 @@
 # Sử dụng base image Node.js mới nhất
-FROM node:20-alpine
-WORKDIR /
+FROM node:23-alpine
+WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
