@@ -1,0 +1,12 @@
+stages:
+  - build
+  - deploy
+  - test
+  - release
+build:
+  stage: build
+  script:
+    - echo "Building the project..."
+    - echo "Build completed successfully."
+  tags:
+    - server
