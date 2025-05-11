@@ -6,6 +6,7 @@ stages:
 build:
   stage: build
   script:
+    - git clone http://126.122.223.58:8181/hrm-metal/hrmmetal.git
     - echo "Building the project..."
     - echo "Build completed successfully."
   tags:
