@@ -1,12 +1,7 @@
-stages:
-  - build
-  - deploy
-  - test
-  - release
 build:
   stage: build
   script:
-    - git clone http://126.122.223.58:8181/hrm-metal/hrmmetal.git
+    - git clone http://$GIT_USERNAME:$GIT_PASSWORD@126.122.223.58:8181/hrm-metal/hrmmetal.git
     - echo "Building the project..."
     - echo "Build completed successfully."
   tags:
