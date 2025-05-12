@@ -16,7 +16,6 @@ build:
   script:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - npm install
-    - npm install -g pm2 
     - npm run build
     - docker-compose up -d
     - echo "Build completed successfully."
