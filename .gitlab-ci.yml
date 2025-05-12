@@ -1,16 +1,19 @@
 stages:
   - clone
   - build
+
 clone: 
   stage: clone
   script:
-    - - git clone http://$GIT_USERNAME:$GIT_PASSWORD@126.122.223.58:8181/hrm-metal/hrmmetal.git
+    - git clone http://$GIT_USERNAME:$GIT_PASSWORD@126.122.223.58:8181/hrm-metal/hrmmetal.git
     - echo "Repository cloned successfully."
   tags:
     - hrmMetal-server-CICD
+
 build:
   stage: build
   script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - npm install
     - npm run build
     - docker-compose up -d
