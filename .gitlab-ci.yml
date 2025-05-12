@@ -5,4 +5,4 @@ build:
     - echo "Building the project..."
     - echo "Build completed successfully."
   tags:
-    - hrmMetal-server
+    - hrmMetal-server-CICD
