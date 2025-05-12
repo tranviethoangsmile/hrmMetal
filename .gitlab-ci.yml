@@ -13,17 +13,28 @@ clone:
 
 build:
   stage: build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/ # Cache dependencies
   script:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - npm install
     - npm run build
     - echo "Build completed successfully."
     - docker-compose up -d
-    - echo "docker completed successfully."
+    - echo "Docker containers started successfully."
+  artifacts:
+    paths:
+      - dist/ # Save the build output for the deploy stage
+    expire_in: 1 week # Optional: Set expiration for artifacts
   tags:
     - hrmMetal-server-CICD
+
 deploy:
   stage: deploy
+  dependencies:
+    - build # Ensure it uses artifacts from the build stage
   script:
     - npm start
     - echo "Deployment completed successfully."
