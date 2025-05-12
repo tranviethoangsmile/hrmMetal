@@ -1,6 +1,7 @@
 stages:
   - clone
   - build
+  - deploy
 
 clone: 
   stage: clone
@@ -18,5 +19,12 @@ build:
     - npm run build
     - docker-compose up -d
     - echo "Build completed successfully."
+  tags:
+    - hrmMetal-server-CICD
+deploy:
+  stage: deploy
+  script:
+    - npm start
+    - echo "Deployment completed successfully."
   tags:
     - hrmMetal-server-CICD
