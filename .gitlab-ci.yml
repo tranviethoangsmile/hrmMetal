@@ -17,8 +17,9 @@ build:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - npm install
     - npm run build
-    - docker-compose up -d
     - echo "Build completed successfully."
+    - docker-compose up -d
+    - echo "docker completed successfully."
   tags:
     - hrmMetal-server-CICD
 deploy:
