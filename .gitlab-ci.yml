@@ -1,41 +1,17 @@
 stages:
-  - clone
-  - build
-  - deploy
+  - build_and_deploy
 
-clone: 
-  stage: clone
-  script:
-    - git clone http://$GIT_USERNAME:$GIT_PASSWORD@126.122.223.58:8181/hrm-metal/hrmmetal.git
-    - echo "Repository cloned successfully."
-  tags:
-    - hrmMetal-server-CICD
-
-build:
-  stage: build
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - node_modules/ # Cache dependencies
+build_and_deploy:
+  stage: build_and_deploy
   script:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - git clone http://$GIT_USERNAME:$GIT_PASSWORD@126.122.223.58:8181/hrm-metal/hrmmetal.git
+    - echo "Repository cloned successfully."
     - npm install
     - npm run build
     - echo "Build completed successfully."
     - docker-compose up -d
     - echo "Docker containers started successfully."
-  artifacts:
-    paths:
-      - dist/ # Save the build output for the deploy stage
-    expire_in: 1 week # Optional: Set expiration for artifacts
-  tags:
-    - hrmMetal-server-CICD
-
-deploy:
-  stage: deploy
-  dependencies:
-    - build # Ensure it uses artifacts from the build stage
-  script:
     - npm start
     - echo "Deployment completed successfully."
   tags:
