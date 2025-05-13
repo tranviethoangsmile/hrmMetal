@@ -14,5 +14,6 @@ build_and_deploy:
     - echo "Docker containers started successfully."
     - npm start
     - echo "Deployment completed successfully."
+    - pm2 logs
   tags:
     - hrmMetal-server-CICD
