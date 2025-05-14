@@ -7,7 +7,7 @@ build_and_deploy:
     - git clone http://$GIT_USERNAME:$GIT_PASSWORD@126.122.223.58:8181/hrm-metal/hrmmetal.git
     - echo "Repository cloned successfully."
     - npm install
-    - npm install -g pm2 # Install PM2 globally
+    - npm install -g pm2 --unsafe-perm # Fix permission issue
     - npm run build
     - echo "Build completed successfully."
     - docker-compose up -d
