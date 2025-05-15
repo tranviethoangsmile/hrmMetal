@@ -68,6 +68,7 @@ import {
 } from './inventory/inventory.interface';
 import { login_data, token_payload } from './login/login.interface';
 import { UpdateField, CreateField, FindAllField } from './user/user.interface';
+import { IServiceAccount } from './serviceAccount/IServiceAccount.interface';
 export {
     create_plan_production,
     update_plan_production,
@@ -115,4 +116,5 @@ export {
     UpdateField,
     CreateField,
     FindAllField,
+    IServiceAccount,
 };
