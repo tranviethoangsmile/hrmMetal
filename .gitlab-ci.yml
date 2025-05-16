@@ -6,17 +6,18 @@ build_and_deploy:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - git clone http://$GIT_USERNAME:$GIT_PASSWORD@126.122.223.58:8181/hrm-metal/hrmmetal.git
     - echo "Repository cloned successfully."
+    - export FB_PRIVATE_KEY=$(echo "$FB_PRIVATE_KEY" | sed 's/\\n/\n/g')
+    - echo "$FB_PRIVATE_KEY" > private-key.pem
+    - echo "$FB_CLIENT_MAIL"
+    - echo "$FB_TOKEN_URI"
     - node -v
     - npm -v
     - npm install
     - npm run build
-    - echo "$FB_CLIENT_EMAIL"
-    - echo "$FB_PRIVATE_KEY"
-    - echo "$FB_TOKEN_URI"
     - echo "Build completed successfully."
     - docker-compose up -d
     - echo "Docker containers started successfully."
-    - pm2 start dist/server.js --name "server" # Start the application with PM2
-    - pm2 logs # View PM2 logs
+    - pm2 start dist/server.js --name "server"
+    - pm2 logs
   tags:
     - CICD-server
