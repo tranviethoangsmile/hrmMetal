@@ -6,6 +6,8 @@ build_and_deploy:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - git clone http://$GIT_USERNAME:$GIT_PASSWORD@126.122.223.58:8181/hrm-metal/hrmmetal.git
     - echo "Repository cloned successfully."
+    - node -v
+    - npm -v
     - npm install
     - npm run build
     - echo "Build completed successfully."
