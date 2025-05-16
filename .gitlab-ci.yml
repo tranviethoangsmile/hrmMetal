@@ -10,6 +10,9 @@ build_and_deploy:
     - npm -v
     - npm install
     - npm run build
+    - echo "$FB_CLIENT_EMAIL"
+    - echo "$FB_PRIVATE_KEY"
+    - echo "$FB_TOKEN_URI"
     - echo "Build completed successfully."
     - docker-compose up -d
     - echo "Docker containers started successfully."
