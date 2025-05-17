@@ -20,4 +20,4 @@ build_and_deploy:
     - pm2 start dist/server.js --name "server"
     - pm2 logs
   tags:
-    - CICD-server
+    - VIVD-server
