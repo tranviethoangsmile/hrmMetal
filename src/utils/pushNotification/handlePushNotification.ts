@@ -6,16 +6,16 @@ const serviceAccount = ENV.FIREBASE_CONFIG
     ? JSON.parse(ENV.FIREBASE_CONFIG)
     : {
           type: 'service_account',
-          project_id: ENV.FIREBASE_PROJECT_ID,
-          private_key_id: ENV.FIREBASE_PRIVATE_KEY_ID,
+          project_id: ENV.FB_PROJECT_ID,
+          private_key_id: ENV.FB_PRIVATE_KEY_ID,
           private_key: ENV.FB_PRIVATE_KEY,
-          client_email: ENV.FIREBASE_CLIENT_EMAIL,
-          client_id: ENV.FIREBASE_CLIENT_ID,
+          client_email: ENV.FB_CLIENT_MAIL,
+          client_id: ENV.FB_CLIENT_ID,
           auth_uri: 'https://accounts.google.com/o/oauth2/auth',
           token_uri: 'https://oauth2.googleapis.com/token',
           auth_provider_x509_cert_url:
               'https://www.googleapis.com/oauth2/v1/certs',
-          client_x509_cert_url: ENV.FIREBASE_CLIENT_CERT_URL,
+          client_x509_cert_url: ENV.FB_CLIENT_X509_CERT_URL,
       };
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
