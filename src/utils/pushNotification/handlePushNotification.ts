@@ -1,11 +1,10 @@
 import admin, { ServiceAccount } from 'firebase-admin';
 import dotenv from 'dotenv';
-// import serviceAccount from '../../../serviceAccount/serviceAccountKey.json';
 dotenv.config();
 const ENV = process.env;
 const serviceAccount: ServiceAccount = {
     projectId: ENV.FB_PROJECT_ID || '',
-    privateKey: ENV.FB_PRIVATE_KEY || '', // Handle escaped newlines
+    privateKey: ENV.FB_PRIVATE_KEY || '',
     clientEmail: ENV.FB_CLIENT_MAIL || '',
 };
 admin.initializeApp({
