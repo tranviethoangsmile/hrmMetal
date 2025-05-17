@@ -1,22 +1,13 @@
-import admin from 'firebase-admin';
+import admin, { ServiceAccount } from 'firebase-admin';
 import dotenv from 'dotenv';
+// import serviceAccount from '../../../serviceAccount/serviceAccountKey.json';
 dotenv.config();
 const ENV = process.env;
-const serviceAccount = ENV.FIREBASE_CONFIG
-    ? JSON.parse(ENV.FIREBASE_CONFIG)
-    : {
-          type: 'service_account',
-          project_id: ENV.FB_PROJECT_ID,
-          private_key_id: ENV.FB_PRIVATE_KEY_ID,
-          private_key: ENV.FB_PRIVATE_KEY,
-          client_email: ENV.FB_CLIENT_MAIL,
-          client_id: ENV.FB_CLIENT_ID,
-          auth_uri: 'https://accounts.google.com/o/oauth2/auth',
-          token_uri: 'https://oauth2.googleapis.com/token',
-          auth_provider_x509_cert_url:
-              'https://www.googleapis.com/oauth2/v1/certs',
-          client_x509_cert_url: ENV.FB_CLIENT_X509_CERT_URL,
-      };
+const serviceAccount: ServiceAccount = {
+    projectId: ENV.FB_PROJECT_ID || '',
+    privateKey: ENV.FB_PRIVATE_KEY || '', // Handle escaped newlines
+    clientEmail: ENV.FB_CLIENT_MAIL || '',
+};
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
