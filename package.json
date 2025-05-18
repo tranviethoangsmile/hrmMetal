@@ -5,7 +5,7 @@
     "main": "server.ts",
     "scripts": {
         "dev": "nodemon src/server.ts",
-        "start": "NODE_ENV=pro pm2 start dist/server.js --name \"server\"",
+        "start": "NODE_ENV=pro pm2 -f start dist/server.js --name \"server\"",
         "build": "tsc",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
