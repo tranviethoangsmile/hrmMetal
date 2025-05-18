@@ -67,7 +67,11 @@ import {
     update_uniform_order_use,
 } from '../useCases/uniformOrder/uniformOrder.usecase';
 
-import { getDepById } from './department/department.useCase';
+import {
+    getDepById,
+    departmentCreate,
+    getDepartmentList,
+} from './department/department.useCase';
 import {
     create_safety_report_usecase,
     update_safety_report_usecase,
@@ -143,4 +147,6 @@ export {
     get_day_off_by_id_use,
     delete_day_off_by_id_use,
     update_day_off_by_id_use,
+    departmentCreate,
+    getDepartmentList,
 };

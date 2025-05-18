@@ -2,7 +2,7 @@ import {
     departmentCreate,
     getDepartmentList,
     getDepById,
-} from '../../useCases/department/department.useCase';
+} from '../../useCases';
 import { Department } from '../../models';
 
 const createDep = async (department: any) => {
