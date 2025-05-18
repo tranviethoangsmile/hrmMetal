@@ -3,9 +3,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 const ENV = process.env;
 const serviceAccount: ServiceAccount = {
-    projectId: ENV.FB_PROJECT_ID || '',
-    privateKey: ENV.FB_PRIVATE_KEY || '',
-    clientEmail: ENV.FB_CLIENT_MAIL || '',
+    projectId: ENV.FB_PROJECT_ID,
+    privateKey: ENV.FB_PRIVATE_KEY,
+    clientEmail: ENV.FB_CLIENT_MAIL,
 };
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
