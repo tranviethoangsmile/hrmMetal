@@ -1,84 +1,12 @@
 import { Request, Response, Router } from 'express';
-const router: Router = Router();
-import {
-    createDep,
-    departmentList,
-    getDepartmentById,
-} from '../../controllers';
+import createDepRouter from './create/create.router';
+import getAllDepRouter from './getAll/getall.router';
+import getDepByIdRouter from './getById/getbyid.router';
+const depRouter: Router = Router();
+import { getDepartmentById } from '../../controllers';
 
-router.get('/', async (req: Request, res: Response) => {
-    try {
-        const departments = await departmentList();
-        if (departments?.success) {
-            return res.status(202).send({
-                success: true,
-                data: departments?.data,
-            });
-        } else {
-            return res.status(200).send({
-                success: false,
-                message: departments?.message,
-            });
-        }
-    } catch (error: any) {
-        return res.status(500).send({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
-    }
-});
+depRouter.use('/create', createDepRouter);
+depRouter.use('/getall', getAllDepRouter);
+depRouter.use('/getbyid', getDepByIdRouter);
 
-router.post('/', async (req: Request, res: Response) => {
-    try {
-        const dep: object | null = req.body;
-        if (dep != null) {
-            const department = await createDep(dep);
-            if (department?.success) {
-                return res.status(201).send({
-                    success: true,
-                    data: department?.data,
-                });
-            } else {
-                return res.status(200).json({
-                    success: false,
-                    message: department?.message,
-                });
-            }
-        } else {
-            return res.status(400).json({
-                success: false,
-                message: 'data not empty',
-            });
-        }
-    } catch (error: any) {
-        return res.status(500).send({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
-    }
-});
-
-router.get('/:id', async (req: Request, res: Response) => {
-    try {
-        const id = req.params.id;
-        const department = await getDepartmentById(id);
-        if (department?.success) {
-            return res.status(202).send({
-                success: true,
-                data: department?.data,
-            });
-        } else {
-            return res.status(200).send({
-                success: false,
-                message: department?.message,
-            });
-        }
-    } catch (error: any) {
-        return res.status(500).send({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
-    }
-});
-
-export default router;
+export default depRouter;

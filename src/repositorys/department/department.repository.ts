@@ -7,17 +7,16 @@ class DepartmentRepository implements IDepartmentRepository {
             const new_department: Department | null = await Department.create({
                 name: data.name,
             });
-            if (new_department != null) {
-                return {
-                    success: true,
-                    data: new_department,
-                };
-            } else {
+            if (new_department === null) {
                 return {
                     success: false,
                     message: 'create department error',
                 };
             }
+            return {
+                success: true,
+                data: new_department,
+            };
         } catch (error: any) {
             return {
                 success: true,
@@ -29,21 +28,19 @@ class DepartmentRepository implements IDepartmentRepository {
     // fix
     async departmentList() {
         try {
-            const departments: Department[] | null = await Department.findAll({
+            const departments: Department[] = await Department.findAll({
                 attributes: ['id', 'name'],
             });
-
-            if (departments != null) {
-                return {
-                    success: true,
-                    data: departments,
-                };
-            } else {
+            if (departments.length === 0) {
                 return {
                     success: false,
-                    message: 'departments not found',
+                    message: 'department not found',
                 };
             }
+            return {
+                success: true,
+                data: departments,
+            };
         } catch (error: any) {
             return {
                 success: false,
