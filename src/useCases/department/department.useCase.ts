@@ -1,32 +1,21 @@
-import { validation_department_create } from '../../validates/department/department.validate';
-import { validation_id } from '../../validates';
+import { validation_id, validation_department_create } from '../../validates';
 import { DepartmentRepository } from '../../repositorys';
 
 const departmentRepository = new DepartmentRepository();
 const departmentCreate = async (data: any) => {
     try {
-        const valid = await validation_department_create(data);
-        if (!valid.error) {
-            const newDepartment = await departmentRepository.createDepartment(
-                data,
-            );
-            if (newDepartment?.success) {
-                return {
-                    success: true,
-                    data: newDepartment?.data,
-                };
-            } else {
-                return {
-                    success: false,
-                    message: newDepartment?.message,
-                };
-            }
-        } else {
-            return {
-                success: false,
-                message: valid?.error.message,
-            };
+        const valid = validation_department_create(data);
+        if (valid?.error) {
+            throw new Error(valid?.error.message);
         }
+        const newDepartment = await departmentRepository.createDepartment(data);
+        if (!newDepartment?.success) {
+            throw new Error(newDepartment?.message);
+        }
+        return {
+            success: true,
+            data: newDepartment?.data,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -38,17 +27,13 @@ const departmentCreate = async (data: any) => {
 const getDepartmentList = async () => {
     try {
         const departments = await departmentRepository.departmentList();
-        if (departments?.success) {
-            return {
-                success: true,
-                data: departments?.data,
-            };
-        } else {
-            return {
-                success: false,
-                message: departments?.message,
-            };
+        if (!departments?.success) {
+            throw new Error(departments?.message);
         }
+        return {
+            success: true,
+            data: departments?.data,
+        };
     } catch (error: any) {
         return {
             success: false,
@@ -60,25 +45,17 @@ const getDepartmentList = async () => {
 const getDepById = async (id: string) => {
     try {
         const validId = validation_id(id);
-        if (!validId.error) {
-            const department = await departmentRepository.getDepartmentById(id);
-            if (department?.success) {
-                return {
-                    success: true,
-                    data: department?.data,
-                };
-            } else {
-                return {
-                    success: false,
-                    message: department?.message,
-                };
-            }
-        } else {
-            return {
-                success: false,
-                message: validId.error.message,
-            };
+        if (validId.error) {
+            throw new Error(validId?.error.message);
         }
+        const department = await departmentRepository.getDepartmentById(id);
+        if (!department?.success) {
+            throw new Error(department?.message);
+        }
+        return {
+            success: true,
+            data: department?.data,
+        };
     } catch (error: any) {
         return {
             success: false,

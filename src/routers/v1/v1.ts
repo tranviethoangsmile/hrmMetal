@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import userRouters from '../user/user.router';
-import departmentRouters from '../department/department.router';
+import depRouter from '../department/department.router';
 import findRouter from '../find/find.router';
 import foodRouter from '../food/food.router';
 import canteenRouter from '../canteen/canteen.router';
@@ -30,7 +30,7 @@ import uniformOrderRouter from '../uniformOrder/uniformOrder.router';
 import safetyReportRouterRoot from '../safetyReport/safetyReport.router';
 import dayOffRouter from '../dayOff/dayOff.router';
 const v1Router: Router = Router();
-v1Router.use('/department', departmentRouters);
+v1Router.use('/department', depRouter);
 v1Router.use('/users', userRouters);
 v1Router.use('/find', findRouter);
 v1Router.use('/food', foodRouter);
