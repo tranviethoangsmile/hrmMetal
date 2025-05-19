@@ -3,7 +3,6 @@ stages:
 build_and_deploy:
   stage: build_and_deploy
   script:
-    - pm2 delete all
     - node -v
     - npm -v
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
