@@ -18,7 +18,7 @@ import config from './configs/config.system';
 import swaggerDocs from './swagger/swagger.config';
 // require('./dbs/db.mongo');
 dotenv.config();
-const PORT = config.app.port;
+const PORT = config.app.port || 5000;
 const HOSTNAME = process.env.HOST_SERVER || 'localhost';
 const app: Application = express();
 const server = http.createServer(app);
@@ -48,6 +48,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(router);
+
 server.listen(PORT, () => {
     console.warn(`server runing on port ${HOSTNAME}:${PORT}`);
 });
