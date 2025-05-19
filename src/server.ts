@@ -18,7 +18,7 @@ import config from './configs/config.system';
 import swaggerDocs from './swagger/swagger.config';
 // require('./dbs/db.mongo');
 dotenv.config();
-const PORT = config.app.port || 5000;
+const PORT = config.app.port;
 const HOSTNAME = process.env.HOST_SERVER || 'localhost';
 const app: Application = express();
 const server = http.createServer(app);
