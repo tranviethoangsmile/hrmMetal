@@ -2,6 +2,10 @@ stages:
   - build_and_deploy
 build_and_deploy:
   stage: build_and_deploy
+  variables:
+    PRO_PORT: ${PRO_PORT}
+    PRO_DB_PASSWORD: ${PRO_DB_PASSWORD}
+    PRO_HOST: ${PRO_HOST}
   script:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - git clone http://$GIT_USERNAME:$GIT_PASSWORD@126.122.223.58:8181/hrm-metal/hrmmetal.git
