@@ -8,7 +8,7 @@ build_and_deploy:
     - echo "$PRO_PORT"
     - echo "$PRO_DB_PASSWORD"
     - echo "$PRO_DB_USER"
-    - echo "$PRO_DB_HOST"
+    - echo "$PRO_HOST"
     - echo "$FB_CLIENT_MAIL"
     - echo "$FB_PRIVATE_KEY"
     - npm install
