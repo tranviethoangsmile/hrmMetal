@@ -5,8 +5,8 @@ build_and_deploy:
   script:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - git clone http://$GIT_USERNAME:$GIT_PASSWORD@126.122.223.58:8181/hrm-metal/hrmmetal.git
-    - echo "$FB_CLIENT_MAIL"
     - echo "$FB_PRIVATE_KEY"
+    - echo "$FB_CLIENT_MAIL"
     - echo "$PRO_PORT"
     - npm install
     - npm run build
