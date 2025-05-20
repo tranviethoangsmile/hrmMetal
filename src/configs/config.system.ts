@@ -25,7 +25,7 @@ const pro: Config = {
         port: parseInt(ENV.PRO_PORT!),
     },
     db: {
-        host: ENV.PRO_HOST || 'localhost',
+        host: ENV.PRO_HOST!,
         port: parseInt(ENV.PRO_DB_PORT!),
         name: ENV.PRO_DB_NAME!,
         dialect: Dialect.POSTGRES,
