@@ -17,9 +17,20 @@ createOvertimeRequestRouter.post('/', async (req: Request, res: Response) => {
             !data.overtime_hours ||
             !data.reason
         ) {
+            const missingFields = [
+                !data.user_id && 'user_id',
+                !data.date && 'date',
+                !data.position && 'position',
+                !data.department_id && 'department_id',
+                !data.overtime_hours && 'overtime_hours',
+                !data.reason && 'reason',
+                !data.leader_id && 'leader_id',
+            ]
+                .filter(Boolean)
+                .join(', ');
             return res.status(400).json({
                 success: false,
-                message: 'Missing data',
+                message: `Missing values: ${missingFields}`,
             });
         }
         const result = await create_overtime_request_controller(data);
