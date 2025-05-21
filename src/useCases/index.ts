@@ -87,6 +87,8 @@ import {
     delete_day_off_by_id_use,
     update_day_off_by_id_use,
 } from './dayOff/dayOff.usecase';
+
+import { create_overtime_request_usecase } from './overtimeRequest/overtimeRequest.usecase';
 export {
     create_plan_production_use,
     update_plan_production_use,
@@ -149,4 +151,5 @@ export {
     update_day_off_by_id_use,
     departmentCreate,
     getDepartmentList,
+    create_overtime_request_usecase,
 };

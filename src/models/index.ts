@@ -26,6 +26,7 @@ import DeleteConversation from './deleteConversation.model';
 import UniformOrder from './uniformOrder.model';
 import SafetyReport from './safetyReport.model';
 import DayOffs from './dayOffs.model';
+import OvertimeRequest from './overtimeRequests.model';
 User.belongsTo(Department, { foreignKey: 'department_id', as: 'department' });
 Department.hasMany(User, { foreignKey: 'department_id', as: 'users' });
 Order.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
@@ -94,6 +95,20 @@ SafetyReport.belongsTo(User, { foreignKey: 'leader_id', as: 'leaderDetail' });
 User.hasMany(SafetyReport, { foreignKey: 'leader_id' });
 User.hasMany(DayOffs, { foreignKey: 'user_id' });
 DayOffs.belongsTo(User, { foreignKey: 'user_id', as: 'userDetail' });
+OvertimeRequest.belongsTo(Department, {
+    foreignKey: 'department_id',
+    as: 'departmentDetail',
+});
+Department.hasMany(OvertimeRequest, { foreignKey: 'department_id' });
+User.hasMany(OvertimeRequest, { foreignKey: 'user_id' });
+User.hasMany(OvertimeRequest, { foreignKey: 'leader_id' });
+User.hasMany(OvertimeRequest, { foreignKey: 'admin_id' });
+OvertimeRequest.belongsTo(User, { foreignKey: 'user_id', as: 'userDetail' });
+OvertimeRequest.belongsTo(User, {
+    foreignKey: 'leader_id',
+    as: 'leaderDetail',
+});
+OvertimeRequest.belongsTo(User, { foreignKey: 'admin_id', as: 'adminDetail' });
 export {
     User,
     Department,
@@ -123,4 +138,5 @@ export {
     UniformOrder,
     SafetyReport,
     DayOffs,
+    OvertimeRequest,
 };

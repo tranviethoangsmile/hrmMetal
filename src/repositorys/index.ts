@@ -22,6 +22,7 @@ import FcmTokenRepository from './fcmToken/fcmToken.repository';
 import UniformOrderRepository from './uniformOrder/uniformOrder.repository';
 import SafetyReportRepository from './safetyReport/safetyReport.repo';
 import DayOffsRepository from './dayOffs/dayOffs.repository';
+import OvertimeRequestRepository from './overtimeRequest/overtimeRquest.repository';
 export {
     PlanProductionRepository,
     LoginRepository,
@@ -47,4 +48,5 @@ export {
     UniformOrderRepository,
     SafetyReportRepository,
     DayOffsRepository,
+    OvertimeRequestRepository,
 };

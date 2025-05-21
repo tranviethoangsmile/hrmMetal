@@ -69,6 +69,7 @@ import {
 import { login_data, token_payload } from './login/login.interface';
 import { UpdateField, CreateField, FindAllField } from './user/user.interface';
 import { CREATE_DEPARETMENT } from './department/IDepartment.interface';
+import { ICreateOvertimeRequest } from './overtimeRequest/IOvertimeRequest.interface';
 export {
     create_plan_production,
     update_plan_production,
@@ -117,4 +118,5 @@ export {
     CreateField,
     FindAllField,
     CREATE_DEPARETMENT,
+    ICreateOvertimeRequest,
 };

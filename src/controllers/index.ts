@@ -68,6 +68,7 @@ import {
     departmentList,
     getDepartmentById,
 } from './department/department.controller';
+import { create_overtime_request_controller } from './overtimeRequest/overtimeRequest.controller';
 export {
     createDep,
     departmentList,
@@ -117,4 +118,5 @@ export {
     update_day_off_by_id_controller,
     search_event_checked_controller,
     create_event_check_controller,
+    create_overtime_request_controller,
 };
