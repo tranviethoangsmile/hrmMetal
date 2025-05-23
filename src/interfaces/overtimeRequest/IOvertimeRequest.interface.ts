@@ -6,7 +6,17 @@ export interface ICreateOvertimeRequest {
     position: string;
     date: Date | string;
     overtime_hours: number;
-    reason: string;
+    description: string;
     is_confirm?: boolean;
     is_approved?: boolean;
+}
+
+export interface IUpdateIsConfirmOvertimeRequest {
+    id: string;
+    user_id: string;
+}
+
+export interface IDeleteOvertimeRequest {
+    id: string;
+    user_id: string;
 }

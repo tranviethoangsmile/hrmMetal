@@ -10,7 +10,7 @@ class OvertimeRequest extends Model {
     public admin_id!: string;
     public department_id!: string;
     public date!: string;
-    public reason!: string;
+    public description!: string;
     public overtime_hours!: number;
     public position!: Position;
     public is_confirm!: boolean;
@@ -63,7 +63,7 @@ OvertimeRequest.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        reason: {
+        description: {
             type: DataTypes.STRING,
             allowNull: false,
         },

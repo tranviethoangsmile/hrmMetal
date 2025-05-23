@@ -15,7 +15,7 @@ createOvertimeRequestRouter.post('/', async (req: Request, res: Response) => {
             !data.position ||
             !data.date ||
             !data.overtime_hours ||
-            !data.reason
+            !data.description
         ) {
             const missingFields = [
                 !data.user_id && 'user_id',
@@ -23,7 +23,7 @@ createOvertimeRequestRouter.post('/', async (req: Request, res: Response) => {
                 !data.position && 'position',
                 !data.department_id && 'department_id',
                 !data.overtime_hours && 'overtime_hours',
-                !data.reason && 'reason',
+                !data.description && 'description',
                 !data.leader_id && 'leader_id',
             ]
                 .filter(Boolean)

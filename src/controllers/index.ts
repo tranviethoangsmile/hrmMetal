@@ -68,7 +68,13 @@ import {
     departmentList,
     getDepartmentById,
 } from './department/department.controller';
-import { create_overtime_request_controller } from './overtimeRequest/overtimeRequest.controller';
+import {
+    create_overtime_request_controller,
+    get_all_overtime_request_controller,
+    get_overtime_request_by_id_controller,
+    update_isConfirm_ovetime_request_controller,
+    delete_overtime_request_by_id_controller,
+} from './overtimeRequest/overtimeRequest.controller';
 export {
     createDep,
     departmentList,
@@ -119,4 +125,8 @@ export {
     search_event_checked_controller,
     create_event_check_controller,
     create_overtime_request_controller,
+    get_all_overtime_request_controller,
+    get_overtime_request_by_id_controller,
+    update_isConfirm_ovetime_request_controller,
+    delete_overtime_request_by_id_controller,
 };
