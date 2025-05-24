@@ -40,7 +40,7 @@ createOvertimeRequestRouter.post('/', async (req: Request, res: Response) => {
                 data: result.data,
             });
         }
-        return res.status(400).json({
+        return res.status(200).json({
             success: false,
             message: result?.message,
         });
