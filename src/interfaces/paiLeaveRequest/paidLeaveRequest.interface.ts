@@ -1,21 +1,21 @@
-interface create {
+interface ICreatePaidLeave {
     reason: string;
     user_id: string;
     leader_id: string;
     date_request: string;
     date_leave: string;
     position: string;
-    is_half: boolean;
+    is_half?: boolean;
 }
 
-interface update {
+interface IUpdatePaidLeave {
     user_id?: string;
     feedback?: string;
     is_confirm?: boolean;
     admin_id?: string;
     id: string;
 }
-interface search {
+interface ISearchPaidLeave {
     user_id?: string;
     leader_id?: string;
     date_request?: string;
@@ -25,4 +25,4 @@ interface search {
     is_confirm?: boolean;
 }
 
-export { create, update, search };
+export { ICreatePaidLeave, IUpdatePaidLeave, ISearchPaidLeave };

@@ -1,13 +1,13 @@
 import { Request, Response, Router } from 'express';
 import { update_isConfirm_ovetime_request_controller } from '../../../controllers';
-import { IUpdateIsConfirmOvertimeRequest } from '../../../interfaces';
+import { IUpdateOvertimeRequest } from '../../../interfaces';
 
 const updateIsConfirmOvertimeRequestRouter: Router = Router();
 updateIsConfirmOvertimeRequestRouter.post(
     '/',
     async (req: Request, res: Response) => {
         try {
-            const data: IUpdateIsConfirmOvertimeRequest = req.body;
+            const data: IUpdateOvertimeRequest = req.body;
             if (!data || !data.user_id || !data.id) {
                 const missingFields = [
                     !data.user_id && 'user_id',

@@ -90,6 +90,7 @@ import {
     validate_create_overtime_request,
     validate_update_is_confirm_overtime_request,
     validate_delete_overtime_request,
+    validate_update_approved_admin_overtime_request,
 } from './overtimeRequest/overtimeRequest.validate';
 const schema_id = Joi.string().guid().required();
 const validation_id = (id: string) => {
@@ -153,4 +154,5 @@ export {
     validate_create_overtime_request,
     validate_update_is_confirm_overtime_request,
     validate_delete_overtime_request,
+    validate_update_approved_admin_overtime_request,
 };

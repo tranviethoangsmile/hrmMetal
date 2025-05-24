@@ -4,6 +4,7 @@ import getAllOvertimeRequestRouter from './getAll/getallOverRequestRouter.router
 import getOvertimeRequestByIdRouter from './getById/getById.Router';
 import updateIsConfirmOvertimeRequestRouter from './updateIsConfirm/updateIsConfirmRouter.router';
 import deleteOvertimeRequestByIdRouter from './deleteById/deleteOvertimeRequestById.router';
+import updateIsApprovedRouter from './updateIsApproved/updateIsApproved.router';
 import { authAdminRole } from '../../middlewares';
 const overtimeRequestRouter: Router = Router();
 
@@ -20,4 +21,9 @@ overtimeRequestRouter.use(
     updateIsConfirmOvertimeRequestRouter,
 );
 overtimeRequestRouter.use('/deletebyid', deleteOvertimeRequestByIdRouter);
+overtimeRequestRouter.use(
+    '/updateisapproved',
+    authAdminRole,
+    updateIsApprovedRouter,
+);
 export default overtimeRequestRouter;

@@ -11,7 +11,7 @@ export interface ICreateOvertimeRequest {
     is_approved?: boolean;
 }
 
-export interface IUpdateIsConfirmOvertimeRequest {
+export interface IUpdateOvertimeRequest {
     id: string;
     user_id: string;
 }

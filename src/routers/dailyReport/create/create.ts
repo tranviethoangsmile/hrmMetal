@@ -19,9 +19,22 @@ createDailyReportRouter.post('/', async (req: Request, res: Response) => {
             !field.user_id ||
             !field.department_id
         ) {
+            const missingFields = [
+                !field.date && 'date',
+                !field.operated_time && 'operated_time',
+                !field.operator_history && 'operator_history',
+                !field.product && 'product',
+                !field.shift && 'shift',
+                !field.quantity && 'quantity',
+                !field.shutdown_time && 'shutdown_time',
+                !field.user_id && 'user_id',
+                !field.department_id && 'department_id',
+            ]
+                .filter(Boolean)
+                .join(', ');
             return res.status(400).json({
                 success: false,
-                message: 'Please fill all the fields, data not empty',
+                message: `Invalid input: Missing required ${missingFields}`,
             });
         } else {
             const dailyReport = await daily_report_create(field);

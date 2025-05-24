@@ -74,7 +74,16 @@ import {
     get_overtime_request_by_id_controller,
     update_isConfirm_ovetime_request_controller,
     delete_overtime_request_by_id_controller,
+    update_approved_admin_overtime_request_controller,
 } from './overtimeRequest/overtimeRequest.controller';
+import {
+    create_paid_leave_controller,
+    get_all_paid_leave_controller,
+    update_is_active_paid_leave_controller,
+    search_leave_request_with_field_controller,
+    update_un_approve_leave_request_controller,
+    update_confirm_from_admin_paid_leave_request_controller,
+} from './paidLeaveRequest/paidLeaveRequest.controller';
 export {
     createDep,
     departmentList,
@@ -129,4 +138,11 @@ export {
     get_overtime_request_by_id_controller,
     update_isConfirm_ovetime_request_controller,
     delete_overtime_request_by_id_controller,
+    update_approved_admin_overtime_request_controller,
+    create_paid_leave_controller,
+    get_all_paid_leave_controller,
+    update_is_active_paid_leave_controller,
+    search_leave_request_with_field_controller,
+    update_un_approve_leave_request_controller,
+    update_confirm_from_admin_paid_leave_request_controller,
 };

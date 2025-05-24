@@ -14,7 +14,7 @@ export interface IOvertimeRequestRepo {
         id: string,
     ): Promise<{ success: boolean; data?: OvertimeRequest; message?: string }>;
     UPDATE_CONFIRM(data: any): Promise<{ success: boolean; message?: string }>;
-    // UPDATE_APPROVE_ADMIN(
-    //     data: any,
-    // ): Promise<{ success: boolean; message?: string }>;
+    UPDATE_APPROVE_ADMIN(
+        data: any,
+    ): Promise<{ success: boolean; message?: string }>;
 }

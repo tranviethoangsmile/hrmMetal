@@ -18,9 +18,22 @@ createPlanProductionRouter.post('/', async (req: Request, res: Response) => {
             !field.work_shift.trim() ||
             !field.production_line.trim()
         ) {
+            const missingFields = [
+                !field.date.trim() && 'date',
+                !field.department_id.trim() && 'department_id',
+                field.operation_time === undefined && 'operation_time',
+                !field.position.trim() && 'position',
+                !field.product.trim() && 'product',
+                field.quantity < 0 && 'quantity',
+                field.operation_time < 0 && 'operation_time',
+                !field.work_shift.trim() && 'work_shift',
+                !field.production_line.trim() && 'production_line',
+            ]
+                .filter(Boolean)
+                .join(', ');
             return res.status(400).json({
                 success: false,
-                message: 'Missing required fields',
+                message: `Missing required ${missingFields}`,
             });
         }
         const plan_production = await create_plan_production_controller({

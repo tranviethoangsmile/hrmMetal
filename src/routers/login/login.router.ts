@@ -8,9 +8,15 @@ loginRouter.post('/', async (req: Request, res: Response) => {
     try {
         const user: login_data = req.body;
         if (!user || !user.password || !user.user_name) {
+            const missingFields = [
+                !user.password && 'password',
+                !user.user_name && 'user_name',
+            ]
+                .filter(Boolean)
+                .join(', ');
             return res.status(400).send({
                 success: false,
-                message: 'bad request',
+                message: `Missing values: ${missingFields}`,
             });
         }
         const token = await login(user);

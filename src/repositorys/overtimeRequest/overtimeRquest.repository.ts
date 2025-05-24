@@ -157,6 +157,31 @@ class OvertimeRequestRepository implements IOvertimeRequestRepo {
             };
         }
     }
+    async UPDATE_APPROVE_ADMIN(data: any) {
+        try {
+            const result = await OvertimeRequest.update(
+                {
+                    is_approved: true,
+                },
+                {
+                    where: {
+                        id: data.id,
+                    },
+                },
+            );
+            if (result[0] === 0) {
+                throw new Error('Update failed');
+            }
+            return {
+                success: true,
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `repository error:${error?.message}`,
+            };
+        }
+    }
 }
 
 export default OvertimeRequestRepository;

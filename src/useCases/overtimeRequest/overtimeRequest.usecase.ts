@@ -4,6 +4,7 @@ import {
     validate_update_is_confirm_overtime_request,
     validation_id,
     validate_delete_overtime_request,
+    validate_update_approved_admin_overtime_request,
 } from '../../validates';
 import {
     findUserById,
@@ -198,10 +199,38 @@ const delete_overtime_request_by_id_usecase = async (data: any) => {
     }
 };
 
+const update_approved_admin_overtime_request_usecase = async (data: any) => {
+    try {
+        const isVlalid = validate_update_approved_admin_overtime_request(data);
+        if (isVlalid.error) {
+            throw new Error(isVlalid.error.message);
+        }
+        const this_overtime = await overtimeRequestRepo.GET_BY_ID(data.id);
+        if (!this_overtime.success) {
+            throw new Error(this_overtime.message);
+        }
+        const overtimeRequest = await overtimeRequestRepo.UPDATE_APPROVE_ADMIN(
+            data,
+        );
+        if (!overtimeRequest.success) {
+            throw new Error(overtimeRequest.message);
+        }
+        return {
+            success: true,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `usecase error :: ${error?.message}`,
+        };
+    }
+};
+
 export {
     create_overtime_request_usecase,
     get_all_overtime_request_usecase,
     update_isConfirm_ovetime_request_usecase,
     get_ovetime_request_by_id_usecase,
     delete_overtime_request_by_id_usecase,
+    update_approved_admin_overtime_request_usecase,
 };
