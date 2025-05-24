@@ -6,9 +6,16 @@ createEvenCheck.post('/', async (req: Request, res: Response) => {
     try {
         const field: create_event_check_interface = req.body;
         if (!field || !field.event_id || !field.is_confirm || !field.user_id) {
+            const missingFields = [
+                !field.event_id && 'event_id',
+                !field.is_confirm && 'is_confirm',
+                !field.user_id && 'user_id',
+            ]
+                .filter(Boolean)
+                .join(', ');
             return res.status(400).json({
                 success: false,
-                message: 'Missing field',
+                message: `Invalid input: Missing required ${missingFields}`,
             });
         }
         const even_check = await create_event_check_controller(field);

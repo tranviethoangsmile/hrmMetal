@@ -1,28 +1,45 @@
 import { Request, Response, Router } from 'express';
-import { create } from '../../../controllers/paidLeaveRequest/paidLeaveRequest.controller';
+import { create_paid_leave_controller } from '../../../controllers';
+import { ICreatePaidLeave } from '../../../interfaces';
 const create_router: Router = Router();
-
 create_router.post('/', async (req: Request, res: Response) => {
     try {
-        const data: Object | null = req.body;
-        if (data === null || typeof data !== 'object') {
+        const data: ICreatePaidLeave = req.body;
+        if (
+            !data ||
+            !data.reason ||
+            !data.user_id ||
+            !data.leader_id ||
+            !data.date_request ||
+            !data.date_leave ||
+            !data.position
+        ) {
+            const missingFields = [
+                !data.reason && 'reason',
+                !data.user_id && 'user_id',
+                !data.leader_id && 'leader_id',
+                !data.date_request && 'date_request',
+                !data.date_leave && 'date_leave',
+                !data.position && 'position',
+            ]
+                .filter(Boolean)
+                .join(', ');
             return res.status(400).json({
                 success: false,
-                message: 'Data do not empty',
+                message: `Missing values: ${missingFields}`,
+            });
+        }
+        const result = await create_paid_leave_controller(data);
+        if (!result?.success) {
+            res.status(200).json({
+                success: false,
+                message: result?.message,
             });
         } else {
-            const result = await create(data);
-            if (!result?.success) {
-                res.status(200).json({
-                    success: false,
-                    message: result?.message,
-                });
-            } else {
-                res.status(201).json({
-                    success: true,
-                    data: result?.data,
-                });
-            }
+            res.status(201).json({
+                success: true,
+                data: result?.data,
+            });
         }
     } catch (error: any) {
         res.status(500).json({

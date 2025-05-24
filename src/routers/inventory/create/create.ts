@@ -11,9 +11,16 @@ createRouter.post('/', async (req: Request, res: Response) => {
             !field.quantity ||
             !field.department_id
         ) {
+            const missingFields = [
+                !field.product && 'product',
+                !field.quantity && 'quantity',
+                !field.department_id && 'department_id',
+            ]
+                .filter(Boolean)
+                .join(', ');
             return res.status(400).json({
                 success: false,
-                message: 'Bad request',
+                message: `Invalid input: Missing required ${missingFields}`,
             });
         } else {
             const inventory = await create(field);

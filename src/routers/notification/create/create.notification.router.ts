@@ -15,9 +15,20 @@ createNotificationRouter.post('/', async (req: Request, res: Response) => {
             !field.type ||
             !field.user_id
         ) {
+            const missingFields = [
+                !field.message && 'message',
+                !field.title && 'title',
+                !field.type && 'type',
+                !field.user_id && 'user_id',
+            ]
+                .filter(Boolean)
+                .join(', ');
             return res
                 .status(400)
-                .json({ success: false, message: 'Missing required fields' });
+                .json({
+                    success: false,
+                    message: `Missing required ${missingFields}`,
+                });
         }
 
         const notification = await create_notification_controller(field);

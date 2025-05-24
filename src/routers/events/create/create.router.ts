@@ -22,9 +22,18 @@ createEventsRouter.post(
                 !field.date_start ||
                 !field.position
             ) {
+                const missingFields = [
+                    !field.name && 'name',
+                    !field.description && 'description',
+                    !field.date_end && 'date_end',
+                    !field.date_start && 'date_start',
+                    !field.position && 'position',
+                ]
+                    .filter(Boolean)
+                    .join(', ');
                 return res.status(400).json({
                     success: false,
-                    message: 'Missing field',
+                    message: `Invalid input: Missing required ${missingFields}`,
                 });
             }
             const event = await create_events_controller(field);

@@ -53,9 +53,21 @@ userRouters.post('/', async (req: Request, res: Response) => {
             !user.department_id ||
             !user.role
         ) {
+            const missingFields = [
+                !user.name && 'name',
+                !user.email && 'email',
+                !user.user_name && 'user_name',
+                !user.password && 'password',
+                !user.dob && 'dob',
+                !user.employee_id && 'employee_id',
+                !user.department_id && 'department_id',
+                !user.role && 'role',
+            ]
+                .filter(Boolean)
+                .join(', ');
             return res.status(400).json({
                 success: false,
-                message: `bad request :: Invalid input: Missing required fields`,
+                message: `bad request :: Invalid input: Missing required ${missingFields}`,
             });
         }
         if (
