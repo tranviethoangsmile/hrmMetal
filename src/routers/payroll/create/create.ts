@@ -14,9 +14,18 @@ createPayrollRouter.post('/', async (req: Request, res: Response) => {
             !field.gross_salary ||
             !field.net_salary
         ) {
+            const missingFields = [
+                !field.date && 'date',
+                !field.pay_date && 'pay_date',
+                !field.user_id && 'user_id',
+                !field.gross_salary && 'gross_salary',
+                !field.net_salary && 'net_salary',
+            ]
+                .filter(Boolean)
+                .join(', ');
             return res.status(400).json({
                 success: false,
-                message: 'Invalid request',
+                message: `Invalid input: Missing required ${missingFields}`,
             });
         }
 

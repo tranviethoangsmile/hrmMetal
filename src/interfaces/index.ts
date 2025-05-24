@@ -16,9 +16,9 @@ import {
     update_notification_interface,
 } from './notification/notification.interface';
 import {
-    create,
-    update,
-    search,
+    ICreatePaidLeave,
+    IUpdatePaidLeave,
+    ISearchPaidLeave,
 } from '../interfaces/paiLeaveRequest/paidLeaveRequest.interface';
 
 import {
@@ -69,15 +69,20 @@ import {
 import { login_data, token_payload } from './login/login.interface';
 import { UpdateField, CreateField, FindAllField } from './user/user.interface';
 import { CREATE_DEPARETMENT } from './department/IDepartment.interface';
+import {
+    ICreateOvertimeRequest,
+    IUpdateOvertimeRequest,
+    IDeleteOvertimeRequest,
+} from './overtimeRequest/IOvertimeRequest.interface';
 export {
     create_plan_production,
     update_plan_production,
     search_by_date_and_department,
     create_notification_interface,
     update_notification_interface,
-    create,
-    update,
-    search,
+    ICreatePaidLeave,
+    IUpdatePaidLeave,
+    ISearchPaidLeave,
     create_checkin_interface,
     update_checkin_interface,
     is_Checked_interface,
@@ -117,4 +122,7 @@ export {
     CreateField,
     FindAllField,
     CREATE_DEPARETMENT,
+    ICreateOvertimeRequest,
+    IUpdateOvertimeRequest,
+    IDeleteOvertimeRequest,
 };

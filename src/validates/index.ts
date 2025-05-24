@@ -86,6 +86,12 @@ import {
     valid_find_by_name,
 } from './user/user.validate';
 import { validation_department_create } from './department/department.validate';
+import {
+    validate_create_overtime_request,
+    validate_update_is_confirm_overtime_request,
+    validate_delete_overtime_request,
+    validate_update_approved_admin_overtime_request,
+} from './overtimeRequest/overtimeRequest.validate';
 const schema_id = Joi.string().guid().required();
 const validation_id = (id: string) => {
     return schema_id.validate(id);
@@ -145,4 +151,8 @@ export {
     valid_user_find_all_with_field,
     valid_find_by_name,
     validation_department_create,
+    validate_create_overtime_request,
+    validate_update_is_confirm_overtime_request,
+    validate_delete_overtime_request,
+    validate_update_approved_admin_overtime_request,
 };

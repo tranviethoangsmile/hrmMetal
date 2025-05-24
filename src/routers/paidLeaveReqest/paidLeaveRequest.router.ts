@@ -4,8 +4,8 @@ import searchLeaveRouter from './search/searchPaidLeaveRequestWithField.router';
 import unApproveRouter from './update/updateUnApproveLeave.router';
 import updateConfirmRouter from './update/updateConfirmLeave.router';
 import {
-    get_all,
-    update_is_active,
+    get_all_paid_leave_controller,
+    update_is_active_paid_leave_controller,
 } from '../../controllers/paidLeaveRequest/paidLeaveRequest.controller';
 
 import very_role from '../../middlewares/veryRoleUpdate.middleware';
@@ -17,7 +17,7 @@ paidLeaveRouter.use('/updateconfirm', updateConfirmRouter);
 
 paidLeaveRouter.get('/', async (req: Request, res: Response) => {
     try {
-        const paid_leaves = await get_all();
+        const paid_leaves = await get_all_paid_leave_controller();
         if (paid_leaves?.success) {
             res.status(201).json({
                 success: paid_leaves?.success,
@@ -41,7 +41,9 @@ paidLeaveRouter.put('/', very_role, async (req: Request, res: Response) => {
     try {
         const data: Object | null = req.body;
         if (data != null) {
-            const paid_leave = await update_is_active(data);
+            const paid_leave = await update_is_active_paid_leave_controller(
+                data,
+            );
             if (paid_leave?.success) {
                 res.status(201).json({
                     success: paid_leave?.success,

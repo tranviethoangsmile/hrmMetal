@@ -12,9 +12,17 @@ createUniformOrderRouter.post('/', async (req: Request, res: Response) => {
             typeof field.position !== 'string' ||
             typeof field.date !== 'string'
         ) {
+            const missingFields = [
+                !field.user_id && 'user_id',
+                !field.position && 'position',
+                !field.date && 'date',
+            ]
+                .filter(Boolean)
+                .join(', ');
+
             return res.status(400).json({
                 success: false,
-                message: 'Invalid user_id or position or date',
+                message: `Invalid input: Missing required ${missingFields}`,
             });
         }
 

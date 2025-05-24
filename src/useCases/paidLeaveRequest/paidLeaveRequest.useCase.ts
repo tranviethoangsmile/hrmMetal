@@ -1,4 +1,3 @@
-import { create, update, search } from '../../interfaces';
 import {
     validate_create_paid,
     validate_update_paid,
@@ -13,6 +12,10 @@ const paidLeaveRequestRepository = new PaidLeaveRequestRepository();
 const checkinRepository = new CheckinRepository();
 const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
     try {
+        const isValid = validate_update_paid(field);
+        if (isValid?.error) {
+            throw new Error(`${isValid?.error.message}`);
+        }
         const pail_leave =
             await paidLeaveRequestRepository.get_paid_lead_with_id_repo(
                 field.id,
@@ -48,7 +51,7 @@ const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
         };
     }
 };
-const update_un_approve_leave_request_use = async (field: update) => {
+const update_un_approve_leave_request_use = async (field: any) => {
     try {
         const isValid = validate_update_paid(field);
         if (isValid?.error) {
@@ -72,7 +75,7 @@ const update_un_approve_leave_request_use = async (field: update) => {
         };
     }
 };
-const search_leave_request_with_field_use = async (field: search) => {
+const search_leave_request_with_field_use = async (field: any) => {
     try {
         const isValid = validate_search_paid(field);
         if (isValid.error) {
@@ -93,7 +96,7 @@ const search_leave_request_with_field_use = async (field: search) => {
         };
     }
 };
-const create_paid_leave = async (data: create) => {
+const create_paid_leave = async (data: any) => {
     try {
         const valid = validate_create_paid(data);
         if (valid.error) {
@@ -135,7 +138,7 @@ const find_paid_leave = async () => {
     }
 };
 
-const update_paid_leave = async (data: update) => {
+const update_paid_leave = async (data: any) => {
     try {
         const valid = validate_update_paid(data);
         if (valid?.error) {

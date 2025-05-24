@@ -7,13 +7,13 @@ import {
     update_confirm_from_admin_paid_leave_request_use,
 } from '../../useCases/paidLeaveRequest/paidLeaveRequest.useCase';
 
-const create = async (data: any) => {
+const create_paid_leave_controller = async (data: any) => {
     return await create_paid_leave(data);
 };
-const get_all = async () => {
+const get_all_paid_leave_controller = async () => {
     return await find_paid_leave();
 };
-const update_is_active = async (data: any) => {
+const update_is_active_paid_leave_controller = async (data: any) => {
     return await update_paid_leave(data);
 };
 
@@ -30,9 +30,9 @@ const update_confirm_from_admin_paid_leave_request_controller = async (
 };
 
 export {
-    create,
-    get_all,
-    update_is_active,
+    create_paid_leave_controller,
+    get_all_paid_leave_controller,
+    update_is_active_paid_leave_controller,
     search_leave_request_with_field_controller,
     update_un_approve_leave_request_controller,
     update_confirm_from_admin_paid_leave_request_controller,
