@@ -19,7 +19,6 @@ build_and_deploy:
     - npm run build
     - docker-compose up -d
     - docker network ls
-    - docker network inspect hrmmetal_default
     - pm2 kill
     - npm start
     - pm2 logs
