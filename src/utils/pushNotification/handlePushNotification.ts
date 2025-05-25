@@ -4,7 +4,7 @@ dotenv.config();
 const ENV = process.env;
 const serviceAccount: ServiceAccount = {
     projectId: ENV.FB_PROJECT_ID,
-    privateKey: ENV.FB_PRIVATE_KEY,
+    privateKey: ENV.FB_PRIVATE_KEY?.replace(/\\n/g, '\n'),
     clientEmail: ENV.FB_CLIENT_MAIL,
 };
 admin.initializeApp({
