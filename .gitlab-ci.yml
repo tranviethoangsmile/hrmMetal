@@ -11,7 +11,7 @@ build_and_deploy:
     - git clone http://$GIT_USERNAME:$GIT_PASSWORD@126.122.223.58:8181/hrm-metal/hrmmetal.git
     - npm install
     - npm run build
-    - echo "${PB_PRIVATE_KEY}"
+    - echo "${FB_PRIVATE_KEY}
     - pm2 kill
     - docker-compose up -d
     - npm start
