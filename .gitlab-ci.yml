@@ -17,10 +17,8 @@ build_and_deploy:
     - echo "$FB_PRIVATE_KEY"
     - npm install
     - npm run build
-    - docker-compose up -d
-    - docker network ls
-    - docker network inspect hrmmetal_default
     - pm2 kill
+    - docker-compose up -d
     - npm start
     - pm2 logs
   tags:
