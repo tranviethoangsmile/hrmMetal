@@ -236,6 +236,13 @@ class UserRepository implements IUserRepository {
                     'position',
                     'is_admin',
                     'is_officer',
+                    'avatar',
+                    'is_offical_staff',
+                    'salary_hourly',
+                    'begin_date',
+                    'shift_night_pay',
+                    'travel_allowance_pay',
+                    'paid_days',
                 ],
                 include: [
                     {
