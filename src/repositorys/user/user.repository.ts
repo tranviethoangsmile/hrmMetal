@@ -234,6 +234,7 @@ class UserRepository implements IUserRepository {
                     'employee_id',
                     'is_active',
                     'position',
+                    'department_id',
                     'is_admin',
                     'is_officer',
                     'avatar',

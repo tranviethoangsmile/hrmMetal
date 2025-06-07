@@ -100,7 +100,9 @@ const createNewUser = async (user: any) => {
 
 const updateUser = async (user: any) => {
     try {
+        console.log(user);
         const valid = valid_user_update(user);
+        console.log(valid.error?.message);
         if (valid.error) {
             throw new Error(`${valid?.error.message}`);
         }

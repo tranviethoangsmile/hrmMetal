@@ -106,12 +106,13 @@ userRouters.put('/', async (req: Request, res: Response) => {
         const user = req.body;
         if (user != null) {
             const data = await update(user);
+            console.log(data);
             if (data?.success) {
-                res.status(202).send({
+                res.status(202).json({
                     success: true,
                 });
             } else {
-                res.status(200).send({
+                res.status(200).json({
                     success: false,
                     message: data?.message,
                 });
