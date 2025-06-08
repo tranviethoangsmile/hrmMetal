@@ -18,41 +18,45 @@
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - user_id
+ *               - title
+ *               - content
+ *               - date
  *             properties:
  *               user_id:
  *                 type: string
+ *                 format: uuid
  *                 description: ID of the user
- *                 example: "user123"
- *               details:
+ *                 example: "b3b7c7e2-8c2e-4e2a-9c2e-4e2a9c2e4e2a"
+ *               title:
  *                 type: string
- *                 description: Details of the information
- *                 example: "User's personal information"
+ *                 example: "Thông báo mới"
+ *               content:
+ *                 type: string
+ *                 example: "Nội dung thông báo"
+ *               date:
+ *                 type: string
+ *                 format: date-time
+ *                 example: "2024-06-01T00:00:00.000Z"
+ *               position:
+ *                 type: string
+ *                 example: "Nhân viên"
+ *               media:
+ *                 type: string
+ *                 example: "https://example.com/image.jpg"
+ *               is_video:
+ *                 type: boolean
+ *                 example: false
+ *               is_public:
+ *                 type: boolean
+ *                 example: true
+ *               is_event:
+ *                 type: boolean
+ *                 example: false
  *     responses:
  *       201:
  *         description: Information created successfully
- *       400:
- *         description: Bad request
- *       500:
- *         description: Server error
- */
-
-/**
- * @swagger
- * /information/getinforofuser:
- *   get:
- *     summary: Get information of a user
- *     tags: [Information]
- *     description: Retrieve information of a specific user by their ID.
- *     parameters:
- *       - in: query
- *         name: user_id
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the user
- *     responses:
- *       200:
- *         description: User information retrieved successfully
  *         content:
  *           application/json:
  *             schema:
@@ -63,9 +67,74 @@
  *                   example: true
  *                 data:
  *                   type: object
- *                   description: User information
- *       400:
- *         description: Bad request
+ *                 message:
+ *                   type: string
+ *       200:
+ *         description: Create failed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *       500:
+ *         description: Server error
+ *
+ */
+
+/**
+ * @swagger
+ * /information/getinforofuser:
+ *   post:
+ *     summary: Get information of a user
+ *     tags: [Information]
+ *     description: Retrieve information of a specific user by their ID.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - user_id
+ *             properties:
+ *               user_id:
+ *                 type: string
+ *                 format: uuid
+ *                 example: "b3b7c7e2-8c2e-4e2a-9c2e-4e2a9c2e4e2a"
+ *     responses:
+ *       202:
+ *         description: User information retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                 message:
+ *                   type: string
+ *       200:
+ *         description: Get failed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
  *       500:
  *         description: Server error
  */
@@ -73,22 +142,50 @@
 /**
  * @swagger
  * /information/getinforbyid:
- *   get:
+ *   post:
  *     summary: Get information by ID
  *     tags: [Information]
  *     description: Retrieve specific information by its ID.
- *     parameters:
- *       - in: query
- *         name: information_id
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the information
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 format: uuid
+ *                 example: "b3b7c7e2-8c2e-4e2a-9c2e-4e2a9c2e4e2a"
  *     responses:
- *       200:
+ *       202:
  *         description: Information retrieved successfully
- *       400:
- *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                 message:
+ *                   type: string
+ *       200:
+ *         description: Get failed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
  *       500:
  *         description: Server error
  */
@@ -96,18 +193,39 @@
 /**
  * @swagger
  * /information/getallinforbyfield:
- *   get:
+ *   post:
  *     summary: Get all information by field
  *     tags: [Information]
  *     description: Retrieve all information based on specific fields.
- *     parameters:
- *       - in: query
- *         name: field
- *         schema:
- *           type: string
- *         description: Field to filter information
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user_id:
+ *                 type: string
+ *                 format: uuid
+ *               title:
+ *                 type: string
+ *               content:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *                 format: date-time
+ *               position:
+ *                 type: string
+ *               media:
+ *                 type: string
+ *               is_video:
+ *                 type: boolean
+ *               is_public:
+ *                 type: boolean
+ *               is_check_safety:
+ *                 type: boolean
  *     responses:
- *       200:
+ *       202:
  *         description: List of information retrieved successfully
  *         content:
  *           application/json:
@@ -121,15 +239,20 @@
  *                   type: array
  *                   items:
  *                     type: object
- *                     properties:
- *                       information_id:
- *                         type: string
- *                         description: ID of the information
- *                       details:
- *                         type: string
- *                         description: Details of the information
- *       400:
- *         description: Bad request
+ *                 message:
+ *                   type: string
+ *       200:
+ *         description: Get failed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
  *       500:
  *         description: Server error
  */
@@ -137,22 +260,46 @@
 /**
  * @swagger
  * /information/deleteinformationbyid:
- *   delete:
+ *   post:
  *     summary: Delete information by ID
  *     tags: [Information]
  *     description: Delete specific information by its ID.
- *     parameters:
- *       - in: query
- *         name: information_id
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the information to delete
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 format: uuid
+ *                 example: "b3b7c7e2-8c2e-4e2a-9c2e-4e2a9c2e4e2a"
  *     responses:
- *       200:
+ *       202:
  *         description: Information deleted successfully
- *       400:
- *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *       200:
+ *         description: Delete failed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
  *       500:
  *         description: Server error
  */
