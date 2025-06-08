@@ -17,6 +17,7 @@ const schema_create_events = Joi.object({
 const schema_update_events = Joi.object({
     id: Joi.string().guid().required(),
     name: Joi.string(),
+    description: Joi.string(),
     is_safety: Joi.boolean(),
     is_active: Joi.boolean(),
 });
