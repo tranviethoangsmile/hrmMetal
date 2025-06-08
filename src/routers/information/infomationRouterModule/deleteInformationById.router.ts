@@ -17,6 +17,7 @@ deleteInformation.post(
                 const delete_result = await delete_information_by_id_controller(
                     id,
                 );
+                console.log(delete_result);
                 if (delete_result?.success) {
                     return res.status(202).json({
                         success: true,
