@@ -1,5 +1,5 @@
-import { SafetyChecks } from '../../models';
-import { ISafetyCheckRepository } from '../interfaces/safetyCheck/ISafetyCheckRepository.interface';
+import { SafetyChecks, User } from '../../models';
+import { ISafetyCheckRepository } from '../interfaces';
 
 class SafetyCheckRepository implements ISafetyCheckRepository {
     async create_safety_check_repo(field: any) {
@@ -37,6 +37,35 @@ class SafetyCheckRepository implements ISafetyCheckRepository {
             return {
                 success: true,
                 data: eventCheck,
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `repo: ${error?.message}`,
+            };
+        }
+    }
+    async GET_ALL_USER_CHECKED_SAFETY_CHECK_EVENT(id: string) {
+        try {
+            const safetyChecks: SafetyChecks[] | null =
+                await SafetyChecks.findAll({
+                    where: {
+                        event_id: id,
+                    },
+                    attributes: ['user_id', 'created_at'],
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['id', 'name'],
+                        },
+                    ],
+                });
+            if (safetyChecks === null || safetyChecks.length < 1) {
+                throw new Error('not exist !!');
+            }
+            return {
+                success: true,
+                data: safetyChecks,
             };
         } catch (error: any) {
             return {
