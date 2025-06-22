@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
-import { search_safety_checked_controller } from '../../../controllers/safetyCheck/safetyCheck.controller';
-import { search_safety_checked_interface } from '../../../interfaces/safetyCheck/safetyCheck.interface';
+import { search_safety_checked_controller } from '../../../controllers';
+import { search_safety_checked_interface } from '../../../interfaces';
 const searchSafetyCheckedRouter: Router = Router();
 
 searchSafetyCheckedRouter.post('/', async (req: Request, res: Response) => {

@@ -9,4 +9,9 @@ export interface ISafetyCheckRepository {
         data?: SafetyChecks;
         message?: string;
     }>;
+    GET_ALL_USER_CHECKED_SAFETY_CHECK_EVENT(id: string): Promise<{
+        success: boolean;
+        data?: SafetyChecks[];
+        message?: string;
+    }>;
 }

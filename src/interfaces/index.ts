@@ -74,6 +74,10 @@ import {
     IUpdateOvertimeRequest,
     IDeleteOvertimeRequest,
 } from './overtimeRequest/IOvertimeRequest.interface';
+import {
+    create_safety_check_interface,
+    search_safety_checked_interface,
+} from './safetyCheck/safetyCheck.interface';
 export {
     create_plan_production,
     update_plan_production,
@@ -125,4 +129,6 @@ export {
     ICreateOvertimeRequest,
     IUpdateOvertimeRequest,
     IDeleteOvertimeRequest,
+    create_safety_check_interface,
+    search_safety_checked_interface,
 };
