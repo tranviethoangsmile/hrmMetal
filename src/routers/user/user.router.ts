@@ -1,21 +1,20 @@
 import { Request, Response, Router } from 'express';
-import {
-    create,
-    update,
-    destroy,
-    findById,
-    findAll,
-} from '../../controllers/user/user.controller';
+import { create, update, destroy, findById, findAll } from '../../controllers';
 import uploadAvatar from './userRouterModul/uploadRouterModul';
 import findUser from './userRouterModul/findAllUserWithField';
 import getUserWithDepartmentId from './userRouterModul/getUserWithDepartmentId';
 import userFindByNameRouter from './userRouterModul/findByName';
 import { CreateField } from '../../interfaces/user/user.interface';
+import getAllUserForOtRequestFeatureRouter from './getAllUserForOtRequestFeature/getAllUserForOtRequestFeature.router';
 const userRouters: Router = Router();
 userRouters.use('/getuserwithdepartmentid', getUserWithDepartmentId);
 userRouters.use('/upload-avatar', uploadAvatar);
 userRouters.use('/finduserwithfield', findUser);
 userRouters.use('/findbyname', userFindByNameRouter);
+userRouters.use(
+    '/getalluserforotrequestfeature',
+    getAllUserForOtRequestFeatureRouter,
+);
 userRouters.get('/', async (req: Request, res: Response) => {
     try {
         const users = await findAll();

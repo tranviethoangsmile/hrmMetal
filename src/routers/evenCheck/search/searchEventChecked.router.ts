@@ -13,7 +13,10 @@ searchEventCheckedRouter.post('/', async (req: Request, res: Response) => {
         }
         const result = await search_event_checked_controller(field);
         if (!result?.success) {
-            throw new Error(result?.message);
+            return res.status(200).json({
+                success: false,
+                message: result?.message,
+            });
         }
         return res.status(202).json({
             success: true,

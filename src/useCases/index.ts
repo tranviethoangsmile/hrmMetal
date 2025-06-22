@@ -32,6 +32,7 @@ import {
     findAllUser,
     userFindAllWithFieldUse,
     getUserForLeaveFeatureUse,
+    getAllUserForOtRequestFeatureUse,
 } from '../useCases/user/user.useCase';
 import {
     create_new_message,
@@ -164,4 +165,5 @@ export {
     get_ovetime_request_by_id_usecase,
     delete_overtime_request_by_id_usecase,
     update_approved_admin_overtime_request_usecase,
+    getAllUserForOtRequestFeatureUse,
 };
