@@ -23,4 +23,9 @@ export interface IUserRepository {
         data?: User[];
         message?: string;
     }>;
+    GET_ALL_USER_FOR_OT_REQUEST_FEATURE(id: string): Promise<{
+        success: boolean;
+        data?: User[];
+        message?: string;
+    }>;
 }

@@ -12,6 +12,30 @@ import { UpdateField, CreateField } from '../../interfaces';
 
 import { UserRepository } from '../../repositorys';
 const userRepository = new UserRepository();
+
+const getAllUserForOtRequestFeatureUse = async (id: string) => {
+    try {
+        const valid_id = validation_id(id);
+        if (valid_id?.error) {
+            throw new Error(`${valid_id?.error.message}`);
+        }
+        const users = await userRepository.GET_ALL_USER_FOR_OT_REQUEST_FEATURE(
+            id,
+        );
+        if (!users?.success) {
+            throw new Error(`${users?.message}`);
+        }
+        return {
+            success: users?.success,
+            data: users?.data,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `useCase :: ${error?.message}`,
+        };
+    }
+};
 const getUserForLeaveFeatureUse = async (id: any) => {
     try {
         const valid_id = validation_id(id);
@@ -236,4 +260,5 @@ export {
     findAllUser,
     userFindAllWithFieldUse,
     getUserForLeaveFeatureUse,
+    getAllUserForOtRequestFeatureUse,
 };

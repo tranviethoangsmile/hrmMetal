@@ -7,7 +7,12 @@ import {
     findAllUser,
     userFindAllWithFieldUse,
     getUserForLeaveFeatureUse,
-} from '../../useCases/user/user.useCase';
+    getAllUserForOtRequestFeatureUse,
+} from '../../useCases';
+const getAllUserForOtRequestFeatureControll = async (id: string) => {
+    return await getAllUserForOtRequestFeatureUse(id);
+};
+
 const getUserForLeaveFeatureControll = async (id: any) => {
     return await getUserForLeaveFeatureUse(id);
 };
@@ -47,4 +52,5 @@ export {
     findAll,
     findAllUserWithFieldControll,
     getUserForLeaveFeatureControll,
+    getAllUserForOtRequestFeatureControll,
 };

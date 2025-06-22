@@ -267,6 +267,29 @@ class UserRepository implements IUserRepository {
             };
         }
     }
+    async GET_ALL_USER_FOR_OT_REQUEST_FEATURE(id: string) {
+        try {
+            const user: User[] | null = await User.findAll({
+                where: {
+                    department_id: id,
+                },
+                attributes: ['id', 'name'],
+            });
+
+            if (user === null || user.length < 1) {
+                throw new Error(`user not found`);
+            }
+            return {
+                success: true,
+                data: user,
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `repository :: ${error?.message}`,
+            };
+        }
+    }
 }
 
 export default UserRepository;
