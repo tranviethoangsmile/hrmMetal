@@ -1,28 +1,57 @@
 /**
  * @swagger
  * tags:
- *   name: GroupMembers
- *   description: API for managing group members
+ *   name: FCM Tokens
+ *   description: API for managing Firebase Cloud Messaging (FCM) tokens
  */
 
 /**
  * @swagger
- * /groupMember/getgroupmemberofuser:
- *   get:
- *     summary: Get group members of a user
- *     tags: [GroupMembers]
- *     description: Retrieve the list of group members associated with a specific user.
- *     parameters:
- *       - in: query
- *         name: user_id
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the user
- *         example: "user123"
+ * /fcmtoken/create:
+ *   post:
+ *     summary: Create or update FCM token
+ *     tags: [FCM Tokens]
+ *     description: Create a new FCM token or update existing one for a user's device
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - user_id
+ *               - fcm_token
+ *               - device_type
+ *               - app_version
+ *               - device_id
+ *             properties:
+ *               user_id:
+ *                 type: string
+ *                 format: uuid
+ *                 description: ID of the user
+ *                 example: "user_id_123"
+ *               fcm_token:
+ *                 type: string
+ *                 description: Firebase Cloud Messaging token
+ *                 example: "fMEz7-F_Qk2Jo0Rxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+ *               device_type:
+ *                 type: string
+ *                 enum: [ANDROID, IOS, WEB]
+ *                 description: Type of device
+ *                 example: "ANDROID"
+ *               app_version:
+ *                 type: string
+ *                 description: Version of the application
+ *                 example: "1.0.0"
+ *               device_id:
+ *                 type: string
+ *                 description: Unique identifier of the device
+ *                 example: "device_id_123"
  *     responses:
- *       200:
- *         description: List of group members retrieved successfully
+ *       201:
+ *         description: FCM token created/updated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -31,22 +60,8 @@
  *                 success:
  *                   type: boolean
  *                   example: true
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       group_id:
- *                         type: string
- *                         description: ID of the group
- *                       member_id:
- *                         type: string
- *                         description: ID of the group member
- *                       member_name:
- *                         type: string
- *                         description: Name of the group member
  *       400:
- *         description: Bad request (missing or invalid user_id)
+ *         description: Bad request
  *         content:
  *           application/json:
  *             schema:
@@ -57,7 +72,7 @@
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: "Invalid user_id"
+ *                   example: "Missing required fields: app_version, device_id"
  *       500:
  *         description: Server error
  *         content:
@@ -70,5 +85,5 @@
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: "server error: <error message>"
+ *                   example: "Internal server error"
  */

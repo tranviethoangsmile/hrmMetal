@@ -1,150 +1,47 @@
 /**
  * @swagger
  * tags:
- *   name: Events
- *   description: API for managing events
+ *   name: Event Checks
+ *   description: API for managing event participation confirmations
  */
 
 /**
  * @swagger
- * /events/create:
+ * /eventcheck/create:
  *   post:
- *     summary: Create a new event
- *     tags: [Events]
- *     description: Endpoint to create a new event.
+ *     summary: Create an event check
+ *     tags: [Event Checks]
+ *     description: Create a new event participation confirmation
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
- *             properties:
- *               title:
- *                 type: string
- *                 description: Title of the event
- *                 example: "Annual Meeting"
- *               description:
- *                 type: string
- *                 description: Description of the event
- *                 example: "Company-wide annual meeting to discuss goals."
- *               date:
- *                 type: string
- *                 format: date
- *                 description: Date of the event
- *                 example: "2025-04-20"
- *               location:
- *                 type: string
- *                 description: Location of the event
- *                 example: "Conference Room A"
- *     responses:
- *       201:
- *         description: Event created successfully
- *       400:
- *         description: Bad request
- *       500:
- *         description: Server error
- */
-
-/**
- * @swagger
- * /events/delete:
- *   delete:
- *     summary: Delete an event
- *     tags: [Events]
- *     description: Delete an event by its ID.
- *     parameters:
- *       - in: query
- *         name: event_id
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the event to delete
- *     responses:
- *       200:
- *         description: Event deleted successfully
- *       400:
- *         description: Bad request
- *       500:
- *         description: Server error
- */
-
-/**
- * @swagger
- * /events/update:
- *   put:
- *     summary: Update an event
- *     tags: [Events]
- *     description: Update details of an existing event.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
+ *             required:
+ *               - event_id
+ *               - user_id
+ *               - is_confirm
  *             properties:
  *               event_id:
  *                 type: string
- *                 description: ID of the event to update
- *                 example: "event123"
- *               title:
+ *                 format: uuid
+ *                 description: ID of the event
+ *                 example: "event_id_123"
+ *               user_id:
  *                 type: string
- *                 description: Updated title of the event
- *                 example: "Updated Annual Meeting"
- *               description:
- *                 type: string
- *                 description: Updated description of the event
- *                 example: "Updated description for the annual meeting."
- *               date:
- *                 type: string
- *                 format: date
- *                 description: Updated date of the event
- *                 example: "2025-04-25"
- *               location:
- *                 type: string
- *                 description: Updated location of the event
- *                 example: "Conference Room B"
+ *                 format: uuid
+ *                 description: ID of the user confirming participation
+ *                 example: "user_id_123"
+ *               is_confirm:
+ *                 type: boolean
+ *                 description: Whether the user confirms participation
+ *                 example: true
  *     responses:
- *       200:
- *         description: Event updated successfully
- *       400:
- *         description: Bad request
- *       500:
- *         description: Server error
- */
-
-/**
- * @swagger
- * /events/searchbyid:
- *   get:
- *     summary: Search an event by ID
- *     tags: [Events]
- *     description: Retrieve details of a specific event by its ID.
- *     parameters:
- *       - in: query
- *         name: event_id
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the event
- *     responses:
- *       200:
- *         description: Event details retrieved successfully
- *       400:
- *         description: Bad request
- *       500:
- *         description: Server error
- */
-
-/**
- * @swagger
- * /events/getall:
- *   get:
- *     summary: Get all events
- *     tags: [Events]
- *     description: Retrieve a list of all events.
- *     responses:
- *       200:
- *         description: List of events retrieved successfully
+ *       201:
+ *         description: Event check created successfully
  *         content:
  *           application/json:
  *             schema:
@@ -154,50 +51,141 @@
  *                   type: boolean
  *                   example: true
  *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       event_id:
- *                         type: string
- *                         description: ID of the event
- *                       title:
- *                         type: string
- *                         description: Title of the event
- *                       description:
- *                         type: string
- *                         description: Description of the event
- *                       date:
- *                         type: string
- *                         format: date
- *                         description: Date of the event
- *                       location:
- *                         type: string
- *                         description: Location of the event
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       format: uuid
+ *                       description: ID of the created event check
+ *                       example: "check_id_123"
+ *                     event_id:
+ *                       type: string
+ *                       format: uuid
+ *                       description: Event ID
+ *                       example: "event_id_123"
+ *                     user_id:
+ *                       type: string
+ *                       format: uuid
+ *                       description: User ID
+ *                       example: "user_id_123"
+ *                     is_confirm:
+ *                       type: boolean
+ *                       description: Confirmation status
+ *                       example: true
+ *       400:
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Invalid input: Missing required event_id, is_confirm, user_id"
  *       500:
  *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "server: Internal server error"
  */
 
 /**
  * @swagger
- * /events/getwithposition:
- *   get:
- *     summary: Get events based on position
- *     tags: [Events]
- *     description: Retrieve events based on the user's position.
- *     parameters:
- *       - in: query
- *         name: position
- *         schema:
- *           type: string
- *         required: true
- *         description: Position of the user
- *         example: "Manager"
+ * /eventcheck/searcheventchecked:
+ *   post:
+ *     summary: Search event check
+ *     tags: [Event Checks]
+ *     description: Check if a user has confirmed participation in an event
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - event_id
+ *               - user_id
+ *             properties:
+ *               event_id:
+ *                 type: string
+ *                 format: uuid
+ *                 description: ID of the event to check
+ *                 example: "event_id_123"
+ *               user_id:
+ *                 type: string
+ *                 format: uuid
+ *                 description: ID of the user to check
+ *                 example: "user_id_123"
  *     responses:
- *       200:
- *         description: List of events retrieved successfully
+ *       202:
+ *         description: Event check found successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       format: uuid
+ *                       description: ID of the event check
+ *                       example: "check_id_123"
+ *                     event_id:
+ *                       type: string
+ *                       format: uuid
+ *                       description: Event ID
+ *                       example: "event_id_123"
+ *                     user_id:
+ *                       type: string
+ *                       format: uuid
+ *                       description: User ID
+ *                       example: "user_id_123"
+ *                     is_confirm:
+ *                       type: boolean
+ *                       description: Whether the user confirmed participation
+ *                       example: true
  *       400:
  *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Bad Request"
  *       500:
  *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "server: Internal server error"
  */

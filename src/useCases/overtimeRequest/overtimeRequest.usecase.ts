@@ -226,6 +226,30 @@ const update_approved_admin_overtime_request_usecase = async (data: any) => {
     }
 };
 
+const get_overtime_request_by_user_id_usecase = async (userId: string) => {
+    try {
+        const isVlalid = validation_id(userId);
+        if (isVlalid.error) {
+            throw new Error(isVlalid.error.message);
+        }
+        const overtime_requests = await overtimeRequestRepo.GET_BY_USER_ID(
+            userId,
+        );
+        if (!overtime_requests.success) {
+            throw new Error(overtime_requests.message);
+        }
+        return {
+            success: true,
+            data: overtime_requests.data,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `usecase error :: ${error?.message}`,
+        };
+    }
+};
+
 export {
     create_overtime_request_usecase,
     get_all_overtime_request_usecase,
@@ -233,4 +257,5 @@ export {
     get_ovetime_request_by_id_usecase,
     delete_overtime_request_by_id_usecase,
     update_approved_admin_overtime_request_usecase,
+    get_overtime_request_by_user_id_usecase,
 };
