@@ -29,7 +29,7 @@ import fcmTokenRouter from '../fcmToken/fcmToken.router';
 import uniformOrderRouter from '../uniformOrder/uniformOrder.router';
 import safetyReportRouterRoot from '../safetyReport/safetyReport.router';
 import dayOffRouter from '../dayOff/dayOff.router';
-import overtimeRequestRouter from '../overtimeRquest/overtimeRequest.router';
+import overtimeRequestRouter from '../overtimeRequest/overtimeRequest.router';
 const v1Router: Router = Router();
 v1Router.use('/department', depRouter);
 v1Router.use('/users', userRouters);

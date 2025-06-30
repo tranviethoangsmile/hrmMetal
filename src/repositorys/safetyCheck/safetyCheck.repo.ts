@@ -1,4 +1,4 @@
-import { SafetyChecks, User } from '../../models';
+import { Department, SafetyChecks, User } from '../../models';
 import { ISafetyCheckRepository } from '../interfaces';
 
 class SafetyCheckRepository implements ISafetyCheckRepository {
@@ -52,11 +52,22 @@ class SafetyCheckRepository implements ISafetyCheckRepository {
                     where: {
                         event_id: id,
                     },
-                    attributes: ['user_id', 'created_at'],
+                    attributes: [
+                        'user_id',
+                        'created_at',
+                        'employee_id',
+                        'avatar',
+                    ],
                     include: [
                         {
                             model: User,
                             attributes: ['id', 'name'],
+                            include: [
+                                {
+                                    model: Department,
+                                    attributes: ['id', 'name'],
+                                },
+                            ],
                         },
                     ],
                 });

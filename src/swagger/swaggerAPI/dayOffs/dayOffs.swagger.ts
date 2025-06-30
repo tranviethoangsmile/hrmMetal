@@ -1,17 +1,19 @@
 /**
  * @swagger
  * tags:
- *   name: DayOff
- *   description: API for managing employee day-off requests
+ *   name: Day Offs
+ *   description: API for managing company holidays and days off
  */
 
 /**
  * @swagger
- * /dayOff:
+ * /dayoffs/create:
  *   post:
- *     summary: Create a new day-off request
- *     tags: [DayOff]
- *     description: Endpoint to create a new day-off request for an employee.
+ *     summary: Create a new day off
+ *     tags: [Day Offs]
+ *     description: Create a new day off record (Admin only)
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -25,59 +27,48 @@
  *               date:
  *                 type: string
  *                 format: date
- *                 description: The date of the day-off
- *                 example: "2025-04-20"
+ *                 description: Date of the day off (YYYY-MM-DD)
+ *                 example: "2024-03-20"
  *               user_id:
  *                 type: string
- *                 description: The ID of the user requesting the day-off
- *                 example: "user123"
+ *                 format: uuid
+ *                 description: ID of the user who will be off
+ *                 example: "user_id_123"
  *     responses:
  *       201:
- *         description: Day-off request created successfully
+ *         description: Day off created successfully
  *         content:
  *           application/json:
  *             schema:
  *               type: object
- *               required:
- *                 - success
- *                 - data
  *               properties:
  *                 success:
  *                   type: boolean
  *                   example: true
  *                 data:
  *                   type: object
- *                   description: Details of the created day-off request
- *                   example:
- *                     id: "550e8400-e29b-41d4-a716-446655440000"
- *                     date: "2025-04-20"
- *                     user_id: "user123"
- *                     reason: "Vacation"
- *       200:
- *         description: Request processed but not successful
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               required:
- *                 - success
- *                 - message
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Day-off request could not be processed"
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       format: uuid
+ *                       description: ID of the created day off record
+ *                       example: "dayoff_id_123"
+ *                     date:
+ *                       type: string
+ *                       format: date
+ *                       description: Date of the day off
+ *                       example: "2024-03-20"
+ *                     user_id:
+ *                       type: string
+ *                       format: uuid
+ *                       description: ID of the user
+ *                       example: "user_id_123"
  *       400:
- *         description: Bad request (e.g., missing or invalid input)
+ *         description: Bad request
  *         content:
  *           application/json:
  *             schema:
  *               type: object
- *               required:
- *                 - success
- *                 - message
  *               properties:
  *                 success:
  *                   type: boolean
@@ -85,31 +76,109 @@
  *                 message:
  *                   type: string
  *                   example: "Invalid input: Request body is required"
- *       500:
- *         description: Server error
+ *       401:
+ *         description: Unauthorized (not an admin)
  *         content:
  *           application/json:
  *             schema:
  *               type: object
- *               required:
- *                 - success
- *                 - message
  *               properties:
  *                 success:
  *                   type: boolean
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: "server error :: <error message>"
+ *                   example: "Unauthorized: Admin access required"
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "server error :: Internal server error"
  */
 
 /**
  * @swagger
- * /dayOff/getById:
+ * /dayoffs/getall:
+ *   get:
+ *     summary: Get all days off
+ *     tags: [Day Offs]
+ *     description: Retrieve a list of all days off with user details
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       202:
+ *         description: Days off retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         format: uuid
+ *                         description: ID of the day off record
+ *                         example: "dayoff_id_123"
+ *                       date:
+ *                         type: string
+ *                         format: date
+ *                         description: Date of the day off
+ *                         example: "2024-03-20"
+ *                       user_id:
+ *                         type: string
+ *                         format: uuid
+ *                         description: ID of the user
+ *                         example: "user_id_123"
+ *                       userDetail:
+ *                         type: object
+ *                         properties:
+ *                           name:
+ *                             type: string
+ *                             description: Name of the user
+ *                             example: "John Doe"
+ *                           avatar:
+ *                             type: string
+ *                             description: URL to user's avatar
+ *                             example: "https://example.com/avatar.jpg"
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "serrver error :: Internal server error"
+ */
+
+/**
+ * @swagger
+ * /dayoffs/getbyid:
  *   post:
- *     summary: Get day-off details by ID
- *     tags: [DayOff]
- *     description: Endpoint to retrieve details of a specific day-off record by its ID.
+ *     summary: Get day off by ID
+ *     tags: [Day Offs]
+ *     description: Get detailed information about a specific day off record
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -122,57 +191,54 @@
  *               id:
  *                 type: string
  *                 format: uuid
- *                 description: The ID of the day-off record to retrieve
- *                 example: "550e8400-e29b-41d4-a716-446655440000"
+ *                 description: ID of the day off record
+ *                 example: "dayoff_id_123"
  *     responses:
  *       202:
- *         description: Day-off record retrieved successfully
+ *         description: Day off found successfully
  *         content:
  *           application/json:
  *             schema:
  *               type: object
- *               required:
- *                 - success
- *                 - data
  *               properties:
  *                 success:
  *                   type: boolean
  *                   example: true
  *                 data:
  *                   type: object
- *                   description: Details of the day-off record
- *                   example:
- *                     id: "550e8400-e29b-41d4-a716-446655440000"
- *                     date: "2025-04-20"
- *                     user_id: "user123"
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       format: uuid
+ *                       description: ID of the day off record
+ *                       example: "dayoff_id_123"
+ *                     user_id:
+ *                       type: string
+ *                       format: uuid
+ *                       description: ID of the user
+ *                       example: "user_id_123"
+ *                     date:
+ *                       type: string
+ *                       format: date
+ *                       description: Date of the day off
+ *                       example: "2024-03-20"
  *                     userDetail:
- *                       name: "John Doe"
- *                       avatar: "https://example.com/avatar.jpg"
- *       404:
- *         description: Day-off record not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               required:
- *                 - success
- *                 - message
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Day-off record not found"
+ *                       type: object
+ *                       properties:
+ *                         name:
+ *                           type: string
+ *                           description: Name of the user
+ *                           example: "John Doe"
+ *                         avatar:
+ *                           type: string
+ *                           description: URL to user's avatar
+ *                           example: "https://example.com/avatar.jpg"
  *       400:
- *         description: Bad request (e.g., missing or invalid ID)
+ *         description: Bad request
  *         content:
  *           application/json:
  *             schema:
  *               type: object
- *               required:
- *                 - success
- *                 - message
  *               properties:
  *                 success:
  *                   type: boolean
@@ -186,24 +252,24 @@
  *           application/json:
  *             schema:
  *               type: object
- *               required:
- *                 - success
- *                 - message
  *               properties:
  *                 success:
  *                   type: boolean
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: "server error :: <error message>"
+ *                   example: "server error:: Internal server error"
  */
+
 /**
  * @swagger
- * /dayOff/deleteById:
+ * /dayoffs/deletebyid:
  *   post:
- *     summary: Delete a day-off record by ID
- *     tags: [DayOff]
- *     description: Endpoint to delete a specific day-off record by its ID.
+ *     summary: Delete day off by ID
+ *     tags: [Day Offs]
+ *     description: Delete a specific day off record (Admin only)
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -212,19 +278,15 @@
  *             type: object
  *             required:
  *               - id
- *               - user_id
  *             properties:
  *               id:
  *                 type: string
- *                 description: The ID of the day-off record to delete
- *                 example: "550e8400-e29b-41d4-a716-446655440000"
- *               user_id:
- *                 type: string
- *                 description: The user_id of the admin record to delete
- *                 example: "550e8400-e29b-41d4-a716-446655440000"
+ *                 format: uuid
+ *                 description: ID of the day off record to delete
+ *                 example: "dayoff_id_123"
  *     responses:
  *       202:
- *         description: Day-off record deleted successfully
+ *         description: Day off deleted successfully
  *         content:
  *           application/json:
  *             schema:
@@ -233,31 +295,12 @@
  *                 success:
  *                   type: boolean
  *                   example: true
- *       404:
- *         description: Day-off record not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               required:
- *                 - success
- *                 - message
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Day off with ID 550e8400-e29b-41d4-a716-446655440000 not found"
  *       400:
- *         description: Bad request (e.g., missing or invalid ID)
+ *         description: Bad request
  *         content:
  *           application/json:
  *             schema:
  *               type: object
- *               required:
- *                 - success
- *                 - message
  *               properties:
  *                 success:
  *                   type: boolean
@@ -265,30 +308,56 @@
  *                 message:
  *                   type: string
  *                   example: "Invalid input: ID is required and must be a non-empty string"
- *       500:
- *         description: Server error
+ *       401:
+ *         description: Unauthorized (not an admin)
  *         content:
  *           application/json:
  *             schema:
  *               type: object
- *               required:
- *                 - success
- *                 - message
  *               properties:
  *                 success:
  *                   type: boolean
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: "server error :: Unexpected error occurred"
+ *                   example: "Unauthorized: Admin access required"
+ *       404:
+ *         description: Day off not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Day off with ID dayoff_id_123 not found"
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "server error :: Internal server error"
  */
+
 /**
  * @swagger
- * /dayOff/update:
+ * /dayoffs/update:
  *   put:
- *     summary: Update a day-off record by ID
- *     tags: [DayOff]
- *     description: Endpoint to update a specific day-off record by its ID.
+ *     summary: Update day off
+ *     tags: [Day Offs]
+ *     description: Update a day off record
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -300,20 +369,22 @@
  *             properties:
  *               id:
  *                 type: string
- *                 description: The ID of the day-off record to update
- *                 example: "550e8400-e29b-41d4-a716-446655440000"
+ *                 format: uuid
+ *                 description: ID of the day off record to update
+ *                 example: "dayoff_id_123"
  *               date:
  *                 type: string
  *                 format: date
- *                 description: The updated date of the day-off (ISO 8601 format)
- *                 example: "2025-04-20"
+ *                 description: New date for the day off (YYYY-MM-DD)
+ *                 example: "2024-03-21"
  *               user_id:
  *                 type: string
- *                 description: The ID of the user requesting the update
- *                 example: "user123"
+ *                 format: uuid
+ *                 description: New user ID for the day off
+ *                 example: "user_id_456"
  *     responses:
  *       202:
- *         description: Day-off record updated successfully
+ *         description: Day off updated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -322,31 +393,12 @@
  *                 success:
  *                   type: boolean
  *                   example: true
- *       200:
- *         description: Update failed due to invalid data or other issues
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               required:
- *                 - success
- *                 - message
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Day-off record not found or update failed"
  *       400:
- *         description: Bad request (e.g., missing or invalid ID)
+ *         description: Bad request
  *         content:
  *           application/json:
  *             schema:
  *               type: object
- *               required:
- *                 - success
- *                 - message
  *               properties:
  *                 success:
  *                   type: boolean
@@ -360,14 +412,11 @@
  *           application/json:
  *             schema:
  *               type: object
- *               required:
- *                 - success
- *                 - message
  *               properties:
  *                 success:
  *                   type: boolean
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: "server error :: Unexpected error occurred"
+ *                   example: "server error :: Internal server error"
  */

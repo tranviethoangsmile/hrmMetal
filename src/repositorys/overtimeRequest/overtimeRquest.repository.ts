@@ -1,5 +1,5 @@
 import { OvertimeRequest, User, Department } from '../../models';
-import { IOvertimeRequestRepo } from '../interfaces/overtimeRquest/IOvertimeRequest.interface';
+import { IOvertimeRequestRepo } from '../interfaces';
 
 const isAttributes = [
     'id',
@@ -174,6 +174,46 @@ class OvertimeRequestRepository implements IOvertimeRequestRepo {
             }
             return {
                 success: true,
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `repository error:${error?.message}`,
+            };
+        }
+    }
+
+    async GET_BY_USER_ID(userId: string) {
+        try {
+            const overtime_requests: OvertimeRequest[] =
+                await OvertimeRequest.findAll({
+                    where: {
+                        user_id: userId,
+                        is_confirm: false,
+                    },
+                    attributes: [
+                        'id',
+                        'description',
+                        'created_at',
+                        'date',
+                        'is_confirm',
+                    ],
+                    include: [
+                        {
+                            model: User,
+                            as: 'leaderDetail',
+                            attributes: ['id', 'name', 'avatar'],
+                        },
+                        {
+                            model: Department,
+                            as: 'departmentDetail',
+                            attributes: ['name'],
+                        },
+                    ],
+                });
+            return {
+                success: true,
+                data: overtime_requests,
             };
         } catch (error: any) {
             return {

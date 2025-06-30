@@ -5,6 +5,7 @@ import {
     get_ovetime_request_by_id_usecase,
     delete_overtime_request_by_id_usecase,
     update_approved_admin_overtime_request_usecase,
+    get_overtime_request_by_user_id_usecase,
 } from '../../useCases';
 
 const create_overtime_request_controller = async (data: any) => {
@@ -26,6 +27,9 @@ const delete_overtime_request_by_id_controller = async (data: any) => {
 const update_approved_admin_overtime_request_controller = async (data: any) => {
     return await update_approved_admin_overtime_request_usecase(data);
 };
+const get_overtime_request_by_user_id_controller = async (userId: string) => {
+    return await get_overtime_request_by_user_id_usecase(userId);
+};
 
 export {
     create_overtime_request_controller,
@@ -34,4 +38,5 @@ export {
     update_isConfirm_ovetime_request_controller,
     delete_overtime_request_by_id_controller,
     update_approved_admin_overtime_request_controller,
+    get_overtime_request_by_user_id_controller,
 };
