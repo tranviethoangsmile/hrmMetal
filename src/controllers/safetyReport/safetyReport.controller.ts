@@ -23,8 +23,8 @@ const delete_safety_report_controller = async (field: any) => {
     return await delete_safety_report_usecase(field);
 };
 
-const get_all_safety_report_by_user_id_controller = async (id: string) => {
-    return await get_all_safety_report_by_user_id_usecase(id);
+const get_all_safety_report_by_user_id_controller = async (field: any) => {
+    return await get_all_safety_report_by_user_id_usecase(field);
 };
 
 const get_all_safety_report_by_department_id_controller = async (
