@@ -1,5 +1,7 @@
 import { SafetyReport } from '../../models';
 import { ISafetyReport } from '../interfaces';
+import moment from 'moment-timezone';
+import { Op } from 'sequelize';
 
 class SafetyReportRepository implements ISafetyReport {
     async CREATE(field: any) {
@@ -54,6 +56,7 @@ class SafetyReportRepository implements ISafetyReport {
                 {
                     leader_id: field.leader_id,
                     is_confirm: true,
+                    corrective_action: field.corrective_action,
                 },
                 {
                     where: {
@@ -118,13 +121,36 @@ class SafetyReportRepository implements ISafetyReport {
         }
     }
 
-    async GET_ALL_BY_USER_ID(id: string) {
+    async GET_ALL_BY_USER_ID(field: any) {
         try {
+            const startDate = moment(
+                `${field.year}-${field.month}-01`,
+                'YYYY-MM-DD',
+            ).format('YYYY-MM-DD');
+            const endDate = moment(startDate, 'YYYY-MM-DD')
+                .endOf('month')
+                .format('YYYY-MM-DD');
             const safetyReports: SafetyReport[] | null =
                 await SafetyReport.findAll({
                     where: {
-                        user_id: id,
+                        user_id: field.user_id,
+                        date: {
+                            [Op.gte]: startDate,
+                            [Op.lte]: endDate,
+                        },
                     },
+                    attributes: [
+                        'id',
+                        'title',
+                        'content',
+                        'is_confirm',
+                        'solution',
+                        'corrective_action',
+                        'media_path',
+                        'date',
+                        'leader_id',
+                        'department_id',
+                    ],
                 });
             if (safetyReports === null || safetyReports.length < 1) {
                 throw new Error(`safetyReport not found`);

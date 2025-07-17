@@ -7,11 +7,16 @@ updateSafetyReportRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field: IUpdateSafetyReport = req.body;
 
-        if (!field || !field.id || !field.user_id) {
-            return res.status(400).json({
-                success: false,
-                message: 'Missing required fields',
-            });
+        if (!field || !field.id) {
+            const missingFields = [!field.id && 'id'].filter(Boolean);
+            if (missingFields.length > 0) {
+                return res.status(400).json({
+                    success: false,
+                    message: `Missing required fields: ${missingFields.join(
+                        ', ',
+                    )}`,
+                });
+            }
         }
         const result = await update_safety_report_controller(field);
         if (!result.success) {

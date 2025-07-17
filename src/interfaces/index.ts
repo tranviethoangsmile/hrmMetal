@@ -50,6 +50,7 @@ import {
     ICreateSafetyReport,
     IUpdateSafetyReport,
     IConfirmSafetyReport,
+    IGetByUserId,
 } from './safetyReport/safetyReport.interface';
 import { search_order, checkin_picked_order } from './order/order.interface';
 import { create_day_off, update_day_off } from './dayOffs/dayOff.interface';
@@ -131,4 +132,5 @@ export {
     IDeleteOvertimeRequest,
     create_safety_check_interface,
     search_safety_checked_interface,
+    IGetByUserId,
 };

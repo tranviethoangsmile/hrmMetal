@@ -45,6 +45,7 @@ import {
     validate_create_safetyReport,
     validate_update_safetyReport,
     validate_confirm_safetyReport,
+    validate_get_by_user_id,
 } from './safetyReport/safetyReport.validate';
 import {
     validate_create_order,
@@ -155,4 +156,5 @@ export {
     validate_update_is_confirm_overtime_request,
     validate_delete_overtime_request,
     validate_update_approved_admin_overtime_request,
+    validate_get_by_user_id,
 };

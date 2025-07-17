@@ -18,24 +18,65 @@
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - user_id
+ *               - title
+ *               - content
+ *               - date
+ *               - department_id
+ *               - solution
  *             properties:
  *               user_id:
  *                 type: string
+ *                 format: uuid
  *                 description: ID of the user creating the report
- *                 example: "user123"
+ *                 example: "b1e2c3d4-5678-1234-9abc-1234567890ab"
+ *               title:
+ *                 type: string
+ *                 description: Title of the safety report
+ *                 example: "Unsafe working condition"
+ *               content:
+ *                 type: string
+ *                 description: Content/details of the safety report
+ *                 example: "There is a spill in the production area."
+ *               date:
+ *                 type: string
+ *                 format: date
+ *                 description: Date of the incident (ISO 8601)
+ *                 example: "2024-06-01"
  *               department_id:
  *                 type: string
+ *                 format: uuid
  *                 description: ID of the department
- *                 example: "dept456"
- *               report_details:
+ *                 example: "d2e3f4g5-6789-2345-0bcd-2345678901bc"
+ *               solution:
  *                 type: string
- *                 description: Details of the safety report
- *                 example: "Safety issue in the production area"
+ *                 description: Proposed solution
+ *                 example: "Clean up the spill and place warning signs."
+ *               corrective_action:
+ *                 type: string
+ *                 nullable: true
+ *                 description: Corrective action taken (optional)
+ *                 example: "Area cleaned and signs posted."
+ *               media_path:
+ *                 type: string
+ *                 nullable: true
+ *                 description: Path to attached media file (optional)
+ *                 example: "/uploads/safety/2024-06-01/photo.jpg"
  *     responses:
  *       201:
  *         description: Safety report created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 data:
+ *                   type: object
  *       400:
- *         description: Bad request
+ *         description: Missing required fields
  *       500:
  *         description: Server error
  */

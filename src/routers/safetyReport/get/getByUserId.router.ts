@@ -1,20 +1,25 @@
 import { Router, Request, Response } from 'express';
 import { get_all_safety_report_by_user_id_controller } from '../../../controllers';
+import { IGetByUserId } from '../../../interfaces';
 const getByUserIdRouter: Router = Router();
 
 getByUserIdRouter.post('/', async (req: Request, res: Response) => {
     try {
-        const userId: string = req.body.id;
+        const field: IGetByUserId = req.body;
 
-        if (!userId) {
+        if (!field || !field.user_id || !field.date) {
+            const missingFields = [
+                !field.user_id && 'user_id',
+                !field.date && 'date',
+            ].filter(Boolean);
             return res.status(400).json({
                 success: false,
-                message: 'User ID is required',
+                message: `Missing required fields: ${missingFields.join(', ')}`,
             });
         }
 
         const safetyReports = await get_all_safety_report_by_user_id_controller(
-            userId,
+            field,
         );
         if (!safetyReports?.success) {
             return res.status(200).json({

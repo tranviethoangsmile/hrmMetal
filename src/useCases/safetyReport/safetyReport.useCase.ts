@@ -1,9 +1,11 @@
+import moment from 'moment-timezone';
 import { SafetyReportRepository } from '../../repositorys';
 import {
     validate_create_safetyReport,
     validate_confirm_safetyReport,
     validate_update_safetyReport,
     validation_id,
+    validate_get_by_user_id,
 } from '../../validates';
 
 import { findUserById, getDepById } from '../index';
@@ -50,10 +52,6 @@ const update_safety_report_usecase = async (field: any) => {
         const safetyReport = await safetyReportRepo.GET_BY_ID(field.id);
         if (!safetyReport?.success) {
             throw new Error(`${safetyReport?.message}`);
-        }
-
-        if (safetyReport?.data?.user_id !== field.user_id) {
-            throw new Error('authentication failed');
         }
         const updatedSafetyReport = await safetyReportRepo.UPDATE(field);
         if (!updatedSafetyReport?.success) {
@@ -127,13 +125,17 @@ const delete_safety_report_usecase = async (id: string) => {
     }
 };
 
-const get_all_safety_report_by_user_id_usecase = async (id: string) => {
+const get_all_safety_report_by_user_id_usecase = async (field: any) => {
     try {
-        const isValid = validation_id(id);
+        const isValid = validate_get_by_user_id(field);
         if (isValid?.error) {
             throw new Error(`-validate: ${isValid?.error.message}`);
         }
-        const safetyReports = await safetyReportRepo.GET_ALL_BY_USER_ID(id);
+        const safetyReports = await safetyReportRepo.GET_ALL_BY_USER_ID({
+            user_id: field.user_id,
+            year: moment(field.date).format('yyyy'),
+            month: moment(field.date).format('MM'),
+        });
         if (!safetyReports?.success) {
             throw new Error(`${safetyReports?.message}`);
         }

@@ -9,6 +9,9 @@ class SafetyReport extends Model {
     public department_id!: string;
     public title!: string;
     public content!: string;
+    public solution!: string;
+    public corrective_action!: string;
+    public media_path!: string;
     public is_confirm!: boolean;
     public date!: string;
 }
@@ -51,6 +54,18 @@ SafetyReport.init(
         content: {
             type: DataTypes.TEXT,
             allowNull: false,
+        },
+        solution: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+        },
+        corrective_action: {
+            type: DataTypes.TEXT,
+            allowNull: true,
+        },
+        media_path: {
+            type: DataTypes.STRING,
+            allowNull: true,
         },
         is_confirm: {
             type: DataTypes.BOOLEAN,
