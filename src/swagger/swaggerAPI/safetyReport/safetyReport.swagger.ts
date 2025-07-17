@@ -165,22 +165,74 @@
 /**
  * @swagger
  * /safetyReport/getbyuserid:
- *   get:
- *     summary: Get safety reports by user ID
+ *   post:
+ *     summary: Get safety reports by user ID and month
  *     tags: [SafetyReports]
- *     description: Retrieve safety reports created by a specific user.
- *     parameters:
- *       - in: query
- *         name: user_id
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the user
+ *     description: Retrieve safety reports created by a specific user in a specific month.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - user_id
+ *               - date
+ *             properties:
+ *               user_id:
+ *                 type: string
+ *                 format: uuid
+ *                 description: ID of the user
+ *                 example: "b1e2c3d4-5678-1234-9abc-1234567890ab"
+ *               date:
+ *                 type: string
+ *                 format: date
+ *                 description: Any date in the month you want to query (ISO 8601)
+ *                 example: "2024-06-01"
  *     responses:
- *       200:
+ *       202:
  *         description: List of safety reports retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         format: uuid
+ *                       title:
+ *                         type: string
+ *                       content:
+ *                         type: string
+ *                       is_confirm:
+ *                         type: boolean
+ *                       solution:
+ *                         type: string
+ *                       corrective_action:
+ *                         type: string
+ *                         nullable: true
+ *                       media_path:
+ *                         type: string
+ *                         nullable: true
+ *                       date:
+ *                         type: string
+ *                         format: date
+ *                       leader_id:
+ *                         type: string
+ *                         format: uuid
+ *                         nullable: true
+ *                       department_id:
+ *                         type: string
+ *                         format: uuid
  *       400:
- *         description: Bad request
+ *         description: Missing required fields
  *       500:
  *         description: Server error
  */
