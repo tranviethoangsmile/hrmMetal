@@ -17,4 +17,4 @@ build_and_deploy:
     - npm start
     - pm2 logs
   tags:
-    - cicd-server
+    - cicd-server 

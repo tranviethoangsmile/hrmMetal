@@ -66,7 +66,7 @@ class PaidLeaveRequestRepository implements IPaidLeaveRequestRepo {
                         {
                             model: User,
                             as: 'staff',
-                            attributes: ['id', 'name'],
+                            attributes: ['id', 'name', 'avatar'],
                             include: [
                                 {
                                     model: Department,
