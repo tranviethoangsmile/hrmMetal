@@ -94,6 +94,7 @@ import {
     search_leave_request_with_field_controller,
     update_un_approve_leave_request_controller,
     update_confirm_from_admin_paid_leave_request_controller,
+    delete_paid_leave_request_by_id_controller,
 } from './paidLeaveRequest/paidLeaveRequest.controller';
 import {
     create_safety_check_controller,
@@ -173,4 +174,5 @@ export {
     create_safety_check_controller,
     search_safety_checked_controller,
     getAllUserCheckedSafetyCheckEventController,
+    delete_paid_leave_request_by_id_controller,
 };

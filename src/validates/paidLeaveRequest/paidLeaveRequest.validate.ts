@@ -47,4 +47,19 @@ const schema_search_leave_request_with_field = Joi.object({
 const validate_search_paid = (data: any) => {
     return schema_search_leave_request_with_field.validate(data);
 };
-export { validate_create_paid, validate_update_paid, validate_search_paid };
+
+const schema_delete_paid_leave = Joi.object({
+    id: Joi.string().guid().required(),
+    user_id: Joi.string().guid().required(),
+});
+
+const validate_delete_paid_leave = (data: any) => {
+    return schema_delete_paid_leave.validate(data);
+};
+
+export {
+    validate_create_paid,
+    validate_update_paid,
+    validate_search_paid,
+    validate_delete_paid_leave,
+};

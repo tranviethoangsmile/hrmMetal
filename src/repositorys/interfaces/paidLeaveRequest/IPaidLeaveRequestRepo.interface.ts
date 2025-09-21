@@ -1,29 +1,32 @@
 import { PaidLeaveRequest } from '../../../models';
 
 export interface IPaidLeaveRequestRepo {
-    create_paid_leave_request(
+    CREATE_PAID_LEAVE_REQUEST(
         field: any,
     ): Promise<{ success: boolean; data?: PaidLeaveRequest; message?: string }>;
-    find_all_paid_leave(): Promise<{
+    FIND_ALL_PAID_LEAVE_REQUEST(): Promise<{
         success: boolean;
         data?: PaidLeaveRequest[];
         message?: string;
     }>;
-    update_active_paid_leave(
+    UPDATE_ACTIVE_PAID_LEAVE_REQUEST(
         id: string,
     ): Promise<{ success: boolean; message?: string }>;
-    search_leave_request_with_field_repo(field: any): Promise<{
+    SEARCH_PAID_LEAVE_REQUEST_WITH_FIELD(field: any): Promise<{
         success: boolean;
         data?: PaidLeaveRequest[];
         message?: string;
     }>;
-    update_un_approve_leave_request_repo(
+    UPDATE_UN_APPROVE_PAID_LEAVE_REQUEST(
         field: any,
     ): Promise<{ success: boolean; message?: string }>;
-    update_confirm_from_admin_paid_leave_request_repo(
+    UPDATE_CONFIRM_PAID_LEAVE_REQUEST_FROM_ADMIN(
         field: any,
     ): Promise<{ success: boolean; message?: string }>;
-    get_paid_lead_with_id_repo(
+    GET_PAID_LEAVE_REQUEST_BY_ID(
         id: string,
     ): Promise<{ success: boolean; data?: PaidLeaveRequest; message?: string }>;
+    DELETE_PAID_LEAVE_REQUEST_BY_ID_REPO(
+        id: string,
+    ): Promise<{ success: boolean; message?: string }>;
 }

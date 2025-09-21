@@ -2,6 +2,8 @@ import {
     validate_create_paid,
     validate_update_paid,
     validate_search_paid,
+    validation_id,
+    validate_delete_paid_leave,
 } from '../../validates';
 import {
     CheckinRepository,
@@ -17,7 +19,7 @@ const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
             throw new Error(`${isValid?.error.message}`);
         }
         const pail_leave =
-            await paidLeaveRequestRepository.get_paid_lead_with_id_repo(
+            await paidLeaveRequestRepository.GET_PAID_LEAVE_REQUEST_BY_ID(
                 field.id,
             );
 
@@ -34,7 +36,7 @@ const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
             throw new Error(checkin?.message);
         }
         const update_confirm =
-            await paidLeaveRequestRepository.update_confirm_from_admin_paid_leave_request_repo(
+            await paidLeaveRequestRepository.UPDATE_CONFIRM_PAID_LEAVE_REQUEST_FROM_ADMIN(
                 field,
             );
         if (!update_confirm.success) {
@@ -58,7 +60,7 @@ const update_un_approve_leave_request_use = async (field: any) => {
             throw new Error(`${isValid?.error.message}`);
         }
         const update =
-            await paidLeaveRequestRepository.update_un_approve_leave_request_repo(
+            await paidLeaveRequestRepository.UPDATE_UN_APPROVE_PAID_LEAVE_REQUEST(
                 field,
             );
         if (!update?.success) {
@@ -82,7 +84,7 @@ const search_leave_request_with_field_use = async (field: any) => {
             throw new Error(`${isValid?.error.message}`);
         }
         const leaves =
-            await paidLeaveRequestRepository.search_leave_request_with_field_repo(
+            await paidLeaveRequestRepository.SEARCH_PAID_LEAVE_REQUEST_WITH_FIELD(
                 field,
             );
         if (!leaves?.success) {
@@ -103,7 +105,7 @@ const create_paid_leave = async (data: any) => {
             throw new Error(`${valid?.error.message}`);
         }
         const paid_leave =
-            await paidLeaveRequestRepository.create_paid_leave_request(data);
+            await paidLeaveRequestRepository.CREATE_PAID_LEAVE_REQUEST(data);
         if (!paid_leave.success) {
             throw new Error(`${paid_leave?.message}`);
         }
@@ -122,7 +124,7 @@ const create_paid_leave = async (data: any) => {
 const find_paid_leave = async () => {
     try {
         const paid_leaves =
-            await paidLeaveRequestRepository.find_all_paid_leave();
+            await paidLeaveRequestRepository.FIND_ALL_PAID_LEAVE_REQUEST();
         if (!paid_leaves.success) {
             throw new Error(`${paid_leaves?.message}`);
         }
@@ -145,13 +147,49 @@ const update_paid_leave = async (data: any) => {
             throw new Error(valid?.error.message);
         }
         const paid_leave =
-            await paidLeaveRequestRepository.update_active_paid_leave(data.id);
+            await paidLeaveRequestRepository.UPDATE_ACTIVE_PAID_LEAVE_REQUEST(
+                data.id,
+            );
         if (!paid_leave?.success) {
             throw new Error(`${paid_leave?.message}`);
         }
         return {
             success: true,
             message: paid_leave?.message,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
+
+const delete_paid_leave_request_with_by_id_use = async (delete_value: any) => {
+    try {
+        const isValid = validate_delete_paid_leave(delete_value);
+        if (isValid?.error) {
+            throw new Error(`${isValid?.error.message}`);
+        }
+        const paid_leave =
+            await paidLeaveRequestRepository.GET_PAID_LEAVE_REQUEST_BY_ID(
+                delete_value.id,
+            );
+        if (!paid_leave?.success) {
+            throw new Error(paid_leave?.message);
+        }
+        if (paid_leave?.data?.user_id !== delete_value.user_id) {
+            throw new Error('You do not have permission to delete this item');
+        }
+        const delete_paid_leave =
+            await paidLeaveRequestRepository.DELETE_PAID_LEAVE_REQUEST_BY_ID_REPO(
+                delete_value.id,
+            );
+        if (!delete_paid_leave?.success) {
+            throw new Error(`${delete_paid_leave?.message}`);
+        }
+        return {
+            success: true,
         };
     } catch (error: any) {
         return {
@@ -168,4 +206,5 @@ export {
     search_leave_request_with_field_use,
     update_un_approve_leave_request_use,
     update_confirm_from_admin_paid_leave_request_use,
+    delete_paid_leave_request_with_by_id_use,
 };
