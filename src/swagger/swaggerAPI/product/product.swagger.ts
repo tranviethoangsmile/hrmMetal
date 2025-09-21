@@ -289,4 +289,5 @@
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: "Internal server error" 
+ *                   example: "Internal server error"
+ */
