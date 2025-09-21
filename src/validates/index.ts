@@ -20,6 +20,7 @@ import {
     validate_create_paid,
     validate_search_paid,
     validate_update_paid,
+    validate_delete_paid_leave,
 } from './paidLeaveRequest/paidLeaveRequest.validate';
 import {
     validate_create_conversation,
@@ -157,4 +158,5 @@ export {
     validate_delete_overtime_request,
     validate_update_approved_admin_overtime_request,
     validate_get_by_user_id,
+    validate_delete_paid_leave,
 };

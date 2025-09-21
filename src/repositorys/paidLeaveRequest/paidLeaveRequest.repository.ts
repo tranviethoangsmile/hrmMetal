@@ -3,11 +3,50 @@ import { Department, PaidLeaveRequest, User } from '../../models';
 import { IPaidLeaveRequestRepo } from '../interfaces/paidLeaveRequest/IPaidLeaveRequestRepo.interface';
 
 class PaidLeaveRequestRepository implements IPaidLeaveRequestRepo {
-    async get_paid_lead_with_id_repo(id: string) {
+    async GET_PAID_LEAVE_REQUEST_BY_ID(id: string) {
         try {
             const paid_leave: PaidLeaveRequest | null =
-                await PaidLeaveRequest.findOne({
-                    where: { id: id },
+                await PaidLeaveRequest.findByPk(id, {
+                    attributes: [
+                        'id',
+                        'date_leave',
+                        'reason',
+                        'is_approve',
+                        'user_id',
+                        'leader_id',
+                        'is_confirm',
+                        'date_request',
+                        'position',
+                        'is_paid',
+                        'is_half',
+                        'feedback',
+                    ],
+                    include: [
+                        {
+                            model: User,
+                            as: 'staff',
+                            attributes: ['name', 'avatar'],
+                            include: [
+                                {
+                                    model: Department,
+                                    as: 'department',
+                                    attributes: ['id', 'name'],
+                                },
+                            ],
+                        },
+                        {
+                            model: User,
+                            as: 'leader',
+                            attributes: ['name', 'avatar'],
+                            include: [
+                                {
+                                    model: Department,
+                                    as: 'department',
+                                    attributes: ['id', 'name'],
+                                },
+                            ],
+                        },
+                    ],
                 });
             if (paid_leave === null) {
                 throw new Error('Paid leave not exist');
@@ -24,7 +63,7 @@ class PaidLeaveRequestRepository implements IPaidLeaveRequestRepo {
         }
     }
 
-    async create_paid_leave_request(data: any) {
+    async CREATE_PAID_LEAVE_REQUEST(data: any) {
         try {
             const paid_leave_request: PaidLeaveRequest | null =
                 await PaidLeaveRequest.create({ ...data });
@@ -43,7 +82,7 @@ class PaidLeaveRequestRepository implements IPaidLeaveRequestRepo {
         }
     }
 
-    async search_leave_request_with_field_repo(field: any) {
+    async SEARCH_PAID_LEAVE_REQUEST_WITH_FIELD(field: any) {
         try {
             const leaves: PaidLeaveRequest[] | null =
                 await PaidLeaveRequest.findAll({
@@ -104,7 +143,7 @@ class PaidLeaveRequestRepository implements IPaidLeaveRequestRepo {
         }
     }
 
-    async find_all_paid_leave() {
+    async FIND_ALL_PAID_LEAVE_REQUEST() {
         try {
             const paid_leave_requests: PaidLeaveRequest[] | null =
                 await PaidLeaveRequest.findAll({
@@ -155,7 +194,7 @@ class PaidLeaveRequestRepository implements IPaidLeaveRequestRepo {
         }
     }
 
-    async update_active_paid_leave(id: any) {
+    async UPDATE_ACTIVE_PAID_LEAVE_REQUEST(id: any) {
         try {
             const update_paid_leave = await PaidLeaveRequest.update(
                 { is_approve: true },
@@ -179,7 +218,7 @@ class PaidLeaveRequestRepository implements IPaidLeaveRequestRepo {
             };
         }
     }
-    async update_un_approve_leave_request_repo(field: any) {
+    async UPDATE_UN_APPROVE_PAID_LEAVE_REQUEST(field: any) {
         try {
             const update_feelback_request = await PaidLeaveRequest.update(
                 {
@@ -204,7 +243,7 @@ class PaidLeaveRequestRepository implements IPaidLeaveRequestRepo {
         }
     }
 
-    async update_confirm_from_admin_paid_leave_request_repo(field: any) {
+    async UPDATE_CONFIRM_PAID_LEAVE_REQUEST_FROM_ADMIN(field: any) {
         try {
             const update_confirm = await PaidLeaveRequest.update(
                 {
@@ -227,6 +266,26 @@ class PaidLeaveRequestRepository implements IPaidLeaveRequestRepo {
             return {
                 success: false,
                 message: error?.message,
+            };
+        }
+    }
+    async DELETE_PAID_LEAVE_REQUEST_BY_ID_REPO(id: string) {
+        try {
+            const paid_leave_request: number = await PaidLeaveRequest.destroy({
+                where: {
+                    id,
+                },
+            });
+            if (paid_leave_request === 0) {
+                throw new Error(`Failed to delete paid leave request`);
+            }
+            return {
+                success: true,
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `${error?.message}`,
             };
         }
     }

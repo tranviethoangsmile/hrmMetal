@@ -12,7 +12,6 @@ CREATE TABLE trainnings
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-ALTER TABLE trainnings
-ALTER COLUMN media_path TYPE
-TEXT[]
-USING ARRAY[media_path];
+-- ALTER TABLE trainnings
+-- ALTER COLUMN media_path TYPE TEXT[]
+-- USING ARRAY[media_path];

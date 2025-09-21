@@ -5,7 +5,8 @@ import {
     search_leave_request_with_field_use,
     update_un_approve_leave_request_use,
     update_confirm_from_admin_paid_leave_request_use,
-} from '../../useCases/paidLeaveRequest/paidLeaveRequest.useCase';
+    delete_paid_leave_request_with_by_id_use,
+} from '../../useCases';
 
 const create_paid_leave_controller = async (data: any) => {
     return await create_paid_leave(data);
@@ -29,6 +30,12 @@ const update_confirm_from_admin_paid_leave_request_controller = async (
     return await update_confirm_from_admin_paid_leave_request_use(field);
 };
 
+const delete_paid_leave_request_by_id_controller = async (
+    delete_value: any,
+) => {
+    return await delete_paid_leave_request_with_by_id_use(delete_value);
+};
+
 export {
     create_paid_leave_controller,
     get_all_paid_leave_controller,
@@ -36,4 +43,5 @@ export {
     search_leave_request_with_field_controller,
     update_un_approve_leave_request_controller,
     update_confirm_from_admin_paid_leave_request_controller,
+    delete_paid_leave_request_by_id_controller,
 };

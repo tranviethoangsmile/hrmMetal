@@ -1,7 +1,7 @@
 import db from '../dbs/db';
 import { DataTypes, Model } from 'sequelize';
 import { User } from './index';
-import { Position } from '../enum/Position.enum';
+import { Position } from '../enum';
 
 class PaidLeaveRequest extends Model {
     public id!: string;
@@ -25,7 +25,7 @@ PaidLeaveRequest.init(
     {
         id: {
             type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV1,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
         reason: {
@@ -86,7 +86,7 @@ PaidLeaveRequest.init(
         modelName: 'paidleaverequest',
         tableName: 'paidleaverequests',
         timestamps: true,
-        paranoid: true,
+        // paranoid: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
         deletedAt: 'deleted_at',

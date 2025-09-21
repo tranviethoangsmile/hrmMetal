@@ -3,6 +3,7 @@ import create_router from './create/create';
 import searchLeaveRouter from './search/searchPaidLeaveRequestWithField.router';
 import unApproveRouter from './update/updateUnApproveLeave.router';
 import updateConfirmRouter from './update/updateConfirmLeave.router';
+import deletePaidLeaveRouter from './delete/deletePaidLeave.router';
 import {
     get_all_paid_leave_controller,
     update_is_active_paid_leave_controller,
@@ -14,6 +15,7 @@ paidLeaveRouter.use('/create', create_router);
 paidLeaveRouter.use('/search', searchLeaveRouter);
 paidLeaveRouter.use('/update', unApproveRouter);
 paidLeaveRouter.use('/updateconfirm', updateConfirmRouter);
+paidLeaveRouter.use('/delete', deletePaidLeaveRouter);
 
 paidLeaveRouter.get('/', async (req: Request, res: Response) => {
     try {
