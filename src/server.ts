@@ -16,6 +16,7 @@ import http from 'http';
 import { init } from './socket/socketIO';
 import config from './configs/config.system';
 import swaggerDocs from './swagger/swagger.config';
+import { apiRateLimiter } from './middlewares/rateLimit.config';
 // require('./dbs/db.mongo');
 dotenv.config();
 const PORT = config.app.port;
@@ -37,7 +38,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     next();
 });
 swaggerDocs(app as Express, PORT);
-
 init(server);
 app.use(cors());
 app.use(morgan('combined'));
@@ -47,8 +47,8 @@ app.use(express.urlencoded({ limit: '100mb', extended: true }));
 app.use(express.json({ limit: '100mb' }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
+app.use(apiRateLimiter);
 app.use(router);
-
 server.listen(PORT, () => {
     console.warn(`server runing on port ${HOSTNAME}:${PORT}`);
 });
