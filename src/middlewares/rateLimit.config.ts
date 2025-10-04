@@ -13,7 +13,7 @@ export const apiRateLimiter = rateLimit({
     },
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: req => {
+    keyGenerator: (req: Request, res: Response) => {
         console.log('req.ip', req.ip);
         return req.ip || '';
     },
