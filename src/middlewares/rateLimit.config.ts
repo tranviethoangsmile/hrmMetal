@@ -3,7 +3,7 @@ import { rateLimit } from 'express-rate-limit';
 
 export const apiRateLimiter = rateLimit({
     windowMs: 1 * 60 * 1000,
-    max: 5,
+    max: 10,
     message: (req: Request, res: Response) => {
         return res.status(429).json({
             success: false,
