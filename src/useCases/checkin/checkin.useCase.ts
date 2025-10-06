@@ -62,6 +62,10 @@ const is_checked = async (field: is_Checked_interface) => {
 };
 const create_checkin_use = async (data: create_checkin_interface) => {
     try {
+        const YEAR = moment(data.date).format('yyyy');
+        const MONTH = moment(data.date).format('MM');
+        const KEY_CACHE = `checkin_user_${data.user_id}_month_${MONTH}_year_${YEAR}`;
+        await delCache(KEY_CACHE);
         const valid = create_checkin_validate(data);
         if (valid.error) {
             throw new Error(`${valid?.error.message}`);
@@ -91,6 +95,10 @@ const update_checkin_use = async (field: update_checkin_interface) => {
         if (isValid?.error) {
             throw new Error(`${isValid?.error.message}`);
         }
+        const YEAR = moment(field.date).format('yyyy');
+        const MONTH = moment(field.date).format('MM');
+        const KEY_CACHE = `checkin_user_${field.user_id}_month_${MONTH}_year_${YEAR}`;
+        await delCache(KEY_CACHE);
         if (!Object.keys(shift_work).includes(field.work_shift)) {
             throw new Error(`shift work not avaliable`);
         }
