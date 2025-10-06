@@ -1,5 +1,5 @@
-import db from '../dbs/db';
 import { DataTypes, Model } from 'sequelize';
+import { db } from '../dbs';
 
 class EventChecks extends Model {
     public id!: string;

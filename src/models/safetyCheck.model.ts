@@ -1,4 +1,4 @@
-import db from '../dbs/db';
+import { db } from '../dbs';
 import { DataTypes, Model } from 'sequelize';
 
 class SafetyChecks extends Model {

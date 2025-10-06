@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { User } from './index';
-import { Products } from '../enum/product.enum';
-import db from '../dbs/db';
+import { Products } from '../enum';
+import { db } from '../dbs';
 
 class DailyReport extends Model {
     public id!: string;

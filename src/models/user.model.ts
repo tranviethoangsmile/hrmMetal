@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import db from '../dbs/db';
+import {db} from '../dbs';
 import { Department } from '../models';
 import { Role } from '../enum/Role.enum';
 import { Position } from '../enum/Position.enum';

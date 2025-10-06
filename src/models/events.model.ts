@@ -1,6 +1,6 @@
-import db from '../dbs/db';
 import { DataTypes, Model } from 'sequelize';
-import { Position } from '../enum/Position.enum';
+import { db } from '../dbs';
+import { Position } from '../enum';
 class Events extends Model {
     public id!: string;
     public name!: string;

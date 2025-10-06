@@ -1,7 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
-import db from '../dbs/db';
-import { DailyReport } from './index';
-import { CodeError as codeErrors } from '../enum/codeError.enum';
+import { db } from '../dbs';
+import { CodeError as codeErrors } from '../enum';
 class CodeError extends Model {
     public id!: string;
     public code!: Enumerator;

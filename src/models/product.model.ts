@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import db from '../dbs/db';
+import { db } from '../dbs';
 import { User } from './index';
 import { Products } from '../enum/product.enum';
 class Product extends Model {

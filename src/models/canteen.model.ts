@@ -1,5 +1,5 @@
-import db from '../dbs/db';
 import { DataTypes, Model } from 'sequelize';
+import { db } from '../dbs';
 
 class Canteen extends Model {
     public id!: string;
