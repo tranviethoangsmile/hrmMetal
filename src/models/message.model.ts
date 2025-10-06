@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import db from '../dbs/db';
+import { db } from '../dbs';
 import { E_message_type } from '../enum';
 
 class Message extends Model {

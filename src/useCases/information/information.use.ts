@@ -7,6 +7,7 @@ import {
 import { Position } from '../../enum';
 import { findUserById } from '../user/user.useCase';
 import { InformationRepository } from '../../repositorys';
+import { setCache, getCache, delCache } from '../../utils';
 const informationRepository = new InformationRepository();
 const create_information_use = async (value: any) => {
     try {
@@ -55,6 +56,7 @@ const create_information_use = async (value: any) => {
         if (!newInfomation?.success) {
             throw new Error(`${newInfomation?.message}`);
         }
+        await delCache(`information_user_${info_value.user_id}`);
         return {
             success: true,
             data: newInfomation?.data,
@@ -69,15 +71,25 @@ const create_information_use = async (value: any) => {
 
 const search_information_of_user_use = async (id: string) => {
     try {
+        const KEY_CACHE = `information_user_${id}`;
         const valid_id = validation_id(id);
         if (valid_id.error) {
             throw new Error(`${valid_id?.error.message}`);
+        }
+        const information_value_of_user = await getCache(KEY_CACHE);
+        console.log(information_value_of_user, 'information_value_of_user');
+        if (information_value_of_user) {
+            return {
+                success: true,
+                data: JSON.parse(information_value_of_user),
+            };
         }
         const informations =
             await informationRepository.search_information_of_user_repo(id);
         if (!informations?.success) {
             throw new Error(`${informations?.message}`);
         }
+        await setCache(KEY_CACHE, JSON.stringify(informations?.data), 86400);
         return {
             success: informations.success,
             data: informations.data,
@@ -121,6 +133,14 @@ const search_all_information_with_field_use = async (
         if (valid.error) {
             throw new Error(`${valid?.error.message}`);
         }
+        const KEY_CACHE = `all_information_${JSON.stringify(field)}`;
+        const information_value = await getCache(KEY_CACHE);
+        if (information_value) {
+            return {
+                success: true,
+                data: JSON.parse(information_value),
+            };
+        }
         const informations =
             await informationRepository.search_information_all_with_field_repo(
                 field,
@@ -128,6 +148,7 @@ const search_all_information_with_field_use = async (
         if (!informations?.success) {
             throw new Error(`${informations?.message}`);
         }
+        await setCache(KEY_CACHE, JSON.stringify(informations?.data), 86400);
         return {
             success: true,
             data: informations?.data,

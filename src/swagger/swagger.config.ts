@@ -2,7 +2,7 @@ import { Express, Request, Response } from 'express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
 import path from 'path';
-import config from '../configs/config.system';
+import config from '../configs/config/config.system';
 const options: swaggerJSDoc.Options = {
     definition: {
         openapi: '3.0.0',

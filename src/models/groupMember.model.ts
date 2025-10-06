@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import db from '../dbs/db';
+import { db } from '../dbs';
 import { groupMemberRole, GR_TYPE } from '../enum';
 
 class GroupMember extends Model {
@@ -41,9 +41,7 @@ GroupMember.init(
         group_type: {
             type: DataTypes.STRING,
             allowNull: false,
-            values: Object.values(GR_TYPE).map(value =>
-                value.toString(),
-            ),
+            values: Object.values(GR_TYPE).map(value => value.toString()),
         },
     },
     {

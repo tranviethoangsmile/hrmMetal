@@ -9,7 +9,7 @@ import {
 import { Role, Position } from '../../enum';
 import { getDepartmentById } from '../../controllers';
 import { UpdateField, CreateField } from '../../interfaces';
-
+import { setCache, getCache, delCache } from '../../utils';
 import { UserRepository } from '../../repositorys';
 const userRepository = new UserRepository();
 
@@ -110,6 +110,7 @@ const createNewUser = async (user: any) => {
         if (!new_user?.success) {
             throw new Error(`${new_user?.message}`);
         }
+        await delCache('ALL_USER');
         return {
             success: true,
             data: new_user?.data,
@@ -235,10 +236,18 @@ const findUserByName = async (name: string) => {
 
 const findAllUser = async () => {
     try {
+        const VALUE_CACHE = await getCache('ALL_USER');
+        if (VALUE_CACHE) {
+            return {
+                success: true,
+                data: JSON.parse(VALUE_CACHE),
+            };
+        }
         const users = await userRepository.userFindAll();
         if (!users?.success) {
             throw new Error(`${users?.message}`);
         }
+        await setCache('ALL_USER', JSON.stringify(users.data), 1);
         return {
             success: true,
             data: users.data,

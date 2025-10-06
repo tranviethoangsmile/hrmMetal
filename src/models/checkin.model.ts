@@ -1,7 +1,7 @@
-import db from '../dbs/db';
 import { DataTypes, Model } from 'sequelize';
+import { db } from '../dbs';
 import { User } from '../models';
-import { shift_work } from '../enum/shift_work.enum';
+import { shift_work } from '../enum';
 class Checkin extends Model {
     public id!: string;
     public user_id!: string;

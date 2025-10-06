@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import db from '../dbs/db';
+import { db } from '../dbs';
 import { Position } from '../enum/Position.enum';
 class Information extends Model {
     public id!: number;

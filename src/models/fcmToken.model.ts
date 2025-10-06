@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { User } from './index';
-import db from '../dbs/db';
-import { Device } from '../enum/device_type.enum';
+import { db } from '../dbs';
+import { Device } from '../enum';
 
 class FcmToken extends Model {
     public id!: string;

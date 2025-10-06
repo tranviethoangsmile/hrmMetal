@@ -1,6 +1,6 @@
 'use strict';
 import { Sequelize } from 'sequelize';
-import config from '../configs/config.system';
+import { config } from '../configs';
 const CONFIG = config.db;
 const db = new Sequelize(CONFIG.name, CONFIG.username, CONFIG.password, {
     dialect: CONFIG.dialect,

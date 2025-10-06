@@ -12,18 +12,19 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import compression from 'compression';
+import Redis from 'ioredis';
 import http from 'http';
 import { init } from './socket/socketIO';
-import config from './configs/config.system';
+import config from './configs/config/config.system';
 import swaggerDocs from './swagger/swagger.config';
 import { apiRateLimiter } from './middlewares/rateLimit.config';
+import { initRedis } from './dbs/redis';
 // require('./dbs/db.mongo');
 dotenv.config();
 const PORT = config.app.port;
 const HOSTNAME = process.env.HOST_SERVER || 'localhost';
 const app: Application = express();
 const server = http.createServer(app);
-
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header(
@@ -49,6 +50,7 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(apiRateLimiter);
 app.use(router);
+initRedis();
 server.listen(PORT, () => {
     console.warn(`server runing on port ${HOSTNAME}:${PORT}`);
 });

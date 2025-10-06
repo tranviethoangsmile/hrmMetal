@@ -1,5 +1,5 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
-import db from '../dbs/db';
+import { db } from '../dbs';
 
 class Department extends Model {
     public id!: number;

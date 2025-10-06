@@ -1,26 +1,27 @@
-import { Dialect } from '../enum/dialect.enum';
+import { Dialect } from '../../enum/dialect.enum';
 import dotenv from 'dotenv';
+import { IConfig } from '../interfaces';
 dotenv.config();
 const ENV = process.env;
-interface AppConfig {
-    port: number;
-}
+// interface AppConfig {
+//     port: number;
+// }
 
-interface DbConfig {
-    host: string;
-    port: number;
-    name: string;
-    dialect: Dialect;
-    username: string;
-    password: string;
-    timezone: string;
-}
-interface Config {
-    app: AppConfig;
-    db: DbConfig;
-}
+// interface DbConfig {
+//     host: string;
+//     port: number;
+//     name: string;
+//     dialect: Dialect;
+//     username: string;
+//     password: string;
+//     timezone: string;
+// }
+// interface Config {
+//     app: AppConfig;
+//     db: DbConfig;
+// }
 
-const pro: Config = {
+const pro: IConfig = {
     app: {
         port: parseInt(ENV.PRO_PORT!),
     },
@@ -35,7 +36,7 @@ const pro: Config = {
     },
 };
 
-const dev: Config = {
+const dev: IConfig = {
     app: {
         port: parseInt(ENV.DEV_PORT!),
     },

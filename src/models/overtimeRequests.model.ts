@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import db from '../dbs/db';
+import { db } from '../dbs';
 import { User, Department } from './index';
 import { Position, OVERTIME_REQUEST_HOUR } from '../enum';
 

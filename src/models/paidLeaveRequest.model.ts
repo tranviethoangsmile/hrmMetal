@@ -1,5 +1,5 @@
-import db from '../dbs/db';
 import { DataTypes, Model } from 'sequelize';
+import { db } from '../dbs';
 import { User } from './index';
 import { Position } from '../enum';
 
