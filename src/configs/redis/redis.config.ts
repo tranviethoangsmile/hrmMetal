@@ -3,7 +3,7 @@ import { IRedisConfig } from '../interfaces';
 dotenv.config();
 const ENV = process.env;
 const redisConfig: IRedisConfig = {
-    host: ENV.REDIS_HOST || 'localhost',
+    host: ENV.REDIS_HOST || 'redis',
     port: ENV.REDIS_PORT ? parseInt(ENV.REDIS_PORT) : 6379,
     // password: undefined, // Không cần password
     maxRetriesPerRequest: ENV.REDIS_MAX_RETRIES_PER_REQUEST
