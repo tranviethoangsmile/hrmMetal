@@ -29,6 +29,14 @@ const attachListeners = () => {
     });
     redis.on(statusConnectRedis.READY as any, () => {
         console.log('Redis ready');
+        // Kiểm tra replication mode
+        redis.info('replication').then(info => {
+            const lines = info.split('\n');
+            const role = lines.find(line => line.startsWith('role:'));
+            console.log('Redis mode:', role);
+        }).catch(err => {
+            console.error('Failed to get Redis info:', err);
+        });
     });
     redis.on(statusConnectRedis.RECONNECTING as any, () => {
         console.log('Redis reconnecting');
