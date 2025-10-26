@@ -1,5 +1,7 @@
 import { Department, Inventory } from '../../models';
 import { IInventoryRepository } from '../interfaces/inventory/IInventoryRepository.interface';
+import { delCache } from '../../utils';
+const KEY_CACHE = `all_inventory`;
 class InventoryRepository implements IInventoryRepository {
     async update_inventory_repo(field: any) {
         try {
@@ -15,6 +17,7 @@ class InventoryRepository implements IInventoryRepository {
             if (result.toString() !== '1') {
                 throw new Error('Update inventory failed');
             }
+            await delCache(KEY_CACHE);
             return {
                 success: true,
             };
@@ -32,6 +35,7 @@ class InventoryRepository implements IInventoryRepository {
             if (inventory === null) {
                 throw new Error(`Error creating inventory`);
             }
+            await delCache(KEY_CACHE);
             return {
                 success: true,
                 data: inventory,

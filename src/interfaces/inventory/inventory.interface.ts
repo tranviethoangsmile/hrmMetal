@@ -3,7 +3,7 @@ interface create_inventory {
     quantity: number;
     department_id: string;
 }
-interface search_with_name {
+interface search_inventory_with_name {
     product?: string;
     department_id?: string;
 }
@@ -12,4 +12,4 @@ interface update_inventory {
     quantity: number;
     department_id?: string;
 }
-export { create_inventory, search_with_name, update_inventory };
+export { create_inventory, search_inventory_with_name, update_inventory };

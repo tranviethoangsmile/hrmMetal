@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
-import { create } from '../../../controllers/inventory/inventory.controller';
+import { create_inventory_controller } from '../../../controllers';
 import { create_inventory } from '../../../interfaces/inventory/inventory.interface';
+import { delCache } from '../../../utils';
 const createRouter: Router = Router();
 createRouter.post('/', async (req: Request, res: Response) => {
     try {
@@ -23,8 +24,10 @@ createRouter.post('/', async (req: Request, res: Response) => {
                 message: `Invalid input: Missing required ${missingFields}`,
             });
         } else {
-            const inventory = await create(field);
+            const KEY_CACHE = `all_inventory`;
+            const inventory = await create_inventory_controller(field);
             if (inventory?.success) {
+                await delCache(KEY_CACHE);
                 return res.status(201).json({
                     success: true,
                     data: inventory?.data,

@@ -1,6 +1,6 @@
 import {
     create_inventory,
-    search_with_name,
+    search_inventory_with_name,
     update_inventory,
 } from '../../interfaces';
 import {
@@ -57,7 +57,7 @@ const get_all_inventory_use = async () => {
     }
 };
 
-const search_inventory_with_name_use = async (field: search_with_name) => {
+const search_inventory_with_name_use = async (field: search_inventory_with_name) => {
     try {
         const isValid = validate_search_with_name(field);
         if (isValid.error) {

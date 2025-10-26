@@ -64,7 +64,7 @@ import {
 } from './dailyReport/dailyReport.interface';
 import {
     create_inventory,
-    search_with_name,
+    search_inventory_with_name,
     update_inventory,
 } from './inventory/inventory.interface';
 import { login_data, token_payload } from './login/login.interface';
@@ -119,7 +119,7 @@ export {
     create_daily_report,
     search_report,
     create_inventory,
-    search_with_name,
+    search_inventory_with_name,
     update_inventory,
     login_data,
     token_payload,
