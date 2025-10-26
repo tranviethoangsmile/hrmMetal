@@ -5,7 +5,7 @@ const ENV = process.env;
 const redisConfig: IRedisConfig = {
     host: ENV.REDIS_HOST || 'localhost',
     port: ENV.REDIS_PORT ? parseInt(ENV.REDIS_PORT) : 6379,
-    password: ENV.REDIS_PASSWORD || undefined,
+    password: 'hoangdev', // Hardcode để test
     maxRetriesPerRequest: ENV.REDIS_MAX_RETRIES_PER_REQUEST
         ? parseInt(ENV.REDIS_MAX_RETRIES_PER_REQUEST)
         : 5,
@@ -22,4 +22,17 @@ const redisConfig: IRedisConfig = {
         ? parseInt(ENV.REDIS_MAX_LOADING_RETRY_TIME)
         : 10000,
 };
+
+// Debug log
+console.log('Redis config:', {
+    host: redisConfig.host,
+    port: redisConfig.port,
+    password: redisConfig.password ? '***' : 'undefined',
+    env: {
+        REDIS_HOST: process.env.REDIS_HOST,
+        REDIS_PORT: process.env.REDIS_PORT,
+        REDIS_PASSWORD: process.env.REDIS_PASSWORD ? '***' : 'undefined'
+    }
+});
+
 export default redisConfig;
