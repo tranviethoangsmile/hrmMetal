@@ -21,6 +21,10 @@ import { apiRateLimiter } from './middlewares/rateLimit.config';
 import { initRedis } from './dbs/redis';
 // require('./dbs/db.mongo');
 dotenv.config();
+
+// Khởi tạo Redis connection
+initRedis();
+
 const PORT = config.app.port;
 const HOSTNAME = process.env.HOST_SERVER || 'localhost';
 const app: Application = express();

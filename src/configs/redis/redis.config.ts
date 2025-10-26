@@ -5,7 +5,7 @@ const ENV = process.env;
 const redisConfig: IRedisConfig = {
     host: ENV.REDIS_HOST || 'localhost',
     port: ENV.REDIS_PORT ? parseInt(ENV.REDIS_PORT) : 6379,
-    password: 'hoangdev', // Hardcode để test
+    // password: undefined, // Không cần password
     maxRetriesPerRequest: ENV.REDIS_MAX_RETRIES_PER_REQUEST
         ? parseInt(ENV.REDIS_MAX_RETRIES_PER_REQUEST)
         : 5,
