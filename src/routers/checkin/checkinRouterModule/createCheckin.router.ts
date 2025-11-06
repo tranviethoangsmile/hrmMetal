@@ -4,11 +4,11 @@ import {
     create_checkin_controller,
     is_checked_controller,
     update_checkin_controller,
-} from '../../../controllers/checkin/checkin.controller';
+} from '../../../controllers';
 const createCheckin: Router = Router();
 import { io } from '../../../socket/socketIO';
 import { findById } from '../../../controllers/user/user.controller';
-import { check_value_request_checkin } from '../../../interfaces/checkin/checkin.interface';
+import { check_value_request_checkin } from '../../../interfaces';
 import { create_notification_usecase } from '../../../useCases';
 import { get_all_day_off_controller } from '../../../controllers';
 createCheckin.post('/', async (req: Request, res: Response) => {

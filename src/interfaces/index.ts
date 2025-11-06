@@ -26,6 +26,7 @@ import {
     update_checkin_interface,
     is_Checked_interface,
     get_checkin_in_date_of_position_interface,
+    check_value_request_checkin
 } from '../interfaces/checkin/checkin.interface';
 
 import { create_group_member } from './groupMember/groupMember.interface';
@@ -80,6 +81,7 @@ import {
     search_safety_checked_interface,
 } from './safetyCheck/safetyCheck.interface';
 export {
+    check_value_request_checkin,
     create_plan_production,
     update_plan_production,
     search_by_date_and_department,

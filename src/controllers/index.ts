@@ -102,6 +102,7 @@ import {
     getAllUserCheckedSafetyCheckEventController,
 } from './safetyCheck/safetyCheck.controller';
 import {search_inventory_with_name_controller, get_all_inventory_controller, update_inventory_controller, create_inventory_controller} from './inventory/inventory.controller';
+import { create_checkin_controller, is_checked_controller, update_checkin_controller } from './checkin/checkin.controller';
 export {
     createDep,
     departmentList,
@@ -180,4 +181,7 @@ export {
     get_all_inventory_controller,
     update_inventory_controller,
     create_inventory_controller,
+    create_checkin_controller,
+    is_checked_controller,
+    update_checkin_controller,
 };
