@@ -13,6 +13,7 @@ import { UniformType } from './uniformType.enum';
 import { UniformSize } from './uniformSize.enum';
 import { GR_TYPE } from './groupMember_type.enum';
 import { OVERTIME_REQUEST_HOUR } from './overtimeRequest.enum';
+import { TaxDependentStatusEnum, TaxDependentRelationshipEnum, TaxDependentGenderEnum } from './taxDependent.enum';
 export {
     Position,
     Products,
@@ -29,4 +30,7 @@ export {
     UniformSize,
     GR_TYPE,
     OVERTIME_REQUEST_HOUR,
+    TaxDependentStatusEnum,
+    TaxDependentRelationshipEnum,
+    TaxDependentGenderEnum,
 };

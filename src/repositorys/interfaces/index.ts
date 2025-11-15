@@ -23,6 +23,7 @@ import { IUniformOrder } from './uniformOrder/IUniformOrderRepository.interface'
 import { ISafetyReport } from './safetyReport/ISafetyReport.interface';
 import { IDayOffs } from './dayOffs/IDayOffsRepository.interface';
 import { IOvertimeRequestRepo } from './overtimeRquest/IOvertimeRequest.interface';
+import { ITaxDependentRepo } from './taxDependent/ITaxDependentRepo.interface';
 export {
     IEvencheckRepository,
     IPaidLeaveRequestRepo,
@@ -49,4 +50,5 @@ export {
     ISafetyReport,
     IDayOffs,
     IOvertimeRequestRepo,
+    ITaxDependentRepo
 };

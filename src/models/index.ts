@@ -27,6 +27,7 @@ import UniformOrder from './uniformOrder.model';
 import SafetyReport from './safetyReport.model';
 import DayOffs from './dayOffs.model';
 import OvertimeRequest from './overtimeRequests.model';
+import TaxDependent from './taxDependent.model';
 User.belongsTo(Department, { foreignKey: 'department_id', as: 'department' });
 Department.hasMany(User, { foreignKey: 'department_id', as: 'users' });
 Order.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
@@ -109,6 +110,8 @@ OvertimeRequest.belongsTo(User, {
     as: 'leaderDetail',
 });
 OvertimeRequest.belongsTo(User, { foreignKey: 'admin_id', as: 'adminDetail' });
+User.hasMany(TaxDependent, { foreignKey: 'user_id', as: 'taxDependents' });
+TaxDependent.belongsTo(User, { foreignKey: 'user_id', as: 'userDetail' });
 export {
     User,
     Department,
@@ -139,4 +142,5 @@ export {
     SafetyReport,
     DayOffs,
     OvertimeRequest,
+    TaxDependent,
 };

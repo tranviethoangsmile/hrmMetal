@@ -23,6 +23,7 @@ import UniformOrderRepository from './uniformOrder/uniformOrder.repository';
 import SafetyReportRepository from './safetyReport/safetyReport.repo';
 import DayOffsRepository from './dayOffs/dayOffs.repository';
 import OvertimeRequestRepository from './overtimeRequest/overtimeRquest.repository';
+import TaxDependentRepository from './taxDependent/taxDependent.repository';
 export {
     PlanProductionRepository,
     LoginRepository,
@@ -49,4 +50,5 @@ export {
     SafetyReportRepository,
     DayOffsRepository,
     OvertimeRequestRepository,
+    TaxDependentRepository,
 };
