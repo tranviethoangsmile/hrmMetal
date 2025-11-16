@@ -103,6 +103,7 @@ import {
 } from './safetyCheck/safetyCheck.controller';
 import {search_inventory_with_name_controller, get_all_inventory_controller, update_inventory_controller, create_inventory_controller} from './inventory/inventory.controller';
 import { create_checkin_controller, is_checked_controller, update_checkin_controller } from './checkin/checkin.controller';
+import { createTaxDependentController } from './taxDependent/taxDependent.controller';
 export {
     createDep,
     departmentList,
@@ -184,4 +185,5 @@ export {
     create_checkin_controller,
     is_checked_controller,
     update_checkin_controller,
+    createTaxDependentController
 };
