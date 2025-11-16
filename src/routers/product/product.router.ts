@@ -1,6 +1,8 @@
 import { Router, Request, Response } from 'express';
 import { create_product } from '../../controllers/product/product.controller';
 import productModuleRouter from './moduleProductRouter/product.router';
+import { errorResponse, successResponse } from '../../helpers';
+
 const productRouter: Router = Router();
 
 productRouter.post('/', async (req: Request, res: Response) => {
@@ -9,27 +11,15 @@ productRouter.post('/', async (req: Request, res: Response) => {
         if (data != undefined) {
             const product = await create_product(data);
             if (product?.success) {
-                res.status(201).send({
-                    success: true,
-                    data: product?.data,
-                });
+                return successResponse(res, 201, product?.data);
             } else {
-                res.status(200).send({
-                    success: false,
-                    message: product?.message,
-                });
+                return errorResponse(res, 400, product?.message || 'Failed to create product');
             }
         } else {
-            res.status(200).send({
-                success: false,
-                message: 'data not empty',
-            });
+            return errorResponse(res, 400, 'Data is required');
         }
     } catch (error: any) {
-        res.status(500).send({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

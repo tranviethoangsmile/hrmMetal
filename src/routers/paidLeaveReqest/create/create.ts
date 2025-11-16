@@ -1,7 +1,10 @@
 import { Request, Response, Router } from 'express';
 import { create_paid_leave_controller } from '../../../controllers';
 import { ICreatePaidLeave } from '../../../interfaces';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const create_router: Router = Router();
+
 create_router.post('/', async (req: Request, res: Response) => {
     try {
         const data: ICreatePaidLeave = req.body;
@@ -24,28 +27,16 @@ create_router.post('/', async (req: Request, res: Response) => {
             ]
                 .filter(Boolean)
                 .join(', ');
-            return res.status(400).json({
-                success: false,
-                message: `Missing values: ${missingFields}`,
-            });
+            return errorResponse(res, 400, `Missing values: ${missingFields}`);
         }
         const result = await create_paid_leave_controller(data);
         if (!result?.success) {
-            res.status(200).json({
-                success: false,
-                message: result?.message,
-            });
+            return errorResponse(res, 400, result?.message || 'Failed to create paid leave request');
         } else {
-            res.status(201).json({
-                success: true,
-                data: result?.data,
-            });
+            return successResponse(res, 201, result?.data);
         }
     } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: 'Sever Error ' + error.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

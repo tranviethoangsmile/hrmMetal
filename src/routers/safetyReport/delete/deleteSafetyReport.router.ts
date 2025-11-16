@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { delete_safety_report_controller } from '../../../controllers';
+import { errorResponse, successResponse } from '../../../helpers';
 
 const deleteSafetyReportRouter: Router = Router();
 
@@ -8,24 +9,15 @@ deleteSafetyReportRouter.post('/', async (req: Request, res: Response) => {
         const id: string = req.body.id;
 
         if (!id) {
-            return res.status(400).json({
-                success: false,
-                message: 'Safety report id is required',
-            });
+            return errorResponse(res, 400, 'Safety report id is required');
         }
         const result = await delete_safety_report_controller(id);
         if (!result.success) {
-            return res.status(200).json({
-                success: false,
-                message: result.message,
-            });
+            return errorResponse(res, 400, result.message || 'Failed to delete safety report');
         }
-        return res.status(202).json({ success: true });
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: 'Internal server error',
-        });
+        return successResponse(res, 200, undefined, 'Safety report deleted successfully');
+    } catch (error: any) {
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

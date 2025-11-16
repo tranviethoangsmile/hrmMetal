@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { search_product } from '../../../controllers/product/product.controller';
 import moment from 'moment-timezone';
+import { errorResponse, successResponse } from '../../../helpers';
 
 const productModuleRouter = Router();
 
@@ -13,21 +14,12 @@ productModuleRouter.post('/', async (req: Request, res: Response) => {
         }
         const products = await search_product(field);
         if (products?.success) {
-            res.status(201).send({
-                success: true,
-                data: products?.data,
-            });
+            return successResponse(res, 200, products?.data);
         } else {
-            res.status(201).send({
-                success: false,
-                message: products?.message,
-            });
+            return errorResponse(res, 400, products?.message || 'Failed to search products');
         }
     } catch (error: any) {
-        res.status(500).send({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

@@ -1,32 +1,23 @@
 import { Request, Response, Router } from 'express';
 import { search_safety_checked_controller } from '../../../controllers';
 import { search_safety_checked_interface } from '../../../interfaces';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const searchSafetyCheckedRouter: Router = Router();
 
 searchSafetyCheckedRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field: search_safety_checked_interface = req.body;
         if (!field || !field.event_id || !field.user_id) {
-            return res
-                .status(400)
-                .json({ success: false, message: 'Bad Request' });
+            return errorResponse(res, 400, 'event_id and user_id are required');
         }
         const result = await search_safety_checked_controller(field);
         if (!result?.success) {
-            return res.status(200).json({
-                success: false,
-                message: result?.message,
-            });
+            return errorResponse(res, 400, result?.message || 'Failed to search safety checked');
         }
-        return res.status(202).json({
-            success: true,
-            data: result?.data,
-        });
+        return successResponse(res, 200, result?.data);
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: `server: ${error.message}`,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 export default searchSafetyCheckedRouter;

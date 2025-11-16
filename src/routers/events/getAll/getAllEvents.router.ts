@@ -1,25 +1,18 @@
 import { Request, Response, Router } from 'express';
 import { get_all_events_controller } from '../../../controllers';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const getAllEventRouter: Router = Router();
 
 getAllEventRouter.get('/', async (req: Request, res: Response) => {
     try {
         const events = await get_all_events_controller();
         if (!events?.success) {
-            return res.status(200).json({
-                success: false,
-                message: events?.message,
-            });
+            return errorResponse(res, 400, events?.message || 'Failed to get events');
         }
-        return res.status(202).json({
-            success: true,
-            data: events?.data,
-        });
+        return successResponse(res, 200, events?.data);
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: `server: ${error?.message}`,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 export default getAllEventRouter;

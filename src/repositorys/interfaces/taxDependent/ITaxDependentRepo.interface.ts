@@ -1,5 +1,4 @@
 import { TaxDependent } from '../../../models';
-import { ICreateTaxDependent } from '../../../interfaces';
 interface ITaxDependentRepo {
     CREATE(taxDependentValue: any): Promise<{
         success: boolean;
@@ -7,7 +6,10 @@ interface ITaxDependentRepo {
         message?: string;
     }>;
     // update(taxDependent: TaxDependent): Promise<TaxDependent>;
-    // delete(id: string): Promise<void>;
+    DELETE(id: string): Promise<{
+        success: boolean;
+        message?: string;
+    }>;
     // getById(id: string): Promise<TaxDependent>;
     // getAll(): Promise<TaxDependent[]>;
 }

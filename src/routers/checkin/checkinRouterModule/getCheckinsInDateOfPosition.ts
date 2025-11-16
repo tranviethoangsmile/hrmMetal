@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { get_checkin_in_date_of_position_controller } from '../../../controllers/checkin/checkin.controller';
+import { errorResponse, successResponse } from '../../../helpers';
 
 const getCheckinIndateOfPosition: Router = Router();
 
@@ -7,31 +8,17 @@ getCheckinIndateOfPosition.post('/', async (req: Request, res: Response) => {
     try {
         let field: object | null = req.body;
         if (field != null) {
-            const result = await get_checkin_in_date_of_position_controller(
-                field,
-            );
+            const result = await get_checkin_in_date_of_position_controller(field);
             if (result?.success) {
-                return res.status(202).json({
-                    success: true,
-                    data: result?.data,
-                });
+                return successResponse(res, 200, result?.data);
             } else {
-                return res.status(200).json({
-                    success: false,
-                    message: result?.message,
-                });
+                return errorResponse(res, 400, result?.message || 'Failed to get checkins');
             }
         } else {
-            return res.status(400).json({
-                success: false,
-                message: 'data not empty',
-            });
+            return errorResponse(res, 400, 'data is required');
         }
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: 'Server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { search_uniform_order_with_position_controller } from '../../../controllers';
+import { errorResponse, successResponse } from '../../../helpers';
 
 const searchUniOrderWithPositionRouter: Router = Router();
 
@@ -9,27 +10,15 @@ searchUniOrderWithPositionRouter.post(
         try {
             const position: string | undefined = req.body.position;
             if (!position) {
-                return res
-                    .status(400)
-                    .json({ success: false, message: 'Position is required' });
+                return errorResponse(res, 400, 'Position is required');
             }
-            const uniformOrders =
-                await search_uniform_order_with_position_controller(position);
+            const uniformOrders = await search_uniform_order_with_position_controller(position);
             if (!uniformOrders?.success) {
-                return res.status(200).json({
-                    success: false,
-                    message: `${uniformOrders?.message}`,
-                });
+                return errorResponse(res, 400, uniformOrders?.message || 'Failed to search uniform orders');
             }
-            return res.status(202).json({
-                success: true,
-                data: uniformOrders?.data,
-            });
+            return successResponse(res, 200, uniformOrders?.data);
         } catch (error: any) {
-            return res.status(500).json({
-                success: false,
-                message: `server -- ${error.message}`,
-            });
+            return errorResponse(res, 500, error?.message || 'Internal server error');
         }
     },
 );

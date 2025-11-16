@@ -1,34 +1,24 @@
 import { Request, Response, Router } from 'express';
 import { search_leave_request_with_field_controller } from '../../../controllers';
 import { ISearchPaidLeave } from '../../../interfaces';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const searchLeaveRouter: Router = Router();
 
 searchLeaveRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field: ISearchPaidLeave = req.body;
         if (!field) {
-            return res.status(400).json({
-                success: false,
-                message: `Missing values`,
-            });
+            return errorResponse(res, 400, 'Missing values');
         }
         const leaves = await search_leave_request_with_field_controller(field);
         if (leaves?.success) {
-            res.status(202).json({
-                success: true,
-                data: leaves?.data,
-            });
+            return successResponse(res, 200, leaves?.data);
         } else {
-            res.status(200).json({
-                success: false,
-                message: leaves?.message,
-            });
+            return errorResponse(res, 400, leaves?.message || 'Failed to search leave requests');
         }
     } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: 'Sever Error ' + error.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

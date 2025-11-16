@@ -2,7 +2,7 @@
 
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import { numConnection } from '../heplpers/checkConnectDb/check.connect';
+import { numConnection } from '../helpers/checkConnectDb/check.connect';
 dotenv.config();
 const MONGO_URL: string = process.env.MONGO_URL! || 'mongodb://localhost:27017';
 const MONGO_DATABASE_NAME = process.env.MONGO_DATABASE_NAME;

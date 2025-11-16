@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { create_fcm_token_controller } from '../../../controllers';
 import { create_fcm_token } from '../../../interfaces';
+import { errorResponse, successResponse } from '../../../helpers';
 
 const createFcm: Router = Router();
 
@@ -14,27 +15,16 @@ createFcm.post('/', async (req: Request, res: Response) => {
         if (!field?.fcm_token) missingFields.push('fcm_token');
         if (!field?.user_id) missingFields.push('user_id');
         if (missingFields.length > 0) {
-            return res.status(400).json({
-                success: false,
-                message: `Missing required fields: ${missingFields.join(', ')}`,
-            });
+            return errorResponse(res, 400, `Missing required fields: ${missingFields.join(', ')}`);
         }
 
         const fcm = await create_fcm_token_controller(field);
         if (!fcm?.success) {
-            return res.status(200).json({
-                success: false,
-                message: `${fcm?.message}`,
-            });
+            return errorResponse(res, 400, fcm?.message || 'Failed to create FCM token');
         }
-        return res.status(201).json({
-            success: true,
-        });
+        return successResponse(res, 201);
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: `Internal server error`,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

@@ -6,6 +6,8 @@ import getUserWithDepartmentId from './userRouterModul/getUserWithDepartmentId';
 import userFindByNameRouter from './userRouterModul/findByName';
 import { CreateField } from '../../interfaces/user/user.interface';
 import getAllUserForOtRequestFeatureRouter from './getAllUserForOtRequestFeature/getAllUserForOtRequestFeature.router';
+import { errorResponse, successResponse } from '../../helpers';
+
 const userRouters: Router = Router();
 userRouters.use('/getuserwithdepartmentid', getUserWithDepartmentId);
 userRouters.use('/upload-avatar', uploadAvatar);
@@ -19,21 +21,12 @@ userRouters.get('/', async (req: Request, res: Response) => {
     try {
         const users = await findAll();
         if (users?.success) {
-            res.status(200).send({
-                success: true,
-                data: users?.data,
-            });
+            return successResponse(res, 200, users?.data);
         } else {
-            res.status(200).send({
-                success: false,
-                message: users?.message,
-            });
+            return errorResponse(res, 400, users?.message || 'Failed to get users');
         }
     } catch (error: any) {
-        return res.status(500).send({
-            success: false,
-            message: 'server error: ' + error.mesage,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 
@@ -64,10 +57,7 @@ userRouters.post('/', async (req: Request, res: Response) => {
             ]
                 .filter(Boolean)
                 .join(', ');
-            return res.status(400).json({
-                success: false,
-                message: `bad request :: Invalid input: Missing required ${missingFields}`,
-            });
+            return errorResponse(res, 400, `Invalid input: Missing required ${missingFields}`);
         }
         if (
             user.salary_hourly === undefined &&
@@ -75,28 +65,16 @@ userRouters.post('/', async (req: Request, res: Response) => {
             user.shift_night_pay === undefined &&
             user.paid_days === undefined
         ) {
-            return res.status(400).json({
-                success: false,
-                message: `bad request:: Invalid input: Missing required fields`,
-            });
+            return errorResponse(res, 400, 'Invalid input: Missing required fields');
         }
         const data = await create(user);
         if (data?.success) {
-            return res.status(201).send({
-                success: true,
-                data: data?.data,
-            });
+            return successResponse(res, 201, data?.data);
         } else {
-            return res.status(200).send({
-                success: false,
-                message: data?.message,
-            });
+            return errorResponse(res, 400, data?.message || 'Failed to create user');
         }
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: `server message: ${error?.message}`,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 
@@ -105,28 +83,16 @@ userRouters.put('/', async (req: Request, res: Response) => {
         const user = req.body;
         if (user != null) {
             const data = await update(user);
-            console.log(data);
             if (data?.success) {
-                res.status(202).json({
-                    success: true,
-                });
+                return successResponse(res, 200, undefined, 'User updated successfully');
             } else {
-                res.status(200).json({
-                    success: false,
-                    message: data?.message,
-                });
+                return errorResponse(res, 400, data?.message || 'Failed to update user');
             }
         } else {
-            res.status(400).send({
-                success: false,
-                message: 'data update not empty',
-            });
+            return errorResponse(res, 400, 'data update not empty');
         }
     } catch (error: any) {
-        res.status(500).send({
-            success: false,
-            message: 'server error' + error.massage,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 
@@ -134,27 +100,15 @@ userRouters.delete('/:id', async (req: Request, res: Response) => {
     try {
         const id: string | undefined = req.params.id;
         if (!id) {
-            return res.status(400).json({
-                success: false,
-                message: 'id not empty',
-            });
+            return errorResponse(res, 400, 'id is required');
         }
         const data = await destroy(id);
         if (!data?.success) {
-            return res.status(200).json({
-                success: false,
-                message: data?.message,
-            });
+            return errorResponse(res, 400, data?.message || 'Failed to delete user');
         }
-        return res.status(202).send({
-            success: true,
-            message: data?.message,
-        });
+        return successResponse(res, 200, undefined, data?.message || 'User deleted successfully');
     } catch (error: any) {
-        return {
-            success: true,
-            message: 'server error: ' + error.massage,
-        };
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 
@@ -162,27 +116,15 @@ userRouters.get('/:id', async (req: Request, res: Response) => {
     try {
         const id: string | undefined = req.params.id;
         if (!id) {
-            return res.status(400).json({
-                success: false,
-                message: 'id not empty',
-            });
+            return errorResponse(res, 400, 'id is required');
         }
         const data = await findById(id);
         if (!data?.success) {
-            return res.status(200).json({
-                success: false,
-                message: data?.message,
-            });
+            return errorResponse(res, 404, data?.message || 'User not found');
         }
-        return res.status(202).send({
-            success: true,
-            data: data?.data,
-        });
+        return successResponse(res, 200, data?.data);
     } catch (error: any) {
-        res.status(500).send({
-            success: false,
-            message: 'server error: ' + error.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

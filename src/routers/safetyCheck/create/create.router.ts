@@ -1,6 +1,8 @@
 import { Request, Response, Router } from 'express';
 import { create_safety_check_controller } from '../../../controllers/safetyCheck/safetyCheck.controller';
 import { create_safety_check_interface } from '../../../interfaces/safetyCheck/safetyCheck.interface';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const createSafetyCheckRouter: Router = Router();
 
 createSafetyCheckRouter.post('/', async (req: Request, res: Response) => {
@@ -14,27 +16,16 @@ createSafetyCheckRouter.post('/', async (req: Request, res: Response) => {
             !field.user_id ||
             !field.is_safety
         ) {
-            return res
-                .status(400)
-                .json({ success: false, message: 'Bad request' });
+            return errorResponse(res, 400, 'Bad request: Missing required fields');
         }
 
         const create_safety_check = await create_safety_check_controller(field);
         if (!create_safety_check?.success) {
-            return res.status(200).json({
-                success: false,
-                message: `${create_safety_check?.message}`,
-            });
+            return errorResponse(res, 400, create_safety_check?.message || 'Failed to create safety check');
         }
-        return res.status(201).json({
-            success: true,
-            data: create_safety_check?.data,
-        });
+        return successResponse(res, 201, create_safety_check?.data);
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: `server: ${error?.message}`,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

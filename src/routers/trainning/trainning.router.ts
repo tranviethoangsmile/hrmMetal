@@ -7,6 +7,7 @@ import { create_media_path } from '../../middlewares/createTrainning.middleware'
 import very_role from '../../middlewares/veryRoleUpdate.middleware';
 import TrainningRouter from './moduleTrainningRouter/trainning.router';
 import multer from 'multer';
+import { errorResponse, successResponse } from '../../helpers';
 
 const trainningRouter: Router = Router();
 
@@ -30,21 +31,12 @@ trainningRouter.post(
             const media = req.body;
             const new_media = await create(media);
             if (new_media.success) {
-                res.status(201).json({
-                    success: true,
-                    data: new_media?.data,
-                });
+                return successResponse(res, 201, new_media?.data);
             } else {
-                res.status(200).json({
-                    success: false,
-                    message: new_media.message,
-                });
+                return errorResponse(res, 400, new_media?.message || 'Failed to create training');
             }
         } catch (error: any) {
-            res.status(500).json({
-                success: false,
-                message: 'server error: ' + error.message,
-            });
+            return errorResponse(res, 500, error?.message || 'Internal server error');
         }
     },
 );
@@ -53,21 +45,12 @@ trainningRouter.get('/', async (req: Request, res: Response) => {
     try {
         const trainnings = await get_all_trainning();
         if (trainnings?.success) {
-            res.status(201).json({
-                success: true,
-                data: trainnings?.data,
-            });
+            return successResponse(res, 200, trainnings?.data);
         } else {
-            res.status(200).json({
-                success: false,
-                message: trainnings.message,
-            });
+            return errorResponse(res, 400, trainnings?.message || 'Failed to get trainings');
         }
     } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: 'server error: ' + error.mesage,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

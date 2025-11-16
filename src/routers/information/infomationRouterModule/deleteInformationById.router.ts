@@ -1,7 +1,10 @@
 import { Request, Response, Router } from 'express';
 import { delete_information_by_id_controller } from '../../../controllers/information/information.controller';
 import delete_media_url from '../../../middlewares/delete_media_url.middleware';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const deleteInformation: Router = Router();
+
 deleteInformation.post(
     '/',
     delete_media_url,
@@ -9,30 +12,17 @@ deleteInformation.post(
         try {
             const id: string | undefined = req.body?.id;
             if (!id) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Missing parameter: id',
-                });
+                return errorResponse(res, 400, 'Missing parameter: id');
             } else {
-                const delete_result = await delete_information_by_id_controller(
-                    id,
-                );
-                console.log(delete_result);
+                const delete_result = await delete_information_by_id_controller(id);
                 if (delete_result?.success) {
-                    return res.status(202).json({
-                        success: true,
-                    });
+                    return successResponse(res, 200, undefined, 'Information deleted successfully');
                 } else {
-                    return res.status(200).json({
-                        success: false,
-                    });
+                    return errorResponse(res, 400, delete_result?.message || 'Failed to delete information');
                 }
             }
         } catch (error: any) {
-            return res.status(500).json({
-                success: false,
-                message: 'Server error: ' + error?.message,
-            });
+            return errorResponse(res, 500, error?.message || 'Internal server error');
         }
     },
 );

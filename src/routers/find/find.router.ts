@@ -1,6 +1,8 @@
 import { Request, Response, Router } from 'express';
 import { findByName } from '../../controllers/user/user.controller';
 import { search_orders } from '../../controllers/order/order.controller';
+import { errorResponse, successResponse } from '../../helpers';
+
 const findRouter: Router = Router();
 
 findRouter.get('/:name', async (req: Request, res: Response) => {
@@ -8,23 +10,16 @@ findRouter.get('/:name', async (req: Request, res: Response) => {
         const name = req.params.name;
         if (name) {
             const data = await findByName(name);
-            if (!data?.success) {
-                res.status(201).send({
-                    success: true,
-                    data: data?.data,
-                });
+            if (data?.success) {
+                return successResponse(res, 200, data?.data);
             } else {
-                res.status(200).send({
-                    success: false,
-                    message: data?.message,
-                });
+                return errorResponse(res, 400, data?.message || 'Failed to find user');
             }
+        } else {
+            return errorResponse(res, 400, 'name is required');
         }
     } catch (error: any) {
-        return {
-            success: false,
-            message: 'server error: ' + error?.message,
-        };
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 
@@ -39,27 +34,15 @@ findRouter.post('/', async (req: Request, res: Response) => {
             const orders = await search_orders(value);
 
             if (orders?.success) {
-                res.status(201).send({
-                    success: true,
-                    data: orders?.data,
-                });
+                return successResponse(res, 200, orders?.data);
             } else {
-                res.status(200).send({
-                    success: false,
-                    message: orders?.message,
-                });
+                return errorResponse(res, 400, orders?.message || 'Failed to search orders');
             }
         } else {
-            res.status(400).send({
-                success: false,
-                message: 'value not empty',
-            });
+            return errorResponse(res, 400, 'value is required');
         }
     } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

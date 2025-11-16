@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { create_notification_controller } from '../../../controllers';
 import { create_notification_interface } from '../../../interfaces';
+import { errorResponse, successResponse } from '../../../helpers';
 
 const createNotificationRouter: Router = Router();
 
@@ -23,30 +24,16 @@ createNotificationRouter.post('/', async (req: Request, res: Response) => {
             ]
                 .filter(Boolean)
                 .join(', ');
-            return res
-                .status(400)
-                .json({
-                    success: false,
-                    message: `Missing required ${missingFields}`,
-                });
+            return errorResponse(res, 400, `Missing required ${missingFields}`);
         }
 
         const notification = await create_notification_controller(field);
         if (!notification?.success) {
-            return res.status(200).json({
-                success: false,
-                message: notification?.message,
-            });
+            return errorResponse(res, 400, notification?.message || 'Failed to create notification');
         }
-        return res.status(201).json({
-            success: true,
-            data: notification?.data,
-        });
+        return successResponse(res, 201, notification?.data);
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: `server error: ${error?.message}`,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

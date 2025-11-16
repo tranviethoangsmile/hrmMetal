@@ -1,36 +1,24 @@
 import { Router, Request, Response } from 'express';
 import { update_un_approve_leave_request_controller } from '../../../controllers/paidLeaveRequest/paidLeaveRequest.controller';
+import { errorResponse, successResponse } from '../../../helpers';
 
 const unApproveRouter: Router = Router();
+
 unApproveRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field: object | null = req.body;
         if (field != null) {
-            const update = await update_un_approve_leave_request_controller(
-                field,
-            );
+            const update = await update_un_approve_leave_request_controller(field);
             if (update?.success) {
-                res.status(202).json({
-                    success: true,
-                    message: update?.message,
-                });
+                return successResponse(res, 200, undefined, update?.message || 'Leave request unapproved successfully');
             } else {
-                res.status(200).json({
-                    success: false,
-                    message: update?.message,
-                });
+                return errorResponse(res, 400, update?.message || 'Failed to unapprove leave request');
             }
         } else {
-            res.status(400).json({
-                success: false,
-                message: 'Missing data',
-            });
+            return errorResponse(res, 400, 'Missing data');
         }
     } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 export default unApproveRouter;

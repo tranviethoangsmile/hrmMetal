@@ -1,5 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { create, find, find_all } from '../../controllers/food/food.controller';
+import { errorResponse, successResponse } from '../../helpers';
+
 const foodRouter: Router = Router();
 
 foodRouter.post('/', async (req: Request, res: Response) => {
@@ -8,27 +10,15 @@ foodRouter.post('/', async (req: Request, res: Response) => {
         if (data != null) {
             const food = await create(data);
             if (food?.success) {
-                res.status(201).json({
-                    success: true,
-                    data: food?.data,
-                });
+                return successResponse(res, 201, food?.data);
             } else {
-                res.status(200).json({
-                    success: false,
-                    message: food?.message,
-                });
+                return errorResponse(res, 400, food?.message || 'Failed to create food');
             }
         } else {
-            res.status(400).send({
-                success: false,
-                message: 'data not empty',
-            });
+            return errorResponse(res, 400, 'Data is required');
         }
     } catch (error: any) {
-        return res.status(500).send({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 
@@ -38,27 +28,15 @@ foodRouter.get('/:id', async (req: Request, res: Response) => {
         if (id != null) {
             const food = await find(id);
             if (food?.success) {
-                res.status(201).json({
-                    success: true,
-                    data: food?.data,
-                });
+                return successResponse(res, 200, food?.data);
             } else {
-                res.status(200).json({
-                    success: false,
-                    message: food?.message,
-                });
+                return errorResponse(res, 404, food?.message || 'Food not found');
             }
         } else {
-            res.status(400).json({
-                success: false,
-                message: 'id not empty',
-            });
+            return errorResponse(res, 400, 'ID is required');
         }
     } catch (error: any) {
-        res.status(500).send({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 
@@ -67,21 +45,12 @@ foodRouter.get('/', async (req: Request, res: Response) => {
         const foods = await find_all();
 
         if (foods?.success) {
-            res.status(201).json({
-                success: true,
-                data: foods?.data,
-            });
+            return successResponse(res, 200, foods?.data);
         } else {
-            res.status(200).json({
-                success: false,
-                message: foods?.message,
-            });
+            return errorResponse(res, 400, foods?.message || 'Failed to get foods');
         }
     } catch (error: any) {
-        res.status(500).send({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

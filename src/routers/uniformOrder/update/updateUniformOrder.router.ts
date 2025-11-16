@@ -1,16 +1,15 @@
 import { Request, Response, Router } from 'express';
 import { update_uniform_order_controller } from '../../../controllers';
 import { update_uniform_order } from '../../../interfaces';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const updateUniformOrderRouter: Router = Router();
 
 updateUniformOrderRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field: update_uniform_order | undefined = req.body;
         if (!field || !field.id) {
-            return res.status(400).json({
-                success: false,
-                message: `bad request`,
-            });
+            return errorResponse(res, 400, 'id is required');
         }
 
         const result = await update_uniform_order_controller({
@@ -18,19 +17,11 @@ updateUniformOrderRouter.post('/', async (req: Request, res: Response) => {
         });
 
         if (!result?.success) {
-            return res.status(200).json({
-                success: false,
-                message: `${result?.message}`,
-            });
+            return errorResponse(res, 400, result?.message || 'Failed to update uniform order');
         }
-        return res.status(202).json({
-            success: true,
-        });
+        return successResponse(res, 200, undefined, 'Uniform order updated successfully');
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: `Server -- ${error?.message}`,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

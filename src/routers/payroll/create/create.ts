@@ -1,8 +1,10 @@
 import { Request, Response, Router } from 'express';
 import { create_payroll_controller } from '../../../controllers/payroll/payroll.controller';
 import { create_payroll } from '../../../interfaces/payroll/payroll.interface';
+import { errorResponse, successResponse } from '../../../helpers';
 
 const createPayrollRouter: Router = Router();
+
 createPayrollRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field: create_payroll = req.body;
@@ -23,28 +25,16 @@ createPayrollRouter.post('/', async (req: Request, res: Response) => {
             ]
                 .filter(Boolean)
                 .join(', ');
-            return res.status(400).json({
-                success: false,
-                message: `Invalid input: Missing required ${missingFields}`,
-            });
+            return errorResponse(res, 400, `Invalid input: Missing required ${missingFields}`);
         }
 
         const payroll = await create_payroll_controller(field);
         if (!payroll?.success) {
-            return res.status(200).json({
-                success: false,
-                message: payroll?.message,
-            });
+            return errorResponse(res, 400, payroll?.message || 'Failed to create payroll');
         }
-        return res.status(201).json({
-            success: true,
-            data: payroll?.data,
-        });
+        return successResponse(res, 201, payroll?.data);
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: `server error: ${error?.message}`,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

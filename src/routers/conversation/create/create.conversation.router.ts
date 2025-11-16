@@ -2,34 +2,24 @@ import { Router, Request, Response } from 'express';
 import { create_conversation_controller } from '../../../controllers';
 import { io } from '../../../socket/socketIO';
 import { create_conversation_interface as create } from '../../../interfaces';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const createConversationRouter: Router = Router();
 
 createConversationRouter.post('/', async (req: Request, res: Response) => {
     try {
         const reqData: create | undefined = req.body;
         if (!reqData || !reqData?.receiver_id || !reqData?.sender_id) {
-            return res.status(400).json({
-                success: true,
-                message: 'data not empty',
-            });
+            return errorResponse(res, 400, 'receiver_id and sender_id are required');
         }
         const value = await create_conversation_controller(reqData);
         if (value?.success) {
-            return res.status(201).json({
-                success: value?.success,
-                data: value?.data,
-            });
+            return successResponse(res, 201, value?.data);
         } else {
-            return res.status(200).json({
-                success: value?.success,
-                meessage: value?.message,
-            });
+            return errorResponse(res, 400, value?.message || 'Failed to create conversation');
         }
     } catch (e: any) {
-        return res.status(500).send({
-            success: false,
-            message: 'Server error: ' + e?.message,
-        });
+        return errorResponse(res, 500, e?.message || 'Internal server error');
     }
 });
 

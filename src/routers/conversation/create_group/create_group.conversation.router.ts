@@ -1,6 +1,8 @@
 import { Router, Request, Response } from 'express';
 import { create_conversation_group_controller } from '../../../controllers';
 import { create_conversation_group_interface as create } from '../../../interfaces';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const createGroupMessageRouter: Router = Router();
 
 createGroupMessageRouter.post('/', async (req: Request, res: Response) => {
@@ -11,29 +13,20 @@ createGroupMessageRouter.post('/', async (req: Request, res: Response) => {
             typeof data?.title !== 'string' ||
             typeof data?.sender_id !== 'string'
         ) {
-            return res.status(400).json({ message: 'Missing required fields' });
+            return errorResponse(res, 400, 'title and sender_id are required');
         }
 
         if (!Array.isArray(data?.receivers) || data?.receivers.length < 2) {
-            return res.status(400).json({ message: 'Missing required fields' });
+            return errorResponse(res, 400, 'receivers array must have at least 2 members');
         }
 
         const conversation = await create_conversation_group_controller(data);
         if (!conversation?.success) {
-            return res.status(200).json({
-                success: false,
-                message: conversation?.message,
-            });
+            return errorResponse(res, 400, conversation?.message || 'Failed to create group conversation');
         }
-        return res.status(201).json({
-            success: true,
-            conversation_id: conversation?.data?.conversation_id,
-        });
+        return successResponse(res, 201, { conversation_id: conversation?.data?.conversation_id });
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: `--server error-- ${error?.message}`,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 export default createGroupMessageRouter;
