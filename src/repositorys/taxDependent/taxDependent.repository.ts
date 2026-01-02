@@ -59,6 +59,26 @@ class TaxDependentRepository implements ITaxDependentRepo {
             };
         }
     }
+    async UPDATE_STATUS(id: string, status: string) {
+        try {
+            const taxDependent = await TaxDependent.update({status: status}, {
+                where: {
+                    id: id,
+                },
+            });
+            if (taxDependent[0] === 0) {
+                throw new Error(`Failed to update status`);
+            }
+            return {
+                success: true,
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `${error?.message}`,
+            };
+        }
+    }
     async GET_BY_ID(id: string) {
         try {
             const taxDependent: TaxDependent | null = await TaxDependent.findByPk(id);

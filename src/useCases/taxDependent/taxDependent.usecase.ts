@@ -121,6 +121,35 @@ const updateTaxDependentWithIdUseCase = async (updateValue: any) => {
     }
 }
 
+const updateTaxDependentStatusWithIdUseCase = async (id: string, status: string) => {
+    try {
+        const isValid = validation_id(id);
+        if (isValid?.error) {
+            throw new Error(`Validation Error: ${isValid?.error.message}`);
+        }
+        if (!isValidEnumValue(status, TaxDependentStatusEnum)) {
+            throw new Error(`Status is not valid`);
+        }
+        const taxDependent = await taxDependentRepository.GET_BY_ID(id);
+        if (!taxDependent?.success) {
+            throw new Error(`${taxDependent?.message}`);
+        }
+        const updateResult = await taxDependentRepository.UPDATE_STATUS(id, status);
+        if (!updateResult?.success) {
+            throw new Error(`${updateResult?.message}`);
+        }
+        return {
+            success: true,
+        };
+    }
+    catch (error: any) {
+        return {
+            success: false,
+            message: error?.message || 'Internal server error',
+        };
+    }
+}
+
 const getTaxDependentByUserIdUseCase = async (user_id: string) => {
     try {
         const isValid = validation_id(user_id);
@@ -147,4 +176,4 @@ const getTaxDependentByUserIdUseCase = async (user_id: string) => {
     }
 }
 
-export { createTaxDependentUseCase, deleteTaxDependentWithIdUseCase, updateTaxDependentWithIdUseCase, getTaxDependentByUserIdUseCase };
+export { createTaxDependentUseCase, deleteTaxDependentWithIdUseCase, updateTaxDependentWithIdUseCase, getTaxDependentByUserIdUseCase, updateTaxDependentStatusWithIdUseCase };

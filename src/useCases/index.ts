@@ -112,7 +112,7 @@ import {
     update_confirm_from_admin_paid_leave_request_use,
     delete_paid_leave_request_with_by_id_use,
 } from './paidLeaveRequest/paidLeaveRequest.useCase';
-import { createTaxDependentUseCase, deleteTaxDependentWithIdUseCase, updateTaxDependentWithIdUseCase, getTaxDependentByUserIdUseCase } from './taxDependent/taxDependent.usecase';
+import { createTaxDependentUseCase, deleteTaxDependentWithIdUseCase, updateTaxDependentWithIdUseCase, getTaxDependentByUserIdUseCase, updateTaxDependentStatusWithIdUseCase } from './taxDependent/taxDependent.usecase';
 export {
     create_plan_production_use,
     update_plan_production_use,
@@ -196,5 +196,6 @@ export {
     createTaxDependentUseCase,
     deleteTaxDependentWithIdUseCase,
     updateTaxDependentWithIdUseCase,
-    getTaxDependentByUserIdUseCase
+    getTaxDependentByUserIdUseCase,
+    updateTaxDependentStatusWithIdUseCase
 };

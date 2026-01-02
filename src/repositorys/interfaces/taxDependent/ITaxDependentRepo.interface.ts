@@ -10,6 +10,11 @@ interface ITaxDependentRepo {
         data?: TaxDependent;
         message?: string;
     }>;
+    UPDATE_STATUS(id: string, status: string): Promise<{
+        success: boolean;
+        data?: TaxDependent;
+        message?: string;
+    }>;
     DELETE(id: string): Promise<{
         success: boolean;
         message?: string;

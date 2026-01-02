@@ -28,4 +28,11 @@ interface IUpdateTaxDependent {
     status?: string;
     notes?: string;
 }
-export { ICreateTaxDependent, IUpdateTaxDependent };
+
+interface IUpdateTaxDependentStatus {
+    id: string;
+    status: string;
+    user_id?: string;
+}
+
+export { ICreateTaxDependent, IUpdateTaxDependent, IUpdateTaxDependentStatus };

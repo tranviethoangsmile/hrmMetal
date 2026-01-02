@@ -1,4 +1,4 @@
-import { createTaxDependentUseCase, deleteTaxDependentWithIdUseCase, updateTaxDependentWithIdUseCase, getTaxDependentByUserIdUseCase } from "../../useCases";
+import { createTaxDependentUseCase, deleteTaxDependentWithIdUseCase, updateTaxDependentWithIdUseCase, getTaxDependentByUserIdUseCase, updateTaxDependentStatusWithIdUseCase } from "../../useCases";
 import { ICreateTaxDependent } from "../../interfaces";
 const createTaxDependentController = async (createValue: ICreateTaxDependent) =>{
     return await createTaxDependentUseCase(createValue)
@@ -15,4 +15,8 @@ const updateTaxDependentWithIdController = async(updateValue: any)=>{
 const getTaxDependentByUserIdController = async(user_id: string)=>{
     return await getTaxDependentByUserIdUseCase(user_id)
 }
-export {createTaxDependentController, deleteTaxDependentWithIdController, updateTaxDependentWithIdController, getTaxDependentByUserIdController}
+
+const updateTaxDependentStatusWithIdController = async(id: string, status: string)=>{
+    return await updateTaxDependentStatusWithIdUseCase(id, status)
+}
+export {createTaxDependentController, deleteTaxDependentWithIdController, updateTaxDependentWithIdController, getTaxDependentByUserIdController, updateTaxDependentStatusWithIdController}
