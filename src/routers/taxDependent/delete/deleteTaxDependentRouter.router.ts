@@ -10,7 +10,6 @@ deleteTaxDependentRouter.post('/', async (req: Request, res: Response) => {
         if (!id) {
             return errorResponse(res, 400, 'ID is required');
         }
-
         const deleteResult = await deleteTaxDependentWithIdController(id);
         if (!deleteResult?.success) {
             return errorResponse(res, 400, deleteResult?.message || 'Delete failed');

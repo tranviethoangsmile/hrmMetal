@@ -5,13 +5,25 @@ interface ITaxDependentRepo {
         data?: TaxDependent;
         message?: string;
     }>;
-    // update(taxDependent: TaxDependent): Promise<TaxDependent>;
+    UPDATE(taxDependentValue: any): Promise<{
+        success: boolean;
+        data?: TaxDependent;
+        message?: string;
+    }>;
     DELETE(id: string): Promise<{
         success: boolean;
         message?: string;
     }>;
-    // getById(id: string): Promise<TaxDependent>;
-    // getAll(): Promise<TaxDependent[]>;
+    GET_BY_ID(id: string): Promise<{
+        success: boolean;
+        data?: TaxDependent;
+        message?: string;
+    }>;
+    GET_ALL_BY_USER_ID(user_id: string): Promise<{
+        success: boolean;
+        data?: TaxDependent[];
+        message?: string;
+    }>;
 }
 
 export { ITaxDependentRepo };

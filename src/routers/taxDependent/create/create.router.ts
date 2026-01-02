@@ -44,7 +44,7 @@ createTaxDependentRouter.post(
             } else {
                 return errorResponse(
                     res,
-                    400,
+                    200,
                     result?.message || 'Failed to create tax dependent'
                 );
             }
