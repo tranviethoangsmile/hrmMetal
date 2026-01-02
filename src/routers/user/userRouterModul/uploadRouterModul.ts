@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express';
 const uploadAvatar: Router = Router();
 import { create_media_path } from '../../../middlewares';
 import { update } from '../../../controllers/user/user.controller';
+import { errorResponse, successResponse } from '../../../helpers';
 
 uploadAvatar.post(
     '/',
@@ -14,20 +15,12 @@ uploadAvatar.post(
         try {
             const result = await update(user_field);
             if (result?.success) {
-                res.status(201).send({
-                    success: true,
-                });
+                return successResponse(res, 201, undefined, 'Avatar uploaded successfully');
             } else {
-                res.status(200).send({
-                    success: false,
-                    message: result?.message,
-                });
+                return errorResponse(res, 400, result?.message || 'Failed to upload avatar');
             }
         } catch (error: any) {
-            return res.status(500).send({
-                success: false,
-                message: 'server error: ' + error.mesage,
-            });
+            return errorResponse(res, 500, error?.message || 'Internal server error');
         }
     },
 );

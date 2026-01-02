@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express';
 import { create_information_controller } from '../../../controllers/information/information.controller';
 // import { create_media_path } from '../../../middlewares/createTrainning.middleware';
 import { create_media_path } from '../../../middlewares';
+import { errorResponse, successResponse } from '../../../helpers';
 
 const createInformationRouter: Router = Router();
 
@@ -19,21 +20,12 @@ createInformationRouter.post(
             const information = await create_information_controller(value);
 
             if (information?.success) {
-                return res.status(201).json({
-                    success: true,
-                    data: information?.data,
-                });
+                return successResponse(res, 201, information?.data);
             } else {
-                return res.status(200).json({
-                    success: false,
-                    message: information?.message,
-                });
+                return errorResponse(res, 400, information?.message || 'Failed to create information');
             }
         } catch (error: any) {
-            return res.status(500).json({
-                success: false,
-                message: 'Server error: ' + error?.message,
-            });
+            return errorResponse(res, 500, error?.message || 'Internal server error');
         }
     },
 );

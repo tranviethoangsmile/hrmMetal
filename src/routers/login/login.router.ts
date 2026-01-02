@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { login } from '../../controllers/login/login.controller';
 import { login_data } from '../../interfaces/login/login.interface';
+import { errorResponse, successResponse } from '../../helpers';
 
 const loginRouter: Router = Router();
 
@@ -14,29 +15,21 @@ loginRouter.post('/', async (req: Request, res: Response) => {
             ]
                 .filter(Boolean)
                 .join(', ');
-            return res.status(400).send({
-                success: false,
-                message: `Missing values: ${missingFields}`,
-            });
+            return errorResponse(res, 400, `Missing values: ${missingFields}`);
         }
         const token = await login(user);
         if (token?.success) {
-            return res.status(202).send({
+            // Login có token riêng, cần custom response
+            return res.status(202).json({
                 success: true,
                 data: token?.data,
                 token: token?.token,
             });
         } else {
-            return res.status(200).send({
-                success: false,
-                message: token?.message,
-            });
+            return errorResponse(res, 401, token?.message || 'Login failed');
         }
     } catch (error: any) {
-        return res.status(500).send({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

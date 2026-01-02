@@ -1,8 +1,10 @@
 import { Request, Response, Router } from 'express';
 import { update_isConfirm_ovetime_request_controller } from '../../../controllers';
 import { IUpdateOvertimeRequest } from '../../../interfaces';
+import { errorResponse, successResponse } from '../../../helpers';
 
 const updateIsConfirmOvertimeRequestRouter: Router = Router();
+
 updateIsConfirmOvertimeRequestRouter.post(
     '/',
     async (req: Request, res: Response) => {
@@ -10,29 +12,20 @@ updateIsConfirmOvertimeRequestRouter.post(
             const data: IUpdateOvertimeRequest = req.body;
             if (!data || !data.user_id || !data.id) {
                 const missingFields = [
-                    !data.user_id && 'user_id',
-                    !data.id && 'id',
+                    !data?.user_id && 'user_id',
+                    !data?.id && 'id',
                 ]
                     .filter(Boolean)
                     .join(', ');
-                return res.status(400).json({
-                    success: false,
-                    message: `Missing values: ${missingFields}`,
-                });
+                return errorResponse(res, 400, `Missing values: ${missingFields}`);
             }
-            const response = await update_isConfirm_ovetime_request_controller(
-                data,
-            );
+            const response = await update_isConfirm_ovetime_request_controller(data);
             if (!response.success) {
-                return res
-                    .status(200)
-                    .json({ success: false, message: response.message });
+                return errorResponse(res, 400, response.message || 'Failed to update overtime request');
             }
-            return res.status(202).json({ success: true });
-        } catch (error) {
-            return res
-                .status(500)
-                .json({ success: false, message: 'Internal server error' });
+            return successResponse(res, 200, undefined, 'Overtime request updated successfully');
+        } catch (error: any) {
+            return errorResponse(res, 500, error?.message || 'Internal server error');
         }
     },
 );

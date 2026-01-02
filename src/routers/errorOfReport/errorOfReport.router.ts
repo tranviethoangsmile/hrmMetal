@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { find_err_of_report } from '../../controllers/errorOfReport/errorOfReport.controller';
+import { errorResponse, successResponse } from '../../helpers';
 
 const errOfRpRouter: Router = Router();
 
@@ -9,27 +10,15 @@ errOfRpRouter.post('/', async (req: Request, res: Response) => {
         if (daily_report_id != null) {
             const errs = await find_err_of_report(daily_report_id);
             if (errs?.success) {
-                res.status(201).send({
-                    success: true,
-                    data: errs?.data,
-                });
+                return successResponse(res, 201, errs?.data);
             } else {
-                res.status(200).send({
-                    success: false,
-                    message: errs?.message,
-                });
+                return errorResponse(res, 400, errs?.message || 'Failed to find errors');
             }
         } else {
-            res.status(400).send({
-                success: false,
-                message: 'daily_report_id not empty',
-            });
+            return errorResponse(res, 400, 'daily_report_id is required');
         }
     } catch (error: any) {
-        res.status(500).send({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

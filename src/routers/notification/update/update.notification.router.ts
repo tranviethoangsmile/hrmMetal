@@ -1,26 +1,22 @@
 import { Request, Response, Router } from 'express';
 import { update_notification_controller } from '../../../controllers';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const updateNotificationRouter: Router = Router();
+
 updateNotificationRouter.put('/', async (req: Request, res: Response) => {
     try {
         const id: string | undefined = req.body.id;
         if (!id) {
-            return res
-                .status(400)
-                .json({ success: false, message: 'Bad request' });
+            return errorResponse(res, 400, 'id is required');
         }
         const result = await update_notification_controller(id);
         if (!result?.success) {
-            return res
-                .status(200)
-                .json({ success: false, message: result.message });
+            return errorResponse(res, 400, result?.message || 'Failed to update notification');
         }
-        return res.status(202).json({ success: true });
+        return successResponse(res, 200, undefined, 'Notification updated successfully');
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: `server error: ${error.message}`,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 export default updateNotificationRouter;

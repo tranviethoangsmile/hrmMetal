@@ -1,5 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { get_all_safety_report_by_department_id_controller } from '../../../controllers';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const getByDepartmentIdRouter: Router = Router();
 
 getByDepartmentIdRouter.post('/', async (req: Request, res: Response) => {
@@ -7,31 +9,16 @@ getByDepartmentIdRouter.post('/', async (req: Request, res: Response) => {
         const departmentId: string = req.body.id;
 
         if (!departmentId) {
-            return res.status(400).json({
-                success: false,
-                message: 'Department ID is required',
-            });
+            return errorResponse(res, 400, 'Department ID is required');
         }
 
-        const safetyReports =
-            await get_all_safety_report_by_department_id_controller(
-                departmentId,
-            );
+        const safetyReports = await get_all_safety_report_by_department_id_controller(departmentId);
         if (!safetyReports?.success) {
-            return res.status(200).json({
-                success: false,
-                message: safetyReports?.message,
-            });
+            return errorResponse(res, 400, safetyReports?.message || 'Failed to get safety reports');
         }
-        return res.status(202).json({
-            success: true,
-            data: safetyReports.data,
-        });
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: 'Internal Server Error',
-        });
+        return successResponse(res, 200, safetyReports.data);
+    } catch (error: any) {
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

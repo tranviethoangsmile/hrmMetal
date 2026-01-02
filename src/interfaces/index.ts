@@ -80,7 +80,7 @@ import {
     create_safety_check_interface,
     search_safety_checked_interface,
 } from './safetyCheck/safetyCheck.interface';
-import { ICreateTaxDependent } from './taxDependent/ITaxDependent.interface';
+import { ICreateTaxDependent, IUpdateTaxDependent, IUpdateTaxDependentStatus } from './taxDependent/ITaxDependent.interface';
 export {
     check_value_request_checkin,
     create_plan_production,
@@ -137,4 +137,6 @@ export {
     search_safety_checked_interface,
     IGetByUserId,
     ICreateTaxDependent,
+    IUpdateTaxDependent,
+    IUpdateTaxDependentStatus,
 };

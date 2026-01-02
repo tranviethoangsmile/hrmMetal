@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { create_inventory_controller } from '../../../controllers';
 import { create_inventory } from '../../../interfaces/inventory/inventory.interface';
 import { delCache } from '../../../utils';
+import { errorResponse, successResponse } from '../../../helpers';
 const createRouter: Router = Router();
 createRouter.post('/', async (req: Request, res: Response) => {
     try {
@@ -19,31 +20,19 @@ createRouter.post('/', async (req: Request, res: Response) => {
             ]
                 .filter(Boolean)
                 .join(', ');
-            return res.status(400).json({
-                success: false,
-                message: `Invalid input: Missing required ${missingFields}`,
-            });
+            return errorResponse(res, 400, `Invalid input: Missing required ${missingFields}`);
         } else {
             const KEY_CACHE = `all_inventory`;
             const inventory = await create_inventory_controller(field);
             if (inventory?.success) {
                 await delCache(KEY_CACHE);
-                return res.status(201).json({
-                    success: true,
-                    data: inventory?.data,
-                });
+                return successResponse(res, 201, inventory?.data);
             } else {
-                return res.status(200).json({
-                    success: false,
-                    message: inventory?.message,
-                });
+                return errorResponse(res, 400, inventory?.message || 'Failed to create inventory');
             }
         }
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: `${error?.message} server error`,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

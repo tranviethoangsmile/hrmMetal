@@ -10,6 +10,8 @@ import {
 } from '../../controllers/paidLeaveRequest/paidLeaveRequest.controller';
 
 import very_role from '../../middlewares/veryRoleUpdate.middleware';
+import { errorResponse, successResponse } from '../../helpers';
+
 const paidLeaveRouter: Router = Router();
 paidLeaveRouter.use('/create', create_router);
 paidLeaveRouter.use('/search', searchLeaveRouter);
@@ -21,21 +23,12 @@ paidLeaveRouter.get('/', async (req: Request, res: Response) => {
     try {
         const paid_leaves = await get_all_paid_leave_controller();
         if (paid_leaves?.success) {
-            res.status(201).json({
-                success: paid_leaves?.success,
-                data: paid_leaves?.data,
-            });
+            return successResponse(res, 200, paid_leaves?.data);
         } else {
-            res.status(200).json({
-                success: paid_leaves?.success,
-                message: paid_leaves?.message,
-            });
+            return errorResponse(res, 400, paid_leaves?.message || 'Failed to get paid leave requests');
         }
     } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 
@@ -43,31 +36,17 @@ paidLeaveRouter.put('/', very_role, async (req: Request, res: Response) => {
     try {
         const data: Object | null = req.body;
         if (data != null) {
-            const paid_leave = await update_is_active_paid_leave_controller(
-                data,
-            );
+            const paid_leave = await update_is_active_paid_leave_controller(data);
             if (paid_leave?.success) {
-                res.status(201).json({
-                    success: paid_leave?.success,
-                    message: paid_leave?.message,
-                });
+                return successResponse(res, 200, undefined, paid_leave?.message || 'Paid leave updated successfully');
             } else {
-                res.status(200).json({
-                    success: paid_leave?.success,
-                    message: paid_leave?.message,
-                });
+                return errorResponse(res, 400, paid_leave?.message || 'Failed to update paid leave');
             }
         } else {
-            res.status(400).json({
-                success: false,
-                message: 'data not empty',
-            });
+            return errorResponse(res, 400, 'data is required');
         }
     } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 export default paidLeaveRouter;

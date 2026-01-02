@@ -5,12 +5,14 @@ import {
     is_checked_controller,
     update_checkin_controller,
 } from '../../../controllers';
+import { errorResponse, successResponse } from '../../../helpers';
 const createCheckin: Router = Router();
 import { io } from '../../../socket/socketIO';
 import { findById } from '../../../controllers/user/user.controller';
 import { check_value_request_checkin } from '../../../interfaces';
 import { create_notification_usecase } from '../../../useCases';
 import { get_all_day_off_controller } from '../../../controllers';
+
 createCheckin.post('/', async (req: Request, res: Response) => {
     try {
         function handleTime(value: any) {
@@ -102,10 +104,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                         console.log(`notification: ${error?.message}`);
                     }
 
-                    return res.status(201).json({
-                        success: true,
-                        data: create_check?.data,
-                    });
+                    return successResponse(res, 201, create_check?.data);
                 } else {
                     try {
                         const field_notification = {
@@ -123,10 +122,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     } catch (error: any) {
                         console.log(`notification: ${error?.message}`);
                     }
-                    return res.status(200).json({
-                        success: false,
-                        message: create_check?.message,
-                    });
+                    return errorResponse(res, 400, create_check?.message || 'Failed to create checkin');
                 }
             } else if (isChecked?.success && !isChecked?.data?.is_checked) {
                 let time_out;
@@ -324,9 +320,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     } catch (error: any) {
                         console.log(`notification: ${error?.message}`);
                     }
-                    return res.status(202).json({
-                        success: true,
-                    });
+                    return successResponse(res, 200, undefined, 'Checkout successful');
                 } else {
                     try {
                         const field_notification = {
@@ -344,10 +338,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     } catch (error: any) {
                         console.log(`notification: ${error?.message}`);
                     }
-                    return res.status(200).json({
-                        success: false,
-                        message: create_check?.message,
-                    });
+                    return errorResponse(res, 400, create_check?.message || 'Failed to checkout');
                 }
             } else {
                 try {
@@ -366,10 +357,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                 } catch (error: any) {
                     console.log(`notification: ${error?.message}`);
                 }
-                return res.status(202).json({
-                    success: !isChecked?.success,
-                    message: 'checked',
-                });
+                return errorResponse(res, 400, 'Already checked in');
             }
         } else {
             const isChecked = await is_checked_controller(check_field);
@@ -426,10 +414,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     } catch (error: any) {
                         console.log(`notification: ${error?.message}`);
                     }
-                    return res.status(201).json({
-                        success: true,
-                        data: create_check?.data,
-                    });
+                    return successResponse(res, 201, create_check?.data);
                 } else {
                     try {
                         const field_notification = {
@@ -447,10 +432,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     } catch (error: any) {
                         console.log(`notification: ${error?.message}`);
                     }
-                    return res.status(200).json({
-                        success: false,
-                        message: create_check?.message,
-                    });
+                    return errorResponse(res, 400, create_check?.message || 'Failed to create checkin');
                 }
             } else if (isChecked?.success && !isChecked?.data?.is_checked) {
                 let time_out;
@@ -624,9 +606,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     } catch (error: any) {
                         console.log(`notification: ${error?.message}`);
                     }
-                    return res.status(202).json({
-                        success: true,
-                    });
+                    return successResponse(res, 200, undefined, 'Checkout successful');
                 } else {
                     try {
                         const field_notification = {
@@ -644,10 +624,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     } catch (error: any) {
                         console.log(`notification: ${error?.message}`);
                     }
-                    return res.status(200).json({
-                        success: false,
-                        message: create_check?.message,
-                    });
+                    return errorResponse(res, 400, create_check?.message || 'Failed to checkout');
                 }
             } else {
                 try {
@@ -666,17 +643,11 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                 } catch (error: any) {
                     console.log(`notification: ${error?.message}`);
                 }
-                return res.status(200).json({
-                    success: false,
-                    message: 'checked',
-                });
+                return errorResponse(res, 400, 'Already checked in');
             }
         }
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: 'Server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

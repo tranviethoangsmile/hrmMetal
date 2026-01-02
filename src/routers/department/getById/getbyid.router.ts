@@ -1,32 +1,23 @@
 import { Request, Response, Router } from 'express';
 import { getDepartmentById } from '../../../controllers';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const getDepByIdRouter: Router = Router();
+
 getDepByIdRouter.post('/', async (req: Request, res: Response) => {
     try {
         const { id }: { id: string } = req.body;
         if (!id) {
-            return res.status(400).send({
-                success: false,
-                message: 'id is required',
-            });
+            return errorResponse(res, 400, 'id is required');
         }
         const department = await getDepartmentById(id);
         if (department?.success) {
-            return res.status(202).send({
-                success: true,
-                data: department?.data,
-            });
+            return successResponse(res, 200, department?.data);
         } else {
-            return res.status(200).send({
-                success: false,
-                message: department?.message,
-            });
+            return errorResponse(res, 404, department?.message || 'Department not found');
         }
     } catch (error: any) {
-        return res.status(500).send({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 export default getDepByIdRouter;

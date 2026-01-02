@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { create_plan_production_controller } from '../../../controllers';
 import { create_plan_production } from '../../../interfaces';
+import { errorResponse, successResponse } from '../../../helpers';
 const createPlanProductionRouter: Router = Router();
 
 createPlanProductionRouter.post('/', async (req: Request, res: Response) => {
@@ -31,29 +32,17 @@ createPlanProductionRouter.post('/', async (req: Request, res: Response) => {
             ]
                 .filter(Boolean)
                 .join(', ');
-            return res.status(400).json({
-                success: false,
-                message: `Missing required ${missingFields}`,
-            });
+            return errorResponse(res, 400, `Missing required ${missingFields}`);
         }
         const plan_production = await create_plan_production_controller({
             ...field,
         });
         if (!plan_production?.success) {
-            return res.status(200).json({
-                success: false,
-                message: plan_production?.message,
-            });
+            return errorResponse(res, 400, plan_production?.message || 'Failed to create plan production');
         }
-        return res.status(201).json({
-            success: true,
-            data: plan_production?.data,
-        });
+        return successResponse(res, 201, plan_production?.data);
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: `server error: ${error?.message}`,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 export default createPlanProductionRouter;

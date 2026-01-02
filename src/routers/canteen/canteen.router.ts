@@ -4,6 +4,8 @@ import {
     find_canteen_by_id,
     get_all_canteen,
 } from '../../controllers/canteen/canteen.controller';
+import { errorResponse, successResponse } from '../../helpers';
+
 const canteenRouter: Router = Router();
 
 canteenRouter.post('/', async (req: Request, res: Response) => {
@@ -12,27 +14,15 @@ canteenRouter.post('/', async (req: Request, res: Response) => {
         if (data != undefined) {
             const canteen = await create_canteen(data);
             if (canteen?.success) {
-                res.status(201).json({
-                    success: true,
-                    data: canteen?.data,
-                });
+                return successResponse(res, 201, canteen?.data);
             } else {
-                res.status(200).json({
-                    success: false,
-                    message: canteen?.message,
-                });
+                return errorResponse(res, 400, canteen?.message || 'Failed to create canteen');
             }
         } else {
-            res.status(400).json({
-                success: false,
-                message: 'data not empty',
-            });
+            return errorResponse(res, 400, 'data is required');
         }
     } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 
@@ -42,27 +32,15 @@ canteenRouter.get('/:id', async (req: Request, res: Response) => {
         if (id != null) {
             const canteen = await find_canteen_by_id(id);
             if (canteen?.success) {
-                res.status(201).json({
-                    success: true,
-                    data: canteen?.data,
-                });
+                return successResponse(res, 200, canteen?.data);
             } else {
-                res.status(200).json({
-                    success: false,
-                    message: canteen?.message,
-                });
+                return errorResponse(res, 404, canteen?.message || 'Canteen not found');
             }
         } else {
-            res.status(400).json({
-                success: false,
-                message: 'id not empty',
-            });
+            return errorResponse(res, 400, 'id is required');
         }
     } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 
@@ -70,21 +48,12 @@ canteenRouter.get('/', async (req: Request, res: Response) => {
     try {
         const canteens = await get_all_canteen();
         if (canteens?.success) {
-            res.status(201).json({
-                success: true,
-                data: canteens?.data,
-            });
+            return successResponse(res, 200, canteens?.data);
         } else {
-            res.status(200).json({
-                success: false,
-                message: canteens?.message,
-            });
+            return errorResponse(res, 400, canteens?.message || 'Failed to get canteens');
         }
     } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 export default canteenRouter;

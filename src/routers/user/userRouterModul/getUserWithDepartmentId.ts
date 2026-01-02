@@ -1,5 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { getUserForLeaveFeatureControll } from '../../../controllers/user/user.controller';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const getUserWithDepartmentId: Router = Router();
 
 getUserWithDepartmentId.post('/', async (req: Request, res: Response) => {
@@ -8,27 +10,15 @@ getUserWithDepartmentId.post('/', async (req: Request, res: Response) => {
         if (id != null) {
             const listUser = await getUserForLeaveFeatureControll(id);
             if (listUser?.success) {
-                res.status(202).json({
-                    success: true,
-                    data: listUser?.data,
-                });
+                return successResponse(res, 200, listUser?.data);
             } else {
-                res.status(200).json({
-                    success: false,
-                    message: listUser?.message,
-                });
+                return errorResponse(res, 400, listUser?.message || 'Failed to get users');
             }
         } else {
-            res.status(400).json({
-                success: false,
-                message: 'data not empty',
-            });
+            return errorResponse(res, 400, 'department_id is required');
         }
     } catch (error: any) {
-        return res.status(500).send({
-            success: false,
-            message: 'server error: ' + error.mesage,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

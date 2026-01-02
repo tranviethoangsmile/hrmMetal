@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { destroy_plan_production_cotroller } from '../../../controllers';
+import { errorResponse, successResponse } from '../../../helpers';
 
 const destroyPlanProductionRouter: Router = Router();
 
@@ -7,22 +8,15 @@ destroyPlanProductionRouter.post('/', async (req: Request, res: Response) => {
     try {
         const id: string | undefined = req.body.id;
         if (id === undefined) {
-            return res
-                .status(400)
-                .json({ success: false, message: 'id is required' });
+            return errorResponse(res, 400, 'id is required');
         }
         const result = await destroy_plan_production_cotroller(id);
         if (!result?.success) {
-            return res.status(200).json({
-                success: false,
-                message: result?.message,
-            });
+            return errorResponse(res, 400, result?.message || 'Failed to delete plan production');
         }
-        return res.status(202).json({
-            success: true,
-        });
+        return successResponse(res, 200, undefined, 'Plan production deleted successfully');
     } catch (error: any) {
-        return res.status(500).json({ success: false, message: error.message });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 export default destroyPlanProductionRouter;

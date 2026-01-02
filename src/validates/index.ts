@@ -94,7 +94,7 @@ import {
     validate_delete_overtime_request,
     validate_update_approved_admin_overtime_request,
 } from './overtimeRequest/overtimeRequest.validate';
-import { validate_create_tax_dependent } from './taxDependent/taxDependent.validate';
+import { validate_create_tax_dependent, validate_update_tax_dependent } from './taxDependent/taxDependent.validate';
 const schema_id = Joi.string().guid().required();
 const validation_id = (id: string) => {
     return schema_id.validate(id);
@@ -160,5 +160,6 @@ export {
     validate_update_approved_admin_overtime_request,
     validate_get_by_user_id,
     validate_delete_paid_leave,
-    validate_create_tax_dependent
+    validate_create_tax_dependent, 
+    validate_update_tax_dependent
 };

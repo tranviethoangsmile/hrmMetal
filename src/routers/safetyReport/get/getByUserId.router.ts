@@ -1,6 +1,8 @@
 import { Router, Request, Response } from 'express';
 import { get_all_safety_report_by_user_id_controller } from '../../../controllers';
 import { IGetByUserId } from '../../../interfaces';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const getByUserIdRouter: Router = Router();
 
 getByUserIdRouter.post('/', async (req: Request, res: Response) => {
@@ -9,33 +11,19 @@ getByUserIdRouter.post('/', async (req: Request, res: Response) => {
 
         if (!field || !field.user_id || !field.date) {
             const missingFields = [
-                !field.user_id && 'user_id',
-                !field.date && 'date',
+                !field?.user_id && 'user_id',
+                !field?.date && 'date',
             ].filter(Boolean);
-            return res.status(400).json({
-                success: false,
-                message: `Missing required fields: ${missingFields.join(', ')}`,
-            });
+            return errorResponse(res, 400, `Missing required fields: ${missingFields.join(', ')}`);
         }
 
-        const safetyReports = await get_all_safety_report_by_user_id_controller(
-            field,
-        );
+        const safetyReports = await get_all_safety_report_by_user_id_controller(field);
         if (!safetyReports?.success) {
-            return res.status(200).json({
-                success: false,
-                message: safetyReports.message,
-            });
+            return errorResponse(res, 400, safetyReports?.message || 'Failed to get safety reports');
         }
-        return res.status(202).json({
-            success: true,
-            data: safetyReports.data,
-        });
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: 'Internal Server Error',
-        });
+        return successResponse(res, 200, safetyReports.data);
+    } catch (error: any) {
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

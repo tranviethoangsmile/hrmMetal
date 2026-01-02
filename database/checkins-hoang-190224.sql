@@ -19,7 +19,6 @@ CREATE TABLE checkins
     UNIQUE
     (user_id, date)
 );
-
 -- ALTER TABLE checkins
 -- ALTER time_in
 -- DROP NOT NULL,

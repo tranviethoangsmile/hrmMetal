@@ -1,32 +1,24 @@
 import { Request, Response, Router } from 'express';
 import { search_information_user_controller } from '../../../controllers/information/information.controller';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const getInforOfUserRouter: Router = Router();
+
 getInforOfUserRouter.post('/', async (req: Request, res: Response) => {
     try {
         const user_id: string | undefined = req.body?.user_id;
         if (!user_id) {
-            return res.status(400).json({ message: 'Missing parameter' });
+            return errorResponse(res, 400, 'Missing parameter: user_id');
         } else {
-            const informations = await search_information_user_controller(
-                user_id,
-            );
+            const informations = await search_information_user_controller(user_id);
             if (informations?.success) {
-                return res.status(202).json({
-                    success: informations?.success,
-                    data: informations?.data,
-                });
+                return successResponse(res, 200, informations?.data);
             } else {
-                return res.status(200).json({
-                    success: informations?.success,
-                    message: informations?.message,
-                });
+                return errorResponse(res, 400, informations?.message || 'Failed to get information');
             }
         }
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: 'Server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

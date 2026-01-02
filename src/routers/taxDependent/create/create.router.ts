@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { ICreateTaxDependent } from '../../../interfaces';
 import { createTaxDependentController } from '../../../controllers';
+import { errorResponse, successResponse } from '../../../helpers';
 
 const createTaxDependentRouter: Router = Router();
 
@@ -26,33 +27,29 @@ createTaxDependentRouter.post(
                     !createValue.gender && 'gender',
                     !createValue.relationship && 'relationship',
                 ]
-                .filter(Boolean)
-                .join(', ');
-                return res.status(400).json({
-                    success: false,
-                    message: `bad request :: Invalid input: Missing required ${missingFields}`,
-                });
+                    .filter(Boolean)
+                    .join(', ');
+                return errorResponse(
+                    res,
+                    400,
+                    `Invalid input: Missing required ${missingFields}`
+                );
             }
 
             // Call controller
             const result = await createTaxDependentController(createValue);
 
             if (result?.success) {
-                return res.status(201).json({
-                    success: true,
-                    data: result.data,
-                });
+                return successResponse(res, 201, result.data);
             } else {
-                return res.status(200).json({
-                    success: false,
-                    message: result?.message || 'Failed to create tax dependent',
-                });
+                return errorResponse(
+                    res,
+                    200,
+                    result?.message || 'Failed to create tax dependent'
+                );
             }
         } catch (error: any) {
-            return res.status(500).json({
-                success: false,
-                message: `Server error: ${error?.message}`,
-            });
+            return errorResponse(res, 500, error?.message || 'Internal server error');
         }
     }
 );

@@ -7,6 +7,8 @@ import {
 import dailyRpRouter from './moduleReportRouter/dailyReport.router';
 import createDailyReportRouter from './create/create';
 import getAllDailyReport from './getAllDailyReport/getAllDailyReport.router';
+import { errorResponse, successResponse } from '../../helpers';
+
 const rpRouter: Router = Router();
 rpRouter.use('/create', createDailyReportRouter);
 rpRouter.use('/getall', getAllDailyReport);
@@ -17,27 +19,15 @@ rpRouter.post('/', async (req: Request, res: Response) => {
         if (data != null) {
             const created_rp = await daily_report_create(data);
             if (created_rp?.success) {
-                res.status(201).send({
-                    success: true,
-                    data: created_rp,
-                });
+                return successResponse(res, 201, created_rp?.data);
             } else {
-                res.status(200).end({
-                    success: false,
-                    message: created_rp?.message,
-                });
+                return errorResponse(res, 400, created_rp?.message || 'Failed to create daily report');
             }
         } else {
-            res.status(400).end({
-                success: false,
-                message: 'data not empty',
-            });
+            return errorResponse(res, 400, 'data is required');
         }
     } catch (error: any) {
-        res.status(500).send({
-            success: false,
-            message: 'Server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 
@@ -47,27 +37,15 @@ rpRouter.get('/:id', async (req: Request, res: Response) => {
         if (id != null) {
             const report = await find_report_by_id(id);
             if (report?.success) {
-                res.status(201).send({
-                    success: true,
-                    data: report?.data,
-                });
+                return successResponse(res, 200, report?.data);
             } else {
-                res.status(200).send({
-                    success: false,
-                    message: 'report not found',
-                });
+                return errorResponse(res, 404, 'report not found');
             }
         } else {
-            res.status(400).send({
-                success: false,
-                message: 'id not empty',
-            });
+            return errorResponse(res, 400, 'id is required');
         }
     } catch (error: any) {
-        res.status(500).send({
-            success: false,
-            message: 'Server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

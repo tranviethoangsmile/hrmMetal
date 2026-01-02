@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { getAllUserCheckedSafetyCheckEventController } from '../../../controllers';
+import { errorResponse, successResponse } from '../../../helpers';
 
 const getAllUserCheckedSafetyCheckEventRouter: Router = Router();
 
@@ -9,29 +10,15 @@ getAllUserCheckedSafetyCheckEventRouter.post(
         try {
             const id: string = req.body.id;
             if (!id) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'id is required',
-                });
+                return errorResponse(res, 400, 'id is required');
             }
-            const result = await getAllUserCheckedSafetyCheckEventController(
-                id,
-            );
+            const result = await getAllUserCheckedSafetyCheckEventController(id);
             if (!result?.success) {
-                return res.status(200).json({
-                    success: false,
-                    message: result?.message,
-                });
+                return errorResponse(res, 400, result?.message || 'Failed to get users checked safety check event');
             }
-            return res.status(202).json({
-                success: true,
-                data: result?.data,
-            });
+            return successResponse(res, 200, result?.data);
         } catch (error: any) {
-            return res.status(500).json({
-                success: false,
-                message: `server: ${error.message}`,
-            });
+            return errorResponse(res, 500, error?.message || 'Internal server error');
         }
     },
 );

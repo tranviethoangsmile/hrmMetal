@@ -1,6 +1,8 @@
 import { Request, Response, Router } from 'express';
 import { search_notification_of_user_controller } from '../../../controllers';
 import { setCache, getCache, delCache } from '../../../utils';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const searchNotificationByUserIdRouter: Router = Router();
 
 searchNotificationByUserIdRouter.post(
@@ -9,37 +11,21 @@ searchNotificationByUserIdRouter.post(
         try {
             const id: string | undefined = req.body.user_id;
             if (!id) {
-                return res
-                    .status(400)
-                    .json({ success: false, message: 'id is required' });
+                return errorResponse(res, 400, 'user_id is required');
             }
             const KEY_CACHE = `notification_user_${id}`;
             const notification_value_of_user = await getCache(KEY_CACHE);
             if (notification_value_of_user) {
-                return res.status(202).json({
-                    success: true,
-                    data: JSON.parse(notification_value_of_user),
-                });
+                return successResponse(res, 200, JSON.parse(notification_value_of_user));
             }
-            const notifications = await search_notification_of_user_controller(
-                id,
-            );
+            const notifications = await search_notification_of_user_controller(id);
             if (!notifications?.success) {
-                return res.status(200).json({
-                    success: false,
-                    message: notifications.message,
-                });
+                return errorResponse(res, 400, notifications?.message || 'Failed to get notifications');
             }
             await setCache(KEY_CACHE, JSON.stringify(notifications?.data), 86400);
-            return res.status(202).json({
-                success: true,
-                data: notifications?.data,
-            });
+            return successResponse(res, 200, notifications?.data);
         } catch (error: any) {
-            return res.status(500).json({
-                success: false,
-                message: `server error: ${error.message}`,
-            });
+            return errorResponse(res, 500, error?.message || 'Internal server error');
         }
     },
 );

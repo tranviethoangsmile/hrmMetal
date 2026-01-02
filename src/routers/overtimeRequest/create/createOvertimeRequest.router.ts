@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { create_overtime_request_controller } from '../../../controllers';
 import { ICreateOvertimeRequest } from '../../../interfaces';
+import { errorResponse, successResponse } from '../../../helpers';
 
 const createOvertimeRequestRouter: Router = Router();
 
@@ -28,27 +29,15 @@ createOvertimeRequestRouter.post('/', async (req: Request, res: Response) => {
             ]
                 .filter(Boolean)
                 .join(', ');
-            return res.status(400).json({
-                success: false,
-                message: `Missing values: ${missingFields}`,
-            });
+            return errorResponse(res, 400, `Missing values: ${missingFields}`);
         }
         const result = await create_overtime_request_controller(data);
         if (result?.success) {
-            return res.status(201).json({
-                success: true,
-                data: result.data,
-            });
+            return successResponse(res, 201, result.data);
         }
-        return res.status(200).json({
-            success: false,
-            message: result?.message,
-        });
+        return errorResponse(res, 400, result?.message || 'Failed to create overtime request');
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: error.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

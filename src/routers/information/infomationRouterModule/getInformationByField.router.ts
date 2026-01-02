@@ -1,35 +1,24 @@
 import { Request, Response, Router } from 'express';
 import { search_all_information_with_field_controller } from '../../../controllers/information/information.controller';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const searchAllRouter: Router = Router();
 
 searchAllRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field = req.body.field;
         if (!field) {
-            return res.status(400).json({
-                success: false,
-                message: 'Missing field',
-            });
+            return errorResponse(res, 400, 'Missing field');
         } else {
-            const informations =
-                await search_all_information_with_field_controller(field);
+            const informations = await search_all_information_with_field_controller(field);
             if (informations?.success) {
-                return res.status(202).json({
-                    success: informations?.success,
-                    data: informations?.data,
-                });
+                return successResponse(res, 200, informations?.data);
             } else {
-                return res.status(200).json({
-                    success: informations?.success,
-                    message: informations?.message,
-                });
+                return errorResponse(res, 400, informations?.message || 'Failed to search information');
             }
         }
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: 'Server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

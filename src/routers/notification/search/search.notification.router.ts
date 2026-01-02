@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { search_notification_controller } from '../../../controllers';
+import { errorResponse, successResponse } from '../../../helpers';
 
 const searchNotificationRouter: Router = Router();
 
@@ -7,27 +8,16 @@ searchNotificationRouter.post('/', async (req: Request, res: Response) => {
     try {
         const id: string | undefined = req.body.id;
         if (!id) {
-            return res
-                .status(400)
-                .json({ success: false, message: 'id is required' });
+            return errorResponse(res, 400, 'id is required');
         }
 
         const notification = await search_notification_controller(id);
         if (!notification?.success) {
-            return res.status(200).json({
-                success: false,
-                message: notification.message,
-            });
+            return errorResponse(res, 404, notification?.message || 'Notification not found');
         }
-        return res.status(202).json({
-            success: true,
-            data: notification?.data,
-        });
+        return successResponse(res, 200, notification?.data);
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: `server error: ${error.message}`,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

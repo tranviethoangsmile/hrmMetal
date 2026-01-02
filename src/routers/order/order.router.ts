@@ -11,6 +11,8 @@ import {
     timeOrderLimit,
 } from '../../middlewares';
 import search_order_router from './moduleOrderRouter/searchOrderWithField.router';
+import { errorResponse, successResponse } from '../../helpers';
+
 const orderRouter: Router = Router();
 
 orderRouter.post(
@@ -24,27 +26,15 @@ orderRouter.post(
             if (order_data && Object.keys(order_data).length !== 0) {
                 const new_order = await create(order_data);
                 if (new_order?.success) {
-                    return res.status(201).json({
-                        success: true,
-                        data: new_order?.data,
-                    });
+                    return successResponse(res, 201, new_order?.data);
                 } else {
-                    return res.status(200).json({
-                        success: false,
-                        message: new_order?.message,
-                    });
+                    return errorResponse(res, 400, new_order?.message || 'Failed to create order');
                 }
             } else {
-                return res.status(400).json({
-                    success: false,
-                    message: 'data not empty',
-                });
+                return errorResponse(res, 400, 'data is required');
             }
         } catch (error: any) {
-            return res.status(500).json({
-                success: false,
-                message: 'server error: ' + error?.message,
-            });
+            return errorResponse(res, 500, error?.message || 'Internal server error');
         }
     },
 );
@@ -53,21 +43,12 @@ orderRouter.get('/', async (req: Request, res: Response) => {
     try {
         const orders = await find_all_order();
         if (orders?.success) {
-            return res.status(202).json({
-                success: true,
-                data: orders?.data,
-            });
+            return successResponse(res, 200, orders?.data);
         } else {
-            return res.status(200).json({
-                success: false,
-                message: orders?.message,
-            });
+            return errorResponse(res, 400, orders?.message || 'Failed to get orders');
         }
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: 'server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 
@@ -75,27 +56,16 @@ orderRouter.delete('/:id', async (req: Request, res: Response) => {
     try {
         const order_id: string | undefined = req.params.id;
         if (!order_id) {
-            return res.status(400).json({
-                success: false,
-                message: 'id not empty',
-            });
+            return errorResponse(res, 400, 'id is required');
         }
         const order = await delete_order(order_id);
         if (order.success) {
-            return res.status(202).json({
-                success: true,
-                message: order?.message,
-            });
+            return successResponse(res, 200, undefined, order?.message || 'Order deleted successfully');
         } else {
-            return res.status(200).json({
-                success: false,
-                message: order?.message,
-            });
+            return errorResponse(res, 400, order?.message || 'Failed to delete order');
         }
     } catch (error: any) {
-        return res.status(500).json({
-            message: 'server error: ' + error?.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

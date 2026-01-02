@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express';
 import { create_events_interface } from '../../../interfaces';
 import { create_events_controller } from '../../../controllers';
 import { create_media_path } from '../../../middlewares';
+import { errorResponse, successResponse } from '../../../helpers';
 const createEventsRouter: Router = Router();
 
 createEventsRouter.post(
@@ -31,27 +32,15 @@ createEventsRouter.post(
                 ]
                     .filter(Boolean)
                     .join(', ');
-                return res.status(400).json({
-                    success: false,
-                    message: `Invalid input: Missing required ${missingFields}`,
-                });
+                return errorResponse(res, 400, `Invalid input: Missing required ${missingFields}`);
             }
             const event = await create_events_controller(field);
             if (!event?.success) {
-                return res.status(201).json({
-                    success: false,
-                    message: event.message,
-                });
+                return errorResponse(res, 400, event.message || 'Failed to create event');
             }
-            return res.status(201).json({
-                success: true,
-                data: event?.data,
-            });
+            return successResponse(res, 201, event?.data);
         } catch (error: any) {
-            return res.status(500).json({
-                success: false,
-                message: `server -- ${error.message}`,
-            });
+            return errorResponse(res, 500, error?.message || 'Internal server error');
         }
     },
 );

@@ -1,6 +1,8 @@
 import { Router, Request, Response } from 'express';
 import { update_safety_report_controller } from '../../../controllers';
 import { IUpdateSafetyReport } from '../../../interfaces';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const updateSafetyReportRouter: Router = Router();
 
 updateSafetyReportRouter.post('/', async (req: Request, res: Response) => {
@@ -8,31 +10,15 @@ updateSafetyReportRouter.post('/', async (req: Request, res: Response) => {
         const field: IUpdateSafetyReport = req.body;
 
         if (!field || !field.id) {
-            const missingFields = [!field.id && 'id'].filter(Boolean);
-            if (missingFields.length > 0) {
-                return res.status(400).json({
-                    success: false,
-                    message: `Missing required fields: ${missingFields.join(
-                        ', ',
-                    )}`,
-                });
-            }
+            return errorResponse(res, 400, 'id is required');
         }
         const result = await update_safety_report_controller(field);
         if (!result.success) {
-            return res.status(200).json({
-                success: false,
-                message: `${result?.message}`,
-            });
+            return errorResponse(res, 400, result?.message || 'Failed to update safety report');
         }
-        return res.status(202).json({
-            success: true,
-        });
+        return successResponse(res, 200, undefined, 'Safety report updated successfully');
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: `server message: ${error?.message}`,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

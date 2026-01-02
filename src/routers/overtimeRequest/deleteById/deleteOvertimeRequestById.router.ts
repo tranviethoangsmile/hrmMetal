@@ -1,7 +1,10 @@
 import { Request, Response, Router } from 'express';
 import { delete_overtime_request_by_id_controller } from '../../../controllers';
 import { IDeleteOvertimeRequest } from '../../../interfaces';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const deleteOvertimeRequestByIdRouter: Router = Router();
+
 deleteOvertimeRequestByIdRouter.post(
     '/',
     async (req: Request, res: Response) => {
@@ -9,30 +12,21 @@ deleteOvertimeRequestByIdRouter.post(
             const data: IDeleteOvertimeRequest = req.body;
             if (!data || !data.id || !data.user_id) {
                 const missingFields = [
-                    !data.user_id && 'user_id',
-                    !data.id && 'id',
+                    !data?.user_id && 'user_id',
+                    !data?.id && 'id',
                 ]
                     .filter(Boolean)
                     .join(', ');
 
-                return res.status(400).json({
-                    success: false,
-                    message: `Missing values: ${missingFields}`,
-                });
+                return errorResponse(res, 400, `Missing values: ${missingFields}`);
             }
-            const response = await delete_overtime_request_by_id_controller(
-                data,
-            );
+            const response = await delete_overtime_request_by_id_controller(data);
             if (!response.success) {
-                return res
-                    .status(200)
-                    .json({ success: false, message: response.message });
+                return errorResponse(res, 400, response.message || 'Failed to delete overtime request');
             }
-            return res.status(202).json({ success: true });
-        } catch (error) {
-            return res
-                .status(500)
-                .json({ success: false, message: 'Internal server error' });
+            return successResponse(res, 200, undefined, 'Overtime request deleted successfully');
+        } catch (error: any) {
+            return errorResponse(res, 500, error?.message || 'Internal server error');
         }
     },
 );

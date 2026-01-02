@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { create_media_path } from '../../../middlewares';
+import { errorResponse, successResponse } from '../../../helpers';
 
 const createMessageRouter: Router = Router();
 
@@ -10,20 +11,11 @@ createMessageRouter.post(
         try {
             const { media_path } = req.body;
             if (!media_path || media_path.trim() === '') {
-                return res.status(400).json({
-                    success: false,
-                    message: 'media_path not available',
-                });
+                return errorResponse(res, 400, 'media_path is required');
             }
-            return res.status(201).json({
-                success: true,
-                data: media_path,
-            });
+            return successResponse(res, 201, media_path);
         } catch (error: any) {
-            return res.status(500).json({
-                success: false,
-                message: 'server error: ' + error?.message,
-            });
+            return errorResponse(res, 500, error?.message || 'Internal server error');
         }
     },
 );

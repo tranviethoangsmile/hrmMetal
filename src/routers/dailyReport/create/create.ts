@@ -1,6 +1,8 @@
 import { Request, Response, Router } from 'express';
 import { daily_report_create } from '../../../controllers/dailyReport/dailyReport.controler';
 import { create_daily_report } from '../../../interfaces/dailyReport/dailyReport.interface';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const createDailyReportRouter: Router = Router();
 
 createDailyReportRouter.post('/', async (req: Request, res: Response) => {
@@ -32,29 +34,17 @@ createDailyReportRouter.post('/', async (req: Request, res: Response) => {
             ]
                 .filter(Boolean)
                 .join(', ');
-            return res.status(400).json({
-                success: false,
-                message: `Invalid input: Missing required ${missingFields}`,
-            });
+            return errorResponse(res, 400, `Invalid input: Missing required ${missingFields}`);
         } else {
             const dailyReport = await daily_report_create(field);
             if (dailyReport?.success) {
-                return res.status(201).json({
-                    success: true,
-                    data: dailyReport?.data,
-                });
+                return successResponse(res, 201, dailyReport?.data);
             } else {
-                return res.status(200).json({
-                    success: false,
-                    message: `${dailyReport?.message}`,
-                });
+                return errorResponse(res, 400, dailyReport?.message || 'Failed to create daily report');
             }
         }
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: `${error?.message} server error`,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

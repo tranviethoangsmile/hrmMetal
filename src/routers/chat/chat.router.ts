@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { Configuration, OpenAIApi } from 'openai';
 import { io } from '../../socket/socketIO';
+import { errorResponse, successResponse } from '../../helpers';
 
 const chatRouter: Router = Router();
 const config = new Configuration({
@@ -26,21 +27,12 @@ chatRouter.post('/', async (req: Request, res: Response) => {
                     }, 5 * i);
                 }
             }
-            res.status(201).json({
-                success: true,
-                message: botResponse,
-            });
+            return successResponse(res, 200, { message: botResponse });
         } else {
-            res.status(200).json({
-                success: false,
-                message: 'server chat error ...!!!',
-            });
+            return errorResponse(res, 500, 'server chat error');
         }
     } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: 'server error: ' + error.message,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 

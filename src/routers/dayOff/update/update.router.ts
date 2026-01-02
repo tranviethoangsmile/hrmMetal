@@ -1,6 +1,8 @@
 import { Request, Response, Router } from 'express';
 import { update_day_off_by_id_controller } from '../../../controllers';
 import { update_day_off } from '../../../interfaces';
+import { errorResponse, successResponse } from '../../../helpers';
+
 const updateDayOffRouter: Router = Router();
 
 updateDayOffRouter.put('/', async (req: Request, res: Response) => {
@@ -8,26 +10,15 @@ updateDayOffRouter.put('/', async (req: Request, res: Response) => {
         const field: update_day_off = req.body;
 
         if (!field || !field?.id || field?.id?.trim() === '') {
-            return res.status(400).json({
-                success: false,
-                message: 'id is required',
-            });
+            return errorResponse(res, 400, 'id is required');
         }
         const result = await update_day_off_by_id_controller(field);
         if (!result?.success) {
-            return res.status(200).json({
-                success: false,
-                message: result?.message,
-            });
+            return errorResponse(res, 400, result?.message || 'Failed to update day off');
         }
-        return res.status(202).json({
-            success: true,
-        });
+        return successResponse(res, 200, undefined, 'Day off updated successfully');
     } catch (error: any) {
-        return res.status(500).json({
-            success: false,
-            message: `server error :: ${error?.message}`,
-        });
+        return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
 
