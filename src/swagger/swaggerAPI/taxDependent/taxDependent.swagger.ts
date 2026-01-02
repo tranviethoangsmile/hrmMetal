@@ -394,7 +394,7 @@
 
 /**
  * @swagger
- * /taxdependent/get-all-by-user-id:
+ * /taxdependent/getbyuserid:
  *   post:
  *     summary: Get all tax dependents by user ID
  *     tags: [TaxDependent]

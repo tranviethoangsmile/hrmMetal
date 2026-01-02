@@ -9,6 +9,6 @@ const taxDependentMainRouter: Router = Router();
 taxDependentMainRouter.use('/create', createTaxDependentRouter)
 taxDependentMainRouter.use('/delete', deleteTaxDependentRouter)
 taxDependentMainRouter.use('/update', updateTaxDependentRouter)
-taxDependentMainRouter.use('/get-all-by-user-id', getAllTaxDependentByUserIdRouter)
+taxDependentMainRouter.use('/getbyuserid', getAllTaxDependentByUserIdRouter)
 taxDependentMainRouter.use('/update-status', updateStatusRouter)
 export default taxDependentMainRouter;
