@@ -7,6 +7,7 @@ interface ICreateTaxDependent {
     phone?: string;
     address: string;
     relationship: string;
+    media_path?: string;
     tax_code?: string;
     deduction_amount?: number;
     status?: string;
@@ -24,6 +25,7 @@ interface IUpdateTaxDependent {
     address?: string;
     relationship?: string;
     tax_code?: string;
+    media_path?: string;
     deduction_amount?: number;
     status?: string;
     notes?: string;

@@ -14,6 +14,7 @@ const schema_create_tax_dependent = Joi.object({
         .valid('CHILD', 'SPOUSE', 'PARENT', 'SIBLING', 'OTHER')
         .required(),
     tax_code: Joi.string().max(20).allow(null, ''),
+    media_path: Joi.string().allow(null, ''),
     deduction_amount: Joi.number().allow(null),
     status: Joi.string()
         .valid('PENDING', 'APPROVED', 'REJECTED')
@@ -30,6 +31,7 @@ const schema_update_tax_dependent = Joi.object({
     identification_number: Joi.string().max(20).allow(null, ''),
     phone: Joi.string().max(11).allow(null, ''),
     address: Joi.string().max(255).allow(null, ''),
+    media_path: Joi.string().allow(null, ''),
     relationship: Joi.string()
         .valid('CHILD', 'SPOUSE', 'PARENT', 'SIBLING', 'OTHER')
         .allow(null, ''),

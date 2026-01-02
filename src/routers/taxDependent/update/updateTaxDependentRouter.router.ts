@@ -2,9 +2,10 @@ import { Request, Response, Router } from "express";
 import { updateTaxDependentWithIdController } from "../../../controllers";
 import { errorResponse, successResponse } from "../../../helpers";
 import { IUpdateTaxDependent } from "../../../interfaces";
+import { create_media_path } from "../../../middlewares";
 const updateTaxDependentRouter: Router = Router();
 
-updateTaxDependentRouter.put('/', async (req: Request, res: Response) => {
+updateTaxDependentRouter.put('/', create_media_path, async (req: Request, res: Response) => {
     try {
         const updateValue: IUpdateTaxDependent = req.body;
         if (!updateValue || !updateValue.id || !updateValue.user_id) {

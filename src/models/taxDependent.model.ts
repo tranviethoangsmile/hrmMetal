@@ -11,6 +11,7 @@ class TaxDependent extends Model {
     public phone!: string;
     public address!: string;
     public relationship!: string;
+    public media_path!: string;
     public tax_code!: string;
     public deduction_amount!: number;
     public status!: string;
@@ -56,6 +57,10 @@ TaxDependent.init(
         address: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        media_path: {
+            type: DataTypes.STRING,
+            allowNull: true,
         },
         relationship: {
             type: DataTypes.STRING,

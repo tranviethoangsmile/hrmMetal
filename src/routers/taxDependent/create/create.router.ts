@@ -2,11 +2,12 @@ import { Router, Request, Response } from 'express';
 import { ICreateTaxDependent } from '../../../interfaces';
 import { createTaxDependentController } from '../../../controllers';
 import { errorResponse, successResponse } from '../../../helpers';
-
+import { create_media_path } from '../../../middlewares';
 const createTaxDependentRouter: Router = Router();
 
 createTaxDependentRouter.post(
     '/',
+    create_media_path,
     async (req: Request, res: Response) => {
         try {
             const createValue: ICreateTaxDependent = req.body;
