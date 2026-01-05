@@ -59,11 +59,11 @@ class TaxDependentRepository implements ITaxDependentRepo {
             };
         }
     }
-    async UPDATE_STATUS(id: string, status: string) {
+    async UPDATE_STATUS(updateStatusValue: any) {
         try {
-            const taxDependent = await TaxDependent.update({status: status}, {
+            const taxDependent = await TaxDependent.update({status:updateStatusValue?.status, notes: updateStatusValue?.notes}, {
                 where: {
-                    id: id,
+                    id: updateStatusValue?.id,
                 },
             });
             if (taxDependent[0] === 0) {

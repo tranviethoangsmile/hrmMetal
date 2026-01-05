@@ -35,6 +35,7 @@ interface IUpdateTaxDependentStatus {
     id: string;
     status: string;
     user_id?: string;
+    notes?: string;
 }
 
 export { ICreateTaxDependent, IUpdateTaxDependent, IUpdateTaxDependentStatus };

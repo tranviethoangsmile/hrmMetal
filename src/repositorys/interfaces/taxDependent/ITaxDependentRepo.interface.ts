@@ -10,7 +10,7 @@ interface ITaxDependentRepo {
         data?: TaxDependent;
         message?: string;
     }>;
-    UPDATE_STATUS(id: string, status: string): Promise<{
+    UPDATE_STATUS(updateStatusValue: any): Promise<{
         success: boolean;
         data?: TaxDependent;
         message?: string;

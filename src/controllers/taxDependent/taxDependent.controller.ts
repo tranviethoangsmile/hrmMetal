@@ -16,7 +16,7 @@ const getTaxDependentByUserIdController = async(user_id: string)=>{
     return await getTaxDependentByUserIdUseCase(user_id)
 }
 
-const updateTaxDependentStatusWithIdController = async(id: string, status: string)=>{
-    return await updateTaxDependentStatusWithIdUseCase(id, status)
+const updateTaxDependentStatusWithIdController = async(updateStatusValue: any)=>{
+    return await updateTaxDependentStatusWithIdUseCase(updateStatusValue)
 }
 export {createTaxDependentController, deleteTaxDependentWithIdController, updateTaxDependentWithIdController, getTaxDependentByUserIdController, updateTaxDependentStatusWithIdController}

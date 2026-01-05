@@ -121,20 +121,20 @@ const updateTaxDependentWithIdUseCase = async (updateValue: any) => {
     }
 }
 
-const updateTaxDependentStatusWithIdUseCase = async (id: string, status: string) => {
+const updateTaxDependentStatusWithIdUseCase = async (updateStatusValue: any) => {
     try {
-        const isValid = validation_id(id);
+        const isValid = validation_id(updateStatusValue?.id);
         if (isValid?.error) {
             throw new Error(`Validation Error: ${isValid?.error.message}`);
         }
-        if (!isValidEnumValue(status, TaxDependentStatusEnum)) {
+        if (!isValidEnumValue(updateStatusValue?.status, TaxDependentStatusEnum)) {
             throw new Error(`Status is not valid`);
         }
-        const taxDependent = await taxDependentRepository.GET_BY_ID(id);
+        const taxDependent = await taxDependentRepository.GET_BY_ID(updateStatusValue?.id);
         if (!taxDependent?.success) {
             throw new Error(`${taxDependent?.message}`);
         }
-        const updateResult = await taxDependentRepository.UPDATE_STATUS(id, status);
+        const updateResult = await taxDependentRepository.UPDATE_STATUS(updateStatusValue);
         if (!updateResult?.success) {
             throw new Error(`${updateResult?.message}`);
         }
