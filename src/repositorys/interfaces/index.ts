@@ -24,6 +24,7 @@ import { ISafetyReport } from './safetyReport/ISafetyReport.interface';
 import { IDayOffs } from './dayOffs/IDayOffsRepository.interface';
 import { IOvertimeRequestRepo } from './overtimeRquest/IOvertimeRequest.interface';
 import { ITaxDependentRepo } from './taxDependent/ITaxDependentRepo.interface';
+import { IDependentSupportAmountRepo } from './dependentSupportAmount/IDependentSupportAmountRepo.interface';
 export {
     IEvencheckRepository,
     IPaidLeaveRequestRepo,
@@ -50,5 +51,6 @@ export {
     ISafetyReport,
     IDayOffs,
     IOvertimeRequestRepo,
-    ITaxDependentRepo
+    ITaxDependentRepo,
+    IDependentSupportAmountRepo
 };

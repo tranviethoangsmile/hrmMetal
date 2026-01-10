@@ -176,4 +176,27 @@ const getTaxDependentByUserIdUseCase = async (user_id: string) => {
     }
 }
 
-export { createTaxDependentUseCase, deleteTaxDependentWithIdUseCase, updateTaxDependentWithIdUseCase, getTaxDependentByUserIdUseCase, updateTaxDependentStatusWithIdUseCase };
+const getTaxDependentByIdUsecase = async (id: string) => {
+    try {
+        const isValid = validation_id(id)
+        if(isValid?.error){
+            throw new Error(`${isValid?.error.message}`)
+        }
+        const taxDependent = await taxDependentRepository.GET_TAX_DEPENDENT_BY_ID(id);
+        if(!taxDependent?.success){
+            throw new Error(`${taxDependent?.message}`)
+        }
+
+        return {
+            success: true,
+            data: taxDependent?.data
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message || 'Internal server error',
+        };
+    }
+}
+
+export { createTaxDependentUseCase, deleteTaxDependentWithIdUseCase, updateTaxDependentWithIdUseCase, getTaxDependentByUserIdUseCase, updateTaxDependentStatusWithIdUseCase, getTaxDependentByIdUsecase };

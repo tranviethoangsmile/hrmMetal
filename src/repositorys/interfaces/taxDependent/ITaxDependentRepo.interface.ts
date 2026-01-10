@@ -29,6 +29,11 @@ interface ITaxDependentRepo {
         data?: TaxDependent[];
         message?: string;
     }>;
+    GET_TAX_DEPENDENT_BY_ID(id: string): Promise<{
+        success: boolean,
+        data?: TaxDependent,
+        message?: string
+    }>
 }
 
 export { ITaxDependentRepo };

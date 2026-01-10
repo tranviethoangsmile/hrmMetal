@@ -104,6 +104,7 @@ import {
 import {search_inventory_with_name_controller, get_all_inventory_controller, update_inventory_controller, create_inventory_controller} from './inventory/inventory.controller';
 import { create_checkin_controller, is_checked_controller, update_checkin_controller } from './checkin/checkin.controller';
 import { createTaxDependentController, deleteTaxDependentWithIdController, updateTaxDependentWithIdController, getTaxDependentByUserIdController, updateTaxDependentStatusWithIdController } from './taxDependent/taxDependent.controller';
+import { create_dependent_support_amount_controller } from './dependentSupportAmount/dependentSupportAmount.controller';
 export {
     createDep,
     departmentList,
@@ -189,5 +190,6 @@ export {
     deleteTaxDependentWithIdController,
     updateTaxDependentWithIdController,
     getTaxDependentByUserIdController,
-    updateTaxDependentStatusWithIdController
+    updateTaxDependentStatusWithIdController,
+    create_dependent_support_amount_controller,
 };
