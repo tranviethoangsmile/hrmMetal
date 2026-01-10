@@ -4,9 +4,12 @@ import { TaxDependent } from '../../models';
 class TaxDependentRepository implements ITaxDependentRepo {
     async CREATE(taxDependentValue: any) {
         try {
-            const taxDependent = await TaxDependent.create({
+            const taxDependent: TaxDependent | null = await TaxDependent.create({
                 ...taxDependentValue,
             });
+            if(taxDependent === null){
+                throw new Error(`Create new Tax Denpendent failed`)
+            }
             return {
                 success: true,
                 data: taxDependent,
@@ -111,6 +114,25 @@ class TaxDependentRepository implements ITaxDependentRepo {
                 success: true,
                 data: taxDependents,
             };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `${error?.message}`,
+            };
+        }
+    }
+
+    async GET_TAX_DEPENDENT_BY_ID(id: string){
+        try {
+            const taxDependent: TaxDependent | null = await TaxDependent.findByPk(id)
+
+            if(taxDependent === null) {
+                throw new Error(`tax dependent not found`)
+            }
+            return {
+                success: true,
+                data: taxDependent
+            }
         } catch (error: any) {
             return {
                 success: false,
