@@ -113,8 +113,10 @@ OvertimeRequest.belongsTo(User, {
 OvertimeRequest.belongsTo(User, { foreignKey: 'admin_id', as: 'adminDetail' });
 User.hasMany(TaxDependent, { foreignKey: 'user_id', as: 'taxDependents' });
 TaxDependent.belongsTo(User, { foreignKey: 'user_id', as: 'userDetail' });
-DependentSupportAmount.belongsTo(TaxDependent,{foreignKey: 'tax_dependent_id', as:'dependentDetail'});
-TaxDependent.hasMany(DependentSupportAmount, {foreignKey: 'tax_dependent_id', as:'dependentSupportAmount'})
+DependentSupportAmount.belongsTo(TaxDependent,{foreignKey: 'tax_dependent_id', as:'taxDependentDetail'});
+TaxDependent.hasMany(DependentSupportAmount, {foreignKey: 'tax_dependent_id', as:'taxDependentDetail'});
+DependentSupportAmount.belongsTo(User, {foreignKey: 'user_id', as: 'userDetail'});
+User.hasMany(DependentSupportAmount, {foreignKey: 'user_id', as: 'userDetail' })
 export {
     User,
     Department,

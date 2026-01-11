@@ -94,8 +94,15 @@ import {
     validate_delete_overtime_request,
     validate_update_approved_admin_overtime_request,
 } from './overtimeRequest/overtimeRequest.validate';
-import { validate_create_tax_dependent, validate_update_tax_dependent } from './taxDependent/taxDependent.validate';
-import { validate_create_dependent_support_amount } from './dependentSupportAmount/dependentSupportAmount.validate';
+import { 
+    validate_create_tax_dependent, 
+    validate_update_tax_dependent 
+} from './taxDependent/taxDependent.validate';
+import { 
+    validate_create_dependent_support_amount, 
+    validate_update_dependent_support_amount, 
+    validate_delete_dependent_support_amount
+} from './dependentSupportAmount/dependentSupportAmount.validate';
 const schema_id = Joi.string().guid().required();
 const validation_id = (id: string) => {
     return schema_id.validate(id);
@@ -163,5 +170,7 @@ export {
     validate_delete_paid_leave,
     validate_create_tax_dependent, 
     validate_update_tax_dependent,
-    validate_create_dependent_support_amount
+    validate_create_dependent_support_amount,
+    validate_update_dependent_support_amount,
+    validate_delete_dependent_support_amount
 };

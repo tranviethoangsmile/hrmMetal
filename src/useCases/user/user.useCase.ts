@@ -260,6 +260,28 @@ const findAllUser = async () => {
     }
 };
 
+const getUserByIdUseCase = async (id: string) =>{
+    try {
+        const valid_id = validation_id(id);
+        if (valid_id.error) {
+            throw new Error(`${valid_id?.error.message}`);
+        }
+        const user = await userRepository.GET_USER_BY_ID(id);
+        if (!user?.success) {
+            throw new Error(`${user?.message}`);
+        }
+        return {
+            success: true,
+            data: user?.data,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        }; 
+    }
+}
+
 export {
     createNewUser,
     updateUser,
@@ -270,4 +292,5 @@ export {
     userFindAllWithFieldUse,
     getUserForLeaveFeatureUse,
     getAllUserForOtRequestFeatureUse,
+    getUserByIdUseCase
 };
