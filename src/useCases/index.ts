@@ -33,6 +33,7 @@ import {
     userFindAllWithFieldUse,
     getUserForLeaveFeatureUse,
     getAllUserForOtRequestFeatureUse,
+    getUserByIdUseCase
 } from '../useCases/user/user.useCase';
 import {
     create_new_message,
@@ -112,8 +113,20 @@ import {
     update_confirm_from_admin_paid_leave_request_use,
     delete_paid_leave_request_with_by_id_use,
 } from './paidLeaveRequest/paidLeaveRequest.useCase';
-import { createTaxDependentUseCase, getTaxDependentByIdUsecase, deleteTaxDependentWithIdUseCase, updateTaxDependentWithIdUseCase, getTaxDependentByUserIdUseCase, updateTaxDependentStatusWithIdUseCase } from './taxDependent/taxDependent.usecase';
-import { create_dependent_support_amount_usecase } from './dependentSupportAmount/dependentSupportAmount.useCase';
+import { 
+    createTaxDependentUseCase, getTaxDependentByIdUsecase,
+    deleteTaxDependentWithIdUseCase,
+    updateTaxDependentWithIdUseCase,
+    getTaxDependentByUserIdUseCase, 
+    updateTaxDependentStatusWithIdUseCase 
+} from './taxDependent/taxDependent.usecase';
+import { 
+    create_dependent_support_amount_usecase, 
+    update_dependent_support_amount_usecase, 
+    update_confirm_dependent_support_amount_usecase, 
+    delete_dependent_support_amount_usecase,
+    get_dependent_support_amount_usecase,
+} from './dependentSupportAmount/dependentSupportAmount.useCase';
 export {
     create_plan_production_use,
     update_plan_production_use,
@@ -200,5 +213,10 @@ export {
     getTaxDependentByUserIdUseCase,
     updateTaxDependentStatusWithIdUseCase,
     getTaxDependentByIdUsecase,
-    create_dependent_support_amount_usecase
+    create_dependent_support_amount_usecase,
+    update_dependent_support_amount_usecase,
+    update_confirm_dependent_support_amount_usecase,
+    getUserByIdUseCase,
+    delete_dependent_support_amount_usecase,
+    get_dependent_support_amount_usecase,
 };

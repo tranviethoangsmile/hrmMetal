@@ -1,6 +1,6 @@
+import { Op } from 'sequelize';
 import { User, Department } from '../../models';
 import { IUserRepository } from '../interfaces';
-import { Op } from 'sequelize';
 class UserRepository implements IUserRepository {
     async userCreate(user: any) {
         try {
@@ -99,6 +99,45 @@ class UserRepository implements IUserRepository {
                 success: true,
                 data: listUser,
             };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: error.message,
+            };
+        }
+    }
+
+    async GET_USER_BY_ID(id: string) {
+        try {
+            const user: User | null = await User.findOne({
+                where: {
+                    id: id,
+                    is_active: true
+                },
+                attributes: [
+                    'id',
+                    'name',
+                    'user_name',
+                    'email',
+                    'dob',
+                    'phone',
+                    'role',
+                    'employee_id',
+                    'department_id',
+                    'is_active',
+                    'position',
+                    'is_admin',
+                    'avatar',
+                    'is_officer',
+                ]
+            })
+            if(user === null) {
+                throw new Error(`user not found`)
+            }
+            return {
+                success: true,
+                data: user
+            }
         } catch (error: any) {
             return {
                 success: false,

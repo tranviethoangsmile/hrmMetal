@@ -1,13 +1,15 @@
 import { Model, DataTypes } from "sequelize";
 import { db } from "../dbs";
-import { TaxDependent } from "../models";
+import { TaxDependent, User } from "../models";
 
 class DependentSupportAmount extends Model {
     public id!: string;
     public tax_dependent_id!: string;
+    public user_id!: string;
     public year!: number;
     public supported_amount!: number;
     public is_supporting_current_year!: boolean;
+    public is_confirm!: boolean;
     public expected_support_years!: number;
     public notes!: string;
 }
@@ -27,6 +29,14 @@ DependentSupportAmount.init({
             key: 'id'
         }
     },
+    user_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: User,
+            key: 'id'
+        }
+    },
     year: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -36,6 +46,10 @@ DependentSupportAmount.init({
         allowNull: true
     },
     is_supporting_current_year: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
+    is_confirm: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     },

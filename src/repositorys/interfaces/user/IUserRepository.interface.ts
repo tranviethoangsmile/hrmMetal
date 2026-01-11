@@ -28,4 +28,9 @@ export interface IUserRepository {
         data?: User[];
         message?: string;
     }>;
+    GET_USER_BY_ID(id: string): Promise<{
+        success: boolean,
+        data?: User,
+        message?: string
+    }>
 }
