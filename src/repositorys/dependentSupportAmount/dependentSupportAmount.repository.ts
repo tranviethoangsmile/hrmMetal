@@ -25,7 +25,7 @@ class DependentSupportAmountRepo implements IDependentSupportAmountRepo {
 
     async UPDATE(updateDependentSupportAmountValue: any){
         try {
-            const ressult = await DependentSupportAmount.update(
+            const result = await DependentSupportAmount.update(
                 {
                     ...updateDependentSupportAmountValue
                 }, {
@@ -35,7 +35,7 @@ class DependentSupportAmountRepo implements IDependentSupportAmountRepo {
                     }
                 }
             )
-            if(ressult?.toString() !== '1') {
+            if(result?.toString() !== '1') {
                 throw new Error("UPDATE DEPENDENT SUPPORT AMOUNT FAILED");
             }
             return {
@@ -50,14 +50,14 @@ class DependentSupportAmountRepo implements IDependentSupportAmountRepo {
     }
     async UPDATE_CONFIRM_BY_ADMIN(id: string){
         try {
-            const ressult = await DependentSupportAmount.update({
+            const result = await DependentSupportAmount.update({
                 is_confirm: true
             }, {
                 where: {
                     id: id
                 }
             })
-            if(ressult?.toString() !== '1') {
+            if(result?.toString() !== '1') {
                 throw new Error("UPDATE DEPENDENT SUPPORT AMOUNT FAILED");
             }
             return {
@@ -70,11 +70,12 @@ class DependentSupportAmountRepo implements IDependentSupportAmountRepo {
             };
         }
     }
-    async DELETE(id: string){
+    async DELETE(id: string, user_id: string){
         try {
             const result = await DependentSupportAmount.destroy({
                 where: {
-                    id: id
+                    id: id,
+                    user_id: user_id
                 }
             })
             if(result !== 1) {
@@ -102,6 +103,7 @@ class DependentSupportAmountRepo implements IDependentSupportAmountRepo {
                     'expected_support_years',
                     'is_confirm',
                     'notes',
+                    'media_path',
                     'created_at'
                 ],
                 include: [

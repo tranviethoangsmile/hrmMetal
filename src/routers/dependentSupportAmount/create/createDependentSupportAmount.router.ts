@@ -2,9 +2,10 @@ import { Request, Response, Router } from "express";
 import { create_dependent_support_amount_controller } from "../../../controllers";
 import { errorResponse, successResponse } from "../../../helpers";
 import { ICreateDependentSupportAmount } from "../../../interfaces";
+import { create_media_path } from "../../../middlewares";
 const createDependentSupportAmountRouter: Router = Router();
 
-createDependentSupportAmountRouter.post('/', async (req: Request, res: Response) => {
+createDependentSupportAmountRouter.post('/',create_media_path , async (req: Request, res: Response) => {
     try {
         const createDependenSupportAmount: ICreateDependentSupportAmount = req.body;
         if(!createDependenSupportAmount || !createDependenSupportAmount?.tax_dependent_id || !createDependenSupportAmount?.year || !createDependenSupportAmount?.user_id){

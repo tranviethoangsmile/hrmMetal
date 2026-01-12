@@ -1,13 +1,14 @@
 import { DependentSupportAmountRepo } from "../../repositorys";
-import { 
-    validate_create_dependent_support_amount, 
-    validate_update_dependent_support_amount, 
-    validation_id, 
-    validate_delete_dependent_support_amount 
+import { DependentSupportAmount } from "../../models";
+import {
+    validate_create_dependent_support_amount,
+    validate_update_dependent_support_amount,
+    validation_id,
+    validate_delete_dependent_support_amount
 } from "../../validates";
-import { 
+import {
     getTaxDependentByIdUsecase,
-    getUserByIdUseCase 
+    getUserByIdUseCase
 } from "../../useCases";
 const dependentSupportAmount = new DependentSupportAmountRepo()
 
@@ -30,16 +31,28 @@ const create_dependent_support_amount_usecase = async (createDependentSupportAmo
         if(!user?.success){
             throw new Error(`${user?.message}`)
         }
-        const denpendentSupportAmount = await dependentSupportAmount.CREATE(createDependentSupportAmountValue)
-        if(!denpendentSupportAmount?.success){
+
+        // Check for duplicate tax_dependent_id + year
+        const existingRecord = await DependentSupportAmount.findOne({
+            where: {
+                tax_dependent_id: createDependentSupportAmountValue?.tax_dependent_id,
+                year: createDependentSupportAmountValue?.year
+            }
+        });
+        if(existingRecord) {
+            throw new Error(`Support amount record for this tax dependent and year already exists`);
+        }
+
+        const dependentSupportAmountResult = await dependentSupportAmount.CREATE(createDependentSupportAmountValue)
+        if(!dependentSupportAmountResult?.success){
             return {
                 success: false,
-                message: denpendentSupportAmount?.message
+                message: dependentSupportAmountResult?.message
             }
         }
         return {
             success: true,
-            data: denpendentSupportAmount?.data
+            data: dependentSupportAmountResult?.data
         }
     } catch (error: any) {
         return {
@@ -59,11 +72,11 @@ const update_dependent_support_amount_usecase = async (updateDependentSupportAmo
         if(dependentSpAmount?.data?.user_id !== updateDependentSupportAmountValue?.user_id){
             throw new Error(`You are not authorized to update this dependent support amount`)
         }
-        const denpendentSupportAmount = await dependentSupportAmount.UPDATE(updateDependentSupportAmountValue)
-        if(!denpendentSupportAmount?.success){
+        const dependentSupportAmountResult = await dependentSupportAmount.UPDATE(updateDependentSupportAmountValue)
+        if(!dependentSupportAmountResult?.success){
             return {
                 success: false,
-                message: denpendentSupportAmount?.message
+                message: dependentSupportAmountResult?.message
             }
         }
         return {
@@ -104,7 +117,18 @@ const delete_dependent_support_amount_usecase = async (deleteValue: any) => {
         if(isValid?.error){
             throw new Error(`${isValid?.error.message}`)
         }
-        const result = await dependentSupportAmount.DELETE(deleteValue?.id);
+
+        // Check authorization - user can only delete their own records
+        const dependentSpAmount = await dependentSupportAmount.GET_DEPENDENT_SUPPORT_AMOUNT_BY_ID(deleteValue?.id);
+        if(!dependentSpAmount?.success){
+            throw new Error(`Dependent support amount not found`);
+        }
+
+        if(dependentSpAmount?.data?.user_id !== deleteValue?.user_id){
+            throw new Error(`You are not authorized to delete this dependent support amount`);
+        }
+
+        const result = await dependentSupportAmount.DELETE(deleteValue?.id, deleteValue?.user_id);
         if(!result?.success){
             throw new Error(`${result?.message}`)
         }
