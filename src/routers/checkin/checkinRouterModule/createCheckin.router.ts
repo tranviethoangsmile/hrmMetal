@@ -68,12 +68,17 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                         .format('HH:mm');
                 }
 
-                const field: object = {
+                const field: any = {
                     user_id: data.user_id,
                     date: data.date,
                     time_in: time_in,
                     work_shift: data.work_shift,
                 };
+
+                if(field.work_shift === 'DAY' && handleTimeMoment(time_in) >= handleTimeMoment('12:45')){
+                    return errorResponse(res, 400, 'Checkin time must be before 16:45 for day shift');
+                } 
+                   
 
                 const create_check = await create_checkin_controller(field);
                 if (create_check.success) {
