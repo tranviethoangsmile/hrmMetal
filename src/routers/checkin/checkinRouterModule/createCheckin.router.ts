@@ -32,7 +32,15 @@ createCheckin.post('/', async (req: Request, res: Response) => {
             !data?.user_id ||
             !data?.work_shift
         ) {
-            throw new Error('data not empty');
+            const missingFields = [
+                !data?.check_time && 'check_time',
+                !data?.date && 'date',
+                !data?.user_id && 'user_id',
+                !data?.work_shift && 'work_shift',
+            ]
+                .filter(Boolean)
+                .join(', ');
+            return errorResponse(res, 400, `Missing required ${missingFields}`);
         }
 
         const check_field = {
@@ -53,6 +61,13 @@ createCheckin.post('/', async (req: Request, res: Response) => {
             if (!isChecked?.success) {
                 let time_in;
                 if (data.work_shift === 'NIGHT') {
+                    const checkMoment = handleTimeMoment(data.check_time);
+                    // Night shift checkout is not allowed without a previous check-in.
+                    // check if checkin time is between 00:00 and 12:00
+                    // checkin today is not allowed if checkin time is between 00:00 and 12:00
+                    if(checkMoment >= handleTimeMoment('00:00') && checkMoment <= handleTimeMoment('12:00')){
+                        return errorResponse(res, 400, 'You cannot check out from the night shift because there is no check-in recorded for the previous day. Please contact your supervisor or HR to correct your attendance.');
+                    }
                     time_in = moment
                         .max(
                             moment(data.check_time, 'HH:mm'),
@@ -74,11 +89,12 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     time_in: time_in,
                     work_shift: data.work_shift,
                 };
-
+                // check if checkin time is after 12:45 for day shift
+                // checkin today is not allowed if checkin time is after 12:45 for day shift
                 if(field.work_shift === 'DAY' && handleTimeMoment(time_in) >= handleTimeMoment('12:45')){
-                    return errorResponse(res, 400, 'Checkin time must be before 16:45 for day shift');
+                    return errorResponse(res, 400, 'Checkin time must be before 12:45 for day shift');
                 } 
-                   
+                
 
                 const create_check = await create_checkin_controller(field);
                 if (create_check.success) {
@@ -369,6 +385,12 @@ createCheckin.post('/', async (req: Request, res: Response) => {
             if (!isChecked?.success) {
                 let time_in;
                 if (data.work_shift === 'NIGHT') {
+                    const checkMoment = handleTimeMoment(data.check_time);
+                    // check if checkin time is between 00:00 and 12:00
+                    // checkin today is not allowed if checkin time is between 00:00 and 12:00
+                    if(checkMoment >= handleTimeMoment('00:00') && checkMoment <= handleTimeMoment('12:00')){
+                        return errorResponse(res, 400, 'please checkin for yesterday');
+                    }
                     time_in = moment
                         .max(
                             moment(data.check_time, 'HH:mm'),
@@ -384,13 +406,18 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                         .format('HH:mm');
                 }
 
-                const field: object = {
+                const field: any = {
                     user_id: data.user_id,
                     date: data.date,
                     time_in: time_in,
                     work_shift: data.work_shift,
                     is_weekend: isWeekend,
                 };
+                // check if checkin time is after 12:45 for day shift
+                // checkin today is not allowed if checkin time is after 12:45 for day shift
+                if(field.work_shift === 'DAY' && handleTimeMoment(time_in) >= handleTimeMoment('12:45')){
+                    return errorResponse(res, 400, 'Checkin time must be before 12:45 for day shift');
+                } 
 
                 const create_check = await create_checkin_controller(field);
                 if (create_check.success) {
@@ -444,7 +471,6 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                 let work_time;
                 let time_in = isChecked?.data?.time_in;
                 time_out = moment(data.check_time, 'HH:mm').format('HH:mm');
-                // Night start  weekend from 22:30 ---------------------------------
                 if (data.work_shift === 'NIGHT') {
                     if (
                         handleTimeMoment(time_out) >=
