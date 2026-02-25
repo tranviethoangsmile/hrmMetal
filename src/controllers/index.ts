@@ -110,7 +110,10 @@ import {
 import { 
     create_checkin_controller, 
     is_checked_controller, 
-    update_checkin_controller 
+    update_checkin_controller,
+    search_checked_of_user_in_month_controller,
+    get_checkin_in_date_of_position_controller,
+    get_checkin_detail_in_date_of_user_controller,
 } from './checkin/checkin.controller';
 import { 
     createTaxDependentController, 
@@ -217,4 +220,7 @@ export {
     update_confirm_dependent_support_amount_controller,
     delete_dependent_support_amount_controller,
     get_dependent_support_amount_controller,
+    search_checked_of_user_in_month_controller,
+    get_checkin_in_date_of_position_controller,
+    get_checkin_detail_in_date_of_user_controller,
 };
