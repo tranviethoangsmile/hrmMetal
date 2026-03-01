@@ -12,9 +12,9 @@ updateNotificationRouter.put('/', async (req: Request, res: Response) => {
         }
         const result = await update_notification_controller(id);
         if (!result?.success) {
-            return errorResponse(res, 400, result?.message || 'Failed to update notification');
+            return errorResponse(res, 200, result?.message || 'Failed to update notification');
         }
-        return successResponse(res, 200, undefined, 'Notification updated successfully');
+        return successResponse(res, 202, undefined, 'Notification updated successfully');
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }
