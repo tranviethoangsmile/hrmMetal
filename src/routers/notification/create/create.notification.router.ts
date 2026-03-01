@@ -29,7 +29,7 @@ createNotificationRouter.post('/', async (req: Request, res: Response) => {
 
         const notification = await create_notification_controller(field);
         if (!notification?.success) {
-            return errorResponse(res, 400, notification?.message || 'Failed to create notification');
+            return errorResponse(res, 200, notification?.message || 'Failed to create notification');
         }
         return successResponse(res, 201, notification?.data);
     } catch (error: any) {

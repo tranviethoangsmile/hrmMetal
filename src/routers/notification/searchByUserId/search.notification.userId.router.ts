@@ -16,14 +16,14 @@ searchNotificationByUserIdRouter.post(
             const KEY_CACHE = `notification_user_${id}`;
             const notification_value_of_user = await getCache(KEY_CACHE);
             if (notification_value_of_user) {
-                return successResponse(res, 200, JSON.parse(notification_value_of_user));
+                return successResponse(res, 202, JSON.parse(notification_value_of_user));
             }
             const notifications = await search_notification_of_user_controller(id);
             if (!notifications?.success) {
-                return errorResponse(res, 400, notifications?.message || 'Failed to get notifications');
+                return errorResponse(res, 200, notifications?.message || 'Failed to get notifications');
             }
             await setCache(KEY_CACHE, JSON.stringify(notifications?.data), 86400);
-            return successResponse(res, 200, notifications?.data);
+            return successResponse(res, 202, notifications?.data);
         } catch (error: any) {
             return errorResponse(res, 500, error?.message || 'Internal server error');
         }

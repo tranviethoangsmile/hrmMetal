@@ -120,7 +120,7 @@ const update_checkin_use = async (field: update_checkin_interface) => {
 };
 
 const search_checkin_of_user_in_month_useCase = async (
-    field: is_Checked_interface,
+    field: any,
 ) => {
     const YEAR = moment(field.date).format('yyyy');
     const MONTH = moment(field.date).format('MM');

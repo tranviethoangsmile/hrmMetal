@@ -6,6 +6,14 @@ import {
     search_plan_production_seven_day_of_department_controller,
 } from './planProduction/planProduction.controller';
 import {
+    create_order_controller,
+    find_all_order,
+    search_orders,
+    delete_order,
+    search_order_of_user,
+    check_picked_order,
+} from './order/order.controller';
+import {
     findByName,
     create,
     update,
@@ -223,4 +231,10 @@ export {
     search_checked_of_user_in_month_controller,
     get_checkin_in_date_of_position_controller,
     get_checkin_detail_in_date_of_user_controller,
+    create_order_controller,
+    find_all_order,
+    search_orders,
+    delete_order,
+    search_order_of_user,
+    check_picked_order,
 };
