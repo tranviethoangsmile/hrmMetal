@@ -13,9 +13,9 @@ searchNotificationRouter.post('/', async (req: Request, res: Response) => {
 
         const notification = await search_notification_controller(id);
         if (!notification?.success) {
-            return errorResponse(res, 404, notification?.message || 'Notification not found');
+            return errorResponse(res, 200, notification?.message || 'Notification not found');
         }
-        return successResponse(res, 200, notification?.data);
+        return successResponse(res, 202, notification?.data);
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }

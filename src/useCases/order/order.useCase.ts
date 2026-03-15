@@ -8,9 +8,10 @@ import {
 import { shift_work } from '../../enum';
 import { create_notification_usecase } from '../index';
 import { OrderRepository, UserRepository } from '../../repositorys';
+import { isValidEnumValue } from '../../helpers';
 const userRepository = new UserRepository();
 const orderRepository = new OrderRepository();
-const create_order = async (order: any) => {
+const create_order_usecase = async (order: any) => {
     try {
         const valid = validate_create_order(order);
         if (valid.error) {
@@ -20,7 +21,7 @@ const create_order = async (order: any) => {
         if (!user?.success) {
             throw new Error(`${user?.message}`);
         }
-        if (!Object.keys(shift_work).includes(order.dayOrNight)) {
+        if (!isValidEnumValue(order.dayOrNight, shift_work)) {
             throw new Error('shift work not valid');
         }
         const created_order = await orderRepository.create(order);
@@ -55,7 +56,7 @@ const create_order = async (order: any) => {
     }
 };
 
-const find_all = async () => {
+const find_all_order_usecase = async () => {
     try {
         const orders = await orderRepository.find_all_order();
         if (!orders?.success) {
@@ -73,7 +74,7 @@ const find_all = async () => {
     }
 };
 
-const search_order = async (order: search_order) => {
+const search_order_usecase = async (order: search_order) => {
     try {
         const valid = validate_search_order(order);
         if (valid.error) {
@@ -95,7 +96,7 @@ const search_order = async (order: search_order) => {
     }
 };
 
-const delete_order_by_id = async (id: string) => {
+const delete_order_by_id_usecase = async (id: string) => {
     try {
         const valid = validation_id(id);
         if (valid.error) {
@@ -130,7 +131,7 @@ const delete_order_by_id = async (id: string) => {
     }
 };
 
-const search_order_user = async (id: any) => {
+const search_order_user_usecase = async (id: any) => {
     try {
         const valid = validation_id(id.user_id);
         if (valid.error) {
@@ -151,7 +152,7 @@ const search_order_user = async (id: any) => {
         };
     }
 };
-const checkin_picked = async (field: any) => {
+const checkin_picked_usecase = async (field: any) => {
     try {
         const valid = validate_checkin_picked_order(field);
         if (valid.error) {
@@ -192,10 +193,10 @@ const checkin_picked = async (field: any) => {
     }
 };
 export {
-    create_order,
-    find_all,
-    search_order,
-    delete_order_by_id,
-    search_order_user,
-    checkin_picked,
+    create_order_usecase,
+    find_all_order_usecase,
+    search_order_usecase,
+    delete_order_by_id_usecase,
+    search_order_user_usecase,
+    checkin_picked_usecase,
 };

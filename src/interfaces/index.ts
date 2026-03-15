@@ -53,7 +53,7 @@ import {
     IConfirmSafetyReport,
     IGetByUserId,
 } from './safetyReport/safetyReport.interface';
-import { search_order, checkin_picked_order } from './order/order.interface';
+import { create_order, search_order, checkin_picked_order } from './order/order.interface';
 import { create_day_off, update_day_off } from './dayOffs/dayOff.interface';
 import {
     create_event_check_interface,
@@ -150,5 +150,6 @@ export {
     IUpdateTaxDependentStatus,
     IUpdateDependentSupportAmount,
     ICreateDependentSupportAmount,
-    IDeleteDependentSupportAmount
+    IDeleteDependentSupportAmount,
+    create_order
 };

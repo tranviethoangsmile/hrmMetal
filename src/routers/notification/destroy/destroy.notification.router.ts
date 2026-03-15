@@ -12,9 +12,9 @@ destroyNotificationRouter.post('/', async (req: Request, res: Response) => {
         }
         const result = await destroy_notification_controller(id);
         if (!result?.success) {
-            return errorResponse(res, 400, result?.message || 'Failed to delete notification');
+            return errorResponse(res, 200, result?.message || 'Failed to delete notification');
         }
-        return successResponse(res, 200, undefined, 'Notification deleted successfully');
+        return successResponse(res, 202);
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }

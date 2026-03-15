@@ -32,7 +32,7 @@ const schema_get_checkin_detail_in_date_of_user = Joi.object({
     date: Joi.date().iso().required().messages({
         'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
     }),
-    user_id: Joi.string().required(),
+    user_id: Joi.string().guid().required(),
 });
 
 const create_checkin_validate = (data: any) => {

@@ -4,7 +4,6 @@ import {
     create_checkin_interface,
     update_checkin_interface,
     is_Checked_interface,
-    get_checkin_in_date_of_position_interface,
 } from '../../interfaces';
 import {
     validation_id,
@@ -13,12 +12,13 @@ import {
     get_checkin_in_date_of_position_validate,
     get_checkin_detail_in_day_of_user_validate,
 } from '../../validates';
-import { shift_work } from '../../enum';
+import { shift_work, Position } from '../../enum';
 // import { setCache, getCache, delCache } from '../../utils';
+import { isValidEnumValue } from '../../helpers';
 const checkinRepository = new CheckinRepository();
 
 const get_checkin_detail_in_date_of_user_use = async (
-    field: is_Checked_interface,
+    field: any
 ) => {
     try {
         const isValid = get_checkin_detail_in_day_of_user_validate(field);
@@ -120,7 +120,7 @@ const update_checkin_use = async (field: update_checkin_interface) => {
 };
 
 const search_checkin_of_user_in_month_useCase = async (
-    field: is_Checked_interface,
+    field: any,
 ) => {
     const YEAR = moment(field.date).format('yyyy');
     const MONTH = moment(field.date).format('MM');
@@ -159,7 +159,7 @@ const search_checkin_of_user_in_month_useCase = async (
     }
 };
 const get_checkin_of_position_in_date_use = async (
-    field: get_checkin_in_date_of_position_interface,
+    field: any
 ) => {
     try {
         const isValid = get_checkin_in_date_of_position_validate(field);
@@ -174,6 +174,9 @@ const get_checkin_of_position_in_date_use = async (
         if (isValid.error) {
             throw new Error(`${isValid?.error.message}`);
         }
+       if (!Object.keys(Position).includes(field.position)) {
+            throw new Error(`Position is not valid: ${field.position}`);
+       }
         const checkins =
             await checkinRepository.get_checkin_of_position_in_date_repo(field);
         if (!checkins?.success) {

@@ -2,7 +2,7 @@ import Joi from '@hapi/joi';
 const schema_create_order = Joi.object({
     date: Joi.date().iso().required().messages({
         'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
-    }),
+    }).required(),
     dayOrNight: Joi.string().min(3).max(5).required(),
     user_id: Joi.string().guid().required(),
     position: Joi.string().min(3).max(10).required(),

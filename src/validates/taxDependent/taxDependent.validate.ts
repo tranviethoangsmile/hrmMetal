@@ -1,4 +1,4 @@
-import Joi from '@hapi/joi';
+  import Joi from '@hapi/joi';
 
 const schema_create_tax_dependent = Joi.object({
     user_id: Joi.string().guid().required(),

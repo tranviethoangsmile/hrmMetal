@@ -1,4 +1,4 @@
 export enum shift_work {
-    DAY,
-    NIGHT,
+    DAY = 'DAY',
+    NIGHT = 'NIGHT',
 }
