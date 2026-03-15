@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { update_dependent_support_amount_controller } from "../../../controllers";
 import { errorResponse, successResponse } from "../../../helpers";
-import { IUpdateDependentSupportAmount } from "@/interfaces";
+import { IUpdateDependentSupportAmount } from "../../../interfaces";
 import { create_media_path } from "../../../middlewares";
 
 const updateDependentSupportAmountRouter: Router = Router();
