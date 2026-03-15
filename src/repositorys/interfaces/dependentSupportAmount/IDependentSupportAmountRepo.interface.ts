@@ -23,6 +23,11 @@ interface IDependentSupportAmountRepo {
         data?: DependentSupportAmount,
         message?: string 
     }>
+    GET_DEPENDENT_SUPPORT_AMOUNT_BY_TAX_DEPENDENT_ID_AND_YEAR(fields: any): Promise<{
+        success: boolean,
+        data?: DependentSupportAmount[],
+        message?: string
+    }>
 }
 
 export {IDependentSupportAmountRepo};

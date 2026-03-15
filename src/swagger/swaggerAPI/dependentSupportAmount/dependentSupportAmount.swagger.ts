@@ -453,3 +453,117 @@
  *                 message:
  *                   type: string
  */
+
+/**
+ * @swagger
+ * /dependent-support-amount/getbytaxdependentidandyear:
+ *   post:
+ *     summary: Get dependent support amount by tax dependent ID and year
+ *     tags: [DependentSupportAmount]
+ *     description: Retrieve dependent support amount record(s) by tax_dependent_id and year. Request body application/json with required tax_dependent_id and year.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - tax_dependent_id
+ *               - year
+ *             properties:
+ *               tax_dependent_id:
+ *                 type: string
+ *                 format: uuid
+ *                 description: ID of the tax dependent
+ *                 example: "123e4567-e89b-12d3-a456-426614174000"
+ *               year:
+ *                 type: integer
+ *                 minimum: 2000
+ *                 maximum: 2200
+ *                 description: Year of support
+ *                 example: 2024
+ *     responses:
+ *       202:
+ *         description: Records retrieved successfully. Returns success true and data (array of records).
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         format: uuid
+ *                       tax_dependent_id:
+ *                         type: string
+ *                         format: uuid
+ *                       user_id:
+ *                         type: string
+ *                         format: uuid
+ *                       year:
+ *                         type: integer
+ *                       supported_amount:
+ *                         type: number
+ *                       is_supporting_current_year:
+ *                         type: boolean
+ *                       is_confirm:
+ *                         type: boolean
+ *                       expected_support_years:
+ *                         type: number
+ *                       notes:
+ *                         type: string
+ *                       media_path:
+ *                         type: string
+ *                       created_at:
+ *                         type: string
+ *                         format: date-time
+ *                       updated_at:
+ *                         type: string
+ *                         format: date-time
+ *       200:
+ *         description: Request processed but not successful (e.g. not found)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Failed to get dependent support amount"
+ *       400:
+ *         description: Bad request (missing required tax_dependent_id or year)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Invalid input: Missing required tax_dependent_id, year"
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Internal server error"
+ */

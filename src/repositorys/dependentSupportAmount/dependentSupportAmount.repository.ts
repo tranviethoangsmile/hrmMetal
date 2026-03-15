@@ -142,6 +142,28 @@ class DependentSupportAmountRepo implements IDependentSupportAmountRepo {
             };
         }
     }
+    async GET_DEPENDENT_SUPPORT_AMOUNT_BY_TAX_DEPENDENT_ID_AND_YEAR(fields: any) {
+        try {
+            const dependentSupportAmount: DependentSupportAmount[] | null = await DependentSupportAmount.findAll({
+                where: {
+                    ...fields
+                }
+            })
+            if(dependentSupportAmount === null || dependentSupportAmount?.length === 0) {
+                throw new Error (`dependent support amount not found`)
+            }
+            return {
+                success: true,
+                data: dependentSupportAmount,
+            }
+        }
+        catch (error: any) {
+            return {
+                success: false,
+                message: `${error?.message}`,
+            };
+        }
+    }
 }
 
 export default DependentSupportAmountRepo;

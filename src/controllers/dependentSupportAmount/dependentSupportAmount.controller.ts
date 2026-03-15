@@ -3,7 +3,8 @@ import {
     update_dependent_support_amount_usecase, 
     update_confirm_dependent_support_amount_usecase,
     delete_dependent_support_amount_usecase,
-    get_dependent_support_amount_usecase
+    get_dependent_support_amount_usecase,
+    get_dependent_support_amount_by_tax_dependent_id_and_year_usecase
 } from "../../useCases";
 
 const create_dependent_support_amount_controller = async (createDependenSupportAmount: any) => {
@@ -21,10 +22,14 @@ const delete_dependent_support_amount_controller = async (deleteValue: any) => {
 const get_dependent_support_amount_controller = async (id: string) => {
     return get_dependent_support_amount_usecase(id)
 }
+const get_dependent_support_amount_by_tax_dependent_id_and_year_controller = async (fields: any) => {
+    return get_dependent_support_amount_by_tax_dependent_id_and_year_usecase(fields)
+}
 export { 
     create_dependent_support_amount_controller, 
     update_dependent_support_amount_controller, 
     update_confirm_dependent_support_amount_controller,
     delete_dependent_support_amount_controller,
     get_dependent_support_amount_controller,
+    get_dependent_support_amount_by_tax_dependent_id_and_year_controller,
 };

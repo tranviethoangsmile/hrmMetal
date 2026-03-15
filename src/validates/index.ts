@@ -101,7 +101,8 @@ import {
 import { 
     validate_create_dependent_support_amount, 
     validate_update_dependent_support_amount, 
-    validate_delete_dependent_support_amount
+    validate_delete_dependent_support_amount,
+    validate_get_dependent_support_amount_by_tax_dependent_id_and_year
 } from './dependentSupportAmount/dependentSupportAmount.validate';
 const schema_id = Joi.string().guid().required();
 const validation_id = (id: string) => {
@@ -172,5 +173,6 @@ export {
     validate_update_tax_dependent,
     validate_create_dependent_support_amount,
     validate_update_dependent_support_amount,
-    validate_delete_dependent_support_amount
+    validate_delete_dependent_support_amount,
+    validate_get_dependent_support_amount_by_tax_dependent_id_and_year
 };

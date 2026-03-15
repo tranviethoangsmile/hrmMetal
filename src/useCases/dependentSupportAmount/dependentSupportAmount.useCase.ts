@@ -4,7 +4,8 @@ import {
     validate_create_dependent_support_amount,
     validate_update_dependent_support_amount,
     validation_id,
-    validate_delete_dependent_support_amount
+    validate_delete_dependent_support_amount,
+    validate_get_dependent_support_amount_by_tax_dependent_id_and_year
 } from "../../validates";
 import {
     getTaxDependentByIdUsecase,
@@ -26,7 +27,6 @@ const create_dependent_support_amount_usecase = async (createDependentSupportAmo
                 message: `${taxDependent?.message}`
             }
         }
-
         const user = await getUserByIdUseCase(createDependentSupportAmountValue?.user_id)
         if(!user?.success){
             throw new Error(`${user?.message}`)
@@ -165,6 +165,27 @@ const get_dependent_support_amount_usecase = async (id: string) => {
     }
 };
 
+const get_dependent_support_amount_by_tax_dependent_id_and_year_usecase = async (fields: any) => {
+    try {
+        const isValid = validate_get_dependent_support_amount_by_tax_dependent_id_and_year(fields);
+        if(isValid?.error){
+            throw new Error(`${isValid?.error.message}`)
+        }
+        const result = await dependentSupportAmount.GET_DEPENDENT_SUPPORT_AMOUNT_BY_TAX_DEPENDENT_ID_AND_YEAR(fields);
+        if(!result?.success){
+            throw new Error(`${result?.message}`)
+        }
+        return {
+            success: true,
+            data: result?.data
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `${error?.message}`
+        }
+    }
+}
 
 export {
     create_dependent_support_amount_usecase, 
@@ -172,4 +193,5 @@ export {
     update_confirm_dependent_support_amount_usecase, 
     delete_dependent_support_amount_usecase,
     get_dependent_support_amount_usecase,
+    get_dependent_support_amount_by_tax_dependent_id_and_year_usecase
 };
