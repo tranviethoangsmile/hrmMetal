@@ -11,8 +11,8 @@ createDependentSupportAmountRouter.post('/',create_media_path , async (req: Requ
         if(!createDependenSupportAmount || !createDependenSupportAmount?.tax_dependent_id || !createDependenSupportAmount?.year || !createDependenSupportAmount?.user_id){
             const missingFields = [
                 !createDependenSupportAmount?.tax_dependent_id && 'tax_dependent_id',
-                !createDependenSupportAmount?.year && 'year',
-                !createDependenSupportAmount?.user_id && "user_id"
+                !createDependenSupportAmount?.user_id && "user_id",
+                !createDependenSupportAmount?.year && 'year'
             ].filter(Boolean).join(', ')
             return errorResponse(res,400,`Invalid input: Missing required ${missingFields}`)
         }
