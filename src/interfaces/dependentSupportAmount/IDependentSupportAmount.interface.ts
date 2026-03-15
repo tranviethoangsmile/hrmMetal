@@ -22,4 +22,9 @@ interface IDeleteDependentSupportAmount {
     id: string;
     user_id: string;
 }
-export { ICreateDependentSupportAmount, IUpdateDependentSupportAmount, IDeleteDependentSupportAmount };
+
+interface IGetDependentSupportAmountByTaxDependentIdAndYear {
+    tax_dependent_id: string;
+    year: number;
+}
+export { ICreateDependentSupportAmount, IUpdateDependentSupportAmount, IDeleteDependentSupportAmount, IGetDependentSupportAmountByTaxDependentIdAndYear };

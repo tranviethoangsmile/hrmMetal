@@ -89,6 +89,7 @@ import {
     IUpdateDependentSupportAmount, 
     ICreateDependentSupportAmount, 
     IDeleteDependentSupportAmount,
+    IGetDependentSupportAmountByTaxDependentIdAndYear,
 } from './dependentSupportAmount/IDependentSupportAmount.interface';
 export {
     check_value_request_checkin,
@@ -151,5 +152,6 @@ export {
     IUpdateDependentSupportAmount,
     ICreateDependentSupportAmount,
     IDeleteDependentSupportAmount,
-    create_order
+    create_order,
+    IGetDependentSupportAmountByTaxDependentIdAndYear,
 };

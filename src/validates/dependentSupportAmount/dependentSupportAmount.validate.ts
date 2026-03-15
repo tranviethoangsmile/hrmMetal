@@ -27,6 +27,11 @@ const schema_delete_dependent_support_amount = Joi.object({
     user_id:  Joi.string().guid().required(),
 })
 
+const schema_get_dependent_support_amount_by_tax_dependent_id_and_year = Joi.object({
+    tax_dependent_id: Joi.string().guid().required(),
+    year: Joi.number().integer().min(2000).max(2200).required(),
+})
+
 const validate_create_dependent_support_amount = (data: any) =>{
     return schema_create_dependent_support_amount.validate(data);
 }
@@ -37,5 +42,7 @@ const validate_update_dependent_support_amount = (data: any) =>{
 const validate_delete_dependent_support_amount = (data: any) =>{
     return schema_delete_dependent_support_amount.validate(data);
 }
-
-export {validate_create_dependent_support_amount, validate_update_dependent_support_amount, validate_delete_dependent_support_amount}
+const validate_get_dependent_support_amount_by_tax_dependent_id_and_year = (data: any) =>{
+    return schema_get_dependent_support_amount_by_tax_dependent_id_and_year.validate(data);
+}
+export {validate_create_dependent_support_amount, validate_update_dependent_support_amount, validate_delete_dependent_support_amount, validate_get_dependent_support_amount_by_tax_dependent_id_and_year}
