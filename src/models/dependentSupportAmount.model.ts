@@ -12,6 +12,7 @@ class DependentSupportAmount extends Model {
     public is_confirm!: boolean;
     public expected_support_years!: number;
     public notes!: string;
+    public media_path!: string;
 }
 
 DependentSupportAmount.init({
@@ -59,6 +60,10 @@ DependentSupportAmount.init({
     },
     notes: {
         type: DataTypes.TEXT,
+        allowNull: true,
+    },
+    media_path: {
+        type: DataTypes.STRING,
         allowNull: true,
     }
 },{

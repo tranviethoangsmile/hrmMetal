@@ -2,20 +2,20 @@
  * @swagger
  * tags:
  *   name: DependentSupportAmount
- *   description: API quản lý số tiền nuôi người phụ thuộc (số tiền hỗ trợ nuôi người phụ thuộc theo năm)
+ *   description: API for managing dependent support amounts (số tiền hỗ trợ người phụ thuộc theo năm)
  */
 
 /**
  * @swagger
  * /dependent-support-amount/create:
  *   post:
- *     summary: Tạo mới số tiền nuôi người phụ thuộc
+ *     summary: Create a new dependent support amount record
  *     tags: [DependentSupportAmount]
- *     description: Tạo bản ghi số tiền hỗ trợ nuôi người phụ thuộc theo năm, liên kết với tax_dependent_id và user_id.
+ *     description: Create a new support amount record for a tax dependent. Can upload supporting document.
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             required:
@@ -26,42 +26,50 @@
  *               tax_dependent_id:
  *                 type: string
  *                 format: uuid
- *                 description: ID người phụ thuộc (tax dependent)
- *                 example: "123e4567-e89b-12d3-a456-426614174001"
+ *                 description: ID of the tax dependent
+ *                 example: "123e4567-e89b-12d3-a456-426614174000"
  *               user_id:
  *                 type: string
  *                 format: uuid
- *                 description: ID người dùng (nhân viên) sở hữu bản ghi
- *                 example: "123e4567-e89b-12d3-a456-426614174000"
+ *                 description: ID of the user (employee) who owns the tax dependent
+ *                 example: "123e4567-e89b-12d3-a456-426614174001"
  *               year:
  *                 type: integer
- *                 description: Năm áp dụng
+ *                 minimum: 2000
+ *                 maximum: 2200
+ *                 description: Year of support (integer between 2000-2200)
  *                 example: 2024
  *               supported_amount:
  *                 type: number
  *                 format: decimal
- *                 description: Số tiền hỗ trợ nuôi (VNĐ)
- *                 example: 4400000
+ *                 minimum: 0
+ *                 description: Amount of money already supported (must be >= 0)
+ *                 example: 5000000
  *               is_supporting_current_year:
  *                 type: boolean
- *                 description: Đang nuôi trong năm hiện tại hay không
+ *                 description: Whether currently supporting this year
  *                 example: true
  *               is_confirm:
  *                 type: boolean
- *                 description: Đã xác nhận (bởi admin) hay chưa
+ *                 description: Whether this record is confirmed
  *                 example: false
  *               expected_support_years:
  *                 type: number
  *                 format: decimal
- *                 description: Số năm dự kiến nuôi
- *                 example: 5
+ *                 minimum: 0
+ *                 description: Expected number of years to support (integer, must be >= 0)
+ *                 example: 4
  *               notes:
  *                 type: string
- *                 description: Ghi chú
- *                 example: "Nuôi con đang đi học"
+ *                 description: Additional notes about the support
+ *                 example: "Support for child's education"
+ *               media:
+ *                 type: string
+ *                 format: binary
+ *                 description: Supporting document file (proof of support payment) - Optional
  *     responses:
  *       201:
- *         description: Tạo thành công
+ *         description: Dependent support amount record created successfully
  *         content:
  *           application/json:
  *             schema:
@@ -76,21 +84,22 @@
  *                     id:
  *                       type: string
  *                       format: uuid
+ *                       description: ID of the created record
  *                       example: "123e4567-e89b-12d3-a456-426614174002"
  *                     tax_dependent_id:
  *                       type: string
  *                       format: uuid
- *                       example: "123e4567-e89b-12d3-a456-426614174001"
+ *                       example: "123e4567-e89b-12d3-a456-426614174000"
  *                     user_id:
  *                       type: string
  *                       format: uuid
- *                       example: "123e4567-e89b-12d3-a456-426614174000"
+ *                       example: "123e4567-e89b-12d3-a456-426614174001"
  *                     year:
  *                       type: integer
  *                       example: 2024
  *                     supported_amount:
  *                       type: number
- *                       example: 4400000
+ *                       example: 5000000
  *                     is_supporting_current_year:
  *                       type: boolean
  *                       example: true
@@ -99,18 +108,24 @@
  *                       example: false
  *                     expected_support_years:
  *                       type: number
- *                       example: 5
+ *                       example: 4
  *                     notes:
  *                       type: string
- *                       example: "Nuôi con đang đi học"
+ *                       example: "Support for child's education"
+ *                     media_path:
+ *                       type: string
+ *                       description: URL of uploaded supporting document (if provided)
+ *                       example: "https://res.cloudinary.com/example/image/upload/v1234567890/support_doc.jpg"
  *                     created_at:
  *                       type: string
  *                       format: date-time
+ *                       example: "2024-03-20T10:30:00Z"
  *                     updated_at:
  *                       type: string
  *                       format: date-time
+ *                       example: "2024-03-20T10:30:00Z"
  *       200:
- *         description: Request xử lý nhưng không thành công (business logic)
+ *         description: Request processed but not successful
  *         content:
  *           application/json:
  *             schema:
@@ -123,7 +138,7 @@
  *                   type: string
  *                   example: "Failed to create dependent support amount"
  *       400:
- *         description: Bad request (thiếu hoặc sai trường bắt buộc)
+ *         description: Bad request (missing required fields or invalid data)
  *         content:
  *           application/json:
  *             schema:
@@ -136,109 +151,7 @@
  *                   type: string
  *                   example: "Invalid input: Missing required tax_dependent_id, year, user_id"
  *       500:
- *         description: Lỗi server
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Internal server error"
- */
-
-/**
- * @swagger
- * /dependent-support-amount/getbyid:
- *   post:
- *     summary: Lấy chi tiết số tiền nuôi người phụ thuộc theo ID
- *     tags: [DependentSupportAmount]
- *     description: Lấy bản ghi dependent support amount theo id.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - id
- *             properties:
- *               id:
- *                 type: string
- *                 format: uuid
- *                 description: ID bản ghi dependent support amount
- *                 example: "123e4567-e89b-12d3-a456-426614174002"
- *     responses:
- *       202:
- *         description: Lấy dữ liệu thành công
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                       format: uuid
- *                     tax_dependent_id:
- *                       type: string
- *                       format: uuid
- *                     user_id:
- *                       type: string
- *                       format: uuid
- *                     year:
- *                       type: integer
- *                     supported_amount:
- *                       type: number
- *                     is_supporting_current_year:
- *                       type: boolean
- *                     is_confirm:
- *                       type: boolean
- *                     expected_support_years:
- *                       type: number
- *                     notes:
- *                       type: string
- *                     created_at:
- *                       type: string
- *                       format: date-time
- *                     updated_at:
- *                       type: string
- *                       format: date-time
- *       200:
- *         description: Request xử lý nhưng không thành công
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *       400:
- *         description: Bad request (thiếu id)
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Invalid input: Missing required id"
- *       500:
- *         description: Lỗi server
+ *         description: Server error
  *         content:
  *           application/json:
  *             schema:
@@ -256,13 +169,13 @@
  * @swagger
  * /dependent-support-amount/update:
  *   post:
- *     summary: Cập nhật số tiền nuôi người phụ thuộc
+ *     summary: Update a dependent support amount record
  *     tags: [DependentSupportAmount]
- *     description: Cập nhật bản ghi số tiền hỗ trợ nuôi người phụ thuộc. Chỉ chủ sở hữu (user_id) mới được cập nhật.
+ *     description: Update an existing dependent support amount record. Only unconfirmed records can be updated. Can upload/update supporting document.
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             required:
@@ -272,34 +185,40 @@
  *               id:
  *                 type: string
  *                 format: uuid
- *                 description: ID bản ghi cần cập nhật
+ *                 description: ID of the record to update
  *                 example: "123e4567-e89b-12d3-a456-426614174002"
  *               user_id:
  *                 type: string
  *                 format: uuid
- *                 description: ID người dùng (để xác thực quyền sở hữu)
- *                 example: "123e4567-e89b-12d3-a456-426614174000"
+ *                 description: ID of the user (employee) who owns this record (for authorization)
+ *                 example: "123e4567-e89b-12d3-a456-426614174001"
  *               supported_amount:
  *                 type: number
  *                 format: decimal
- *                 description: Số tiền hỗ trợ nuôi (VNĐ)
- *                 example: 4400000
+ *                 minimum: 0
+ *                 description: Updated supported amount (must be >= 0)
+ *                 example: 6000000
  *               is_supporting_current_year:
  *                 type: boolean
- *                 description: Đang nuôi trong năm hiện tại
- *                 example: true
+ *                 description: Updated support status for current year
+ *                 example: false
  *               expected_support_years:
  *                 type: number
  *                 format: decimal
- *                 description: Số năm dự kiến nuôi
- *                 example: 5
+ *                 minimum: 0
+ *                 description: Updated expected support years (integer, must be >= 0)
+ *                 example: 3
  *               notes:
  *                 type: string
- *                 description: Ghi chú
- *                 example: "Cập nhật số tiền"
+ *                 description: Updated notes
+ *                 example: "Updated support information"
+ *               media:
+ *                 type: string
+ *                 format: binary
+ *                 description: New supporting document file - Optional. Upload to replace existing document
  *     responses:
  *       202:
- *         description: Cập nhật thành công
+ *         description: Dependent support amount record updated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -310,9 +229,9 @@
  *                   example: true
  *                 message:
  *                   type: string
- *                   example: "Updated successfully"
+ *                   example: "Dependent support amount updated successfully"
  *       200:
- *         description: Request xử lý nhưng không thành công
+ *         description: Request processed but not successful
  *         content:
  *           application/json:
  *             schema:
@@ -323,8 +242,9 @@
  *                   example: false
  *                 message:
  *                   type: string
+ *                   example: "Failed to update dependent support amount"
  *       400:
- *         description: Bad request (thiếu id hoặc user_id)
+ *         description: Bad request (missing required fields or authorization error)
  *         content:
  *           application/json:
  *             schema:
@@ -337,7 +257,7 @@
  *                   type: string
  *                   example: "Invalid input: Missing required id, user_id"
  *       500:
- *         description: Lỗi server
+ *         description: Server error
  *         content:
  *           application/json:
  *             schema:
@@ -355,9 +275,9 @@
  * @swagger
  * /dependent-support-amount/confirm:
  *   post:
- *     summary: Xác nhận số tiền nuôi người phụ thuộc (Admin only)
+ *     summary: Confirm a dependent support amount record (Admin only)
  *     tags: [DependentSupportAmount]
- *     description: Admin xác nhận bản ghi số tiền nuôi người phụ thuộc (cập nhật is_confirm). Yêu cầu quyền admin.
+ *     description: Confirm a dependent support amount record. This endpoint requires admin role.
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -372,11 +292,11 @@
  *               id:
  *                 type: string
  *                 format: uuid
- *                 description: ID bản ghi dependent support amount cần xác nhận
+ *                 description: ID of the record to confirm
  *                 example: "123e4567-e89b-12d3-a456-426614174002"
  *     responses:
  *       202:
- *         description: Xác nhận thành công
+ *         description: Dependent support amount record confirmed successfully
  *         content:
  *           application/json:
  *             schema:
@@ -387,9 +307,9 @@
  *                   example: true
  *                 message:
  *                   type: string
- *                   example: "Confirmed successfully"
+ *                   example: "Dependent support amount confirmed successfully"
  *       200:
- *         description: Request xử lý nhưng không thành công
+ *         description: Request processed but not successful
  *         content:
  *           application/json:
  *             schema:
@@ -400,8 +320,9 @@
  *                   example: false
  *                 message:
  *                   type: string
+ *                   example: "Failed to confirm dependent support amount"
  *       400:
- *         description: Bad request (thiếu id)
+ *         description: Bad request (missing ID)
  *         content:
  *           application/json:
  *             schema:
@@ -414,7 +335,7 @@
  *                   type: string
  *                   example: "Invalid input: Missing required id"
  *       401:
- *         description: Unauthorized (yêu cầu quyền admin)
+ *         description: Unauthorized (admin role required)
  *         content:
  *           application/json:
  *             schema:
@@ -427,7 +348,7 @@
  *                   type: string
  *                   example: "Unauthorized: Admin role required"
  *       500:
- *         description: Lỗi server
+ *         description: Server error
  *         content:
  *           application/json:
  *             schema:
@@ -445,9 +366,9 @@
  * @swagger
  * /dependent-support-amount/delete:
  *   post:
- *     summary: Xóa số tiền nuôi người phụ thuộc
+ *     summary: Delete a dependent support amount record
  *     tags: [DependentSupportAmount]
- *     description: Xóa bản ghi dependent support amount theo id. Chỉ chủ sở hữu (user_id) mới được xóa.
+ *     description: Delete a dependent support amount record. Only the owner can delete their records.
  *     requestBody:
  *       required: true
  *       content:
@@ -461,16 +382,16 @@
  *               id:
  *                 type: string
  *                 format: uuid
- *                 description: ID bản ghi cần xóa
+ *                 description: ID of the record to delete
  *                 example: "123e4567-e89b-12d3-a456-426614174002"
  *               user_id:
  *                 type: string
  *                 format: uuid
- *                 description: ID người dùng (để xác thực quyền sở hữu)
- *                 example: "123e4567-e89b-12d3-a456-426614174000"
+ *                 description: ID of the user (employee) who owns this record (for authorization)
+ *                 example: "123e4567-e89b-12d3-a456-426614174001"
  *     responses:
  *       202:
- *         description: Xóa thành công
+ *         description: Dependent support amount record deleted successfully
  *         content:
  *           application/json:
  *             schema:
@@ -481,9 +402,9 @@
  *                   example: true
  *                 message:
  *                   type: string
- *                   example: "Deleted successfully"
+ *                   example: "Dependent support amount deleted successfully"
  *       200:
- *         description: Request xử lý nhưng không thành công
+ *         description: Request processed but not successful
  *         content:
  *           application/json:
  *             schema:
@@ -494,8 +415,9 @@
  *                   example: false
  *                 message:
  *                   type: string
+ *                   example: "Failed to delete dependent support amount"
  *       400:
- *         description: Bad request (thiếu id hoặc user_id)
+ *         description: Bad request (missing required fields or authorization error)
  *         content:
  *           application/json:
  *             schema:
@@ -508,7 +430,136 @@
  *                   type: string
  *                   example: "Invalid input: Missing required id, user_id"
  *       500:
- *         description: Lỗi server
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Internal server error"
+ */
+
+/**
+ * @swagger
+ * /dependent-support-amount/getbyid:
+ *   post:
+ *     summary: Get dependent support amount by ID
+ *     tags: [DependentSupportAmount]
+ *     description: Retrieve a specific dependent support amount record by its ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 format: uuid
+ *                 description: ID of the record to retrieve
+ *                 example: "123e4567-e89b-12d3-a456-426614174002"
+ *     responses:
+ *       202:
+ *         description: Dependent support amount record retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       format: uuid
+ *                       description: Record ID
+ *                       example: "123e4567-e89b-12d3-a456-426614174002"
+ *                     tax_dependent_id:
+ *                       type: string
+ *                       format: uuid
+ *                       description: Tax dependent ID
+ *                       example: "123e4567-e89b-12d3-a456-426614174000"
+ *                     user_id:
+ *                       type: string
+ *                       format: uuid
+ *                       description: User ID
+ *                       example: "123e4567-e89b-12d3-a456-426614174001"
+ *                     year:
+ *                       type: integer
+ *                       description: Support year
+ *                       example: 2024
+ *                     supported_amount:
+ *                       type: number
+ *                       format: decimal
+ *                       description: Amount supported
+ *                       example: 5000000
+ *                     is_supporting_current_year:
+ *                       type: boolean
+ *                       description: Supporting current year
+ *                       example: true
+ *                     is_confirm:
+ *                       type: boolean
+ *                       description: Confirmed status
+ *                       example: false
+ *                     expected_support_years:
+ *                       type: number
+ *                       format: decimal
+ *                       description: Expected support years
+ *                       example: 4
+ *                     notes:
+ *                       type: string
+ *                       description: Notes
+ *                       example: "Support for child's education"
+ *                     media_path:
+ *                       type: string
+ *                       description: URL of supporting document
+ *                       example: "https://res.cloudinary.com/example/image/upload/v1234567890/support_doc.jpg"
+ *                     created_at:
+ *                       type: string
+ *                       format: date-time
+ *                       example: "2024-03-20T10:30:00Z"
+ *                     updated_at:
+ *                       type: string
+ *                       format: date-time
+ *                       example: "2024-03-20T10:30:00Z"
+ *       200:
+ *         description: Request processed but not successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Dependent support amount not found"
+ *       400:
+ *         description: Bad request (missing ID)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Invalid input: Missing required id"
+ *       500:
+ *         description: Server error
  *         content:
  *           application/json:
  *             schema:

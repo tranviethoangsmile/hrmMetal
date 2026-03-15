@@ -14,7 +14,7 @@ interface IDependentSupportAmountRepo {
         success: boolean,
         message?: string
     }>
-    DELETE(id: string): Promise<{
+    DELETE(id: string, user_id: string): Promise<{
         success: boolean,
         message?: string
     }>
