@@ -157,4 +157,7 @@ export {
     IDeleteDependentSupportAmount,
     create_order,
     IGetDependentSupportAmountByTaxDependentIdAndYear,
+    create_payroll, 
+    update_payroll, 
+    search_payroll
 };

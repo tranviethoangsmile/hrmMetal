@@ -246,4 +246,9 @@ export {
     search_order_of_user,
     check_picked_order,
     get_dependent_support_amount_by_tax_dependent_id_and_year_controller,
+    create_payroll_controller,
+    update_payroll_controller,
+    search_payroll_of_user_in_month_controller,
+    search_payroll_by_id_controller,
+    destroy_payroll_controller
 };
