@@ -14,7 +14,7 @@ interface IDependentSupportAmountRepo {
         success: boolean,
         message?: string
     }>
-    DELETE(id: string): Promise<{
+    DELETE(id: string, user_id: string): Promise<{
         success: boolean,
         message?: string
     }>
@@ -22,6 +22,11 @@ interface IDependentSupportAmountRepo {
         success: boolean,
         data?: DependentSupportAmount,
         message?: string 
+    }>
+    GET_DEPENDENT_SUPPORT_AMOUNT_BY_TAX_DEPENDENT_ID_AND_YEAR(fields: any): Promise<{
+        success: boolean,
+        data?: DependentSupportAmount[],
+        message?: string
     }>
 }
 

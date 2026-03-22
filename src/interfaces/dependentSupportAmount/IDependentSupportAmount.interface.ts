@@ -6,7 +6,8 @@ interface ICreateDependentSupportAmount {
     is_supporting_current_year?: boolean,
     is_confirm?: boolean;
     expected_support_years?: number,
-    notes?: string
+    notes?: string,
+    media_path?: string
 }
 interface IUpdateDependentSupportAmount {
     id: string;
@@ -14,10 +15,16 @@ interface IUpdateDependentSupportAmount {
     supported_amount?: number,
     is_supporting_current_year?: boolean,
     expected_support_years?: number,
-    notes?: string
+    notes?: string,
+    media_path?: string,
 }
 interface IDeleteDependentSupportAmount {
     id: string;
     user_id: string;
 }
-export { ICreateDependentSupportAmount, IUpdateDependentSupportAmount, IDeleteDependentSupportAmount };
+
+interface IGetDependentSupportAmountByTaxDependentIdAndYear {
+    tax_dependent_id: string;
+    year: number;
+}
+export { ICreateDependentSupportAmount, IUpdateDependentSupportAmount, IDeleteDependentSupportAmount, IGetDependentSupportAmountByTaxDependentIdAndYear };

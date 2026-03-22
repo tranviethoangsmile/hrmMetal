@@ -89,6 +89,7 @@ import {
     IUpdateDependentSupportAmount, 
     ICreateDependentSupportAmount, 
     IDeleteDependentSupportAmount,
+    IGetDependentSupportAmountByTaxDependentIdAndYear,
 } from './dependentSupportAmount/IDependentSupportAmount.interface';
 import {
     create_payroll, update_payroll, search_payroll
@@ -155,5 +156,5 @@ export {
     ICreateDependentSupportAmount,
     IDeleteDependentSupportAmount,
     create_order,
-    create_payroll, update_payroll, search_payroll
+    IGetDependentSupportAmountByTaxDependentIdAndYear,
 };

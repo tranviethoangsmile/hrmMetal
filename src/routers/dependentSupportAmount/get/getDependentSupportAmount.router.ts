@@ -7,7 +7,7 @@ getDependentSupportAmountRouter.post('/', async(req: Request, res: Response) => 
     try {
         const id: string = req.body.id;
         if(!id) {
-            return errorResponse(res, 400, `Invalid input: Missing required id}`)
+            return errorResponse(res, 400, `Invalid input: Missing required id`)
         }
         const result = await get_dependent_support_amount_controller(id);
         if(!result?.success){
