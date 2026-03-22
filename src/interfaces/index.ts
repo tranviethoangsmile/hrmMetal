@@ -91,6 +91,9 @@ import {
     IDeleteDependentSupportAmount,
     IGetDependentSupportAmountByTaxDependentIdAndYear,
 } from './dependentSupportAmount/IDependentSupportAmount.interface';
+import {
+    create_payroll, update_payroll, search_payroll
+} from './payroll/payroll.interface'
 export {
     check_value_request_checkin,
     create_plan_production,

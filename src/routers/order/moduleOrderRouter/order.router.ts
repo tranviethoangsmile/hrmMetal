@@ -2,8 +2,8 @@ import { Router, Request, Response } from 'express';
 import {
     search_order_of_user,
     check_picked_order,
-} from '../../../controllers/order/order.controller';
-import { checkin_picked_order } from '../../../interfaces/order/order.interface';
+} from '../../../controllers';
+import { checkin_picked_order } from '../../../interfaces';
 import { errorResponse, successResponse } from '../../../helpers';
 
 const orderRouterModule = Router();

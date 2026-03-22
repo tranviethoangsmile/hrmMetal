@@ -138,6 +138,13 @@ import {
     get_dependent_support_amount_controller,
     get_dependent_support_amount_by_tax_dependent_id_and_year_controller
 } from './dependentSupportAmount/dependentSupportAmount.controller';
+import {
+    create_payroll_controller,
+    update_payroll_controller,
+    search_payroll_of_user_in_month_controller,
+    search_payroll_by_id_controller,
+    destroy_payroll_controller
+} from './payroll/payroll.controller'
 export {
     createDep,
     departmentList,

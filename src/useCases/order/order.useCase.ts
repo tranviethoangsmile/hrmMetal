@@ -74,7 +74,7 @@ const find_all_order_usecase = async () => {
     }
 };
 
-const search_order_usecase = async (order: search_order) => {
+const search_order_usecase = async (order: any) => {
     try {
         const valid = validate_search_order(order);
         if (valid.error) {

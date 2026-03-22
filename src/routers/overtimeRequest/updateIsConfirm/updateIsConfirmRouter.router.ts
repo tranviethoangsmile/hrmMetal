@@ -21,9 +21,9 @@ updateIsConfirmOvertimeRequestRouter.post(
             }
             const response = await update_isConfirm_ovetime_request_controller(data);
             if (!response.success) {
-                return errorResponse(res, 400, response.message || 'Failed to update overtime request');
+                return errorResponse(res, 200, response.message || 'Failed to update overtime request');
             }
-            return successResponse(res, 200, undefined, 'Overtime request updated successfully');
+            return successResponse(res, 202, undefined, 'Overtime request updated successfully');
         } catch (error: any) {
             return errorResponse(res, 500, error?.message || 'Internal server error');
         }

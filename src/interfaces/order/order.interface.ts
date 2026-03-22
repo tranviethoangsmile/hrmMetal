@@ -3,8 +3,6 @@ interface search_order {
     date?: string;
     user_id?: string;
     position?: string;
-    created_at?: Date;
-    updated_at?: Date;
 }
 interface checkin_picked_order {
     date: string;
