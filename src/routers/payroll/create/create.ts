@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
-import { create_payroll_controller } from '../../../controllers/payroll/payroll.controller';
-import { create_payroll } from '../../../interfaces/payroll/payroll.interface';
+import { create_payroll_controller } from '../../../controllers';
+import { create_payroll } from '../../../interfaces';
 import { errorResponse, successResponse } from '../../../helpers';
 
 const createPayrollRouter: Router = Router();
@@ -30,7 +30,7 @@ createPayrollRouter.post('/', async (req: Request, res: Response) => {
 
         const payroll = await create_payroll_controller(field);
         if (!payroll?.success) {
-            return errorResponse(res, 400, payroll?.message || 'Failed to create payroll');
+            return errorResponse(res, 200, payroll?.message || 'Failed to create payroll');
         }
         return successResponse(res, 201, payroll?.data);
     } catch (error: any) {

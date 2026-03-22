@@ -7,11 +7,11 @@ import deletePaidLeaveRouter from './delete/deletePaidLeave.router';
 import {
     get_all_paid_leave_controller,
     update_is_active_paid_leave_controller,
-} from '../../controllers/paidLeaveRequest/paidLeaveRequest.controller';
+} from '../../controllers';
 
-import very_role from '../../middlewares/veryRoleUpdate.middleware';
+import { very_role } from '../../middlewares';
 import { errorResponse, successResponse } from '../../helpers';
-
+import { IUpdatePaidLeave } from '../../interfaces'
 const paidLeaveRouter: Router = Router();
 paidLeaveRouter.use('/create', create_router);
 paidLeaveRouter.use('/search', searchLeaveRouter);
@@ -22,11 +22,10 @@ paidLeaveRouter.use('/delete', deletePaidLeaveRouter);
 paidLeaveRouter.get('/', async (req: Request, res: Response) => {
     try {
         const paid_leaves = await get_all_paid_leave_controller();
-        if (paid_leaves?.success) {
-            return successResponse(res, 200, paid_leaves?.data);
-        } else {
-            return errorResponse(res, 400, paid_leaves?.message || 'Failed to get paid leave requests');
+        if(!paid_leaves?.success){
+            return errorResponse(res, 200, paid_leaves?.message)
         }
+        return successResponse( res, 202, paid_leaves?.data)
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }
@@ -34,17 +33,15 @@ paidLeaveRouter.get('/', async (req: Request, res: Response) => {
 
 paidLeaveRouter.put('/', very_role, async (req: Request, res: Response) => {
     try {
-        const data: Object | null = req.body;
-        if (data != null) {
-            const paid_leave = await update_is_active_paid_leave_controller(data);
-            if (paid_leave?.success) {
-                return successResponse(res, 200, undefined, paid_leave?.message || 'Paid leave updated successfully');
-            } else {
-                return errorResponse(res, 400, paid_leave?.message || 'Failed to update paid leave');
-            }
-        } else {
-            return errorResponse(res, 400, 'data is required');
+        const data: IUpdatePaidLeave = req.body;
+        if(!data?.id){
+            return errorResponse(res, 400, `id is required`)
         }
+        const paid_leave = await update_is_active_paid_leave_controller(data)
+        if(!paid_leave?.success){
+            return errorResponse(res, 200, paid_leave?.message || 'Failed to update paid leave')
+        }
+        return successResponse(res, 202)
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }

@@ -25,4 +25,6 @@ interface ISearchPaidLeave {
     is_confirm?: boolean;
 }
 
+
+
 export { ICreatePaidLeave, IUpdatePaidLeave, ISearchPaidLeave };

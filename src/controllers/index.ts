@@ -137,6 +137,13 @@ import {
     delete_dependent_support_amount_controller,
     get_dependent_support_amount_controller
 } from './dependentSupportAmount/dependentSupportAmount.controller';
+import {
+    create_payroll_controller,
+    update_payroll_controller,
+    search_payroll_of_user_in_month_controller,
+    search_payroll_by_id_controller,
+    destroy_payroll_controller
+} from './payroll/payroll.controller'
 export {
     createDep,
     departmentList,
@@ -237,4 +244,9 @@ export {
     delete_order,
     search_order_of_user,
     check_picked_order,
+    create_payroll_controller,
+    update_payroll_controller,
+    search_payroll_of_user_in_month_controller,
+    search_payroll_by_id_controller,
+    destroy_payroll_controller
 };

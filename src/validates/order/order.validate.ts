@@ -15,10 +15,6 @@ const schema_search_order = Joi.object({
         'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
     }),
     position: Joi.string(),
-    canteen_id: Joi.string(),
-    created_at: Joi.date(),
-    updated_at: Joi.date(),
-    deleted_at: Joi.date(),
 });
 
 const schema_search_order_for_user = Joi.object({

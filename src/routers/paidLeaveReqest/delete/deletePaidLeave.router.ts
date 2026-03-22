@@ -18,9 +18,9 @@ deletePaidLeaveRouter.post('/', async (req: Request, res: Response) => {
         }
         const result = await delete_paid_leave_request_by_id_controller(delete_value);
         if (!result.success) {
-            return errorResponse(res, 400, result?.message || 'Failed to delete paid leave request');
+            return errorResponse(res, 200, result?.message || 'Failed to delete paid leave request');
         }
-        return successResponse(res, 200, undefined, 'Paid leave request deleted successfully');
+        return successResponse(res, 202, undefined, 'Paid leave request deleted successfully');
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }

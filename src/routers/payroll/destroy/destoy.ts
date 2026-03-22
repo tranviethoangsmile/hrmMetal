@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { destroy_payroll_controller } from '../../../controllers/payroll/payroll.controller';
+import { destroy_payroll_controller } from '../../../controllers';
 import { errorResponse, successResponse } from '../../../helpers';
 
 const destroyPayrollRouter: Router = Router();
@@ -12,9 +12,9 @@ destroyPayrollRouter.post('/', async (req: Request, res: Response) => {
         }
         const result = await destroy_payroll_controller(id);
         if (!result.success) {
-            return errorResponse(res, 400, result?.message || 'Failed to delete payroll');
+            return errorResponse(res, 200, result?.message || 'Failed to delete payroll');
         }
-        return successResponse(res, 200, undefined, 'Payroll deleted successfully');
+        return successResponse(res, 202, undefined, 'Payroll deleted successfully');
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }

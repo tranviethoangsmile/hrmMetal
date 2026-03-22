@@ -7,6 +7,7 @@ const authAdminRole = async (
     next: NextFunction,
 ) => {
     try {
+        // should use admin_id :(
         const { user_id } = req.body;
         if (!user_id || typeof user_id !== 'string' || user_id.trim() === '') {
             return res.status(400).json({
