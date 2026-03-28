@@ -44,7 +44,14 @@ userRouters.post('/', async (req: Request, res: Response) => {
             !user.dob ||
             !user.employee_id ||
             !user.department_id ||
-            !user.role
+            !user.role ||
+            !user.travel_allowance_pay || 
+            !user.shift_night_pay ||
+            !user.salary_hourly ||
+            !user.paid_days ||
+            !user.is_officer ||
+            !user.is_offical_staff
+
         ) {
             const missingFields = [
                 !user.name && 'name',
@@ -55,19 +62,16 @@ userRouters.post('/', async (req: Request, res: Response) => {
                 !user.employee_id && 'employee_id',
                 !user.department_id && 'department_id',
                 !user.role && 'role',
+                !user.paid_days && 'paid_days',
+                !user.travel_allowance_pay && 'travel_allowance_pay',
+                !user.shift_night_pay && 'shift_night_pay',
+                !user.is_offical_staff && 'is_offical_staff',
+                !user.salary_hourly && 'salary_hourly',
+                !user.is_officer && 'is_officer',
             ]
                 .filter(Boolean)
                 .join(', ');
             return errorResponse(res, 400, `Invalid input: Missing required ${missingFields}`);
-        }
-        //  ?? 
-        if (
-            user.salary_hourly === undefined &&
-            user.travel_allowance_pay === undefined &&
-            user.shift_night_pay === undefined &&
-            user.paid_days === undefined
-        ) {
-            return errorResponse(res, 400, 'Invalid input: Missing required fields');
         }
         const data = await create(user);
         if (!data?.success) {
