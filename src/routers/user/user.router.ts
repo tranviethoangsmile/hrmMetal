@@ -60,6 +60,7 @@ userRouters.post('/', async (req: Request, res: Response) => {
                 .join(', ');
             return errorResponse(res, 400, `Invalid input: Missing required ${missingFields}`);
         }
+        //  ?? 
         if (
             user.salary_hourly === undefined &&
             user.travel_allowance_pay === undefined &&
