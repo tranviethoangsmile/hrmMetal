@@ -21,9 +21,9 @@ searchByDateOfDepartmentRouter.post(
             const planProductions = await search_plan_production_seven_day_of_department_controller(field);
 
             if (!planProductions?.success) {
-                return errorResponse(res, 400, planProductions?.message || 'Failed to search plan production');
+                return errorResponse(res, 200, planProductions?.message || 'Failed to search plan production');
             }
-            return successResponse(res, 200, planProductions?.data);
+            return successResponse(res, 202, planProductions?.data);
         } catch (error: any) {
             return errorResponse(res, 500, error?.message || 'Internal server error');
         }

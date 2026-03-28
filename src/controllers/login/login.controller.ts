@@ -1,4 +1,4 @@
-import { login_user } from '../../useCases/login/login.useCase';
+import { login_user } from '../../useCases';
 
 const login = async (user: any) => {
     return await login_user(user);

@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
-import { login } from '../../controllers/login/login.controller';
-import { login_data } from '../../interfaces/login/login.interface';
-import { errorResponse, successResponse } from '../../helpers';
+import { login } from '../../controllers';
+import { login_data } from '../../interfaces';
+import { errorResponse } from '../../helpers';
 
 const loginRouter: Router = Router();
 

@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
-import { create_safety_check_controller } from '../../../controllers/safetyCheck/safetyCheck.controller';
-import { create_safety_check_interface } from '../../../interfaces/safetyCheck/safetyCheck.interface';
+import { create_safety_check_controller } from '../../../controllers';
+import { create_safety_check_interface } from '../../../interfaces';
 import { errorResponse, successResponse } from '../../../helpers';
 
 const createSafetyCheckRouter: Router = Router();

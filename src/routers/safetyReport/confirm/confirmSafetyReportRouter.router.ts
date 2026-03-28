@@ -14,9 +14,9 @@ confirmSafetyReportRouter.post('/', async (req: Request, res: Response) => {
         }
         const result = await confirm_safety_report_controller(field);
         if (!result?.success) {
-            return errorResponse(res, 400, result?.message || 'Failed to confirm safety report');
+            return errorResponse(res, 200, result?.message || 'Failed to confirm safety report');
         }
-        return successResponse(res, 200, undefined, 'Safety report confirmed successfully');
+        return successResponse(res, 202);
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }

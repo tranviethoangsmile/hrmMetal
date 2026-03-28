@@ -12,9 +12,9 @@ getOvertimeByUserIdRouter.post('/', async (req: Request, res: Response) => {
         }
         const result = await get_overtime_request_by_user_id_controller(id);
         if (!result.success) {
-            return errorResponse(res, 400, result.message || 'Failed to get overtime requests');
+            return errorResponse(res, 200, result.message || 'Failed to get overtime requests');
         }
-        return successResponse(res, 200, result.data);
+        return successResponse(res, 202, result.data);
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }

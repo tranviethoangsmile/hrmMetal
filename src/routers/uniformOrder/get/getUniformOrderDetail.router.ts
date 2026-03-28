@@ -12,9 +12,9 @@ getUniformOrderDetailRouter.post('/', async (req: Request, res: Response) => {
         }
         const uniformOrderDetail = await get_uniform_order_detail_by_id_controller(id);
         if (!uniformOrderDetail?.success) {
-            return errorResponse(res, 404, uniformOrderDetail?.message || 'Uniform order not found');
+            return errorResponse(res, 200, uniformOrderDetail?.message || 'Uniform order not found');
         }
-        return successResponse(res, 200, uniformOrderDetail?.data);
+        return successResponse(res, 202, uniformOrderDetail?.data);
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }

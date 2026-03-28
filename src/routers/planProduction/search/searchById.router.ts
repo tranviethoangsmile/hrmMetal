@@ -14,9 +14,9 @@ searchByIdPlanProductionRouter.post(
             }
             const planProduction = await search_plan_production_by_id_controller(id);
             if (!planProduction?.success) {
-                return errorResponse(res, 404, planProduction?.message || 'Plan production not found');
+                return errorResponse(res, 200, planProduction?.message || 'Plan production not found');
             }
-            return successResponse(res, 200, planProduction?.data);
+            return successResponse(res, 202, planProduction?.data);
         } catch (error: any) {
             return errorResponse(res, 500, error?.message || 'Internal server error');
         }

@@ -8,9 +8,9 @@ getAllOvertimeRequestRouter.post('/', async (req: Request, res: Response) => {
     try {
         const response = await get_all_overtime_request_controller();
         if (!response.success) {
-            return errorResponse(res, 400, response.message || 'Failed to get overtime requests');
+            return errorResponse(res, 200, response.message || 'Failed to get overtime requests');
         }
-        return successResponse(res, 200, response.data);
+        return successResponse(res, 202, response.data);
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }

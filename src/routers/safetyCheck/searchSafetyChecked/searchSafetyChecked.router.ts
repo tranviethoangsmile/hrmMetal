@@ -13,9 +13,9 @@ searchSafetyCheckedRouter.post('/', async (req: Request, res: Response) => {
         }
         const result = await search_safety_checked_controller(field);
         if (!result?.success) {
-            return errorResponse(res, 400, result?.message || 'Failed to search safety checked');
+            return errorResponse(res, 200, result?.message || 'Failed to search safety checked');
         }
-        return successResponse(res, 200, result?.data);
+        return successResponse(res, 202, result?.data);
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }

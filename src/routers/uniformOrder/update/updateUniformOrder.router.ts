@@ -17,9 +17,9 @@ updateUniformOrderRouter.post('/', async (req: Request, res: Response) => {
         });
 
         if (!result?.success) {
-            return errorResponse(res, 400, result?.message || 'Failed to update uniform order');
+            return errorResponse(res, 200, result?.message || 'Failed to update uniform order');
         }
-        return successResponse(res, 200, undefined, 'Uniform order updated successfully');
+        return successResponse(res, 202, undefined, 'Uniform order updated successfully');
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }

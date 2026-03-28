@@ -13,9 +13,9 @@ updatePlanProductionRouter.put('/', async (req: Request, res: Response) => {
         }
         const result = await update_plan_production_controller(field);
         if (!result?.success) {
-            return errorResponse(res, 400, result?.message || 'Failed to update plan production');
+            return errorResponse(res, 200, result?.message || 'Failed to update plan production');
         }
-        return successResponse(res, 200, undefined, 'Plan production updated successfully');
+        return successResponse(res, 202, undefined, 'Plan production updated successfully');
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }

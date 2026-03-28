@@ -1,8 +1,7 @@
-import { login_data } from '../../interfaces';
 import { validate_login } from '../../validates';
 import { LoginRepository } from '../../repositorys';
 const loginRepository = new LoginRepository();
-const login_user = async (user: login_data) => {
+const login_user = async (user: any) => {
     try {
         const valid = validate_login(user);
         if (valid.error) {

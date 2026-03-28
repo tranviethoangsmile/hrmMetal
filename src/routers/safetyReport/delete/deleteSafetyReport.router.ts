@@ -13,9 +13,9 @@ deleteSafetyReportRouter.post('/', async (req: Request, res: Response) => {
         }
         const result = await delete_safety_report_controller(id);
         if (!result.success) {
-            return errorResponse(res, 400, result.message || 'Failed to delete safety report');
+            return errorResponse(res, 200, result.message || 'Failed to delete safety report');
         }
-        return successResponse(res, 200, undefined, 'Safety report deleted successfully');
+        return successResponse(res, 202);
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }

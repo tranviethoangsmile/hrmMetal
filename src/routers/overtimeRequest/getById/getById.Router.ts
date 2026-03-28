@@ -12,9 +12,9 @@ getOvertimeRequestByIdRouter.post('/', async (req: Request, res: Response) => {
         }
         const response = await get_overtime_request_by_id_controller(id);
         if (!response.success) {
-            return errorResponse(res, 404, response.message || 'Overtime request not found');
+            return errorResponse(res, 200, response.message || 'Overtime request not found');
         }
-        return successResponse(res, 200, response.data);
+        return successResponse(res, 202, response.data);
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }
