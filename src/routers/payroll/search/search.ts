@@ -18,9 +18,9 @@ searchPayrollRouter.post('/', async (req: Request, res: Response) => {
         }
         const payroll = await search_payroll_of_user_in_month_controller(field);
         if (!payroll?.success) {
-            return errorResponse(res, 400, payroll?.message || 'Failed to search payroll');
+            return errorResponse(res, 200, payroll?.message || 'Failed to search payroll');
         }
-        return successResponse(res, 200, payroll?.data);
+        return successResponse(res, 202, payroll?.data);
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }

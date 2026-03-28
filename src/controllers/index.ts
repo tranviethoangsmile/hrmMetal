@@ -144,7 +144,9 @@ import {
     search_payroll_of_user_in_month_controller,
     search_payroll_by_id_controller,
     destroy_payroll_controller
-} from './payroll/payroll.controller'
+} from './payroll/payroll.controller';
+import { login } from './login/login.controller';
+
 export {
     createDep,
     departmentList,
@@ -250,5 +252,6 @@ export {
     update_payroll_controller,
     search_payroll_of_user_in_month_controller,
     search_payroll_by_id_controller,
-    destroy_payroll_controller
+    destroy_payroll_controller,
+    login
 };

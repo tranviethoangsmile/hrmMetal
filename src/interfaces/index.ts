@@ -69,7 +69,13 @@ import {
     update_inventory,
 } from './inventory/inventory.interface';
 import { login_data, token_payload } from './login/login.interface';
-import { UpdateField, CreateField, FindAllField } from './user/user.interface';
+import { 
+    UpdateField, 
+    CreateField, 
+    FindAllField, 
+    IFindByName,
+    IUploadAvatar
+ } from './user/user.interface';
 import { CREATE_DEPARETMENT } from './department/IDepartment.interface';
 import {
     ICreateOvertimeRequest,
@@ -93,7 +99,7 @@ import {
 } from './dependentSupportAmount/IDependentSupportAmount.interface';
 import {
     create_payroll, update_payroll, search_payroll
-} from './payroll/payroll.interface'
+} from './payroll/payroll.interface';
 export {
     check_value_request_checkin,
     create_plan_production,
@@ -157,7 +163,7 @@ export {
     IDeleteDependentSupportAmount,
     create_order,
     IGetDependentSupportAmountByTaxDependentIdAndYear,
-    create_payroll, 
-    update_payroll, 
-    search_payroll
+    create_payroll, update_payroll, search_payroll,
+    IFindByName,
+    IUploadAvatar
 };

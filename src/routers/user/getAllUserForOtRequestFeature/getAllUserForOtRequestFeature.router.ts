@@ -13,11 +13,10 @@ getAllUserForOtRequestFeatureRouter.post(
                 return errorResponse(res, 400, 'id is required');
             }
             const users = await getAllUserForOtRequestFeatureControll(id);
-            if (users?.success) {
-                return successResponse(res, 200, users?.data);
-            } else {
-                return errorResponse(res, 400, users?.message || 'Failed to get users');
+            if(!users?.success){
+                return errorResponse(res, 200, users?.message)
             }
+            return successResponse(res, 202, users?.data)
         } catch (error: any) {
             return errorResponse(res, 500, error?.message || 'Internal server error');
         }

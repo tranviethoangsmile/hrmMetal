@@ -1,12 +1,12 @@
 import { Request, Response, Router } from 'express';
 import { create, update, destroy, findById, findAll } from '../../controllers';
+import { CreateField, UpdateField } from '../../interfaces';
+import { errorResponse, successResponse } from '../../helpers';
 import uploadAvatar from './userRouterModul/uploadRouterModul';
 import findUser from './userRouterModul/findAllUserWithField';
 import getUserWithDepartmentId from './userRouterModul/getUserWithDepartmentId';
 import userFindByNameRouter from './userRouterModul/findByName';
-import { CreateField } from '../../interfaces/user/user.interface';
 import getAllUserForOtRequestFeatureRouter from './getAllUserForOtRequestFeature/getAllUserForOtRequestFeature.router';
-import { errorResponse, successResponse } from '../../helpers';
 
 const userRouters: Router = Router();
 userRouters.use('/getuserwithdepartmentid', getUserWithDepartmentId);
@@ -17,14 +17,15 @@ userRouters.use(
     '/getalluserforotrequestfeature',
     getAllUserForOtRequestFeatureRouter,
 );
+
+// add admin id with middleware check role
 userRouters.get('/', async (req: Request, res: Response) => {
     try {
         const users = await findAll();
-        if (users?.success) {
-            return successResponse(res, 200, users?.data);
-        } else {
+        if (!users?.success) {
             return errorResponse(res, 400, users?.message || 'Failed to get users');
-        }
+        } 
+        return successResponse(res, 200, users?.data);
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }
@@ -68,11 +69,10 @@ userRouters.post('/', async (req: Request, res: Response) => {
             return errorResponse(res, 400, 'Invalid input: Missing required fields');
         }
         const data = await create(user);
-        if (data?.success) {
-            return successResponse(res, 201, data?.data);
-        } else {
-            return errorResponse(res, 400, data?.message || 'Failed to create user');
+        if (!data?.success) {
+            return errorResponse(res, 200, data?.message || 'Failed to create user');
         }
+        return successResponse(res, 201, data?.data);
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }
@@ -80,17 +80,15 @@ userRouters.post('/', async (req: Request, res: Response) => {
 
 userRouters.put('/', async (req: Request, res: Response) => {
     try {
-        const user = req.body;
-        if (user != null) {
-            const data = await update(user);
-            if (data?.success) {
-                return successResponse(res, 200, undefined, 'User updated successfully');
-            } else {
-                return errorResponse(res, 400, data?.message || 'Failed to update user');
-            }
-        } else {
-            return errorResponse(res, 400, 'data update not empty');
+        const value_update: UpdateField = req.body;
+        if(!value_update?.id) {
+            return errorResponse(res, 400, 'bad request' )
         }
+        const result = await update(value_update);
+        if(!result?.success){
+            return errorResponse(res, 200, result?.message || 'Failed to update user')
+        }
+        return successResponse(res, 202)
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }
@@ -104,9 +102,9 @@ userRouters.delete('/:id', async (req: Request, res: Response) => {
         }
         const data = await destroy(id);
         if (!data?.success) {
-            return errorResponse(res, 400, data?.message || 'Failed to delete user');
+            return errorResponse(res, 200, data?.message || 'Failed to delete user');
         }
-        return successResponse(res, 200, undefined, data?.message || 'User deleted successfully');
+        return successResponse(res, 202, undefined, data?.message || 'User deleted successfully');
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }
@@ -120,9 +118,9 @@ userRouters.get('/:id', async (req: Request, res: Response) => {
         }
         const data = await findById(id);
         if (!data?.success) {
-            return errorResponse(res, 404, data?.message || 'User not found');
+            return errorResponse(res, 200, data?.message || 'User not found');
         }
-        return successResponse(res, 200, data?.data);
+        return successResponse(res, 202, data?.data);
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }

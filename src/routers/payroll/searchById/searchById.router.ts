@@ -12,7 +12,7 @@ searchPayrollByIdRouter.post('/', async (req: Request, res: Response) => {
         }
         const payroll = await search_payroll_by_id_controller(id);
         if (!payroll?.success) {
-            return errorResponse(res, 404, payroll?.message || 'Payroll not found');
+            return errorResponse(res, 200, payroll?.message || 'Payroll not found');
         }
         return successResponse(res, 202, payroll?.data);
     } catch (error: any) {

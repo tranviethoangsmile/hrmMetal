@@ -15,9 +15,9 @@ searchUniOrderWithUserIdRouter.post(
             }
             const uniformOrders = await search_uniform_order_with_user_id_controller(field);
             if (!uniformOrders?.success) {
-                return errorResponse(res, 400, uniformOrders?.message || 'Failed to search uniform orders');
+                return errorResponse(res, 200, uniformOrders?.message || 'Failed to search uniform orders');
             }
-            return successResponse(res, 200, uniformOrders?.data);
+            return successResponse(res, 202, uniformOrders?.data);
         } catch (error: any) {
             return errorResponse(res, 500, error?.message || 'Internal server error');
         }

@@ -56,8 +56,13 @@ interface CreateField {
 interface FindAllField {
     position: string;
 }
-export interface IFindByName {
+interface IFindByName {
     name: string;
 }
 
-export { UpdateField, CreateField, FindAllField };
+interface IUploadAvatar {
+    id: string,
+    avatar: string
+}
+
+export { UpdateField, CreateField, FindAllField, IFindByName, IUploadAvatar  };

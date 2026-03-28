@@ -12,9 +12,9 @@ destroyPlanProductionRouter.post('/', async (req: Request, res: Response) => {
         }
         const result = await destroy_plan_production_cotroller(id);
         if (!result?.success) {
-            return errorResponse(res, 400, result?.message || 'Failed to delete plan production');
+            return errorResponse(res, 200, result?.message || 'Failed to delete plan production');
         }
-        return successResponse(res, 200, undefined, 'Plan production deleted successfully');
+        return successResponse(res, 202, undefined, 'Plan production deleted successfully');
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }

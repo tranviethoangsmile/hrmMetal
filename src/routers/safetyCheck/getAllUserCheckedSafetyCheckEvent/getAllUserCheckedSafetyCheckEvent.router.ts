@@ -14,9 +14,9 @@ getAllUserCheckedSafetyCheckEventRouter.post(
             }
             const result = await getAllUserCheckedSafetyCheckEventController(id);
             if (!result?.success) {
-                return errorResponse(res, 400, result?.message || 'Failed to get users checked safety check event');
+                return errorResponse(res, 200, result?.message || 'Failed to get users checked safety check event');
             }
-            return successResponse(res, 200, result?.data);
+            return successResponse(res, 202, result?.data);
         } catch (error: any) {
             return errorResponse(res, 500, error?.message || 'Internal server error');
         }

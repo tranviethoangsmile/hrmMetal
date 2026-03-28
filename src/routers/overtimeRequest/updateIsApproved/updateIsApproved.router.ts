@@ -16,9 +16,9 @@ updateIsApprovedRouter.post('/', async (req: Request, res: Response) => {
         }
         const result = await update_approved_admin_overtime_request_controller(data);
         if (!result.success) {
-            return errorResponse(res, 400, result.message || 'Failed to update overtime request');
+            return errorResponse(res, 200, result.message || 'Failed to update overtime request');
         }
-        return successResponse(res, 200, undefined, 'Overtime request updated successfully');
+        return successResponse(res, 202, undefined, 'Overtime request updated successfully');
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }
