@@ -16,12 +16,21 @@ createSafetyCheckRouter.post('/', async (req: Request, res: Response) => {
             !field.user_id ||
             !field.is_safety
         ) {
-            return errorResponse(res, 400, 'Bad request: Missing required fields');
+            const missingFields = [
+                !field.event_id && 'event_id',
+                !field.is_at_home && 'is_at_home',
+                !field.is_can_work && 'is_can_work',
+                !field.user_id && 'user_id',
+                !field.is_safety && 'is_safety',
+            ]
+                .filter(Boolean)
+                .join(', ');
+            return errorResponse(res, 400, `Bad request: Missing required ${missingFields}`);
         }
 
         const create_safety_check = await create_safety_check_controller(field);
         if (!create_safety_check?.success) {
-            return errorResponse(res, 400, create_safety_check?.message || 'Failed to create safety check');
+            return errorResponse(res, 200, create_safety_check?.message || 'Failed to create safety check');
         }
         return successResponse(res, 201, create_safety_check?.data);
     } catch (error: any) {

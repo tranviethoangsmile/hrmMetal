@@ -9,7 +9,13 @@ searchSafetyCheckedRouter.post('/', async (req: Request, res: Response) => {
     try {
         const field: search_safety_checked_interface = req.body;
         if (!field || !field.event_id || !field.user_id) {
-            return errorResponse(res, 400, 'event_id and user_id are required');
+            const missingFields = [
+                !field.event_id && 'event_id',
+                !field.user_id && 'user_id',
+            ]
+                .filter(Boolean)
+                .join(', ');
+            return errorResponse(res, 400, `Bad request: Missing required ${missingFields}`);
         }
         const result = await search_safety_checked_controller(field);
         if (!result?.success) {
