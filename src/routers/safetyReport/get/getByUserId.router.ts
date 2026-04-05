@@ -13,8 +13,9 @@ getByUserIdRouter.post('/', async (req: Request, res: Response) => {
             const missingFields = [
                 !field?.user_id && 'user_id',
                 !field?.date && 'date',
-            ].filter(Boolean);
-            return errorResponse(res, 400, `Missing required fields: ${missingFields.join(', ')}`);
+            ].filter(Boolean)
+            .join(', ');
+            return errorResponse(res, 400, `Missing required fields: ${missingFields}`);
         }
 
         const safetyReports = await get_all_safety_report_by_user_id_controller(field);

@@ -10,7 +10,13 @@ confirmSafetyReportRouter.post('/', async (req: Request, res: Response) => {
         const field: IConfirmSafetyReport = req.body;
 
         if (!field || !field.id || !field.leader_id) {
-            return errorResponse(res, 400, 'id and leader_id are required');
+            const missingFields = [
+                !field.id && 'id',
+                !field.leader_id && 'leader_id',
+            ]
+                .filter(Boolean)
+                .join(', ');
+            return errorResponse(res, 400, `Bad request: Missing required ${missingFields}`);
         }
         const result = await confirm_safety_report_controller(field);
         if (!result?.success) {
