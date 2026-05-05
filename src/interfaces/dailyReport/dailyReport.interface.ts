@@ -8,6 +8,12 @@ interface create_daily_report {
     operated_time: number;
     shutdown_time: number;
     operator_history: string;
+    errors?: {
+        code: string;
+        description: string;
+        shutdown_time: number;
+        error_date: string;
+    }[];
 }
 
 interface search_report {

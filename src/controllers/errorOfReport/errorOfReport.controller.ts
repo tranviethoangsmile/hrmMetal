@@ -1,7 +1,7 @@
-import { find_error_of_report } from '../../useCases/codeError/codeError.useCase';
+import { findCodeErrorsByDailyReportIdUseCase } from '../../useCases';
 
-const find_err_of_report = async (data: any) => {
-    return await find_error_of_report(data);
+const findCodeErrorsByDailyReportIdController = async (dailyReportId: string) => {
+    return await findCodeErrorsByDailyReportIdUseCase(dailyReportId);
 };
 
-export { find_err_of_report };
+export { findCodeErrorsByDailyReportIdController };
