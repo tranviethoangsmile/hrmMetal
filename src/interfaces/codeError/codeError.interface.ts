@@ -1,16 +1,17 @@
-import { DailyReport } from '../../models';
-interface create_code_error {
+interface ICreate_code_error {
     code: string;
     description: string;
     shutdown_time: number;
+    error_date: string;
     daily_report_id: string;
 }
 
-interface search_code_error {
+interface ISearch_code_error {
     code?: string;
     description?: string;
     shutdown_time?: number;
+    error_date?: string;
     daily_report_id?: string;
 }
 
-export { create_code_error, search_code_error };
+export { ICreate_code_error, ISearch_code_error };

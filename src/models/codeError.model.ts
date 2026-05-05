@@ -1,10 +1,14 @@
 import { DataTypes, Model } from 'sequelize';
 import { db } from '../dbs';
-import { CodeError as codeErrors } from '../enum';
+import  DailyReport from './dailyReport.model';
 class CodeError extends Model {
     public id!: string;
-    public code!: Enumerator;
+    public code!: string;
     public description!: string;
+    public shutdown_time!: number;
+    public error_date!: string;
+    public daily_report_id!: string;
+    public daily_report!: DailyReport;
 }
 
 CodeError.init(
@@ -15,11 +19,24 @@ CodeError.init(
             primaryKey: true,
         },
         code: {
-            type: DataTypes.ENUM,
-            values: Object.values(codeErrors).map(value => value.toString()),
+            type: DataTypes.STRING(50),
+            allowNull: false,
         },
         description: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
+            allowNull: false,
+        },
+        shutdown_time: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0,
+        },
+        error_date: {
+            type: DataTypes.DATEONLY,
+            allowNull: false,
+        },
+        daily_report_id: {
+            type: DataTypes.STRING(255),
             allowNull: false,
         },
     },

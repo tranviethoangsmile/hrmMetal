@@ -1,8 +1,8 @@
 CREATE TABLE dailyReports
 (
-    id VARCHAR PRIMARY KEY,
+    id VARCHAR(36) PRIMARY KEY,
     product VARCHAR(20) NOT NULL,
-    user_id VARCHAR(255) NOT NULL,
+    user_id VARCHAR(36) NOT NULL,
     date DATE NOT NULL,
     shift VARCHAR NOT NULL,
     quantity INTEGER NOT NULL,

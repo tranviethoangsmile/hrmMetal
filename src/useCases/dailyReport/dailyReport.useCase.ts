@@ -11,6 +11,7 @@ import {
     DepartmentRepository,
 } from '../../repositorys';
 import db from '../../dbs/db';
+import { CodeError } from '../../models';
 import { create_notification_usecase, findUserById } from '../index';
 const inventoryRepository = new InventoryRepository();
 const dailyReportRepository = new DailyReportRepository();
@@ -55,34 +56,51 @@ const create_daily_report_use = async (field: create_daily_report) => {
         if (isValid?.error) {
             throw new Error(isValid?.error.message);
         }
-        const user = await findUserById(field.user_id);
+        const normalizedField: create_daily_report = isValid.value;
+        const user = await findUserById(normalizedField.user_id);
         if (!user?.success) {
             throw new Error(user?.message || 'User not found');
         }
 
-        if (!Object.values(Products).includes(field.product)) {
-            throw new Error(`${field.product} not valid`);
+        if (!Object.values(Products).includes(normalizedField.product)) {
+            throw new Error(`${normalizedField.product} not valid`);
         }
 
-        if (!Object.values(shift).includes(field.shift)) {
+        if (!Object.values(shift).includes(normalizedField.shift)) {
             throw new Error('Shift name not valid');
         }
 
         const department = await departmentRepository.getDepartmentById(
-            field.department_id,
+            normalizedField.department_id,
         );
         if (!department?.success) {
             throw new Error(department?.message || 'Department not found');
         }
 
         const report = await dailyReportRepository.daily_report_create({
-            ...field,
+            ...normalizedField,
         });
         if (!report?.success) {
             throw new Error(report?.message || 'Failed to create daily report');
         }
+        if (!report?.data?.id) {
+            throw new Error('Failed to get daily report id');
+        }
+
+        const errors = normalizedField.errors || [];
+        if (errors.length > 0) {
+            const codeErrorPayload = errors.map(err => ({
+                code: err.code,
+                description: err.description,
+                shutdown_time: err.shutdown_time,
+                error_date: err.error_date,
+                daily_report_id: report.data.id,
+            }));
+
+            await CodeError.bulkCreate(codeErrorPayload, { transaction: t });
+        }
         const field_search = {
-            product: handleProductName(field.product),
+            product: handleProductName(normalizedField.product),
         };
         const inventorys = await inventoryRepository.search_inventory_with_name(
             {
@@ -93,14 +111,14 @@ const create_daily_report_use = async (field: create_daily_report) => {
             if (user?.data?.department?.name === '加工') {
                 const is_avaliable = inventorys?.data?.some(
                     inventory =>
-                        inventory.department_id === field.department_id,
+                        inventory.department_id === normalizedField.department_id,
                 );
                 if (!is_avaliable) {
                     const inventory = inventorys?.data?.[0];
                     const create_inventory = await inventoryRepository.create({
-                        product: handleProductName(field.product),
-                        quantity: field.quantity,
-                        department_id: field.department_id,
+                        product: handleProductName(normalizedField.product),
+                        quantity: normalizedField.quantity,
+                        department_id: normalizedField.department_id,
                     });
                     if (!create_inventory?.success) {
                         throw new Error('Failed to get inventory quantity');
@@ -108,8 +126,9 @@ const create_daily_report_use = async (field: create_daily_report) => {
                     if (inventory?.quantity != undefined) {
                         const update_inventory_old =
                             await inventoryRepository.update_inventory_repo({
-                                quantity: inventory.quantity - field.quantity,
-                                product: handleProductName(field.product),
+                                quantity:
+                                    inventory.quantity - normalizedField.quantity,
+                                product: handleProductName(normalizedField.product),
                                 department_id: inventory.department_id,
                             });
                         if (!update_inventory_old?.success) {
@@ -122,7 +141,10 @@ const create_daily_report_use = async (field: create_daily_report) => {
                     let inventory_old_of_kako: any;
                     let inventory_old: any;
                     inventorys?.data?.forEach(inventory => {
-                        if (inventory?.department_id != field.department_id) {
+                        if (
+                            inventory?.department_id !=
+                            normalizedField.department_id
+                        ) {
                             inventory_old = inventory;
                         } else {
                             inventory_old_of_kako = inventory;
@@ -136,7 +158,7 @@ const create_daily_report_use = async (field: create_daily_report) => {
                             await inventoryRepository.update_inventory_repo({
                                 quantity:
                                     inventory_old_of_kako.quantity +
-                                    field.quantity,
+                                    normalizedField.quantity,
                                 product: inventory_old_of_kako.product,
                                 department_id:
                                     inventory_old_of_kako.department_id,
@@ -147,7 +169,8 @@ const create_daily_report_use = async (field: create_daily_report) => {
                         const update_inventory =
                             await inventoryRepository.update_inventory_repo({
                                 quantity:
-                                    inventory_old.quantity - field.quantity,
+                                    inventory_old.quantity -
+                                    normalizedField.quantity,
                                 product: inventory_old.product,
                                 department_id: inventory_old.department_id,
                             });
@@ -163,14 +186,19 @@ const create_daily_report_use = async (field: create_daily_report) => {
             } else {
                 let inventory_old: any;
                 inventorys?.data?.forEach(inventory => {
-                    if (inventory?.department_id === field.department_id) {
+                    if (
+                        inventory?.department_id ===
+                        normalizedField.department_id
+                    ) {
                         inventory_old = inventory;
                     }
                 });
                 if (inventory_old?.quantity != undefined) {
                     const update_inventory =
                         await inventoryRepository.update_inventory_repo({
-                            quantity: inventory_old.quantity + field.quantity,
+                            quantity:
+                                inventory_old.quantity +
+                                normalizedField.quantity,
                             product: inventory_old.product,
                             department_id: inventory_old.department_id,
                         });
@@ -183,16 +211,16 @@ const create_daily_report_use = async (field: create_daily_report) => {
             }
         } else {
             const create_inventory = await inventoryRepository.create({
-                product: handleProductName(field.product),
+                product: handleProductName(normalizedField.product),
                 quantity: 0,
-                department_id: field.department_id,
+                department_id: normalizedField.department_id,
             });
             if (create_inventory?.success) {
                 const update_inventory =
                     await inventoryRepository.update_inventory_repo({
-                        quantity: field.quantity,
-                        product: handleProductName(field.product),
-                        department_id: field.department_id,
+                        quantity: normalizedField.quantity,
+                        product: handleProductName(normalizedField.product),
+                        department_id: normalizedField.department_id,
                     });
                 if (!update_inventory?.success) {
                     throw new Error(update_inventory?.message);

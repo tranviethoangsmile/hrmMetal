@@ -100,6 +100,7 @@ import {
 import {
     create_payroll, update_payroll, search_payroll
 } from './payroll/payroll.interface';
+import {ICreate_code_error, ISearch_code_error} from './codeError/codeError.interface';
 export {
     check_value_request_checkin,
     create_plan_production,
@@ -163,7 +164,11 @@ export {
     IDeleteDependentSupportAmount,
     create_order,
     IGetDependentSupportAmountByTaxDependentIdAndYear,
-    create_payroll, update_payroll, search_payroll,
+    create_payroll,
+    update_payroll, 
+    search_payroll,
     IFindByName,
-    IUploadAvatar
+    IUploadAvatar,
+    ICreate_code_error, 
+    ISearch_code_error
 };

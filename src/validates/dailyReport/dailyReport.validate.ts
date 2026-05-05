@@ -12,6 +12,18 @@ const schame_create_daily_report = Joi.object({
     operated_time: Joi.number().min(0).max(999).required(),
     shutdown_time: Joi.number().min(0).max(999).required(),
     operator_history: Joi.string().required(),
+    errors: Joi.array()
+        .items(
+            Joi.object({
+                code: Joi.string().max(50).required(),
+                description: Joi.string().required(),
+                shutdown_time: Joi.number().min(0).required(),
+                error_date: Joi.date().iso().required().messages({
+                    'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+                }),
+            }),
+        )
+        .default([]),
 });
 
 const schame_search_daily_report = Joi.object({
@@ -25,7 +37,10 @@ const schame_search_daily_report = Joi.object({
 });
 
 const valid_create_daily_report = (data: any) => {
-    return schame_create_daily_report.validate(data);
+    return schame_create_daily_report.validate(data, {
+        abortEarly: false,
+        stripUnknown: true,
+    });
 };
 
 const valid_search_daily_report = (data: any) => {

@@ -1,13 +1,14 @@
 import { CodeError, DailyReport, User } from '../../models';
 import { Department } from '../../models';
+import { Transaction } from 'sequelize';
 import { IDailyReportRepository } from '../interfaces';
 class DailyReportRepository implements IDailyReportRepository {
-    async daily_report_create(data: any) {
+    async daily_report_create(data: any, transaction?: Transaction) {
         try {
             const new_daily_report: DailyReport | null =
                 await DailyReport.create({
                     ...data,
-                });
+                }, { transaction });
             if (new_daily_report === null) {
                 throw new Error('creating daily report error');
             }
