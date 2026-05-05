@@ -24,6 +24,24 @@ const schame_create_daily_report = Joi.object({
             }),
         )
         .default([]),
+}).custom((value, helpers) => {
+    if (!value?.errors?.length) {
+        return value;
+    }
+
+    const reportDate = new Date(value.date).toISOString().slice(0, 10);
+    const invalidErrorDate = value.errors.find(
+        (item: any) =>
+            new Date(item.error_date).toISOString().slice(0, 10) !== reportDate,
+    );
+
+    if (invalidErrorDate) {
+        return helpers.error('any.invalid');
+    }
+
+    return value;
+}).messages({
+    'any.invalid': 'error_date must be the same as date',
 });
 
 const schame_search_daily_report = Joi.object({

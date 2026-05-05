@@ -32,12 +32,16 @@ CodeError.init(
             defaultValue: 0,
         },
         error_date: {
-            type: DataTypes.DATEONLY,
+            type: DataTypes.DATE,
             allowNull: false,
         },
         daily_report_id: {
-            type: DataTypes.STRING(255),
+            type: DataTypes.STRING,
             allowNull: false,
+            references: {
+                model: 'dailyreports',
+                key: 'id',
+            },
         },
     },
     {
@@ -45,7 +49,7 @@ CodeError.init(
         modelName: 'codeerrors',
         tableName: 'codeerrors',
         timestamps: true,
-        paranoid: true,
+        // paranoid: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
         deletedAt: 'deleted_at',

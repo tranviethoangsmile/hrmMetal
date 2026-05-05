@@ -9,13 +9,14 @@ import {
     InventoryRepository,
     DailyReportRepository,
     DepartmentRepository,
+    CodeErrorsRepository,
 } from '../../repositorys';
 import db from '../../dbs/db';
-import { CodeError } from '../../models';
 import { create_notification_usecase, findUserById } from '../index';
 const inventoryRepository = new InventoryRepository();
 const dailyReportRepository = new DailyReportRepository();
 const departmentRepository = new DepartmentRepository();
+const codeErrorsRepository = new CodeErrorsRepository();
 const handleProductName = (value: string) => {
     switch (value) {
         case 'D042F_PAO_DC4':
@@ -57,6 +58,7 @@ const create_daily_report_use = async (field: create_daily_report) => {
             throw new Error(isValid?.error.message);
         }
         const normalizedField: create_daily_report = isValid.value;
+        console.log('normalizedField', normalizedField);
         const user = await findUserById(normalizedField.user_id);
         if (!user?.success) {
             throw new Error(user?.message || 'User not found');
@@ -79,13 +81,14 @@ const create_daily_report_use = async (field: create_daily_report) => {
 
         const report = await dailyReportRepository.daily_report_create({
             ...normalizedField,
-        });
+        }, t);
         if (!report?.success) {
             throw new Error(report?.message || 'Failed to create daily report');
         }
         if (!report?.data?.id) {
             throw new Error('Failed to get daily report id');
         }
+        console.log('report', report?.data);
 
         const errors = normalizedField.errors || [];
         if (errors.length > 0) {
@@ -97,7 +100,14 @@ const create_daily_report_use = async (field: create_daily_report) => {
                 daily_report_id: report.data.id,
             }));
 
-            await CodeError.bulkCreate(codeErrorPayload, { transaction: t });
+            const createCodeErrorsResult =
+                await codeErrorsRepository.CREATE(codeErrorPayload, t);
+            if (!createCodeErrorsResult?.success) {
+                throw new Error(
+                    createCodeErrorsResult?.message ||
+                        'Failed to create code errors',
+                );
+            }
         }
         const field_search = {
             product: handleProductName(normalizedField.product),

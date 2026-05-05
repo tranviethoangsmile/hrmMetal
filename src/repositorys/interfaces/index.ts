@@ -25,6 +25,7 @@ import { IDayOffs } from './dayOffs/IDayOffsRepository.interface';
 import { IOvertimeRequestRepo } from './overtimeRquest/IOvertimeRequest.interface';
 import { ITaxDependentRepo } from './taxDependent/ITaxDependentRepo.interface';
 import { IDependentSupportAmountRepo } from './dependentSupportAmount/IDependentSupportAmountRepo.interface';
+import { ICodeErrorsRepository } from './codeErrors/codeErrors.interface';
 export {
     IEvencheckRepository,
     IPaidLeaveRequestRepo,
@@ -52,5 +53,6 @@ export {
     IDayOffs,
     IOvertimeRequestRepo,
     ITaxDependentRepo,
-    IDependentSupportAmountRepo
+    IDependentSupportAmountRepo,
+    ICodeErrorsRepository
 };

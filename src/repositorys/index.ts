@@ -25,6 +25,7 @@ import DayOffsRepository from './dayOffs/dayOffs.repository';
 import OvertimeRequestRepository from './overtimeRequest/overtimeRquest.repository';
 import TaxDependentRepository from './taxDependent/taxDependent.repository';
 import DependentSupportAmountRepo from './dependentSupportAmount/dependentSupportAmount.repository';
+import CodeErrorsRepository from './codeError/codeError.repository';
 export {
     PlanProductionRepository,
     LoginRepository,
@@ -52,5 +53,6 @@ export {
     DayOffsRepository,
     OvertimeRequestRepository,
     TaxDependentRepository,
-    DependentSupportAmountRepo
+    DependentSupportAmountRepo,
+    CodeErrorsRepository
 };

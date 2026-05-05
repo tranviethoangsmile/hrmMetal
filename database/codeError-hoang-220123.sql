@@ -5,7 +5,7 @@ CREATE TABLE codeerrors
     description TEXT NOT NULL,
     shutdown_time INTEGER NOT NULL DEFAULT 0,
     error_date DATE NOT NULL,
-    daily_report_id VARCHAR(255) NOT NULL,
+    daily_report_id VARCHAR(36) NOT NULL,
     created_at DATE NOT NULL,
     updated_at DATE NOT NULL,
     deleted_at DATE NULL,

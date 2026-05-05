@@ -59,6 +59,7 @@ class DailyReportRepository implements IDailyReportRepository {
                             'description',
                             'shutdown_time',
                             'daily_report_id',
+                            'error_date',
                         ],
                     },
                 ],
@@ -109,6 +110,15 @@ class DailyReportRepository implements IDailyReportRepository {
                             },
                         ],
                     },
+                    {
+                        model: CodeError,
+                        attributes: [
+                            'code',
+                            'description',
+                            'shutdown_time',
+                            'error_date',
+                        ],
+                    },
                 ],
             });
             if (reports === null || reports.length < 1) {
@@ -153,6 +163,15 @@ class DailyReportRepository implements IDailyReportRepository {
                                 as: 'department',
                                 attributes: ['name'],
                             },
+                        ],
+                    },
+                    {
+                        model: CodeError,
+                        attributes: [
+                            'code',
+                            'description',
+                            'shutdown_time',
+                            'error_date',
                         ],
                     },
                 ],
