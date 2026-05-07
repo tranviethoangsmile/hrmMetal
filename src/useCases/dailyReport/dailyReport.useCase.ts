@@ -33,6 +33,7 @@ const handleProductName = (value: string) => {
             return 'D61F';
         case 'D66_5':
         case 'D66_6':
+        case 'D66_7':
         case 'D66_DC3':
             return 'D66F';
         case 'DF93_4':
