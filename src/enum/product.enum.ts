@@ -16,12 +16,15 @@ export enum Products {
     C089,
     D860F_PAO_DC3,
     D67E_CTC,
+    D86E_CTC,
     D66_5,
     D66_6,
+    D66_7,
     D93F_PAO_DC4,
     D042F_PAO_DC4,
     D14KRR,
     DK05RR_1,
     DK05RR_2,
     D61F_PAO_DC4,
+    D59P
 }
