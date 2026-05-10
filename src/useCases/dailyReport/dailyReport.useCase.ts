@@ -4,7 +4,7 @@ import {
     valid_search_daily_report,
 } from '../../validates';
 import { validation_id } from '../../validates';
-import { Products, shift } from '../../enum';
+import { Products, shift, CodeError } from '../../enum';
 import {
     InventoryRepository,
     DailyReportRepository,
@@ -103,6 +103,12 @@ const create_daily_report_use = async (field: create_daily_report) => {
                 error_date: err.error_date,
                 daily_report_id: report.data.id,
             }));
+
+            codeErrorPayload.forEach(e => {
+                if(!isValidEnumValue(e.code, CodeError)){
+                    throw new Error(`${e.code} not valid`)
+                }
+            });
 
             const createCodeErrorsResult =
                 await codeErrorsRepository.CREATE(codeErrorPayload, t);

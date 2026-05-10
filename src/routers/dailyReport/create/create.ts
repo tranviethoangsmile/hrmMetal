@@ -44,6 +44,7 @@ createDailyReportRouter.post('/', async (req: Request, res: Response) => {
         }
 
         const dailyReport = await daily_report_create(field);
+        console.log(dailyReport)
         if (dailyReport?.success) {
             return successResponse(res, 201, dailyReport?.data);
         } else {
