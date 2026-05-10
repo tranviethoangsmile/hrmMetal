@@ -42,7 +42,7 @@ v1Router.use('/order', orderRouter);
 v1Router.use('/login', loginRouter);
 v1Router.use('/dailyreport', rpRouter);
 v1Router.use('/product', productRouter);
-v1Router.use('/err', errOfRpRouter);
+v1Router.use('/error-of-report', errOfRpRouter);
 v1Router.use('/trainning', trainningRouter);
 v1Router.use('/media', mediaRouter);
 v1Router.use('/chat', chatRouter);

@@ -137,6 +137,7 @@ import {
     get_dependent_support_amount_by_tax_dependent_id_and_year_usecase,
 } from './dependentSupportAmount/dependentSupportAmount.useCase';
 import { login_user } from './login/login.useCase';
+import { findCodeErrorsByDailyReportIdUseCase } from './codeError/codeError.useCase';
 export {
     create_plan_production_use,
     update_plan_production_use,
@@ -236,5 +237,6 @@ export {
     search_order_user_usecase,
     checkin_picked_usecase,
     get_dependent_support_amount_by_tax_dependent_id_and_year_usecase,
-    login_user
+    login_user,
+    findCodeErrorsByDailyReportIdUseCase
 };

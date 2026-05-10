@@ -6,6 +6,7 @@ import { very_token_order } from './veryTokenOrder.middleware';
 import delete_media_path from './delete_media_url.middleware';
 import addPosition from './addPosition.middleware';
 import authAdminRole from './veryRoleAdmin.middleware';
+import { apiRateLimiter } from './rateLimit.config';
 export {
     create_media_path,
     timeOrderLimit,
@@ -15,4 +16,5 @@ export {
     delete_media_path,
     addPosition,
     authAdminRole,
+    apiRateLimiter,
 };

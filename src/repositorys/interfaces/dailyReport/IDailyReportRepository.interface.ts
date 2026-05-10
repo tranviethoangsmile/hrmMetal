@@ -1,7 +1,8 @@
+import { Transaction } from 'sequelize';
 import { DailyReport } from '../../../models';
 
 export interface IDailyReportRepository {
-    daily_report_create(field: any): Promise<{
+    daily_report_create(field: any, transaction?: Transaction): Promise<{
         success: boolean;
         data?: DailyReport;
         message?: string;

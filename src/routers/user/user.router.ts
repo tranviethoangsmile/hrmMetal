@@ -48,9 +48,7 @@ userRouters.post('/', async (req: Request, res: Response) => {
             !user.travel_allowance_pay || 
             !user.shift_night_pay ||
             !user.salary_hourly ||
-            !user.paid_days ||
-            !user.is_officer ||
-            !user.is_offical_staff
+            !user.paid_days
 
         ) {
             const missingFields = [
@@ -65,9 +63,7 @@ userRouters.post('/', async (req: Request, res: Response) => {
                 !user.paid_days && 'paid_days',
                 !user.travel_allowance_pay && 'travel_allowance_pay',
                 !user.shift_night_pay && 'shift_night_pay',
-                !user.is_offical_staff && 'is_offical_staff',
-                !user.salary_hourly && 'salary_hourly',
-                !user.is_officer && 'is_officer',
+                !user.salary_hourly && 'salary_hourly'
             ]
                 .filter(Boolean)
                 .join(', ');

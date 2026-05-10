@@ -1,51 +1,50 @@
-import { CodeError, DailyReport } from '../../models/index';
-const create_code_err = async (data: any) => {
-    try {
-        const errs = await CodeError.bulkCreate(data);
-        if (errs) {
+import { CodeError } from '../../models';
+import { Transaction } from 'sequelize';
+import { ICodeErrorsRepository } from '../interfaces';
+
+class CodeErrorsRepository implements ICodeErrorsRepository {
+    async CREATE(codeErrors: any[], transaction?: Transaction) {
+        try {
+            const newCodeErrors = await CodeError.bulkCreate(codeErrors, { transaction });
             return {
                 success: true,
-                data: errs,
+                data: newCodeErrors,
             };
-        } else {
+        } catch (error: any) {
             return {
                 success: false,
-                message: 'create failed',
+                message: error.message,
             };
         }
-    } catch (error: any) {
-        return {
-            success: false,
-            message: error?.message,
-        };
     }
-};
-
-const find_err_of_report = async (field: any) => {
-    try {
-        const errs: CodeError[] | null = await CodeError.findAll({
-            where: {
-                ...field,
-            },
-            attributes: ['code', 'description', 'shutdown_time'],
-        });
-        if (errs != null) {
-            return {
-                success: true,
-                data: errs,
+    async FIND_BY_DAILY_REPORT_ID(dailyReportId: string) {
+        try {
+            const codeErrors: CodeError[] | null = await CodeError.findAll(
+                {
+                     where:
+                      {
+                         daily_report_id: dailyReportId },
+                         attributes: [
+                            'code',
+                            'description',
+                            'shutdown_time',
+                            'error_date',
+                        ],
+                    });
+            if (codeErrors === null || codeErrors.length < 1) {
+                throw new Error('code errors not found');
+            }
+            return { 
+                success: true, 
+                data: codeErrors
             };
-        } else {
-            return {
-                success: false,
-                message: 'error of report not found',
+        } catch (error: any) {
+            return { 
+                success: false, 
+                message: error.message 
             };
         }
-    } catch (error: any) {
-        return {
-            success: false,
-            message: error?.message,
-        };
     }
-};
+}
 
-export { create_code_err, find_err_of_report };
+export default CodeErrorsRepository;

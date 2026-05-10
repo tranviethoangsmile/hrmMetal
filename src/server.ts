@@ -17,7 +17,7 @@ import http from 'http';
 import { init } from './socket/socketIO';
 import config from './configs/config/config.system';
 import swaggerDocs from './swagger/swagger.config';
-import { apiRateLimiter } from './middlewares/rateLimit.config';
+import { apiRateLimiter } from './middlewares';
 import { initRedis } from './dbs/redis';
 // require('./dbs/db.mongo');
 dotenv.config();
