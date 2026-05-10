@@ -27,6 +27,9 @@
  *               date: { type: string, format: date, example: "2024-05-10" }
  *               shift: { type: string, enum: [A, B], example: "A" }
  *               quantity: { type: number, example: 10 }
+ *               good_quantity: { type: number, example: 10 }
+ *               defective_quantity: { type: number, example: 10 }
+ *               cycle_time: {type: number, example: 0.9 }
  *               operated_time: { type: number, example: 480 }
  *               shutdown_time: { type: number, example: 85 }
  *               operator_history: { type: string, example: "Operator A" }

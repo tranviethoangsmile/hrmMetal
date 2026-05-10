@@ -5,8 +5,11 @@ interface create_daily_report {
     date: string;
     shift: string;
     quantity: number;
+    good_quantity: number;
+    defective_quantity: number;
     operated_time: number;
     shutdown_time: number;
+    cycle_time: number;
     operator_history: string;
     errors?: {
         code: string;

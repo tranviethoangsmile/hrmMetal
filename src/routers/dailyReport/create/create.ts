@@ -21,6 +21,12 @@ createDailyReportRouter.post('/', async (req: Request, res: Response) => {
             (!field.shift || field.shift.trim() === '') && 'shift',
             (field.quantity === undefined || field.quantity === null) &&
                 'quantity',
+            (field.good_quantity === undefined || field.good_quantity === null) &&
+                'good_quantity',
+            (field.defective_quantity === undefined || field.defective_quantity === null) &&
+                'defective_quantity',
+            (field.cycle_time === undefined || field.cycle_time === null) &&
+                'cycle_time',
             (field.operated_time === undefined || field.operated_time === null) &&
                 'operated_time',
             (field.shutdown_time === undefined || field.shutdown_time === null) &&
@@ -41,7 +47,7 @@ createDailyReportRouter.post('/', async (req: Request, res: Response) => {
         if (dailyReport?.success) {
             return successResponse(res, 201, dailyReport?.data);
         } else {
-            return errorResponse(res, 400, dailyReport?.message || 'Failed to create daily report');
+            return errorResponse(res, 200, dailyReport?.message || 'Failed to create daily report');
         }
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');

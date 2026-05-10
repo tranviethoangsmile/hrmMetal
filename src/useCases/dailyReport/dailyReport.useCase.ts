@@ -13,6 +13,7 @@ import {
 } from '../../repositorys';
 import db from '../../dbs/db';
 import { create_notification_usecase, findUserById } from '../index';
+import { isValidEnumValue } from '../../helpers';
 const inventoryRepository = new InventoryRepository();
 const dailyReportRepository = new DailyReportRepository();
 const departmentRepository = new DepartmentRepository();
@@ -65,17 +66,14 @@ const create_daily_report_use = async (field: create_daily_report) => {
             throw new Error(isValid?.error.message);
         }
         const normalizedField: create_daily_report = isValid.value;
-        console.log('normalizedField', normalizedField);
         const user = await findUserById(normalizedField.user_id);
         if (!user?.success) {
             throw new Error(user?.message || 'User not found');
         }
-
-        if (!Object.values(Products).includes(normalizedField.product)) {
+        if (!isValidEnumValue(normalizedField.product, Products)) {
             throw new Error(`${normalizedField.product} not valid`);
         }
-
-        if (!Object.values(shift).includes(normalizedField.shift)) {
+        if (!isValidEnumValue(normalizedField.shift, shift)) {
             throw new Error('Shift name not valid');
         }
 
@@ -95,7 +93,6 @@ const create_daily_report_use = async (field: create_daily_report) => {
         if (!report?.data?.id) {
             throw new Error('Failed to get daily report id');
         }
-        console.log('report', report?.data);
 
         const errors = normalizedField.errors || [];
         if (errors.length > 0) {

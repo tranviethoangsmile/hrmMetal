@@ -4,6 +4,7 @@ import { search_report } from '../../../interfaces/dailyReport/dailyReport.inter
 import { valid_search_daily_report } from '../../../validates/dailyReport/dailyReport.validate';
 import { Products } from '../../../enum/product.enum';
 import { errorResponse, successResponse } from '../../../helpers';
+import { isValidEnumValue } from '../../../helpers';
 
 const getAllDailyReport: Router = Router();
 
@@ -24,10 +25,7 @@ getAllDailyReport.post('/', async (req: Request, res: Response) => {
             return errorResponse(res, 400, isValid?.error?.message || 'Validation failed');
         }
         if (field?.product) {
-            if (
-                typeof field?.product != 'string' ||
-                !Object.values(Products).includes(field?.product)
-            ) {
+            if(isValidEnumValue(field.product, Products)){
                 return errorResponse(res, 400, 'product not valid');
             }
         }
