@@ -28,6 +28,10 @@ const handleProductName = (value: string) => {
             return 'D93F';
         case 'D860F_PAO_DC3':
             return 'D860F';
+        case 'D86_CTC':
+            return 'D86CTC';
+        case 'D67E_CTC':
+            return 'D67ECTC';
         case 'D61F_PAO_DC4':
         case 'D61F_PAO_DC2':
             return 'D61F';
@@ -36,6 +40,8 @@ const handleProductName = (value: string) => {
         case 'D66_7':
         case 'D66_DC3':
             return 'D66F';
+        case 'D59P':
+            return 'D59P';
         case 'DF93_4':
         case 'DF93_3':
             return 'DF93CTC';

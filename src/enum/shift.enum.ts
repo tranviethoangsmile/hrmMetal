@@ -1,4 +1,4 @@
 export enum shift {
-    A,
-    B,
+    A='A',
+    B='B',
 }
