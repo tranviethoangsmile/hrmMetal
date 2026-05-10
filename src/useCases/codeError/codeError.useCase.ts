@@ -59,7 +59,7 @@ const create_err_for_report = async (data: any) => {
 
 const find_error_of_report = async (data: search_code_error) => {
     try {
-        const valid = await valid_search_err(data);
+        const valid = valid_search_err(data);
         if (!valid?.error) {
             const errs = await find_err_of_report(data);
             if (errs?.success) {
