@@ -7,9 +7,9 @@ class DailyReportRepository implements IDailyReportRepository {
         try {
             console.log(data)
             const new_daily_report: DailyReport | null =
-                await DailyReport.create({
-                    ...data,
-                }, { transaction });
+                await DailyReport.create(
+                    data,
+                { transaction });
             if (new_daily_report === null) {
                 throw new Error('creating daily report error');
             }
