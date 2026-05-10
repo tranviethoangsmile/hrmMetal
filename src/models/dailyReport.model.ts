@@ -61,7 +61,7 @@ DailyReport.init(
             allowNull: false,
         },
         cycle_time:{
-            type: DataTypes.NUMBER,
+            type: DataTypes.DECIMAL,
             allowNull: false,
         },
         operator_history: {

@@ -11,7 +11,7 @@ CREATE TABLE dailyReports
     operator_history VARCHAR(255) NULL,
     operated_time INTEGER NOT NULL,
     shutdown_time INTEGER NOT NULL,
-    cycle_time INTEGER NOT NULL,
+    cycle_time DECIMAL NOT NULL,
     created_at DATE NOT NULL,
     updated_at DATE NOT NULL,
     deleted_at DATE NULL,
