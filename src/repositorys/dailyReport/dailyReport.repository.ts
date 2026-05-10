@@ -5,6 +5,7 @@ import { IDailyReportRepository } from '../interfaces';
 class DailyReportRepository implements IDailyReportRepository {
     async daily_report_create(data: any, transaction?: Transaction) {
         try {
+            console.log(data)
             const new_daily_report: DailyReport | null =
                 await DailyReport.create({
                     ...data,
