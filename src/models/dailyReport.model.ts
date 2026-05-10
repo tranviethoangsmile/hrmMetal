@@ -8,6 +8,9 @@ class DailyReport extends Model {
     public product!: Enumerator;
     public user_id!: string;
     public department_id!: string;
+    public good_quantity!: number;
+    public defective_quantity!: number;
+    public cycle_time!: number;
     public date!: string;
     public shift!: string;
     public quantity!: number;
@@ -46,6 +49,18 @@ DailyReport.init(
             allowNull: false,
         },
         quantity: {
+            type: DataTypes.NUMBER,
+            allowNull: false,
+        },
+        good_quantity: {
+            type: DataTypes.NUMBER,
+            allowNull: false,
+        },
+        defective_quantity:{
+            type: DataTypes.NUMBER,
+            allowNull: false,
+        },
+        cycle_time:{
             type: DataTypes.NUMBER,
             allowNull: false,
         },

@@ -66,7 +66,6 @@ const create_daily_report_use = async (field: create_daily_report) => {
             throw new Error(isValid?.error.message);
         }
         const normalizedField: create_daily_report = isValid.value;
-        console.log('no',normalizedField)
         const user = await findUserById(normalizedField.user_id);
         if (!user?.success) {
             throw new Error(user?.message || 'User not found');
@@ -77,18 +76,15 @@ const create_daily_report_use = async (field: create_daily_report) => {
         if (!isValidEnumValue(normalizedField.shift, shift)) {
             throw new Error('Shift name not valid');
         }
-
         const department = await departmentRepository.getDepartmentById(
             normalizedField.department_id,
         );
         if (!department?.success) {
             throw new Error(department?.message || 'Department not found');
         }
-
         const report = await dailyReportRepository.daily_report_create(
             normalizedField,
          t);
-         console.log("rp",report)
         if (!report?.success) {
             throw new Error(report?.message || 'Failed to create daily report');
         }
