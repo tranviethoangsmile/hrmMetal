@@ -66,6 +66,7 @@ const create_daily_report_use = async (field: create_daily_report) => {
             throw new Error(isValid?.error.message);
         }
         const normalizedField: create_daily_report = isValid.value;
+        console.log(normalizedField)
         const user = await findUserById(normalizedField.user_id);
         if (!user?.success) {
             throw new Error(user?.message || 'User not found');
