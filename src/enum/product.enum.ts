@@ -26,5 +26,6 @@ export enum Products {
     D14KRR='D14KRR',
     DK05RR_1='DK05RR_1',
     DK05RR_2='DK05RR_2',
+    DK05RR_3='DK05RR_3',
     D61F_PAO_DC4='D61F_PAO_DC4',
 }
