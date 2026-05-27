@@ -1,8 +1,8 @@
 export enum Position {
-    HINO,
-    IZUMO,
-    KYOTO,
-    OSAKA,
-    TOKYO,
-    COMPORATION,
+    HINO='HINO',
+    IZUMO='IZUMO',
+    KYOTO='KYOTO',
+    OSAKA='OSAKA',
+    TOKYO='TOKYO',
+    COMPORATION='COMPORRATION',
 }

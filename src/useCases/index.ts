@@ -138,6 +138,7 @@ import {
 } from './dependentSupportAmount/dependentSupportAmount.useCase';
 import { login_user } from './login/login.useCase';
 import { findCodeErrorsByDailyReportIdUseCase } from './codeError/codeError.useCase';
+import { getEnumForAdminUsecase } from './admin/options/getAdminEnum.useCase';
 export {
     create_plan_production_use,
     update_plan_production_use,
@@ -238,5 +239,6 @@ export {
     checkin_picked_usecase,
     get_dependent_support_amount_by_tax_dependent_id_and_year_usecase,
     login_user,
-    findCodeErrorsByDailyReportIdUseCase
+    findCodeErrorsByDailyReportIdUseCase,
+    getEnumForAdminUsecase
 };

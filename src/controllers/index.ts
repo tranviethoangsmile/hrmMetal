@@ -147,7 +147,7 @@ import {
 } from './payroll/payroll.controller';
 import { login } from './login/login.controller';
 import { findCodeErrorsByDailyReportIdController } from './errorOfReport/errorOfReport.controller';
-
+import { getEnumForAdminControler } from './admin/options/getEnumforAdmin.controler';
 export {
     createDep,
     departmentList,
@@ -255,5 +255,6 @@ export {
     search_payroll_by_id_controller,
     destroy_payroll_controller,
     login,
-    findCodeErrorsByDailyReportIdController
+    findCodeErrorsByDailyReportIdController,
+    getEnumForAdminControler
 };

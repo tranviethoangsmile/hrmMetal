@@ -1,7 +1,7 @@
 export enum notification_type {
-    INFO,
-    WARNING,
-    ERROR,
-    SUCCESS,
-    SYSTEM,
+    INFO='INFO',
+    WARNING='WARNING',
+    ERROR='ERROR',
+    SUCCESS='SUCCESS',
+    SYSTEM='SYSTEM',
 }

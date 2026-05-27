@@ -8,6 +8,7 @@ import {
     validate_update_uniform_order,
     validate_seach_order_processing,
 } from '../../validates';
+import { isValidEnumValue } from '../../helpers';
 const uniformOrderRepo = new UniformOrderRepository();
 const create_uniform_order_use = async (field: any) => {
     try {
@@ -74,7 +75,7 @@ const search_uniform_order_with_position_use = async (position: string) => {
         if (isValid?.error) {
             throw new Error(`${isValid?.error.message}`);
         }
-        if (!Object.values(Position).includes(position)) {
+        if(!isValidEnumValue(position, Position)){
             throw new Error(`position of user invalid`);
         }
         const uniformOrders =

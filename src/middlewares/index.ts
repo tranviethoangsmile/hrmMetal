@@ -7,6 +7,7 @@ import delete_media_path from './delete_media_url.middleware';
 import addPosition from './addPosition.middleware';
 import authAdminRole from './veryRoleAdmin.middleware';
 import { apiRateLimiter } from './rateLimit.config';
+import requireRoles from './requireRoles.middleware';
 export {
     create_media_path,
     timeOrderLimit,
@@ -17,4 +18,5 @@ export {
     addPosition,
     authAdminRole,
     apiRateLimiter,
+    requireRoles
 };

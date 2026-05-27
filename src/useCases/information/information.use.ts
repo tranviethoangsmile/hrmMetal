@@ -8,6 +8,7 @@ import { Position } from '../../enum';
 import { findUserById } from '../user/user.useCase';
 import { InformationRepository } from '../../repositorys';
 import { setCache, getCache, delCache } from '../../utils';
+import { isValidEnumValue } from '../../helpers';
 const informationRepository = new InformationRepository();
 const create_information_use = async (value: any) => {
     try {
@@ -45,10 +46,7 @@ const create_information_use = async (value: any) => {
 
             throw new Error(`Missing required fields: ${missingFields}`);
         }
-        if (
-            typeof info_value.position === 'string' &&
-            !Object.values(Position).includes(info_value.position)
-        ) {
+        if(!isValidEnumValue(info_value.position, Position)){
             throw new Error('position is not valid');
         }
         const newInfomation =
