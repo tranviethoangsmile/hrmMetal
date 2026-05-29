@@ -1,5 +1,6 @@
-import { enumToArray } from "../../../helpers";
-import { Position,
+import { enumToArray } from '../../../helpers';
+import {
+    Position,
     Products,
     Role,
     shift_work,
@@ -10,11 +11,13 @@ import { Position,
     OVERTIME_REQUEST_HOUR,
     TaxDependentStatusEnum,
     TaxDependentRelationshipEnum,
-    TaxDependentGenderEnum
- } from "../../../enum";
+    TaxDependentGenderEnum,
+} from '../../../enum';
 
+const numericEnumToArray = (enumObj: object): number[] =>
+    Object.values(enumObj).filter(v => typeof v === 'number') as number[];
 
- const getEnumForAdminUsecase = async () => {
+const getEnumForAdminUsecase = async () => {
     try {
         const data = {
             roles: enumToArray(Role),
@@ -26,22 +29,22 @@ import { Position,
             uniform_types: enumToArray(UniformType),
             uniform_sizes: enumToArray(UniformSize),
             tax_dependent_statuses: enumToArray(TaxDependentStatusEnum),
-            overtime_request_house: enumToArray(OVERTIME_REQUEST_HOUR),
-            tax_dependent_relationship_enum: enumToArray(TaxDependentRelationshipEnum),
-            tax_dependent_gender_enum: enumToArray(TaxDependentGenderEnum)
-
-        }
+            overtime_request_hours: numericEnumToArray(OVERTIME_REQUEST_HOUR),
+            tax_dependent_relationship_enum: enumToArray(
+                TaxDependentRelationshipEnum
+            ),
+            tax_dependent_gender_enum: enumToArray(TaxDependentGenderEnum),
+        };
         return {
             success: true,
-            data: data
-        }
-        
+            data: data,
+        };
     } catch (error: any) {
         return {
             success: false,
-            message: `error from usecase :: ${error?.message}`
-        }
+            message: `error from usecase :: ${error?.message}`,
+        };
     }
- }
+};
 
- export { getEnumForAdminUsecase };
+export { getEnumForAdminUsecase };

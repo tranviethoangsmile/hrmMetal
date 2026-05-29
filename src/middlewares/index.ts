@@ -8,6 +8,7 @@ import addPosition from './addPosition.middleware';
 import authAdminRole from './veryRoleAdmin.middleware';
 import { apiRateLimiter } from './rateLimit.config';
 import requireRoles from './requireRoles.middleware';
+import authJwt from './authJwt.middleware';
 export {
     create_media_path,
     timeOrderLimit,
@@ -18,5 +19,6 @@ export {
     addPosition,
     authAdminRole,
     apiRateLimiter,
-    requireRoles
+    requireRoles,
+    authJwt,
 };
