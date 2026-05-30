@@ -29,4 +29,12 @@ export interface IPaidLeaveRequestRepo {
     DELETE_PAID_LEAVE_REQUEST_BY_ID_REPO(
         id: string,
     ): Promise<{ success: boolean; message?: string }>;
+    GET_ALL_PAID_LEAVE_APPROVED_FOR_ADMIN(position: string) : Promise<{
+        success: boolean,
+        data?:{
+            rows: PaidLeaveRequest[],
+            count: number
+        },
+        message?: string
+    }>
 }
