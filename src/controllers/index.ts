@@ -148,6 +148,7 @@ import {
 import { login } from './login/login.controller';
 import { findCodeErrorsByDailyReportIdController } from './errorOfReport/errorOfReport.controller';
 import { getEnumForAdminControler } from './admin/options/getEnumforAdmin.controler';
+import { adminDashboardSummaryController } from './admin/dashboards/adminDashboardSummarys.controller';
 export {
     createDep,
     departmentList,
@@ -256,5 +257,6 @@ export {
     destroy_payroll_controller,
     login,
     findCodeErrorsByDailyReportIdController,
-    getEnumForAdminControler
+    getEnumForAdminControler,
+    adminDashboardSummaryController
 };

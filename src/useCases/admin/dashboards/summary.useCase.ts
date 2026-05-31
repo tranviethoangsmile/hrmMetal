@@ -16,12 +16,12 @@ const checkinRepository = new CheckinRepository();
 const eventCheckRepository = new EventCheckRepository();
 const eventRepository = new EventRepository();
 
-const adminDashboardSummaryUseCase = async () => {
+const adminDashboardSummaryUseCase = async (position: string) => {
     try {
         const [
             pending_paid_leave,
             ] = await Promise.all ([
-                paidLeadRequestRepository.GET_ALL_PAID_LEAVE_APPROVED_FOR_ADMIN('HINO'),
+                paidLeadRequestRepository.GET_ALL_PAID_LEAVE_APPROVED_FOR_ADMIN(position),
             ])
             if(!pending_paid_leave.success){
                 return {
