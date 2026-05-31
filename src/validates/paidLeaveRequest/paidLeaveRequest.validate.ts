@@ -20,10 +20,10 @@ const validate_create_paid = (data: any) => {
 };
 
 const schema_update = Joi.object({
-    user_id: Joi.string().guid(),
-    feedback: Joi.string(),
-    is_confirm: Joi.boolean(),
-    admin_id: Joi.string().guid(),
+    user_id: Joi.string().guid().required(),
+    feedback: Joi.string().allow(null),
+    is_confirm: Joi.boolean().required(),
+    admin_id: Joi.string().guid().required(),
     id: Joi.string().guid().required(),
 });
 
