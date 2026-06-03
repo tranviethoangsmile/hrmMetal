@@ -24,6 +24,13 @@ interface ISearchPaidLeave {
     is_confirm?: boolean;
 }
 
+interface IUpdateApprovePaidLeave {
+    leader_id: string;
+    feedback?: string;
+    id: string;
+    is_approve: boolean;
+}
 
 
-export { ICreatePaidLeave, IUpdatePaidLeave, ISearchPaidLeave };
+
+export { ICreatePaidLeave, IUpdatePaidLeave, ISearchPaidLeave, IUpdateApprovePaidLeave };

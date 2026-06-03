@@ -4,9 +4,12 @@ export interface IPaidLeaveRequestRepo {
     CREATE_PAID_LEAVE_REQUEST(
         field: any,
     ): Promise<{ success: boolean; data?: PaidLeaveRequest; message?: string }>;
-    FIND_ALL_PAID_LEAVE_REQUEST(): Promise<{
+    GET_ALL_PAID_LEAVE_REQUEST_FOR_LEADER_AND_OTHER(leader_id: string): Promise<{
         success: boolean;
-        data?: PaidLeaveRequest[];
+        data?: {
+            rows: PaidLeaveRequest[],
+            count: number
+        };
         message?: string;
     }>;
     UPDATE_ACTIVE_PAID_LEAVE_REQUEST(
@@ -17,7 +20,7 @@ export interface IPaidLeaveRequestRepo {
         data?: PaidLeaveRequest[];
         message?: string;
     }>;
-    UPDATE_UN_APPROVE_PAID_LEAVE_REQUEST(
+    UPDATE_APPROVE_PAID_LEAVE_REQUEST(
         field: any,
     ): Promise<{ success: boolean; message?: string }>;
     UPDATE_CONFIRM_PAID_LEAVE_REQUEST_FROM_ADMIN(

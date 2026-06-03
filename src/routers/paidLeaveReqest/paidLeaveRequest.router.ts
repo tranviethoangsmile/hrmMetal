@@ -1,8 +1,6 @@
 import { Router, Request, Response } from 'express';
 import create_router from './create/create';
 import searchLeaveRouter from './search/searchPaidLeaveRequestWithField.router';
-import unApproveRouter from './update/updateUnApproveLeave.router';
-import updateConfirmRouter from './update/updateConfirmLeave.router';
 import deletePaidLeaveRouter from './delete/deletePaidLeave.router';
 import {
     get_all_paid_leave_controller,
@@ -15,21 +13,7 @@ import { IUpdatePaidLeave } from '../../interfaces'
 const paidLeaveRouter: Router = Router();
 paidLeaveRouter.use('/create', create_router);
 paidLeaveRouter.use('/search', searchLeaveRouter);
-paidLeaveRouter.use('/update', unApproveRouter);
-paidLeaveRouter.use('/updateconfirm', updateConfirmRouter);
 paidLeaveRouter.use('/delete', deletePaidLeaveRouter);
-
-paidLeaveRouter.get('/', async (req: Request, res: Response) => {
-    try {
-        const paid_leaves = await get_all_paid_leave_controller();
-        if(!paid_leaves?.success){
-            return errorResponse(res, 200, paid_leaves?.message)
-        }
-        return successResponse( res, 202, paid_leaves?.data)
-    } catch (error: any) {
-        return errorResponse(res, 500, error?.message || 'Internal server error');
-    }
-});
 
 paidLeaveRouter.put('/', very_role, async (req: Request, res: Response) => {
     try {

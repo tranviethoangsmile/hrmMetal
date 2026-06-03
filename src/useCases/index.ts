@@ -117,7 +117,7 @@ import {
     find_paid_leave,
     update_paid_leave,
     search_leave_request_with_field_use,
-    update_un_approve_leave_request_use,
+    update_approve_leave_request_use,
     update_confirm_from_admin_paid_leave_request_use,
     delete_paid_leave_request_with_by_id_use,
 } from './paidLeaveRequest/paidLeaveRequest.useCase';
@@ -217,7 +217,7 @@ export {
     find_paid_leave,
     update_paid_leave,
     search_leave_request_with_field_use,
-    update_un_approve_leave_request_use,
+    update_approve_leave_request_use,
     update_confirm_from_admin_paid_leave_request_use,
     delete_paid_leave_request_with_by_id_use,
     createTaxDependentUseCase,

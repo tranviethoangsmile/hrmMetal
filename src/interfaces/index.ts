@@ -19,6 +19,7 @@ import {
     ICreatePaidLeave,
     IUpdatePaidLeave,
     ISearchPaidLeave,
+    IUpdateApprovePaidLeave
 } from '../interfaces/paiLeaveRequest/paidLeaveRequest.interface';
 
 import {
@@ -170,5 +171,6 @@ export {
     IFindByName,
     IUploadAvatar,
     ICreate_code_error, 
-    ISearch_code_error
+    ISearch_code_error,
+    IUpdateApprovePaidLeave
 };

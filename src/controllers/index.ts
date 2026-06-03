@@ -100,7 +100,7 @@ import {
     get_all_paid_leave_controller,
     update_is_active_paid_leave_controller,
     search_leave_request_with_field_controller,
-    update_un_approve_leave_request_controller,
+    update_approve_leave_request_controller,
     update_confirm_from_admin_paid_leave_request_controller,
     delete_paid_leave_request_by_id_controller,
 } from './paidLeaveRequest/paidLeaveRequest.controller';
@@ -147,8 +147,8 @@ import {
 } from './payroll/payroll.controller';
 import { login } from './login/login.controller';
 import { findCodeErrorsByDailyReportIdController } from './errorOfReport/errorOfReport.controller';
-import { getEnumForAdminControler } from './admin/options/getEnumforAdmin.controler';
-import { adminDashboardSummaryController } from './admin/dashboards/adminDashboardSummarys.controller';
+import { getEnumForAdminControler } from './adminPage/options/getEnumforAdmin.controler';
+import { adminDashboardSummaryController } from './adminPage/dashboards/admin/adminDashboardSummarys.controller';
 export {
     createDep,
     departmentList,
@@ -217,7 +217,7 @@ export {
     get_all_paid_leave_controller,
     update_is_active_paid_leave_controller,
     search_leave_request_with_field_controller,
-    update_un_approve_leave_request_controller,
+    update_approve_leave_request_controller,
     update_confirm_from_admin_paid_leave_request_controller,
     create_safety_check_controller,
     search_safety_checked_controller,

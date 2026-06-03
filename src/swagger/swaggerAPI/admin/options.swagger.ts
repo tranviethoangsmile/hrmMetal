@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /api/version/v1/admin/options/enums:
+ * /api/version/v1/dashboards/admin/options/enums:
  *   get:
  *     summary: Get admin enum options
  *     tags: [Admin Options]
@@ -60,6 +60,18 @@
  *                       items:
  *                         type: string
  *                     tax_dependent_statuses:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                     overtime_request_hours:
+ *                       type: array
+ *                       items:
+ *                         type: number
+ *                     tax_dependent_relationship_enum:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                     tax_dependent_gender_enum:
  *                       type: array
  *                       items:
  *                         type: string
