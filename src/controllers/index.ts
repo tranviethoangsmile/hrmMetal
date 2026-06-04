@@ -122,6 +122,7 @@ import {
     search_checked_of_user_in_month_controller,
     get_checkin_in_date_of_position_controller,
     get_checkin_detail_in_date_of_user_controller,
+    get_all_checkins_of_position_in_date_for_admin_controller,
 } from './checkin/checkin.controller';
 import { 
     createTaxDependentController, 
@@ -258,5 +259,6 @@ export {
     login,
     findCodeErrorsByDailyReportIdController,
     getEnumForAdminControler,
-    adminDashboardSummaryController
+    adminDashboardSummaryController,
+    get_all_checkins_of_position_in_date_for_admin_controller
 };

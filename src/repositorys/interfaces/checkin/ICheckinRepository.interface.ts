@@ -16,4 +16,11 @@ export interface ICheckinRepository {
     get_checkin_detail_in_date_of_user_repo(
         field: any,
     ): Promise<{ success: boolean; data?: Checkin; message?: string }>;
+    GET_ALL_CHECKINS_OF_POSITION_IN_DATE_FOR_ADMIN(
+        position: string,
+        date: string,
+    ): Promise<{ success: boolean; data?: {
+        rows: Checkin[],
+        count: number
+    }; message?: string }>;
 }

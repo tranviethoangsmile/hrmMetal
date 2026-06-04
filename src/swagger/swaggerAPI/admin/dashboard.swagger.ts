@@ -7,12 +7,89 @@
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     DashboardCheckinUser:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *         name:
+ *           type: string
+ *         employee_id:
+ *           type: string
+ *         department:
+ *           type: object
+ *           nullable: true
+ *           properties:
+ *             name:
+ *               type: string
+ *     DashboardCheckin:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *         date:
+ *           type: string
+ *           format: date
+ *         user_id:
+ *           type: string
+ *           format: uuid
+ *         time_in:
+ *           type: string
+ *           nullable: true
+ *         work_shift:
+ *           type: string
+ *         time_out:
+ *           type: string
+ *           nullable: true
+ *         work_time:
+ *           type: number
+ *           nullable: true
+ *         over_time:
+ *           type: number
+ *           nullable: true
+ *         is_weekend:
+ *           type: boolean
+ *         is_paid_leave:
+ *           type: boolean
+ *         User:
+ *           $ref: '#/components/schemas/DashboardCheckinUser'
+ *     DashboardCheckinPage:
+ *       type: object
+ *       properties:
+ *         rows:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/DashboardCheckin'
+ *         count:
+ *           type: integer
+ *           example: 8
+ */
+
+/**
+ * @swagger
  * /api/version/v1/dashboards/admin/summarys/summarys:
  *   get:
  *     summary: Get admin dashboard summary
  *     tags: [Dashboards]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - date
+ *             properties:
+ *               date:
+ *                 type: string
+ *                 format: date
+ *                 example: "2026-06-04"
  *     responses:
  *       202:
  *         description: Admin dashboard summary retrieved successfully
@@ -26,20 +103,13 @@
  *                   example: true
  *                 data:
  *                   type: object
+ *                   description: Current controller returns the paid leave repository result under data.
  *                   properties:
  *                     success:
  *                       type: boolean
  *                       example: true
  *                     data:
- *                       type: object
- *                       properties:
- *                         rows:
- *                           type: array
- *                           items:
- *                             $ref: '#/components/schemas/PaidLeaveRequest'
- *                         count:
- *                           type: integer
- *                           example: 3
+ *                       $ref: '#/components/schemas/PaidLeaveRequestPage'
  *       203:
  *         description: Request processed but summary data was not found
  *         content:
@@ -47,7 +117,65 @@
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *       400:
- *         description: Missing user position from token
+ *         description: Missing date in body or position from token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       401:
+ *         description: Missing or invalid token
+ *       403:
+ *         description: User does not have permission
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/dashboards/admin/get-checkins:
+ *   post:
+ *     summary: Get checkins by admin position and date
+ *     tags: [Dashboards]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - date
+ *             properties:
+ *               date:
+ *                 type: string
+ *                 format: date
+ *                 example: "2026-06-04"
+ *     responses:
+ *       202:
+ *         description: Checkins retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   $ref: '#/components/schemas/DashboardCheckinPage'
+ *       200:
+ *         description: Request processed but checkins were not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       400:
+ *         description: Missing date in body or position from token
  *         content:
  *           application/json:
  *             schema:
@@ -164,6 +292,51 @@
  *               $ref: '#/components/schemas/ErrorResponse'
  *       400:
  *         description: Missing required fields or validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       401:
+ *         description: Missing or invalid token
+ *       403:
+ *         description: User does not have permission
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/dashboards/leader/get-paid-leave-request:
+ *   get:
+ *     summary: Get pending paid leave requests for leader
+ *     tags: [Dashboards]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       202:
+ *         description: Pending paid leave requests retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   $ref: '#/components/schemas/PaidLeaveRequestPage'
+ *       200:
+ *         description: Request processed but no paid leave request was found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       400:
+ *         description: Missing leader id from token
  *         content:
  *           application/json:
  *             schema:

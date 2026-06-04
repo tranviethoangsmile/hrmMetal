@@ -121,6 +121,15 @@ import {
     update_confirm_from_admin_paid_leave_request_use,
     delete_paid_leave_request_with_by_id_use,
 } from './paidLeaveRequest/paidLeaveRequest.useCase';
+import {
+    create_checkin_use,
+    update_checkin_use,
+    is_checked,
+    search_checkin_of_user_in_month_useCase,
+    get_checkin_of_position_in_date_use,
+    get_checkin_detail_in_date_of_user_use,
+    get_all_checkins_of_position_in_date_for_admin_use,
+} from './checkin/checkin.useCase';
 import { 
     createTaxDependentUseCase, getTaxDependentByIdUsecase,
     deleteTaxDependentWithIdUseCase,
@@ -242,5 +251,12 @@ export {
     login_user,
     findCodeErrorsByDailyReportIdUseCase,
     getEnumForAdminUsecase,
-    adminDashboardSummaryUseCase
+    adminDashboardSummaryUseCase,
+    create_checkin_use,
+    update_checkin_use,
+    is_checked,
+    search_checkin_of_user_in_month_useCase,
+    get_checkin_of_position_in_date_use,
+    get_checkin_detail_in_date_of_user_use,
+    get_all_checkins_of_position_in_date_for_admin_use,
 };

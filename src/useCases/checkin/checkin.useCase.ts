@@ -195,6 +195,30 @@ const get_checkin_of_position_in_date_use = async (
     }
 };
 
+const get_all_checkins_of_position_in_date_for_admin_use = async (position: string, date: string) => {
+    try {
+        if(!isValidEnumValue(position, Position)){
+            throw new Error(`Position is not valid: ${position}`);
+        }
+        const formattedDate = moment(date).format('YYYY-MM-DD');
+        if (formattedDate !== date) {
+            throw new Error(`Date is not valid: ${date}`);
+        }
+        const checkins = await checkinRepository.GET_ALL_CHECKINS_OF_POSITION_IN_DATE_FOR_ADMIN(position, date);
+        if (!checkins?.success) {
+            throw new Error(`${checkins?.message}`);
+        }
+        return {
+            success: true,
+            data: checkins?.data,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.message,
+        };
+    }
+}
 export {
     create_checkin_use,
     update_checkin_use,
@@ -202,4 +226,5 @@ export {
     search_checkin_of_user_in_month_useCase,
     get_checkin_of_position_in_date_use,
     get_checkin_detail_in_date_of_user_use,
+    get_all_checkins_of_position_in_date_for_admin_use
 };

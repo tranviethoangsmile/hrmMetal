@@ -35,6 +35,9 @@
  *         id:
  *           type: string
  *           format: uuid
+ *         date_request:
+ *           type: string
+ *           format: date
  *         date_leave:
  *           type: string
  *           format: date
@@ -42,17 +45,14 @@
  *           type: string
  *         is_approve:
  *           type: boolean
+ *         is_confirm:
+ *           type: boolean
  *         user_id:
  *           type: string
  *           format: uuid
  *         leader_id:
  *           type: string
  *           format: uuid
- *         is_confirm:
- *           type: boolean
- *         date_request:
- *           type: string
- *           format: date
  *         position:
  *           type: string
  *         is_paid:
@@ -66,6 +66,16 @@
  *           $ref: '#/components/schemas/PaidLeaveUserSummary'
  *         leader:
  *           $ref: '#/components/schemas/PaidLeaveUserSummary'
+ *     PaidLeaveRequestPage:
+ *       type: object
+ *       properties:
+ *         rows:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/PaidLeaveRequest'
+ *         count:
+ *           type: integer
+ *           example: 10
  *     PaidLeaveSuccess:
  *       type: object
  *       properties:
@@ -159,40 +169,10 @@
 /**
  * @swagger
  * /api/version/v1/paidleave:
- *   get:
- *     summary: Get all paid leave requests
- *     tags: [Paid Leave Requests]
- *     responses:
- *       202:
- *         description: Paid leave requests retrieved successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 data:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/PaidLeaveRequest'
- *       200:
- *         description: Request processed but no data was found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- *       500:
- *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
  *   put:
  *     summary: Mark a paid leave request as approved
  *     tags: [Paid Leave Requests]
- *     description: Legacy route guarded by very_role middleware.
+ *     description: Legacy approve route guarded by very_role middleware.
  *     requestBody:
  *       required: true
  *       content:
@@ -210,6 +190,7 @@
  *               user_id:
  *                 type: string
  *                 format: uuid
+ *                 description: Used by very_role middleware.
  *               admin_id:
  *                 type: string
  *                 format: uuid
@@ -230,7 +211,7 @@
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *       400:
- *         description: Missing id
+ *         description: Missing id or validation error
  *         content:
  *           application/json:
  *             schema:
@@ -299,126 +280,6 @@
  *               $ref: '#/components/schemas/ErrorResponse'
  *       400:
  *         description: Bad request or validation error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- *       500:
- *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- */
-
-/**
- * @swagger
- * /api/version/v1/paidleave/update:
- *   post:
- *     summary: Update leader approval for a paid leave request
- *     tags: [Paid Leave Requests]
- *     description: Legacy leader approval route guarded by very_role middleware.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - id
- *               - user_id
- *               - leader_id
- *               - is_approve
- *             properties:
- *               id:
- *                 type: string
- *                 format: uuid
- *               user_id:
- *                 type: string
- *                 format: uuid
- *                 description: Used by very_role middleware.
- *               leader_id:
- *                 type: string
- *                 format: uuid
- *               is_approve:
- *                 type: boolean
- *                 example: false
- *               feedback:
- *                 type: string
- *                 nullable: true
- *     responses:
- *       202:
- *         description: Paid leave approval updated successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/PaidLeaveSuccess'
- *       200:
- *         description: Request processed but update failed
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- *       400:
- *         description: Missing id or validation error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- *       401:
- *         description: User role is not allowed by very_role middleware
- *       500:
- *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- */
-
-/**
- * @swagger
- * /api/version/v1/paidleave/updateconfirm:
- *   post:
- *     summary: Confirm a paid leave request
- *     tags: [Paid Leave Requests]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - id
- *               - user_id
- *               - admin_id
- *             properties:
- *               id:
- *                 type: string
- *                 format: uuid
- *               user_id:
- *                 type: string
- *                 format: uuid
- *               admin_id:
- *                 type: string
- *                 format: uuid
- *               feedback:
- *                 type: string
- *                 nullable: true
- *     responses:
- *       200:
- *         description: Paid leave request confirmed successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 message:
- *                   type: string
- *       400:
- *         description: Bad request, validation error, or confirm failed
  *         content:
  *           application/json:
  *             schema:

@@ -240,6 +240,57 @@ class CheckinRepository implements ICheckinRepository {
             };
         }
     }
+
+    async GET_ALL_CHECKINS_OF_POSITION_IN_DATE_FOR_ADMIN(position: string, date: string) {
+        try {
+            const checkins: { rows: Checkin[], count: number } = await Checkin.findAndCountAll({
+                where: {
+                    date: date,
+                    position: position,
+                },
+                attributes: [
+                    'id',
+                    'date',
+                    'user_id',
+                    'time_in',
+                    'work_shift',
+                    'time_out',
+                    'work_time',
+                    'over_time',
+                    'is_weekend',
+                    'is_paid_leave',
+                ],
+                include: [
+                    {
+                        model: User,
+                        attributes: ['id', 'name', 'employee_id'],
+                        include: [
+                            {
+                                model: Department,
+                                as: 'department',
+                                attributes: ['name'],
+                            },
+                        ],
+                    },
+                ],
+            });
+            if (checkins.count < 1) {
+                throw new Error(`checkin not found`);
+            }
+            return {
+                success: true,
+                data: {
+                    rows: checkins.rows,
+                    count: checkins.count,
+                },
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: error.message,
+            };
+        }
+    }
 }
 
 export default CheckinRepository;

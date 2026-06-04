@@ -5,11 +5,18 @@ const adminSummaryRouter: Router = Router()
 
 adminSummaryRouter.get('/summarys', async (req: Request, res: Response) => {
     try {
-        const position: string | undefined= req.user?.position
-        if(position == undefined){
-            return errorResponse(res, 400, `bad request`)
+        const position: string | undefined = req.user?.position
+        const date: string | undefined = req.body.date
+        if(position == undefined || date == undefined){
+            const missingFields = [
+                !position && 'position',
+                !date && 'date',
+            ]
+            .filter(Boolean)
+            .join(', ');
+            return errorResponse(res, 400, `Missing required ${missingFields}`);
         }
-        const adminSummarys = await adminDashboardSummaryController(position);
+        const adminSummarys = await adminDashboardSummaryController(position, date);
         if(!adminSummarys?.success){
             return errorResponse(res, 203, `${adminSummarys?.message}`)
         }
