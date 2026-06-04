@@ -5,6 +5,7 @@ import {
     delete_order_by_id_usecase,
     search_order_user_usecase,
     checkin_picked_usecase,
+    get_all_orders_of_position_in_date_for_admin_use,
 } from '../../useCases';
 
 const create_order_controller = async (order: any) => {
@@ -30,6 +31,16 @@ const check_picked_order = async (field: any) => {
     return await checkin_picked_usecase(field);
 };
 
+const get_all_orders_of_position_in_date_for_admin_controller = async (
+    position: string,
+    date: string,
+) => {
+    return await get_all_orders_of_position_in_date_for_admin_use(
+        position,
+        date,
+    );
+};
+
 export {
     create_order_controller,
     find_all_order,
@@ -37,4 +48,5 @@ export {
     delete_order,
     search_order_of_user,
     check_picked_order,
+    get_all_orders_of_position_in_date_for_admin_controller,
 };

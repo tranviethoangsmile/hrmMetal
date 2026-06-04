@@ -18,7 +18,7 @@
  *         name:
  *           type: string
  *         employee_id:
- *           type: string
+ *           type: integer
  *         department:
  *           type: object
  *           nullable: true
@@ -67,6 +67,63 @@
  *         count:
  *           type: integer
  *           example: 8
+ *     DashboardOrderUser:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *         name:
+ *           type: string
+ *         employee_id:
+ *           type: integer
+ *         department:
+ *           type: object
+ *           nullable: true
+ *           properties:
+ *             name:
+ *               type: string
+ *     DashboardOrder:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *         date:
+ *           type: string
+ *           format: date
+ *         dayOrNight:
+ *           type: string
+ *         user_id:
+ *           type: string
+ *           format: uuid
+ *         isConfirmed:
+ *           type: boolean
+ *         isPicked:
+ *           type: boolean
+ *         position:
+ *           type: string
+ *         user:
+ *           $ref: '#/components/schemas/DashboardOrderUser'
+ *     DashboardOrderPage:
+ *       type: object
+ *       properties:
+ *         rows:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/DashboardOrder'
+ *         count:
+ *           type: integer
+ *           example: 8
+ *     DashboardSummaryData:
+ *       type: object
+ *       properties:
+ *         pending_paid_leave:
+ *           $ref: '#/components/schemas/PaidLeaveRequestPage'
+ *         pending_checkins:
+ *           $ref: '#/components/schemas/DashboardCheckinPage'
+ *         pending_orders:
+ *           $ref: '#/components/schemas/DashboardOrderPage'
  */
 
 /**
@@ -102,14 +159,7 @@
  *                   type: boolean
  *                   example: true
  *                 data:
- *                   type: object
- *                   description: Current controller returns the paid leave repository result under data.
- *                   properties:
- *                     success:
- *                       type: boolean
- *                       example: true
- *                     data:
- *                       $ref: '#/components/schemas/PaidLeaveRequestPage'
+ *                   $ref: '#/components/schemas/DashboardSummaryData'
  *       203:
  *         description: Request processed but summary data was not found
  *         content:
@@ -170,6 +220,64 @@
  *                   $ref: '#/components/schemas/DashboardCheckinPage'
  *       200:
  *         description: Request processed but checkins were not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       400:
+ *         description: Missing date in body or position from token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       401:
+ *         description: Missing or invalid token
+ *       403:
+ *         description: User does not have permission
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/dashboards/admin/get-orders:
+ *   post:
+ *     summary: Get orders by admin position and date
+ *     tags: [Dashboards]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - date
+ *             properties:
+ *               date:
+ *                 type: string
+ *                 format: date
+ *                 example: "2026-06-04"
+ *     responses:
+ *       202:
+ *         description: Orders retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   $ref: '#/components/schemas/DashboardOrderPage'
+ *       200:
+ *         description: Request processed but orders were not found
  *         content:
  *           application/json:
  *             schema:

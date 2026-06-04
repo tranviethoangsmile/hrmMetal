@@ -219,6 +219,58 @@ class OrderRepository implements IOrderRepository {
             };
         }
     }
+
+    async GET_ALL_ORDERS_OF_POSITION_IN_DATE_FOR_ADMIN(position: string, date: string) {
+        try {
+            const orders: { rows: Order[]; count: number } = await Order.findAndCountAll({
+                where: {
+                    date: date,
+                    position: position,
+                },
+                attributes: [
+                    'id',
+                    'date',
+                    'dayOrNight',
+                    'user_id',
+                    'isConfirmed',
+                    'isPicked',
+                    'position',
+                ],
+                include: [
+                    {
+                        model: User,
+                        as: 'user',
+                        attributes: ['id', 'name', 'employee_id'],
+                        include: [
+                            {
+                                model: Department,
+                                as: 'department',
+                                attributes: ['name'],
+                            },
+                        ],
+                    },
+                ],
+                order: [['created_at', 'DESC']],
+            });
+
+            if (orders.count < 1) {
+                throw new Error('order not found');
+            }
+
+            return {
+                success: true,
+                data: {
+                    rows: orders.rows,
+                    count: orders.count,
+                },
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: error?.message,
+            };
+        }
+    }
 }
 
 export default OrderRepository;

@@ -12,6 +12,7 @@ import {
     delete_order,
     search_order_of_user,
     check_picked_order,
+    get_all_orders_of_position_in_date_for_admin_controller,
 } from './order/order.controller';
 import {
     findByName,
@@ -250,6 +251,7 @@ export {
     delete_order,
     search_order_of_user,
     check_picked_order,
+    get_all_orders_of_position_in_date_for_admin_controller,
     get_dependent_support_amount_by_tax_dependent_id_and_year_controller,
     create_payroll_controller,
     update_payroll_controller,

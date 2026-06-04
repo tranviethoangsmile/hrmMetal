@@ -12,6 +12,7 @@ import {
     delete_order_by_id_usecase,
     search_order_user_usecase,
     checkin_picked_usecase,
+    get_all_orders_of_position_in_date_for_admin_use,
 } from './order/order.useCase';
 import {
     create_notification_usecase,
@@ -247,6 +248,7 @@ export {
     delete_order_by_id_usecase,
     search_order_user_usecase,
     checkin_picked_usecase,
+    get_all_orders_of_position_in_date_for_admin_use,
     get_dependent_support_amount_by_tax_dependent_id_and_year_usecase,
     login_user,
     findCodeErrorsByDailyReportIdUseCase,
