@@ -24,6 +24,7 @@ import {
     findAllUserWithFieldControll,
     getUserForLeaveFeatureControll,
     getAllUserForOtRequestFeatureControll,
+    get_all_users_of_position_for_admin_controller,
 } from './user/user.controller';
 import {
     create_notification_controller,
@@ -174,6 +175,7 @@ export {
     findAllUserWithFieldControll,
     getUserForLeaveFeatureControll,
     getAllUserForOtRequestFeatureControll,
+    get_all_users_of_position_for_admin_controller,
     create_message_controller,
     create_conversation_controller,
     delete_conversation_controller,

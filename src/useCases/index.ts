@@ -42,7 +42,8 @@ import {
     userFindAllWithFieldUse,
     getUserForLeaveFeatureUse,
     getAllUserForOtRequestFeatureUse,
-    getUserByIdUseCase
+    getUserByIdUseCase,
+    get_all_users_of_position_for_admin_use,
 } from '../useCases/user/user.useCase';
 import {
     create_new_message,
@@ -172,6 +173,7 @@ export {
     findAllUser,
     userFindAllWithFieldUse,
     getUserForLeaveFeatureUse,
+    get_all_users_of_position_for_admin_use,
     search_conversation_by_id_use,
     create_new_message,
     search_all_message_of_conversation_use,

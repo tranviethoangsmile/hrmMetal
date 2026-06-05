@@ -204,7 +204,7 @@ const get_all_checkins_of_position_in_date_for_admin_use = async (position: stri
         if (formattedDate !== date) {
             throw new Error(`Date is not valid: ${date}`);
         }
-        const checkins = await checkinRepository.GET_ALL_CHECKINS_OF_POSITION_IN_DATE_FOR_ADMIN(position, date);
+        const checkins = await checkinRepository.GET_ALL_CHECKINS_OF_POSITION_IN_DATE_FOR_ADMIN(date);
         if (!checkins?.success) {
             throw new Error(`${checkins?.message}`);
         }

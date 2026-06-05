@@ -3,7 +3,7 @@ import { adminDashboardSummaryController } from "../../../../controllers";
 import { successResponse, errorResponse } from "../../../../helpers";
 const adminSummaryRouter: Router = Router()
 
-adminSummaryRouter.get('/summarys', async (req: Request, res: Response) => {
+adminSummaryRouter.post('/', async (req: Request, res: Response) => {
     try {
         const position: string | undefined = req.user?.position
         const date: string | undefined = req.body.date

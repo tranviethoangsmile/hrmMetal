@@ -241,12 +241,12 @@ class CheckinRepository implements ICheckinRepository {
         }
     }
 
-    async GET_ALL_CHECKINS_OF_POSITION_IN_DATE_FOR_ADMIN(position: string, date: string) {
+    async GET_ALL_CHECKINS_OF_POSITION_IN_DATE_FOR_ADMIN(date: string) {
         try {
             const checkins: { rows: Checkin[], count: number } = await Checkin.findAndCountAll({
                 where: {
                     date: date,
-                    position: position,
+                    is_paid_leave: false,
                 },
                 attributes: [
                     'id',

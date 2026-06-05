@@ -21,6 +21,44 @@ class UserRepository implements IUserRepository {
             };
         }
     }
+    async GET_ALL_USERS_OF_POSITION_FOR_ADMIN(position: string) {
+        try {
+                const users: { rows: User[]; count: number } = await User.findAndCountAll({ 
+                    where: { position: position, is_active: true, is_admin: false },
+                    // order:['created_at', 'DESC'],
+                    attributes: [
+                        'id',
+                        'name',
+                        'email',
+                        'dob',
+                        'phone',
+                        'avatar'
+                    ],
+                    include: [
+                        {
+                            model: Department,
+                            as: 'department',
+                            attributes: ['name'],
+                        },
+                    ],
+                });
+                if (users.count < 1) {
+                    throw new Error(`users not found`);
+                }
+                return {
+                    success: true,
+                    data: {
+                        rows: users.rows,
+                        count: users.count,
+                    },
+                };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: error.message,
+            };
+        }
+    }
 
     async userUpdate(field: any) {
         try {

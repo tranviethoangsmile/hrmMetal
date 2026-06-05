@@ -115,6 +115,44 @@
  *         count:
  *           type: integer
  *           example: 8
+ *     DashboardUser:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *         name:
+ *           type: string
+ *         user_name:
+ *           type: string
+ *         role:
+ *           type: string
+ *         email:
+ *           type: string
+ *         dob:
+ *           type: string
+ *           format: date
+ *         phone:
+ *           type: string
+ *         employee_id:
+ *           type: integer
+ *         is_active:
+ *           type: boolean
+ *         position:
+ *           type: string
+ *         is_admin:
+ *           type: boolean
+ *         is_officer:
+ *           type: boolean
+ *         avatar:
+ *           type: string
+ *           nullable: true
+ *         department:
+ *           type: object
+ *           nullable: true
+ *           properties:
+ *             name:
+ *               type: string
  *     DashboardSummaryData:
  *       type: object
  *       properties:
@@ -124,6 +162,10 @@
  *           $ref: '#/components/schemas/DashboardCheckinPage'
  *         pending_orders:
  *           $ref: '#/components/schemas/DashboardOrderPage'
+ *         users_by_position:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/DashboardUser'
  */
 
 /**
@@ -284,6 +326,53 @@
  *               $ref: '#/components/schemas/ErrorResponse'
  *       400:
  *         description: Missing date in body or position from token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       401:
+ *         description: Missing or invalid token
+ *       403:
+ *         description: User does not have permission
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/dashboards/admin/get-users:
+ *   post:
+ *     summary: Get users by admin position
+ *     tags: [Dashboards]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       202:
+ *         description: Users retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/DashboardUser'
+ *       200:
+ *         description: Request processed but users were not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       400:
+ *         description: Missing position from token
  *         content:
  *           application/json:
  *             schema:

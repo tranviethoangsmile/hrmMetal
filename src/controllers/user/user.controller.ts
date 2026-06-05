@@ -8,6 +8,7 @@ import {
     userFindAllWithFieldUse,
     getUserForLeaveFeatureUse,
     getAllUserForOtRequestFeatureUse,
+    get_all_users_of_position_for_admin_use,
 } from '../../useCases';
 const getAllUserForOtRequestFeatureControll = async (id: string) => {
     return await getAllUserForOtRequestFeatureUse(id);
@@ -15,6 +16,11 @@ const getAllUserForOtRequestFeatureControll = async (id: string) => {
 
 const getUserForLeaveFeatureControll = async (id: any) => {
     return await getUserForLeaveFeatureUse(id);
+};
+const get_all_users_of_position_for_admin_controller = async (
+    position: string,
+) => {
+    return await get_all_users_of_position_for_admin_use(position);
 };
 const findAllUserWithFieldControll = async (filed: any) => {
     return await userFindAllWithFieldUse(filed);
@@ -53,4 +59,5 @@ export {
     findAllUserWithFieldControll,
     getUserForLeaveFeatureControll,
     getAllUserForOtRequestFeatureControll,
+    get_all_users_of_position_for_admin_controller,
 };
