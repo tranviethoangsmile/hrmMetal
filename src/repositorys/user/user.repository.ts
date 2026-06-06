@@ -24,7 +24,11 @@ class UserRepository implements IUserRepository {
     async GET_ALL_USERS_OF_POSITION_FOR_ADMIN(position: string) {
         try {
                 const users: { rows: User[]; count: number } = await User.findAndCountAll({ 
-                    where: { position: position, is_active: true, is_admin: false },
+                    where: { position: position, is_active: true, is_admin: false, 
+                        role: {
+                                [Op.ne]: 'ADMIN'
+                            } 
+                    },
                     // order:['created_at', 'DESC'],
                     attributes: [
                         'id',
