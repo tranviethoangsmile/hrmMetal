@@ -201,6 +201,27 @@ const update_uniform_order_use = async (field: any) => {
     }
 };
 
+const GET_ALL_UNIFORM_ORDERS_OF_POSITION_FOR_ADMIN_USE = async (position: string) => {
+    try {
+        if(!isValidEnumValue(position, Position)){
+            throw new Error(`position not valid`)
+        }
+        const uniforms = await uniformOrderRepo.GET_ALL_UNIFORM_ORDERS_OF_POSITION_FOR_ADMIN(position);
+        if(!uniforms?.success){
+            throw new Error(`${uniforms?.message}`)
+        }
+        return {
+            success: true,
+            data: uniforms?.data
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `use -- ${error.message}`,
+        };
+    }
+}
+
 export {
     create_uniform_order_use,
     search_uniform_order_with_position_use,
@@ -208,4 +229,5 @@ export {
     delete_uniform_order_with_id_use,
     get_uniform_order_detail_by_id_use,
     update_uniform_order_use,
+    GET_ALL_UNIFORM_ORDERS_OF_POSITION_FOR_ADMIN_USE
 };

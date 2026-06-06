@@ -14,6 +14,7 @@ import { UniformSize } from './uniformSize.enum';
 import { GR_TYPE } from './groupMember_type.enum';
 import { OVERTIME_REQUEST_HOUR } from './overtimeRequest.enum';
 import { TaxDependentStatusEnum, TaxDependentRelationshipEnum, TaxDependentGenderEnum } from './taxDependent.enum';
+import { IUniformOrderStatusEnum } from './uniformOrderStatus.enum';
 export {
     Position,
     Products,
@@ -33,4 +34,5 @@ export {
     TaxDependentStatusEnum,
     TaxDependentRelationshipEnum,
     TaxDependentGenderEnum,
+    IUniformOrderStatusEnum,
 };

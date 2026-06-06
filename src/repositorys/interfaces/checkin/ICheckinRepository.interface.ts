@@ -23,4 +23,11 @@ export interface ICheckinRepository {
         rows: Checkin[],
         count: number
     }; message?: string }>;
+    GET_ALL_PAID_LEAVE_OF_POSITION_IN_DATE_FOR_ADMIN(
+        position: string,
+        date: string,
+    ): Promise<{ success: boolean; data?: {
+        rows: Checkin[],
+        count: number
+    }; message?: string }>;
 }

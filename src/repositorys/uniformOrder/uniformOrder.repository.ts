@@ -157,6 +157,28 @@ class UniformOrderRepository implements IUniformOrder {
             };
         }
     }
+    async GET_ALL_UNIFORM_ORDERS_OF_POSITION_FOR_ADMIN(position: string) {
+        try {
+            const uniformOrders: {rows: UniformOrder[], count: number}  = await UniformOrder.findAndCountAll({
+                where: {
+                    position: position,
+                    order_status: 'pending'
+                },
+            });
+            if (uniformOrders.count < 1) {
+                throw new Error(`uniform order not found`);
+            }
+            return {
+                success: true,
+                data: uniformOrders,
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `--${error?.message}--`,
+            };
+        }
+    }
 }
 
 export default UniformOrderRepository;

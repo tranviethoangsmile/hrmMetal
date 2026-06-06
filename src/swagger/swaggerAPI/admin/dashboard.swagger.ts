@@ -166,14 +166,19 @@
  *           type: array
  *           items:
  *             $ref: '#/components/schemas/DashboardUser'
+ *         paid_leaves:
+ *           $ref: '#/components/schemas/DashboardCheckinPage'
+ *         uniforms_pending:
+ *           $ref: '#/components/schemas/UniformOrderPage'
  */
 
 /**
  * @swagger
- * /api/version/v1/dashboards/admin/summarys/summarys:
- *   get:
+ * /api/version/v1/dashboards/admin/summarys:
+ *   post:
  *     summary: Get admin dashboard summary
  *     tags: [Dashboards]
+ *     description: Returns summary data for the admin's position from the token. Check-ins are loaded for the previous day, while paid leaves and orders use the requested date.
  *     security:
  *       - bearerAuth: []
  *     requestBody:

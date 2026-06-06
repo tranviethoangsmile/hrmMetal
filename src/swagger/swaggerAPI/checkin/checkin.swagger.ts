@@ -11,7 +11,7 @@
  *   post:
  *     summary: Create or update a check-in record
  *     tags: [Checkin]
- *     description: Create a new check-in record or update an existing one for check-out
+ *     description: Create a new check-in record or update an existing one for check-out. The check-in position is taken from the authenticated user's token.
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -46,6 +46,10 @@
  *                 enum: [DAY, NIGHT]
  *                 description: Work shift (DAY or NIGHT)
  *                 example: "DAY"
+ *               is_weekend:
+ *                 type: boolean
+ *                 description: Optional weekend flag
+ *                 example: false
  *     responses:
  *       202:
  *         description: Check-in/out successful
@@ -69,7 +73,11 @@
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: "data not empty"
+ *                   example: "Missing required user_id, date, check_time, work_shift"
+ *       401:
+ *         description: Missing or invalid token
+ *       403:
+ *         description: User does not have one of the required roles (MANAGER, LEADER, SUPERVISOR, STAFF)
  *       500:
  *         description: Server error
  *         content:
@@ -251,8 +259,9 @@
  *                 example: "2024-03-20"
  *               position:
  *                 type: string
- *                 description: Position/role to search for
- *                 example: "Engineer"
+ *                 enum: [HINO, IZUMO, KYOTO, OSAKA, TOKYO, COMPORRATION]
+ *                 description: Position to search for
+ *                 example: "HINO"
  *     responses:
  *       202:
  *         description: Records found successfully

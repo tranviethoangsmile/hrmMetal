@@ -241,12 +241,13 @@ class CheckinRepository implements ICheckinRepository {
         }
     }
 
-    async GET_ALL_CHECKINS_OF_POSITION_IN_DATE_FOR_ADMIN(date: string) {
+    async GET_ALL_CHECKINS_OF_POSITION_IN_DATE_FOR_ADMIN(date: string, position: string) {
         try {
             const checkins: { rows: Checkin[], count: number } = await Checkin.findAndCountAll({
                 where: {
                     date: date,
                     is_paid_leave: false,
+                    position: position,
                 },
                 attributes: [
                     'id',
@@ -282,6 +283,32 @@ class CheckinRepository implements ICheckinRepository {
                 data: {
                     rows: checkins.rows,
                     count: checkins.count,
+                },
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: error.message,
+            };
+        }
+    }
+    async GET_ALL_PAID_LEAVE_OF_POSITION_IN_DATE_FOR_ADMIN(date: string, position: string) {
+        try {
+            const paid_leaves: { rows: Checkin[], count: number } = await Checkin.findAndCountAll({
+                where: {
+                    date: date,
+                    is_paid_leave: true,
+                    position: position,
+                },
+            });
+            if (paid_leaves.count < 1) {
+                throw new Error(`paid leave not found`);
+            }
+            return {
+                success: true,
+                data: {
+                    rows: paid_leaves.rows,
+                    count: paid_leaves.count,
                 },
             };
         } catch (error: any) {

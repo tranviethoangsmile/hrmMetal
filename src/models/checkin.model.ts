@@ -2,6 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 import { db } from '../dbs';
 import { User } from '../models';
 import { shift_work } from '../enum';
+import { Position } from '../enum/Position.enum';
 class Checkin extends Model {
     public id!: string;
     public user_id!: string;
@@ -9,6 +10,7 @@ class Checkin extends Model {
     public time_out!: string;
     public date!: string;
     public work_time!: Number;
+    public position!: string;
     public go_out!: string;
     public go_in!: string;
     public over_time!: Number;
@@ -46,6 +48,11 @@ Checkin.init(
         work_time: {
             type: DataTypes.NUMBER,
             allowNull: true,
+        },
+        position: {
+            type: DataTypes.ENUM,
+            values: Object.values(Position).map(value => value.toString()),
+            allowNull: false,
         },
         go_out: {
             type: DataTypes.STRING,
