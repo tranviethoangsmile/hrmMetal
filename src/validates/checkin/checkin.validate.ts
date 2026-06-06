@@ -7,6 +7,7 @@ const scheme_create_checkin = Joi.object({
     }),
     work_shift: Joi.string().required(),
     is_weekend: Joi.boolean(),
+    position: Joi.string().required(),
 });
 
 const scheme_update_checkin = Joi.object({
@@ -35,6 +36,17 @@ const schema_get_checkin_detail_in_date_of_user = Joi.object({
     user_id: Joi.string().guid().required(),
 });
 
+const schema_get_all_paid_leave_of_position_in_date_for_admin = Joi.object({
+    date: Joi.date().iso().required().messages({
+        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
+    }),
+    position: Joi.string().required(),
+});
+
+const get_all_paid_leave_of_position_in_date_for_admin_validate = (data: any) => {
+    return schema_get_all_paid_leave_of_position_in_date_for_admin.validate(data);
+};
+
 const create_checkin_validate = (data: any) => {
     return scheme_create_checkin.validate(data);
 };
@@ -55,4 +67,5 @@ export {
     update_checkin_validate,
     get_checkin_in_date_of_position_validate,
     get_checkin_detail_in_day_of_user_validate,
+    get_all_paid_leave_of_position_in_date_for_admin_validate
 };

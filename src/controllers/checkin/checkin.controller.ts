@@ -5,7 +5,8 @@ import {
     search_checkin_of_user_in_month_useCase,
     get_checkin_of_position_in_date_use,
     get_checkin_detail_in_date_of_user_use,
-} from '../../useCases/checkin/checkin.useCase';
+    get_all_checkins_of_position_in_date_for_admin_use,
+} from '../../useCases';
 
 const create_checkin_controller = async (data: any) => {
     return await create_checkin_use(data);
@@ -27,7 +28,9 @@ const get_checkin_in_date_of_position_controller = async (field: any) => {
 const get_checkin_detail_in_date_of_user_controller = async (field: any) => {
     return await get_checkin_detail_in_date_of_user_use(field);
 };
-
+const get_all_checkins_of_position_in_date_for_admin_controller = async (position: string, date: string) => {
+    return await get_all_checkins_of_position_in_date_for_admin_use(position, date);
+};
 export {
     create_checkin_controller,
     update_checkin_controller,
@@ -35,4 +38,5 @@ export {
     search_checked_of_user_in_month_controller,
     get_checkin_in_date_of_position_controller,
     get_checkin_detail_in_date_of_user_controller,
+    get_all_checkins_of_position_in_date_for_admin_controller,
 };

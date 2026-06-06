@@ -7,155 +7,323 @@
 
 /**
  * @swagger
- * /uniformOrder/create:
+ * components:
+ *   schemas:
+ *     UniformOrderItemInput:
+ *       type: object
+ *       required:
+ *         - uniform_type
+ *         - uniform_size
+ *         - quantity
+ *       properties:
+ *         uniform_type:
+ *           type: string
+ *           enum: [WORK JAKET, WORK PANTS, COVERALLS, REFLECTIVE VEST, ANTI STATIC CLOTHING, FLAME RESISTANT, WORK GLOVES, SAFETY SHOES, SAFETY HELMET, WORK SHOES, WORK TROUSERS]
+ *           example: "WORK JAKET"
+ *         uniform_size:
+ *           type: string
+ *           enum: [XS, S, M, L, XL, XXL, XXXL, "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45"]
+ *           example: "L"
+ *         quantity:
+ *           type: integer
+ *           minimum: 1
+ *           example: 2
+ *     UniformOrder:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *         user_id:
+ *           type: string
+ *           format: uuid
+ *         position:
+ *           type: string
+ *           enum: [HINO, IZUMO, KYOTO, OSAKA, TOKYO, COMPORRATION]
+ *         uniform_type:
+ *           type: string
+ *         uniform_size:
+ *           type: string
+ *         quantity:
+ *           type: integer
+ *         date:
+ *           type: string
+ *           format: date
+ *         order_status:
+ *           type: string
+ *           enum: [pending, processing, completed, cancelled]
+ *           default: pending
+ *         delivery_date:
+ *           type: string
+ *           format: date
+ *           nullable: true
+ *         notes:
+ *           type: string
+ *           nullable: true
+ *     UniformOrderPage:
+ *       type: object
+ *       properties:
+ *         rows:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/UniformOrder'
+ *         count:
+ *           type: integer
+ *           example: 3
+ */
+
+/**
+ * @swagger
+ * /uniformorder/create:
  *   post:
- *     summary: Create a new uniform order
+ *     summary: Create uniform orders
  *     tags: [UniformOrders]
- *     description: Endpoint to create a new uniform order.
+ *     description: Creates one uniform order record for each item in the items array. order_status defaults to pending.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - user_id
+ *               - position
+ *               - date
+ *               - items
  *             properties:
  *               user_id:
  *                 type: string
- *                 description: ID of the user placing the order
- *                 example: "user123"
+ *                 format: uuid
  *               position:
  *                 type: string
- *                 description: Position of the user
- *                 example: "Manager"
- *               uniform_details:
+ *                 enum: [HINO, IZUMO, KYOTO, OSAKA, TOKYO, COMPORRATION]
+ *                 example: "HINO"
+ *               date:
+ *                 type: string
+ *                 format: date
+ *                 example: "2026-06-06"
+ *               delivery_date:
+ *                 type: string
+ *                 format: date
+ *                 nullable: true
+ *                 example: "2026-06-10"
+ *               order_status:
+ *                 type: string
+ *                 enum: [pending, processing, completed, cancelled]
+ *                 default: pending
+ *                 example: "pending"
+ *               notes:
+ *                 type: string
+ *                 nullable: true
+ *                 example: "Need before next shift"
+ *               items:
  *                 type: array
- *                 description: Details of the uniform order
+ *                 minItems: 1
  *                 items:
- *                   type: object
- *                   properties:
- *                     item_id:
- *                       type: string
- *                       description: ID of the uniform item
- *                     quantity:
- *                       type: number
- *                       description: Quantity of the item
+ *                   $ref: '#/components/schemas/UniformOrderItemInput'
  *     responses:
  *       201:
- *         description: Uniform order created successfully
+ *         description: Uniform orders created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/UniformOrder'
  *       400:
- *         description: Bad request
+ *         description: Missing required fields or invalid item data
  *       500:
  *         description: Server error
  */
 
 /**
  * @swagger
- * /uniformOrder/search:
- *   get:
- *     summary: Search uniform orders
+ * /uniformorder/search/withposition:
+ *   post:
+ *     summary: Search uniform orders by position
  *     tags: [UniformOrders]
- *     description: Search uniform orders by position or user ID.
- *     parameters:
- *       - in: query
- *         name: position
- *         schema:
- *           type: string
- *         description: Position to filter uniform orders
- *       - in: query
- *         name: user_id
- *         schema:
- *           type: string
- *         description: User ID to filter uniform orders
- *     responses:
- *       200:
- *         description: List of uniform orders
- *       400:
- *         description: Bad request
- *       500:
- *         description: Server error
- */
-
-/**
- * @swagger
- * /uniformOrder/delete:
- *   delete:
- *     summary: Delete a uniform order
- *     tags: [UniformOrders]
- *     description: Delete a uniform order by its ID.
- *     parameters:
- *       - in: query
- *         name: order_id
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the uniform order to delete
- *     responses:
- *       200:
- *         description: Uniform order deleted successfully
- *       400:
- *         description: Bad request
- *       500:
- *         description: Server error
- */
-
-/**
- * @swagger
- * /uniformOrder/getuniformorderdetail:
- *   get:
- *     summary: Get uniform order details
- *     tags: [UniformOrders]
- *     description: Retrieve details of a specific uniform order by its ID.
- *     parameters:
- *       - in: query
- *         name: order_id
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the uniform order
- *     responses:
- *       200:
- *         description: Uniform order details retrieved successfully
- *       400:
- *         description: Bad request
- *       500:
- *         description: Server error
- */
-
-/**
- * @swagger
- * /uniformOrder/update:
- *   put:
- *     summary: Update a uniform order
- *     tags: [UniformOrders]
- *     description: Update details of an existing uniform order.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - position
  *             properties:
- *               order_id:
+ *               position:
  *                 type: string
- *                 description: ID of the uniform order to update
- *                 example: "order123"
- *               uniform_details:
- *                 type: array
- *                 description: Updated details of the uniform order
- *                 items:
- *                   type: object
- *                   properties:
- *                     item_id:
- *                       type: string
- *                       description: ID of the uniform item
- *                     quantity:
- *                       type: number
- *                       description: Updated quantity of the item
+ *                 enum: [HINO, IZUMO, KYOTO, OSAKA, TOKYO, COMPORRATION]
+ *                 example: "HINO"
  *     responses:
+ *       202:
+ *         description: Uniform orders retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   $ref: '#/components/schemas/UniformOrderPage'
  *       200:
- *         description: Uniform order updated successfully
+ *         description: Request processed but uniform orders were not found
  *       400:
- *         description: Bad request
+ *         description: Position is required
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /uniformorder/search/withuserid:
+ *   post:
+ *     summary: Search uniform orders by user and status
+ *     tags: [UniformOrders]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - user_id
+ *               - order_status
+ *             properties:
+ *               user_id:
+ *                 type: string
+ *                 format: uuid
+ *               order_status:
+ *                 type: string
+ *                 enum: [pending, processing, completed, cancelled]
+ *                 example: "pending"
+ *     responses:
+ *       202:
+ *         description: Uniform orders retrieved successfully
+ *       200:
+ *         description: Request processed but uniform orders were not found
+ *       400:
+ *         description: order_status and user_id are required
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /uniformorder/delete:
+ *   post:
+ *     summary: Delete a uniform order
+ *     tags: [UniformOrders]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 format: uuid
+ *     responses:
+ *       202:
+ *         description: Uniform order deleted successfully
+ *       200:
+ *         description: Request processed but delete failed
+ *       400:
+ *         description: id is required
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /uniformorder/getuniformorderdetail:
+ *   post:
+ *     summary: Get uniform order details
+ *     tags: [UniformOrders]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 format: uuid
+ *     responses:
+ *       202:
+ *         description: Uniform order details retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   $ref: '#/components/schemas/UniformOrder'
+ *       200:
+ *         description: Request processed but uniform order was not found
+ *       400:
+ *         description: id is required
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /uniformorder/update:
+ *   post:
+ *     summary: Update a uniform order
+ *     tags: [UniformOrders]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 format: uuid
+ *               uniform_size:
+ *                 type: string
+ *                 enum: [XS, S, M, L, XL, XXL, XXXL, "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45"]
+ *               quantity:
+ *                 type: integer
+ *                 minimum: 1
+ *               delivery_date:
+ *                 type: string
+ *                 format: date
+ *               order_status:
+ *                 type: string
+ *                 enum: [pending, processing, completed, cancelled]
+ *               notes:
+ *                 type: string
+ *                 nullable: true
+ *     responses:
+ *       202:
+ *         description: Uniform order updated successfully
+ *       200:
+ *         description: Request processed but update failed
+ *       400:
+ *         description: id is required
  *       500:
  *         description: Server error
  */

@@ -33,4 +33,12 @@ export interface IUserRepository {
         data?: User,
         message?: string
     }>
+    GET_ALL_USERS_OF_POSITION_FOR_ADMIN(position: string): Promise<{
+        success: boolean;
+        data?: {
+            rows: User[];
+            count: number;
+        };
+        message?: string;
+    }>;
 }

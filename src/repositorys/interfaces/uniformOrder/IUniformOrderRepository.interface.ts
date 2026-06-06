@@ -29,4 +29,12 @@ export interface IUniformOrder {
         success: boolean;
         message?: string;
     }>;
+    GET_ALL_UNIFORM_ORDERS_OF_POSITION_FOR_ADMIN(position: string): Promise<{
+        success: boolean;
+        data?: {
+            rows: UniformOrder[],
+            count: number
+        };
+        message?: string;
+    }>;
 }

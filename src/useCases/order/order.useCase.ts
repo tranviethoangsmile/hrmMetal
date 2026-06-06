@@ -1,3 +1,4 @@
+import moment from 'moment-timezone';
 import { validation_id } from '../../validates';
 import { search_order } from '../../interfaces';
 import {
@@ -5,7 +6,7 @@ import {
     validate_search_order,
     validate_checkin_picked_order,
 } from '../../validates';
-import { shift_work } from '../../enum';
+import { shift_work, Position } from '../../enum';
 import { create_notification_usecase } from '../index';
 import { OrderRepository, UserRepository } from '../../repositorys';
 import { isValidEnumValue } from '../../helpers';
@@ -192,6 +193,38 @@ const checkin_picked_usecase = async (field: any) => {
         };
     }
 };
+
+const get_all_orders_of_position_in_date_for_admin_use = async (
+    position: string,
+    date: string,
+) => {
+    try {
+        if (!isValidEnumValue(position, Position)) {
+            throw new Error(`Position is not valid: ${position}`);
+        }
+        const formattedDate = moment(date).format('YYYY-MM-DD');
+        if (formattedDate !== date) {
+            throw new Error(`Date is not valid: ${date}`);
+        }
+        const orders =
+            await orderRepository.GET_ALL_ORDERS_OF_POSITION_IN_DATE_FOR_ADMIN(
+                position,
+                date,
+            );
+        if (!orders?.success) {
+            throw new Error(`${orders?.message}`);
+        }
+        return {
+            success: true,
+            data: orders?.data,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message,
+        };
+    }
+};
 export {
     create_order_usecase,
     find_all_order_usecase,
@@ -199,4 +232,5 @@ export {
     delete_order_by_id_usecase,
     search_order_user_usecase,
     checkin_picked_usecase,
+    get_all_orders_of_position_in_date_for_admin_use,
 };

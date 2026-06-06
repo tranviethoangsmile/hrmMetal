@@ -143,11 +143,18 @@ class PaidLeaveRequestRepository implements IPaidLeaveRequestRepo {
         }
     }
 
-    async FIND_ALL_PAID_LEAVE_REQUEST() {
+    async GET_ALL_PAID_LEAVE_REQUEST_FOR_LEADER_AND_OTHER(leader_id: string) {
         try {
-            const paid_leave_requests: PaidLeaveRequest[] | null =
-                await PaidLeaveRequest.findAll({
-                    attributes: ['id', 'date', 'reason', 'is_active'],
+            const paid_leave_requests: { rows: PaidLeaveRequest[], count: number } =
+                await PaidLeaveRequest.findAndCountAll({
+                    attributes: ['id', 'date_request', 'reason', 'is_approve', 'date_leave', 'is_half', 'user_id','leader_id', 'is_paid'],
+                    limit: 10,
+                    offset: 0,
+                    order: [['created_at', 'DESC']],
+                    where: {
+                        is_approve: false,
+                        leader_id: leader_id,
+                    },
                     include: [
                         {
                             model: User,
@@ -178,13 +185,16 @@ class PaidLeaveRequestRepository implements IPaidLeaveRequestRepo {
 
             if (
                 paid_leave_requests === null ||
-                paid_leave_requests.length < 1
+                paid_leave_requests.count < 1
             ) {
                 throw new Error(`data not found`);
             }
             return {
                 success: true,
-                data: paid_leave_requests,
+                data: {
+                    rows: paid_leave_requests.rows,
+                    count: paid_leave_requests.count
+                },
             };
         } catch (error: any) {
             return {
@@ -218,12 +228,11 @@ class PaidLeaveRequestRepository implements IPaidLeaveRequestRepo {
             };
         }
     }
-    async UPDATE_UN_APPROVE_PAID_LEAVE_REQUEST(field: any) {
+    async UPDATE_APPROVE_PAID_LEAVE_REQUEST(field: any) {
         try {
             const update_feelback_request = await PaidLeaveRequest.update(
                 {
                     ...field,
-                    is_approve: false,
                 },
                 {
                     where: { id: field.id },
@@ -282,6 +291,65 @@ class PaidLeaveRequestRepository implements IPaidLeaveRequestRepo {
             return {
                 success: true,
             };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `${error?.message}`,
+            };
+        }
+    }
+    async GET_ALL_PAID_LEAVE_APPROVED_FOR_ADMIN(position: string) {
+        try {
+            const paid_leave_request_approveds: { rows: PaidLeaveRequest[], count: number } = await PaidLeaveRequest.findAndCountAll({
+                limit: 10,
+                offset: 0,
+                order: [['date_request', 'DESC']],
+                where: {
+                    is_approve: true,
+                    position: position,
+                    is_confirm: false,
+                },
+                attributes: ['id', 'date_request', 'reason', 'is_approve','date_leave', 'is_half', 'user_id','leader_id', 'is_paid'],
+                include: [
+                    {
+                        model: User,
+                        as: 'staff',
+                        attributes: ['id', 'name'],
+                        include: [
+                            {
+                                model: Department,
+                                as: 'department',
+                                attributes: ['id', 'name'],
+                            },
+                        ],
+                    },
+                    {
+                        model: User,
+                        as: 'leader',
+                        attributes: ['id', 'name'],
+                        include: [
+                            {
+                                model: Department,
+                                as: 'department',
+                                attributes: ['id', 'name'],
+                            },
+                        ],
+                    },
+                ],
+            })
+            if(paid_leave_request_approveds.count < 1) {
+                return {
+                    success: false,
+                    message: `paid leave not found`
+                }
+            }
+            return {
+                success: true,
+                data: {
+                    rows: paid_leave_request_approveds.rows,
+                    count: paid_leave_request_approveds.count
+                }
+            }
         } catch (error: any) {
             return {
                 success: false,

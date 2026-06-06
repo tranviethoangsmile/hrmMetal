@@ -7,13 +7,15 @@ import {
     findById,
     get_all_day_off_controller
 } from '../../../controllers';
-import { errorResponse, successResponse } from '../../../helpers';
+import { errorResponse, successResponse, isValidEnumValue } from '../../../helpers';
 import { io } from '../../../socket/socketIO';
-import { check_value_request_checkin } from '../../../interfaces';
+import { check_value_request_checkin, create_checkin_interface } from '../../../interfaces';
 import { create_notification_usecase } from '../../../useCases';
+import { authJwt, requireRoles  } from '../../../middlewares';
+
 const createCheckin: Router = Router();
 
-createCheckin.post('/', async (req: Request, res: Response) => {
+createCheckin.post('/',authJwt, requireRoles(['MANAGER','LEADER','SUPERVISOR','STAFF']), async (req: Request, res: Response) => {
     try {
         function handleTime(value: any) {
             const roundedNumber = Math.floor(value * 4) / 4;
@@ -24,25 +26,19 @@ createCheckin.post('/', async (req: Request, res: Response) => {
         };
         const NIGHT_END = moment('05:00', 'HH:mm');
         const DAY_END = moment('16:45', 'HH:mm');
+        const position: string = req?.user?.position || '';
         const data: check_value_request_checkin = req.body;
-        if (
-            !data ||
-            !data?.check_time ||
-            !data?.date ||
-            !data?.user_id ||
-            !data?.work_shift
-        ) {
+        if(!data || !data.user_id || !data.date || !data.check_time || !data.work_shift){
             const missingFields = [
-                !data?.check_time && 'check_time',
-                !data?.date && 'date',
-                !data?.user_id && 'user_id',
-                !data?.work_shift && 'work_shift',
+                (!data?.user_id || data?.user_id?.trim() === '') && 'user_id',
+                (!data?.date || data?.date?.trim() === '') && 'date',
+                (!data?.check_time || data?.check_time?.trim() === '') && 'check_time',
+                (!data?.work_shift || data?.work_shift?.trim() === '') && 'work_shift',
             ]
                 .filter(Boolean)
                 .join(', ');
             return errorResponse(res, 400, `Missing required ${missingFields}`);
         }
-
         const check_field = {
             user_id: data.user_id,
             date: data.date,
@@ -88,6 +84,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     date: data.date,
                     time_in: time_in,
                     work_shift: data.work_shift,
+                    position: position,
                 };
                 // check if checkin time is after 12:45 for day shift
                 // checkin today is not allowed if checkin time is after 12:45 for day shift
@@ -412,6 +409,7 @@ createCheckin.post('/', async (req: Request, res: Response) => {
                     time_in: time_in,
                     work_shift: data.work_shift,
                     is_weekend: isWeekend,
+                    position: position,
                 };
                 // check if checkin time is after 12:45 for day shift
                 // checkin today is not allowed if checkin time is after 12:45 for day shift

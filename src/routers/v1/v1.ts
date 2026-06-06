@@ -30,6 +30,7 @@ import dayOffRouter from '../dayOff/dayOff.router';
 import overtimeRequestRouter from '../overtimeRequest/overtimeRequest.router';
 import taxDependentMainRouter from '../taxDependent/taxDependentRouter.router';
 import dependentSupportAmountRouter from '../dependentSupportAmount/dependentSupportAmount.router';
+import dashboardsRouter from '../dashboards/dashboards.router';
 const v1Router: Router = Router();
 v1Router.use('/department', depRouter);
 v1Router.use('/users', userRouters);
@@ -62,4 +63,5 @@ v1Router.use('/dayoffs', dayOffRouter);
 v1Router.use('/overtimerequest', overtimeRequestRouter);
 v1Router.use('/taxdependent', taxDependentMainRouter)
 v1Router.use('/dependent-support-amount', dependentSupportAmountRouter)
+v1Router.use('/dashboards', dashboardsRouter)
 export default v1Router;

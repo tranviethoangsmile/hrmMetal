@@ -9,10 +9,9 @@ interface ICreatePaidLeave {
 }
 
 interface IUpdatePaidLeave {
-    user_id?: string;
+    user_id: string;
     feedback?: string;
-    is_confirm?: boolean;
-    admin_id?: string;
+    admin_id: string;
     id: string;
 }
 interface ISearchPaidLeave {
@@ -25,6 +24,13 @@ interface ISearchPaidLeave {
     is_confirm?: boolean;
 }
 
+interface IUpdateApprovePaidLeave {
+    leader_id: string;
+    feedback?: string;
+    id: string;
+    is_approve: boolean;
+}
 
 
-export { ICreatePaidLeave, IUpdatePaidLeave, ISearchPaidLeave };
+
+export { ICreatePaidLeave, IUpdatePaidLeave, ISearchPaidLeave, IUpdateApprovePaidLeave };

@@ -4,6 +4,7 @@ import {
     validate_search_paid,
     validation_id,
     validate_delete_paid_leave,
+    validate_update_approve_paid_leave_request
 } from '../../validates';
 import {
     CheckinRepository,
@@ -23,8 +24,8 @@ const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
                 field.id,
             );
 
-        if (!pail_leave?.success) {
-            throw new Error(pail_leave?.message);
+        if (!pail_leave?.success || !pail_leave?.data?.is_approve) {
+            throw new Error(pail_leave?.message || `unApprove this item`);
         }
         const checkin_field = {
             user_id: pail_leave?.data?.user_id,
@@ -53,22 +54,25 @@ const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
         };
     }
 };
-const update_un_approve_leave_request_use = async (field: any) => {
+const update_approve_leave_request_use = async (field: any) => {
     try {
-        const isValid = validate_update_paid(field);
+        const isValid = validate_update_approve_paid_leave_request(field);
         if (isValid?.error) {
             throw new Error(`${isValid?.error.message}`);
         }
+        const paidLeaveRequest = await paidLeaveRequestRepository.GET_PAID_LEAVE_REQUEST_BY_ID(field?.id)
+        if(!paidLeaveRequest?.success){
+            throw new Error(`${paidLeaveRequest?.message}`)
+        }
         const update =
-            await paidLeaveRequestRepository.UPDATE_UN_APPROVE_PAID_LEAVE_REQUEST(
+            await paidLeaveRequestRepository.UPDATE_APPROVE_PAID_LEAVE_REQUEST(
                 field,
             );
         if (!update?.success) {
             throw new Error(`${update?.message}`);
         }
         return {
-            success: true,
-            message: update?.message,
+            success: true
         };
     } catch (error: any) {
         return {
@@ -121,10 +125,10 @@ const create_paid_leave = async (data: any) => {
     }
 };
 
-const find_paid_leave = async () => {
+const find_paid_leave = async (leader_id: string) => {
     try {
         const paid_leaves =
-            await paidLeaveRequestRepository.FIND_ALL_PAID_LEAVE_REQUEST();
+            await paidLeaveRequestRepository.GET_ALL_PAID_LEAVE_REQUEST_FOR_LEADER_AND_OTHER(leader_id);
         if (!paid_leaves.success) {
             throw new Error(`${paid_leaves?.message}`);
         }
@@ -204,7 +208,7 @@ export {
     find_paid_leave,
     update_paid_leave,
     search_leave_request_with_field_use,
-    update_un_approve_leave_request_use,
+    update_approve_leave_request_use,
     update_confirm_from_admin_paid_leave_request_use,
     delete_paid_leave_request_with_by_id_use,
 };

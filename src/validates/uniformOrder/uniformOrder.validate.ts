@@ -6,7 +6,7 @@ const schema_create_uniform_order = Joi.object({
     date: Joi.date().iso().required().messages({
         'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
     }),
-    order_status: Joi.string(),
+    order_status: Joi.string().default('pending'),
     delivery_date: Joi.date().iso().messages({
         'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
     }),

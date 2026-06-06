@@ -11,6 +11,7 @@ import {
     update_checkin_validate,
     get_checkin_in_date_of_position_validate,
     get_checkin_detail_in_day_of_user_validate,
+    get_all_paid_leave_of_position_in_date_for_admin_validate,
 } from '../../validates';
 import { shift_work, Position } from '../../enum';
 // import { setCache, getCache, delCache } from '../../utils';
@@ -62,16 +63,19 @@ const is_checked = async (field: is_Checked_interface) => {
 };
 const create_checkin_use = async (data: create_checkin_interface) => {
     try {
-        const YEAR = moment(data.date).format('yyyy');
-        const MONTH = moment(data.date).format('MM');
+        // const YEAR = moment(data.date).format('yyyy');
+        // const MONTH = moment(data.date).format('MM');
         // const KEY_CACHE = `checkin_user_${data.user_id}_month_${MONTH}_year_${YEAR}`;
         // await delCache(KEY_CACHE);
         const valid = create_checkin_validate(data);
         if (valid.error) {
             throw new Error(`${valid?.error.message}`);
         }
-        if (!Object.keys(shift_work).includes(data.work_shift)) {
-            throw new Error(`shift work not avaliable`);
+        if(!isValidEnumValue(data?.work_shift, shift_work)){
+            throw new Error(`Shift work is not valid`);
+        }
+        if (!isValidEnumValue(data?.position, Position)) {
+            throw new Error(`User position is not valid`);
         }
         const result_create = await checkinRepository.create_checkin(data);
         if (!result_create?.success) {
@@ -195,6 +199,56 @@ const get_checkin_of_position_in_date_use = async (
     }
 };
 
+const get_all_checkins_of_position_in_date_for_admin_use = async (position: string, date: string) => {
+    try {
+        if(!isValidEnumValue(position, Position)){
+            throw new Error(`Position is not valid: ${position}`);
+        }
+        const formattedDate = moment(date).format('YYYY-MM-DD');
+        if (formattedDate !== date) {
+            throw new Error(`Date is not valid: ${date}`);
+        }
+        const checkins = await checkinRepository.GET_ALL_CHECKINS_OF_POSITION_IN_DATE_FOR_ADMIN(date, position);
+        if (!checkins?.success) {
+            throw new Error(`${checkins?.message}`);
+        }
+        return {
+            success: true,
+            data: checkins?.data,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.message,
+        };
+    }
+}
+const get_all_paid_leave_of_position_in_date_for_admin_use = async (position: string, date: string) => {
+    try {
+        const isValid = get_all_paid_leave_of_position_in_date_for_admin_validate({ position, date });
+        if (isValid.error) {
+            throw new Error(`${isValid?.error.message}`);
+        }
+        if(!isValidEnumValue(position, Position)){
+            throw new Error(`Position is not valid: ${position}`);
+        }
+        const paid_leaves = await checkinRepository.GET_ALL_PAID_LEAVE_OF_POSITION_IN_DATE_FOR_ADMIN(date, position);
+        if (!paid_leaves?.success) {
+            throw new Error(`${paid_leaves?.message}`);
+        }
+        return {
+            success: true,
+            data: paid_leaves?.data,
+        };
+
+    }
+    catch (error: any) {
+        return {
+            success: false,
+            message: error.message,
+        };
+    }
+}
 export {
     create_checkin_use,
     update_checkin_use,
@@ -202,4 +256,6 @@ export {
     search_checkin_of_user_in_month_useCase,
     get_checkin_of_position_in_date_use,
     get_checkin_detail_in_date_of_user_use,
+    get_all_checkins_of_position_in_date_for_admin_use,
+    get_all_paid_leave_of_position_in_date_for_admin_use
 };

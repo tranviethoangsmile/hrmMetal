@@ -13,6 +13,7 @@ CREATE TABLE checkins
     go_in VARCHAR(255) NULL,
     over_time FLOAT NULL,
     work_shift VARCHAR(255) NULL,
+    position VARCHAR(36) NOT NULL,
     created_at DATE NULL ,
     updated_at DATE NULL,
     deleted_at DATE NULL,
@@ -23,4 +24,7 @@ CREATE TABLE checkins
 -- ALTER time_in
 -- DROP NOT NULL,
 -- ADD is_paid_leave BOOLEAN DEFAULT FALSE;
+
+ALTER TABLE checkins
+ADD COLUMN position VARCHAR(36) NOT NULL DEFAULT '';
 

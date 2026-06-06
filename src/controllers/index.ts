@@ -12,6 +12,7 @@ import {
     delete_order,
     search_order_of_user,
     check_picked_order,
+    get_all_orders_of_position_in_date_for_admin_controller,
 } from './order/order.controller';
 import {
     findByName,
@@ -23,6 +24,7 @@ import {
     findAllUserWithFieldControll,
     getUserForLeaveFeatureControll,
     getAllUserForOtRequestFeatureControll,
+    get_all_users_of_position_for_admin_controller,
 } from './user/user.controller';
 import {
     create_notification_controller,
@@ -100,7 +102,7 @@ import {
     get_all_paid_leave_controller,
     update_is_active_paid_leave_controller,
     search_leave_request_with_field_controller,
-    update_un_approve_leave_request_controller,
+    update_approve_leave_request_controller,
     update_confirm_from_admin_paid_leave_request_controller,
     delete_paid_leave_request_by_id_controller,
 } from './paidLeaveRequest/paidLeaveRequest.controller';
@@ -122,6 +124,7 @@ import {
     search_checked_of_user_in_month_controller,
     get_checkin_in_date_of_position_controller,
     get_checkin_detail_in_date_of_user_controller,
+    get_all_checkins_of_position_in_date_for_admin_controller,
 } from './checkin/checkin.controller';
 import { 
     createTaxDependentController, 
@@ -147,7 +150,8 @@ import {
 } from './payroll/payroll.controller';
 import { login } from './login/login.controller';
 import { findCodeErrorsByDailyReportIdController } from './errorOfReport/errorOfReport.controller';
-
+import { getEnumForAdminControler } from './adminPage/options/getEnumforAdmin.controler';
+import { adminDashboardSummaryController } from './adminPage/dashboards/admin/adminDashboardSummarys.controller';
 export {
     createDep,
     departmentList,
@@ -171,6 +175,7 @@ export {
     findAllUserWithFieldControll,
     getUserForLeaveFeatureControll,
     getAllUserForOtRequestFeatureControll,
+    get_all_users_of_position_for_admin_controller,
     create_message_controller,
     create_conversation_controller,
     delete_conversation_controller,
@@ -216,7 +221,7 @@ export {
     get_all_paid_leave_controller,
     update_is_active_paid_leave_controller,
     search_leave_request_with_field_controller,
-    update_un_approve_leave_request_controller,
+    update_approve_leave_request_controller,
     update_confirm_from_admin_paid_leave_request_controller,
     create_safety_check_controller,
     search_safety_checked_controller,
@@ -248,6 +253,7 @@ export {
     delete_order,
     search_order_of_user,
     check_picked_order,
+    get_all_orders_of_position_in_date_for_admin_controller,
     get_dependent_support_amount_by_tax_dependent_id_and_year_controller,
     create_payroll_controller,
     update_payroll_controller,
@@ -255,5 +261,8 @@ export {
     search_payroll_by_id_controller,
     destroy_payroll_controller,
     login,
-    findCodeErrorsByDailyReportIdController
+    findCodeErrorsByDailyReportIdController,
+    getEnumForAdminControler,
+    adminDashboardSummaryController,
+    get_all_checkins_of_position_in_date_for_admin_controller
 };

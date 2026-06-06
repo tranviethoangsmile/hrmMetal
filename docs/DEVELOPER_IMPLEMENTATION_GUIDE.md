@@ -1,4 +1,4 @@
-# Hướng dẫn triển khai Admin HRM Metal — Developer Guide
+@# Hướng dẫn triển khai Admin HRM Metal — Developer Guide
 
 Tài liệu này tổng hợp **yêu cầu thực hiện cụ thể** cho developer Backend và Frontend, dựa trên:
 

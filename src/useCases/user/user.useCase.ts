@@ -57,6 +57,29 @@ const getUserForLeaveFeatureUse = async (id: any) => {
         };
     }
 };
+const get_all_users_of_position_for_admin_use = async (position: string) => {
+    try {
+        if (
+            typeof position !== 'string' ||
+            !Object.values(Position).includes(position as Position)
+        ) {
+            throw new Error('User position not available');
+        }
+        const users = await userRepository.GET_ALL_USERS_OF_POSITION_FOR_ADMIN(position);
+        if (!users?.success) {
+            throw new Error(`${users?.message}`);
+        }
+        return {
+            success: true,
+            data: users?.data,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: `useCase :: ${error?.message}`,
+        };
+    }
+};
 const userFindAllWithFieldUse = async (field: any) => {
     try {
         const isValid = valid_user_find_all_with_field(field);
@@ -292,5 +315,6 @@ export {
     userFindAllWithFieldUse,
     getUserForLeaveFeatureUse,
     getAllUserForOtRequestFeatureUse,
-    getUserByIdUseCase
+    getUserByIdUseCase,
+    get_all_users_of_position_for_admin_use,
 };

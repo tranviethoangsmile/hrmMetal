@@ -10,6 +10,7 @@ import {
     update_checkin_validate,
     get_checkin_in_date_of_position_validate,
     get_checkin_detail_in_day_of_user_validate,
+    get_all_paid_leave_of_position_in_date_for_admin_validate
 } from '../validates/checkin/checkin.validate';
 import {
     validate_create_information,
@@ -21,6 +22,7 @@ import {
     validate_search_paid,
     validate_update_paid,
     validate_delete_paid_leave,
+    validate_update_approve_paid_leave_request
 } from './paidLeaveRequest/paidLeaveRequest.validate';
 import {
     validate_create_conversation,
@@ -174,5 +176,7 @@ export {
     validate_create_dependent_support_amount,
     validate_update_dependent_support_amount,
     validate_delete_dependent_support_amount,
-    validate_get_dependent_support_amount_by_tax_dependent_id_and_year
+    validate_get_dependent_support_amount_by_tax_dependent_id_and_year,
+    validate_update_approve_paid_leave_request,
+    get_all_paid_leave_of_position_in_date_for_admin_validate
 };

@@ -3,7 +3,7 @@ import {
     find_paid_leave,
     update_paid_leave,
     search_leave_request_with_field_use,
-    update_un_approve_leave_request_use,
+    update_approve_leave_request_use,
     update_confirm_from_admin_paid_leave_request_use,
     delete_paid_leave_request_with_by_id_use,
 } from '../../useCases';
@@ -11,8 +11,8 @@ import {
 const create_paid_leave_controller = async (data: any) => {
     return await create_paid_leave(data);
 };
-const get_all_paid_leave_controller = async () => {
-    return await find_paid_leave();
+const get_all_paid_leave_controller = async (leader_id: string) => {
+    return await find_paid_leave(leader_id);
 };
 const update_is_active_paid_leave_controller = async (data: any) => {
     return await update_paid_leave(data);
@@ -21,8 +21,8 @@ const update_is_active_paid_leave_controller = async (data: any) => {
 const search_leave_request_with_field_controller = async (field: any) => {
     return await search_leave_request_with_field_use(field);
 };
-const update_un_approve_leave_request_controller = async (field: any) => {
-    return await update_un_approve_leave_request_use(field);
+const update_approve_leave_request_controller = async (field: any) => {
+    return await update_approve_leave_request_use(field);
 };
 const update_confirm_from_admin_paid_leave_request_controller = async (
     field: any,
@@ -41,7 +41,7 @@ export {
     get_all_paid_leave_controller,
     update_is_active_paid_leave_controller,
     search_leave_request_with_field_controller,
-    update_un_approve_leave_request_controller,
+    update_approve_leave_request_controller,
     update_confirm_from_admin_paid_leave_request_controller,
     delete_paid_leave_request_by_id_controller,
 };

@@ -6,7 +6,7 @@ CREATE TABLE paidleaverequests
     leader_id VARCHAR(36) NOT NULL REFERENCES users(id),
     admin_id VARCHAR(36) NULL REFERENCES users(id),
     is_confirm BOOLEAN DEFAULT false,
-    is_approve BOOLEAN DEFAULT false,
+    is_approve BOOLEAN NULL,
     date_request VARCHAR(10) NOT NULL,
     feedback VARCHAR NULL,
     date_leave VARCHAR(10) NOT NULL,

@@ -11,6 +11,15 @@ const options: swaggerJSDoc.Options = {
             version: '1.0.0',
             description: 'API documentation for HRM Metal application',
         },
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                },
+            },
+        },
         servers: [
             {
                 url: `http://localhost:${config.app.port}`,
@@ -33,7 +42,7 @@ function swaggerDocs(app: Express, port: number) {
     });
 
     console.info(
-        `API Docs available at http://localhost:${config.app.port}/api-docs`,
+        `API Docs available at http://localhost:${config.app.port}/api-docs`
     );
 }
 

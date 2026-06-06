@@ -1,7 +1,7 @@
 export enum E_message_type {
-    TEXT,
-    IMAGE,
-    VIDEO,
-    DOCUMENT,
-    OTHER,
+    TEXT='TEXT',
+    IMAGE='IMAGE',
+    VIDEO='VIDEO',
+    DOCUMENT='DOCUMENT',
+    OTHER='OTHER',
 }

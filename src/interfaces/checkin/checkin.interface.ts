@@ -4,6 +4,7 @@ interface create_checkin_interface {
     date: string;
     work_shift: string;
     isWeekend?: boolean;
+    position: string;
 }
 interface update_checkin_interface {
     user_id: string;

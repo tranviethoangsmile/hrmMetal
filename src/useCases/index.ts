@@ -12,6 +12,7 @@ import {
     delete_order_by_id_usecase,
     search_order_user_usecase,
     checkin_picked_usecase,
+    get_all_orders_of_position_in_date_for_admin_use,
 } from './order/order.useCase';
 import {
     create_notification_usecase,
@@ -41,7 +42,8 @@ import {
     userFindAllWithFieldUse,
     getUserForLeaveFeatureUse,
     getAllUserForOtRequestFeatureUse,
-    getUserByIdUseCase
+    getUserByIdUseCase,
+    get_all_users_of_position_for_admin_use,
 } from '../useCases/user/user.useCase';
 import {
     create_new_message,
@@ -117,10 +119,20 @@ import {
     find_paid_leave,
     update_paid_leave,
     search_leave_request_with_field_use,
-    update_un_approve_leave_request_use,
+    update_approve_leave_request_use,
     update_confirm_from_admin_paid_leave_request_use,
     delete_paid_leave_request_with_by_id_use,
 } from './paidLeaveRequest/paidLeaveRequest.useCase';
+import {
+    create_checkin_use,
+    update_checkin_use,
+    is_checked,
+    search_checkin_of_user_in_month_useCase,
+    get_checkin_of_position_in_date_use,
+    get_checkin_detail_in_date_of_user_use,
+    get_all_checkins_of_position_in_date_for_admin_use,
+    get_all_paid_leave_of_position_in_date_for_admin_use
+} from './checkin/checkin.useCase';
 import { 
     createTaxDependentUseCase, getTaxDependentByIdUsecase,
     deleteTaxDependentWithIdUseCase,
@@ -138,6 +150,8 @@ import {
 } from './dependentSupportAmount/dependentSupportAmount.useCase';
 import { login_user } from './login/login.useCase';
 import { findCodeErrorsByDailyReportIdUseCase } from './codeError/codeError.useCase';
+import { getEnumForAdminUsecase } from './admin/options/getAdminEnum.useCase';
+import { adminDashboardSummaryUseCase } from './admin/dashboards/summary.useCase';
 export {
     create_plan_production_use,
     update_plan_production_use,
@@ -160,6 +174,7 @@ export {
     findAllUser,
     userFindAllWithFieldUse,
     getUserForLeaveFeatureUse,
+    get_all_users_of_position_for_admin_use,
     search_conversation_by_id_use,
     create_new_message,
     search_all_message_of_conversation_use,
@@ -215,7 +230,7 @@ export {
     find_paid_leave,
     update_paid_leave,
     search_leave_request_with_field_use,
-    update_un_approve_leave_request_use,
+    update_approve_leave_request_use,
     update_confirm_from_admin_paid_leave_request_use,
     delete_paid_leave_request_with_by_id_use,
     createTaxDependentUseCase,
@@ -236,7 +251,18 @@ export {
     delete_order_by_id_usecase,
     search_order_user_usecase,
     checkin_picked_usecase,
+    get_all_orders_of_position_in_date_for_admin_use,
     get_dependent_support_amount_by_tax_dependent_id_and_year_usecase,
     login_user,
-    findCodeErrorsByDailyReportIdUseCase
+    findCodeErrorsByDailyReportIdUseCase,
+    getEnumForAdminUsecase,
+    adminDashboardSummaryUseCase,
+    create_checkin_use,
+    update_checkin_use,
+    is_checked,
+    search_checkin_of_user_in_month_useCase,
+    get_checkin_of_position_in_date_use,
+    get_checkin_detail_in_date_of_user_use,
+    get_all_checkins_of_position_in_date_for_admin_use,
+    get_all_paid_leave_of_position_in_date_for_admin_use
 };
