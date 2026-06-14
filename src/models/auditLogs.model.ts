@@ -49,11 +49,11 @@ AuditLogs.init({
     },
     old_value: {
         type: DataTypes.JSONB,
-        allowNull: false
+        allowNull: true
     },
     new_value : {
         type: DataTypes.JSONB,
-        allowNull: false
+        allowNull: true
     },
     ip_address: {
         type: DataTypes.STRING,
@@ -61,12 +61,12 @@ AuditLogs.init({
     }
 },{
     sequelize: db,
-    paranoid: true,
+    paranoid: false,
     timestamps: true,
     modelName: 'AuditLogs',
     tableName: 'audit_logs',
     createdAt: 'created_at',
-    updatedAt: 'updated_at',
+    updatedAt: false,
     deletedAt: 'deleted_at',
 })
 

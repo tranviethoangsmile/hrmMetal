@@ -48,7 +48,7 @@ const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
         }
         const log: IAuditLogsCreate = {
             actor_id: field?.admin_id,
-            actor_name: `ADMIN_${pail_leave?.data.position}`,
+            actor_name: `ADMIN_${field?.actor_name}_${pail_leave?.data.position}`,
             action: 'CONFIRM',
             resource_type: 'PAID_LEAVE',
             resource_id: field?.id,
@@ -101,8 +101,8 @@ const update_approve_leave_request_use = async (field: any) => {
             throw new Error(`${update?.message}`);
         }
         const log: IAuditLogsCreate = {
-            actor_id: field?.admin_id,
-            actor_name: `LEADER_${paidLeaveRequest?.data?.position}`,
+            actor_id: field?.leader_id,
+            actor_name: `LEADER_${field?.actor_name}_${paidLeaveRequest?.data?.position}`,
             action: 'APPROVE',
             resource_type: 'PAID_LEAVE',
             resource_id: field?.id,

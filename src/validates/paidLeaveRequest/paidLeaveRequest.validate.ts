@@ -24,12 +24,14 @@ const schema_update = Joi.object({
     feedback: Joi.string().allow(null),
     admin_id: Joi.string().guid().required(),
     id: Joi.string().guid().required(),
+    admin_name: Joi.string().allow(null)
 });
 const schema_update_approve = Joi.object({
     feedback: Joi.string().allow(null),
     id: Joi.string().guid().required(),
     is_approve: Joi.boolean().required(),
     leader_id: Joi.string().guid().required(),
+    leader_name: Joi.string().allow(null)
 })
 
 const validate_update_approve_paid_leave_request = (data: any) => {

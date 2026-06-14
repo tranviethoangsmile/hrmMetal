@@ -23,7 +23,7 @@ const CREATE_LOGS_USECASE = async (value: any) => {
     } catch (error: any) {
         return {
             success: false,
-            messages: `${error?.messages}`
+            messages: `${error?.message}`
         }
     }
 }

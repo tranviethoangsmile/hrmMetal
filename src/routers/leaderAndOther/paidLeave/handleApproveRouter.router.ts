@@ -8,7 +8,8 @@ handleApprovePaidLeaveRequestRouter.post('/', async (req: Request, res: Response
     try {
         const payload: IUpdateApprovePaidLeave = {
             ...req.body,
-            leader_id: req?.user?.id
+            leader_id: req?.user?.id,
+            actor_name: req?.user?.name
         }
         if(
             !payload?.id ||
