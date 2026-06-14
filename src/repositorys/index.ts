@@ -26,6 +26,7 @@ import OvertimeRequestRepository from './overtimeRequest/overtimeRquest.reposito
 import TaxDependentRepository from './taxDependent/taxDependent.repository';
 import DependentSupportAmountRepo from './dependentSupportAmount/dependentSupportAmount.repository';
 import CodeErrorsRepository from './codeError/codeError.repository';
+import AuditLogsRepository from './auditLogs/auditLogs.repository';
 export {
     PlanProductionRepository,
     LoginRepository,
@@ -54,5 +55,6 @@ export {
     OvertimeRequestRepository,
     TaxDependentRepository,
     DependentSupportAmountRepo,
-    CodeErrorsRepository
+    CodeErrorsRepository,
+    AuditLogsRepository
 };

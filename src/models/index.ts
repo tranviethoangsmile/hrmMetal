@@ -29,6 +29,7 @@ import DayOffs from './dayOffs.model';
 import OvertimeRequest from './overtimeRequests.model';
 import TaxDependent from './taxDependent.model';
 import DependentSupportAmount from './dependentSupportAmount.model';
+import AuditLogs from './auditLogs.model';
 User.belongsTo(Department, { foreignKey: 'department_id', as: 'department' });
 Department.hasMany(User, { foreignKey: 'department_id', as: 'users' });
 Order.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
@@ -116,7 +117,9 @@ TaxDependent.belongsTo(User, { foreignKey: 'user_id', as: 'userDetail' });
 DependentSupportAmount.belongsTo(TaxDependent,{foreignKey: 'tax_dependent_id', as:'taxDependentDetail'});
 TaxDependent.hasMany(DependentSupportAmount, {foreignKey: 'tax_dependent_id', as:'taxDependentDetail'});
 DependentSupportAmount.belongsTo(User, {foreignKey: 'user_id', as: 'userDetail'});
-User.hasMany(DependentSupportAmount, {foreignKey: 'user_id', as: 'userDetail' })
+User.hasMany(DependentSupportAmount, {foreignKey: 'user_id', as: 'userDetail' });
+User.hasMany(AuditLogs, {foreignKey: 'actor_id', as: 'actorDetail' });
+AuditLogs.belongsTo(User, {foreignKey: 'actor_id', as: 'actorDetail'})
 export {
     User,
     Department,
@@ -148,5 +151,6 @@ export {
     DayOffs,
     OvertimeRequest,
     TaxDependent,
-    DependentSupportAmount
+    DependentSupportAmount, 
+    AuditLogs
 };

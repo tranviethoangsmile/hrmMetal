@@ -152,6 +152,7 @@ import { login_user } from './login/login.useCase';
 import { findCodeErrorsByDailyReportIdUseCase } from './codeError/codeError.useCase';
 import { getEnumForAdminUsecase } from './admin/options/getAdminEnum.useCase';
 import { adminDashboardSummaryUseCase } from './admin/dashboards/summary.useCase';
+import { CREATE_LOGS_USECASE } from './auditLogs/auditLogs.usecase';
 export {
     create_plan_production_use,
     update_plan_production_use,
@@ -264,5 +265,6 @@ export {
     get_checkin_of_position_in_date_use,
     get_checkin_detail_in_date_of_user_use,
     get_all_checkins_of_position_in_date_for_admin_use,
-    get_all_paid_leave_of_position_in_date_for_admin_use
+    get_all_paid_leave_of_position_in_date_for_admin_use,
+    CREATE_LOGS_USECASE
 };

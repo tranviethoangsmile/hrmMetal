@@ -10,6 +10,8 @@ import {
     CheckinRepository,
     PaidLeaveRequestRepository,
 } from '../../repositorys';
+import { CREATE_LOGS_USECASE } from '../auditLogs/auditLogs.usecase';
+import { IAuditLogsCreate } from '../../interfaces';
 const paidLeaveRequestRepository = new PaidLeaveRequestRepository();
 
 const checkinRepository = new CheckinRepository();
@@ -31,6 +33,7 @@ const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
             user_id: pail_leave?.data?.user_id,
             date: pail_leave?.data?.date_leave,
             is_paid_leave: true,
+            position: pail_leave?.data?.position
         };
         const checkin = await checkinRepository.create_checkin(checkin_field);
         if (!checkin?.success) {
@@ -42,6 +45,32 @@ const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
             );
         if (!update_confirm.success) {
             throw new Error(update_confirm?.message);
+        }
+        const log: IAuditLogsCreate = {
+            actor_id: field?.admin_id,
+            actor_name: `ADMIN_${pail_leave?.data.position}`,
+            action: 'CONFIRM',
+            resource_type: 'PAID_LEAVE',
+            resource_id: field?.id,
+            old_value: {
+                id: field?.id,
+                is_confirm: false
+            },
+            new_value: {
+                id: field?.id,
+                is_confirm: true
+            }
+        }
+
+        try {
+            const write_log = await CREATE_LOGS_USECASE(log);
+            if(write_log?.success){
+                console.log(`write log success`)
+            }else {
+                console.log(`write log failed: ${write_log?.messages}`)
+            }
+        } catch (error: any) {
+            console.log(`${error?.message}`)
         }
         return {
             success: true,
