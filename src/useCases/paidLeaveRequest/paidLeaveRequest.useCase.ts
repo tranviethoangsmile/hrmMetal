@@ -67,7 +67,7 @@ const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
             if(write_log?.success){
                 console.log(`write log success`)
             }else {
-                console.log(`write log failed: ${write_log?.messages}`)
+                console.log(`write log failed: ${write_log?.message}`)
             }
         } catch (error: any) {
             console.log(`${error?.message}`)
@@ -120,7 +120,7 @@ const update_approve_leave_request_use = async (field: any) => {
             if(write_log?.success){
                 console.log(`write log success`)
             }else {
-                console.log(`write log failed: ${write_log?.messages}`)
+                console.log(`write log failed: ${write_log?.message}`)
             }
         } catch (error: any) {
             console.log(`${error?.message}`)
