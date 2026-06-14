@@ -1,0 +1,8 @@
+export enum LOGS_ACTION_ENUM {
+    CREATE = 'CREATE',
+    UPDATE = 'UPDATE', 
+    DELETE = 'DELETE', 
+    APPROVE = 'APPROVE', 
+    REJECT = 'REJECT',
+    CONFIRM = 'CONFIRM'
+}

@@ -106,6 +106,7 @@ import {
     validate_delete_dependent_support_amount,
     validate_get_dependent_support_amount_by_tax_dependent_id_and_year
 } from './dependentSupportAmount/dependentSupportAmount.validate';
+import { CREATE_LOGS_VALIDATE } from './auditLogs/auditLogs.validate';
 const schema_id = Joi.string().guid().required();
 const validation_id = (id: string) => {
     return schema_id.validate(id);
@@ -178,5 +179,6 @@ export {
     validate_delete_dependent_support_amount,
     validate_get_dependent_support_amount_by_tax_dependent_id_and_year,
     validate_update_approve_paid_leave_request,
-    get_all_paid_leave_of_position_in_date_for_admin_validate
+    get_all_paid_leave_of_position_in_date_for_admin_validate,
+    CREATE_LOGS_VALIDATE
 };
