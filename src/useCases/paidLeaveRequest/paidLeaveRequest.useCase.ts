@@ -100,6 +100,31 @@ const update_approve_leave_request_use = async (field: any) => {
         if (!update?.success) {
             throw new Error(`${update?.message}`);
         }
+        const log: IAuditLogsCreate = {
+            actor_id: field?.admin_id,
+            actor_name: `LEADER_${paidLeaveRequest?.data?.position}`,
+            action: 'APPROVE',
+            resource_type: 'PAID_LEAVE',
+            resource_id: field?.id,
+            old_value: {
+                id: field?.id,
+                is_confirm: false
+            },
+            new_value: {
+                id: field?.id,
+                is_confirm: true
+            }
+        }
+        try {
+            const write_log = await CREATE_LOGS_USECASE(log);
+            if(write_log?.success){
+                console.log(`write log success`)
+            }else {
+                console.log(`write log failed: ${write_log?.messages}`)
+            }
+        } catch (error: any) {
+            console.log(`${error?.message}`)
+        }
         return {
             success: true
         };
