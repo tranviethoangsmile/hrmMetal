@@ -9,7 +9,8 @@ isConfirmPaidLeaveFromAdmin.post('/paid-leave-confirm', async (req: Request, res
     try {
         const data: IUpdatePaidLeave = {
             ...req.body,
-            admin_id: req?.user?.id
+            admin_id: req?.user?.id,
+            actor_name: req?.user?.name
         }
         if(!data?.user_id || !data?.id || !data?.admin_id) {
             const missingFields = [

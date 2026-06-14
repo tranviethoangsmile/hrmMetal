@@ -3,15 +3,10 @@ interface IAuditLogsCreate {
     actor_name: string;
     action: string;
     resource_type: string;
-    resource_id: any;
-    old_value: {
-        id: any;
-        is_confirm: boolean;
-    };
-    new_value: {
-        id: any;
-        is_confirm: boolean;
-    };
+    resource_id: string;
+    old_value: Record<string, any> | null;
+    new_value: Record<string, any> | null;
+    ip_address?: string | null;
 }
 
 export { IAuditLogsCreate }
