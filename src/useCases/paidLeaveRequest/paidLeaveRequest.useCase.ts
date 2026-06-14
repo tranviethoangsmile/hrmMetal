@@ -11,6 +11,7 @@ import {
     PaidLeaveRequestRepository,
 } from '../../repositorys';
 import { CREATE_LOGS_USECASE } from '../auditLogs/auditLogs.usecase';
+import { IAuditLogsCreate } from '../../interfaces';
 const paidLeaveRequestRepository = new PaidLeaveRequestRepository();
 
 const checkinRepository = new CheckinRepository();
@@ -45,7 +46,7 @@ const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
         if (!update_confirm.success) {
             throw new Error(update_confirm?.message);
         }
-        const log = {
+        const log: IAuditLogsCreate = {
             actor_id: field?.admin_id,
             actor_name: `ADMIN_${pail_leave?.data.position}`,
             action: 'CONFIRM',
