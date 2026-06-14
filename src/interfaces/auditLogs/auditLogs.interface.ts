@@ -1,5 +1,5 @@
 interface IAuditLogsCreate {
-    actor_id: any;
+    actor_id: string;
     actor_name: string;
     action: string;
     resource_type: string;
