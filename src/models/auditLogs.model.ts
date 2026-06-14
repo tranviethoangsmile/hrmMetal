@@ -67,7 +67,6 @@ AuditLogs.init({
     tableName: 'audit_logs',
     createdAt: 'created_at',
     updatedAt: false,
-    deletedAt: 'deleted_at',
 })
 
 export default AuditLogs;
