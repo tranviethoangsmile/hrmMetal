@@ -7,8 +7,8 @@ const schema_create_audit_logs = Joi.object({
     action: Joi.string().required(),
     resource_type: Joi.string().required(),
     resource_id: Joi.string().guid().required(),
-    old_value: Joi.object().allow(null),
-    new_value: Joi.object().allow(null),
+    old_value: Joi.object().allow(null).optional(),
+    new_value: Joi.object().allow(null).optional(),
     ip_address: Joi.string().allow(null),
 
 })
