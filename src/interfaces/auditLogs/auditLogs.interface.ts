@@ -9,4 +9,14 @@ interface IAuditLogsCreate {
     ip_address?: string | null;
 }
 
-export { IAuditLogsCreate }
+interface IAuditLogSearchInput {
+    resource_type?: string;
+    actor_id?: string;
+    from?: string;    // YYYY-MM-DD
+    to?: string;      // YYYY-MM-DD
+    page?: number;
+    limit?: number;
+}
+
+
+export { IAuditLogsCreate, IAuditLogSearchInput }

@@ -6,4 +6,12 @@ export interface IAuditLogsRepository {
         data?: AuditLogs,
         message?: string
     }>
+    SEARCH (field: any): Promise<{
+        success: boolean,
+        data?:{
+            rows: AuditLogs[],
+            count: number
+        },
+        message?: string,
+    }>
 }
