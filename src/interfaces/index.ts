@@ -102,7 +102,7 @@ import {
     create_payroll, update_payroll, search_payroll
 } from './payroll/payroll.interface';
 import {ICreate_code_error, ISearch_code_error} from './codeError/codeError.interface';
-import { IAuditLogsCreate } from './auditLogs/auditLogs.interface';
+import { IAuditLogsCreate, IAuditLogSearchInput } from './auditLogs/auditLogs.interface';
 export {
     check_value_request_checkin,
     create_plan_production,
@@ -174,5 +174,6 @@ export {
     ICreate_code_error, 
     ISearch_code_error,
     IUpdateApprovePaidLeave,
-    IAuditLogsCreate
+    IAuditLogsCreate,
+    IAuditLogSearchInput
 };

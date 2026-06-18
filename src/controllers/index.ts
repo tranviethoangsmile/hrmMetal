@@ -152,6 +152,7 @@ import { login } from './login/login.controller';
 import { findCodeErrorsByDailyReportIdController } from './errorOfReport/errorOfReport.controller';
 import { getEnumForAdminControler } from './adminPage/options/getEnumforAdmin.controler';
 import { adminDashboardSummaryController } from './adminPage/dashboards/admin/adminDashboardSummarys.controller';
+import { SEARCH_LOGS_CONTROLLER } from './auditLogs/auditLogs.controller';
 export {
     createDep,
     departmentList,
@@ -264,5 +265,6 @@ export {
     findCodeErrorsByDailyReportIdController,
     getEnumForAdminControler,
     adminDashboardSummaryController,
-    get_all_checkins_of_position_in_date_for_admin_controller
+    get_all_checkins_of_position_in_date_for_admin_controller,
+    SEARCH_LOGS_CONTROLLER
 };
