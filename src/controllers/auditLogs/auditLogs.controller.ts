@@ -6,7 +6,7 @@ const SEARCH_LOGS_CONTROLLER = async (req: Request, res: Response) => {
     try {
         const inputValue: IAuditLogSearchInput = req.body;
         if(!inputValue){
-            errorResponse(res, 400, `bad request`)
+           return errorResponse(res, 400, `bad request`)
         }
         const result_search = await SEARCH_LOGS_USECASE(inputValue);
         if(!result_search?.success){

@@ -46,10 +46,6 @@ class AuditLogsRepository implements IAuditLogsRepository {
                 offset,
             });
 
-            if(auditlogs?.count < 1) {
-                throw new Error(`logs not found`)
-            }
-
             return { 
                 success: true, 
                 data: 
