@@ -48,12 +48,11 @@ class AuditLogsRepository implements IAuditLogsRepository {
 
             return { 
                 success: true, 
-                data: 
-                {
-                rows: auditlogs.rows,
-                count: auditlogs.count
-            } 
-        };
+                data: {
+                    rows: auditlogs.rows,
+                    count: auditlogs.count
+                } 
+            };
         } catch (error: any) {
             return { 
                 success: false, 
