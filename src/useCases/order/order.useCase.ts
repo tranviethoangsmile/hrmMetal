@@ -132,7 +132,7 @@ const delete_order_by_id_usecase = async (id: string) => {
     }
 };
 
-const search_order_user_usecase = async (id: any) => {
+const search_order_user_usecase = async (id: string) => {
     try {
         const valid = validation_id(id);
         if (valid.error) {

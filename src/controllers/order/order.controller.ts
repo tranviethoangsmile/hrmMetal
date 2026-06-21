@@ -24,7 +24,7 @@ const delete_order = async (id: any) => {
     return await delete_order_by_id_usecase(id);
 };
 
-const search_order_of_user = async (id: any) => {
+const search_order_of_user = async (id: string) => {
     return await search_order_user_usecase(id);
 };
 const check_picked_order = async (field: any) => {

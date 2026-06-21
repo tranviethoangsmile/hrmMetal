@@ -153,7 +153,7 @@ class OrderRepository implements IOrderRepository {
         }
     }
 
-    async search_order_for_user_in_month(id: any) {
+    async search_order_for_user_in_month(id: string) {
         try {
             const year = moment().format('YYYY');
             const month = moment().format('MM');
@@ -161,7 +161,7 @@ class OrderRepository implements IOrderRepository {
                 where: {
                     [Op.and]: [
                         {
-                            user_id: id.user_id,
+                            user_id: id,
                         },
                         {
                             date: {
