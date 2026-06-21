@@ -5,9 +5,9 @@ import {
     delete_order,
 } from '../../controllers';
 import {
-    addPosition,
-    very_token_order,
     timeOrderLimit,
+    authJwt,
+    requireRoles
 } from '../../middlewares';
 import orderRouterModule from './moduleOrderRouter/order.router';
 import search_order_router from './moduleOrderRouter/searchOrderWithField.router';
@@ -15,29 +15,22 @@ import { errorResponse, successResponse } from '../../helpers';
 import { create_order } from '../../interfaces';
 
 const orderRouter: Router = Router();
-
+orderRouter.use(authJwt),
+orderRouter.use(requireRoles(['LEADER','STAFF', 'MANAGER', 'SUPERVISOR']))
+orderRouter.use('/user', orderRouterModule);
+orderRouter.use('/searchorderwithfield', search_order_router);
 orderRouter.post(
     '/',
-    very_token_order,
     timeOrderLimit,
-    addPosition,
     async (req: Request, res: Response) => {
         try {
-            const order_data: create_order = req.body;
-            if(!order_data.date || !order_data.dayOrNight || !order_data.user_id || !order_data.position) {
-                const missingFields = [
-                    !order_data.date && 'date',
-                    !order_data.dayOrNight && 'dayOrNight',
-                    !order_data.user_id && 'user_id',
-                    !order_data.position && 'position',
-                ]
-                .filter(Boolean)
-                .join(', ');
-                return errorResponse(res, 400, `Missing required ${missingFields}`);
-            }
+            const order_data: create_order = { 
+                ...req.body,
+                position: req.user?.position,
+            };
             const new_order = await create_order_controller(order_data);
             if(!new_order?.success) {
-                return errorResponse(res, 200, new_order?.message || 'Failed to create order');
+                return errorResponse(res, 400, new_order?.message || 'Failed to create order');
             }
             return successResponse(res, 201, new_order?.data);
         } catch (error: any) {
@@ -75,8 +68,5 @@ orderRouter.delete('/:id', async (req: Request, res: Response) => {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }
 });
-
-orderRouter.use('/user', orderRouterModule);
-orderRouter.use('/searchorderwithfield', search_order_router);
 
 export default orderRouter;

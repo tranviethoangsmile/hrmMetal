@@ -14,7 +14,7 @@ const create_order_controller = async (order: any) => {
 
 const find_all_order = async () => {
     return await find_all_order_usecase();
-};
+}
 
 const search_orders = async (order: any) => {
     return await search_order_usecase(order);
