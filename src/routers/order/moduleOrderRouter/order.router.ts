@@ -10,7 +10,7 @@ const orderRouterModule = Router();
 
 orderRouterModule.post('/', async (req: Request, res: Response) => {
     try {
-        const id: string | undefined = req.body.id;
+        const id: string | undefined = req?.user?.id;
         if (!id) {
             return errorResponse(res, 400, 'id is required');
         }
