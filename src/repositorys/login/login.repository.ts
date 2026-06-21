@@ -82,7 +82,7 @@ class LoginRepository implements ILoginRepository {
             const payload = {
                 ...user_payload,
             };
-            const token = jwt.sign(payload, secret);
+            const token = jwt.sign(payload, secret, { expiresIn: '2h' });
             return {
                 success: true,
                 data: payload,

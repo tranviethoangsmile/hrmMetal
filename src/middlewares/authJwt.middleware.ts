@@ -32,7 +32,6 @@ const getBearerToken = (authorization?: string): string => {
 
 const authJwt = (req: Request, res: Response, next: NextFunction) => {
     const token: string = getBearerToken(req.headers.authorization);
-    console.log(token)
     if (!token) {
         return errorResponse(res, 401, 'Authentication token is required');
     }
