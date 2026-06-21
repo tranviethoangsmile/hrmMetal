@@ -16,7 +16,7 @@ orderRouterModule.post('/', async (req: Request, res: Response) => {
         }
         const orders = await search_order_of_user(id);
         if(!orders?.success) {
-            return errorResponse(res, 200, orders?.message || 'Failed to search orders');
+            return errorResponse(res, 400, orders?.message || 'Failed to search orders');
         }
         return successResponse(res, 202, orders?.data);
 
