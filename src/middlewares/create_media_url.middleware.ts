@@ -62,7 +62,7 @@ const create_media_path = async (
     } catch (error: any) {
         return res.status(500).json({
             success: false,
-            message: 'server error: ' + error?.message,
+            message: 'server error middleware media: ' + error?.message,
         });
     }
 };

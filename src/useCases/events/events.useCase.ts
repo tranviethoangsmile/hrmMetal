@@ -6,6 +6,7 @@ import {
     validate_get_event_with_position,
 } from '../../validates';
 import { Position } from '../../enum';
+import { isValidEnumValue } from '../../helpers';
 import { PushNotificationService } from '../../services';
 const eventRepository = new EventRepository();
 const pushNotiService = new PushNotificationService();
@@ -16,8 +17,7 @@ const create_events_use = async (field: any) => {
             throw new Error(isValid?.error?.message);
         }
         if (
-            typeof field.position === 'string' &&
-            !Object.values(Position).includes(field.position)
+            !isValidEnumValue(field.position, Position)
         ) {
             throw new Error('position is not valid');
         }

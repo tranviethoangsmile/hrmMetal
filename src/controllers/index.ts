@@ -154,8 +154,10 @@ import { findCodeErrorsByDailyReportIdController } from './errorOfReport/errorOf
 import { getEnumForAdminControler } from './adminPage/options/getEnumforAdmin.controler';
 import { adminDashboardSummaryController } from './adminPage/dashboards/admin/adminDashboardSummarys.controller';
 import { SEARCH_LOGS_CONTROLLER } from './auditLogs/auditLogs.controller';
-import { CREATE_USER_FOR_ADMIN_CONTROLLER } from './adminPage/dashboards/admin/adminCreateUser.controller';
-import { CREATE_ORDER_FOR_ADMIN_CONTROLLER } from './adminPage/dashboards/admin/adminCreateOrderforUser.controller.ts';
+import { 
+    CREATE_EVENTS_FOR_ADMIN_CONTROLLER, 
+    CREATE_ORDER_FOR_ADMIN_CONTROLLER, 
+    CREATE_USER_FOR_ADMIN_CONTROLLER } from './adminPage';
 export {
     createDep,
     departmentList,
@@ -272,5 +274,6 @@ export {
     get_all_checkins_of_position_in_date_for_admin_controller,
     SEARCH_LOGS_CONTROLLER,
     CREATE_USER_FOR_ADMIN_CONTROLLER,
-    CREATE_ORDER_FOR_ADMIN_CONTROLLER
+    CREATE_ORDER_FOR_ADMIN_CONTROLLER,
+    CREATE_EVENTS_FOR_ADMIN_CONTROLLER
 };
