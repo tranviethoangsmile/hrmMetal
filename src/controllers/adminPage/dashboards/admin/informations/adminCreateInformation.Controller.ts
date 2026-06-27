@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { successResponse, errorResponse } from "../../../../helpers";
-import { create_information, IAuditLogsCreate } from "../../../../interfaces";
-import { CREATE_LOGS_USECASE, create_information_use } from "../../../../useCases";
+import { successResponse, errorResponse } from "../../../../../helpers";
+import { create_information, IAuditLogsCreate } from "../../../../../interfaces";
+import { CREATE_LOGS_USECASE, create_information_use } from "../../../../../useCases";
 const CREATE_INFORMATION_FOR_ADMIN_CONTROLLER = async (req: Request, res: Response) => {
     try {
         const {media_path, ...rest} = req.body;
@@ -28,7 +28,7 @@ const CREATE_INFORMATION_FOR_ADMIN_CONTROLLER = async (req: Request, res: Respon
             resource_id: `${created_information?.data?.id}`,
             old_value: null,
             new_value: {
-                ...created_information?.data
+                title: `${created_information?.data?.title}`
             }
         }
 

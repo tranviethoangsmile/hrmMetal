@@ -1,25 +1,13 @@
 import { Request, Response } from "express";
-import { successResponse, errorResponse } from "../../../../helpers";
-import { create_order, IAuditLogsCreate } from "../../../../interfaces";
-import { create_order_usecase, CREATE_LOGS_USECASE } from "../../../../useCases";
+import { successResponse, errorResponse } from "../../../../../helpers";
+import { create_order, IAuditLogsCreate } from "../../../../../interfaces";
+import { create_order_usecase, CREATE_LOGS_USECASE } from "../../../../../useCases";
 const CREATE_ORDER_FOR_ADMIN_CONTROLLER = async (req: Request, res: Response) => {
     try {
         const order_field: create_order = {
             ...req.body,
             position: req.user?.position
         }
-        if(!order_field.date || !order_field.dayOrNight || !order_field.user_id || !order_field.position) {
-            const missingFields = [
-                !order_field.date && 'date',
-                !order_field.dayOrNight && 'dayOrNight',
-                !order_field.user_id && 'user_id',
-                !order_field.position && 'position',
-            ]
-            .filter(Boolean)
-            .join(', ');
-            return errorResponse(res, 400, `Missing required ${missingFields}`);
-        }
-
         const created_order =  await create_order_usecase(order_field);
         if(!created_order?.success) {
             return errorResponse(res, 400, `${created_order?.message}`);

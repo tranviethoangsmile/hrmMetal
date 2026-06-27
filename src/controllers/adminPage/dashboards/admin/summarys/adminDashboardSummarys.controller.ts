@@ -1,4 +1,4 @@
-import { adminDashboardSummaryUseCase } from "../../../../useCases";
+import { adminDashboardSummaryUseCase } from "../../../../../useCases";
 
 const adminDashboardSummaryController = async (position: string, date: string) => {
     return await adminDashboardSummaryUseCase(position, date)

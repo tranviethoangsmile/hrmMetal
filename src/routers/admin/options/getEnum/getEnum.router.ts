@@ -1,11 +1,11 @@
 import { Router, Request, Response } from 'express';
-import { getEnumForAdminControler } from '../../../../controllers';
+import { GET_ENUM_FOR_ADMIN_CONTROLLER } from '../../../../controllers';
 import { successResponse, errorResponse } from '../../../../helpers';
 const getEnumRouter: Router = Router();
 
 getEnumRouter.get('/', async (req: Request, res: Response) => {
     try {
-        const enums = await getEnumForAdminControler();
+        const enums = await GET_ENUM_FOR_ADMIN_CONTROLLER();
         if (!enums?.success) {
             return errorResponse(res, 400, `${enums?.message}`);
         }

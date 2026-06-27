@@ -151,14 +151,14 @@ import {
 import { web_login_controller } from './login/web.login.controller';
 import { app_login_controller } from './login/app.login.controller';
 import { findCodeErrorsByDailyReportIdController } from './errorOfReport/errorOfReport.controller';
-import { getEnumForAdminControler } from './adminPage/options/getEnumforAdmin.controler';
-import { adminDashboardSummaryController } from './adminPage/dashboards/admin/adminDashboardSummarys.controller';
+import { adminDashboardSummaryController } from './adminPage/dashboards/admin/summarys/adminDashboardSummarys.controller';
 import { SEARCH_LOGS_CONTROLLER } from './auditLogs/auditLogs.controller';
 import { 
     CREATE_EVENTS_FOR_ADMIN_CONTROLLER, 
     CREATE_ORDER_FOR_ADMIN_CONTROLLER, 
     CREATE_USER_FOR_ADMIN_CONTROLLER,
     CREATE_INFORMATION_FOR_ADMIN_CONTROLLER,
+    GET_ENUM_FOR_ADMIN_CONTROLLER
 } from './adminPage';
 export {
     createDep,
@@ -271,7 +271,7 @@ export {
     web_login_controller,
     app_login_controller,
     findCodeErrorsByDailyReportIdController,
-    getEnumForAdminControler,
+    GET_ENUM_FOR_ADMIN_CONTROLLER,
     adminDashboardSummaryController,
     get_all_checkins_of_position_in_date_for_admin_controller,
     SEARCH_LOGS_CONTROLLER,
