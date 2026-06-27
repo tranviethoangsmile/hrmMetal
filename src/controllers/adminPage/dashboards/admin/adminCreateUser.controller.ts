@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import { CreateField } from "../../../../interfaces";
-import { successResponse, errorResponse } from "../../../../helpers";
-import { createNewUser, CREATE_LOGS_USECASE } from "../../../../useCases";
 import { Role } from "../../../../enum";
-import { IAuditLogsCreate } from "../../../../interfaces";
+import { successResponse, errorResponse } from "../../../../helpers";
+import { CreateField, IAuditLogsCreate } from "../../../../interfaces";
+import { createNewUser, CREATE_LOGS_USECASE } from "../../../../useCases";
 const CREATE_USER_FOR_ADMIN_CONTROLLER = async (req: Request, res: Response) => {
     try {
         const user: CreateField = {

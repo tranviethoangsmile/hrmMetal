@@ -4,7 +4,7 @@ import {
     search_information_by_id_use,
     search_all_information_with_field_use,
     delete_information_by_id_use,
-} from '../../useCases/information/information.use';
+} from '../../useCases';
 
 const create_information_controller = async (value: any) => {
     return await create_information_use(value);

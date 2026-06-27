@@ -6,8 +6,8 @@ const schema_create_infomation_validate = Joi.object({
     date: Joi.date().iso().required().messages({
         'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
     }),
-    position: Joi.string(),
-    media: Joi.string(),
+    position: Joi.string().required(),
+    media: Joi.string().allow(null),
     is_video: Joi.boolean(),
     is_public: Joi.boolean(),
     is_event: Joi.boolean(),

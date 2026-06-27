@@ -153,6 +153,12 @@ import { findCodeErrorsByDailyReportIdUseCase } from './codeError/codeError.useC
 import { getEnumForAdminUsecase } from './admin/options/getAdminEnum.useCase';
 import { adminDashboardSummaryUseCase } from './admin/dashboards/summary.useCase';
 import { CREATE_LOGS_USECASE, SEARCH_LOGS_USECASE } from './auditLogs/auditLogs.usecase';
+import { create_information_use, 
+    search_information_of_user_use, 
+    delete_information_by_id_use, 
+    search_information_by_id_use, 
+    search_all_information_with_field_use 
+} from './information/information.use';
 export {
     create_plan_production_use,
     update_plan_production_use,
@@ -267,5 +273,10 @@ export {
     get_all_checkins_of_position_in_date_for_admin_use,
     get_all_paid_leave_of_position_in_date_for_admin_use,
     CREATE_LOGS_USECASE,
-    SEARCH_LOGS_USECASE
+    SEARCH_LOGS_USECASE,
+    create_information_use, 
+    search_information_of_user_use, 
+    delete_information_by_id_use, 
+    search_information_by_id_use, 
+    search_all_information_with_field_use 
 };
