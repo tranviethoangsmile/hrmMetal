@@ -1,4 +1,4 @@
-import e, { Request, Response } from "express";
+import { Request, Response } from "express";
 import { successResponse, errorResponse } from "../../../../../helpers";
 import { create_events_use, CREATE_LOGS_USECASE } from "../../../../../useCases";
 import { create_events_interface, IAuditLogsCreate } from "../../../../../interfaces";
