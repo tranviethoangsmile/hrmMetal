@@ -2,7 +2,7 @@
  * @swagger
  * tags:
  *   name: Dashboards
- *   description: Dashboard APIs for admin and leader roles
+ *   description: Dashboard APIs for admin-only routes
  */
 
 /**
@@ -398,6 +398,110 @@
  *         isPicked:
  *           type: boolean
  *       additionalProperties: true
+ *     AdminCreateEventsRequest:
+ *       type: object
+ *       required:
+ *         - name
+ *         - description
+ *         - date_start
+ *         - date_end
+ *       properties:
+ *         name:
+ *           type: string
+ *         description:
+ *           type: string
+ *         date_start:
+ *           type: string
+ *           format: date
+ *         date_end:
+ *           type: string
+ *           format: date
+ *         media_path:
+ *           type: string
+ *           nullable: true
+ *         is_safety:
+ *           type: boolean
+ *         is_active:
+ *           type: boolean
+ *       description: Position is injected from the authenticated admin token.
+ *     AdminCreatedEvent:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *         name:
+ *           type: string
+ *         description:
+ *           type: string
+ *         date_start:
+ *           type: string
+ *           format: date
+ *         date_end:
+ *           type: string
+ *           format: date
+ *         position:
+ *           type: string
+ *         media:
+ *           type: string
+ *           nullable: true
+ *         is_safety:
+ *           type: boolean
+ *         is_active:
+ *           type: boolean
+ *       additionalProperties: true
+ *     AdminCreateInformationRequest:
+ *       type: object
+ *       required:
+ *         - title
+ *         - content
+ *         - date
+ *       properties:
+ *         title:
+ *           type: string
+ *         content:
+ *           type: string
+ *         date:
+ *           type: string
+ *           format: date-time
+ *         media_path:
+ *           type: string
+ *           nullable: true
+ *         is_video:
+ *           type: boolean
+ *         is_public:
+ *           type: boolean
+ *         is_event:
+ *           type: boolean
+ *       description: user_id and position are injected from the authenticated admin token.
+ *     AdminCreatedInformation:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *         user_id:
+ *           type: string
+ *           format: uuid
+ *         title:
+ *           type: string
+ *         content:
+ *           type: string
+ *         date:
+ *           type: string
+ *           format: date-time
+ *         position:
+ *           type: string
+ *         media:
+ *           type: string
+ *           nullable: true
+ *         is_video:
+ *           type: boolean
+ *         is_public:
+ *           type: boolean
+ *         is_event:
+ *           type: boolean
+ *       additionalProperties: true
  *     DashboardSummaryData:
  *       type: object
  *       properties:
@@ -727,6 +831,90 @@
 
 /**
  * @swagger
+ * /api/version/v1/dashboards/admin/create-events:
+ *   post:
+ *     summary: Create an event as admin
+ *     tags: [Dashboards]
+ *     security:
+ *       - bearerAuth: []
+ *     description: Position is injected from the authenticated admin token. media_path is optional and will be mapped to the stored media field.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/AdminCreateEventsRequest'
+ *     responses:
+ *       201:
+ *         description: Event created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   $ref: '#/components/schemas/AdminCreatedEvent'
+ *       400:
+ *         description: Bad request or validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/dashboards/admin/create-informations:
+ *   post:
+ *     summary: Create an information post as admin
+ *     tags: [Dashboards]
+ *     security:
+ *       - bearerAuth: []
+ *     description: user_id and position are injected from the authenticated admin token. media_path is optional and will be mapped to the stored media field.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/AdminCreateInformationRequest'
+ *     responses:
+ *       201:
+ *         description: Information created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   $ref: '#/components/schemas/AdminCreatedInformation'
+ *       400:
+ *         description: Bad request or validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
+/**
+ * @swagger
  * /api/version/v1/dashboards/admin/confirm/paid-leave-confirm:
  *   post:
  *     summary: Confirm an approved paid leave request as admin
@@ -767,180 +955,6 @@
  *               $ref: '#/components/schemas/ErrorResponse'
  *       400:
  *         description: Missing required fields or validation error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- *       401:
- *         description: Missing or invalid token
- *       403:
- *         description: User does not have permission
- *       500:
- *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- */
-
-/**
- * @swagger
- * /api/version/v1/dashboards/leader/approve-paid-leave-request:
- *   post:
- *     summary: Approve or reject a paid leave request as leader
- *     tags: [Dashboards]
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - id
- *               - is_approve
- *             properties:
- *               id:
- *                 type: string
- *                 format: uuid
- *               is_approve:
- *                 type: boolean
- *                 example: true
- *               feedback:
- *                 type: string
- *                 nullable: true
- *     responses:
- *       202:
- *         description: Paid leave approval updated successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/PaidLeaveSuccess'
- *       200:
- *         description: Request processed but approval update failed
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- *       400:
- *         description: Missing required fields or validation error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- *       401:
- *         description: Missing or invalid token
- *       403:
- *         description: User does not have permission
- *       500:
- *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- */
-
-/**
- * @swagger
- * /api/version/v1/dashboards/leader/get-paid-leave-request:
- *   get:
- *     summary: Get pending paid leave requests for leader
- *     tags: [Dashboards]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       202:
- *         description: Pending paid leave requests retrieved successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 data:
- *                   $ref: '#/components/schemas/PaidLeaveRequestPage'
- *       200:
- *         description: Request processed but no paid leave request was found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- *       400:
- *         description: Missing leader id from token
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- *       401:
- *         description: Missing or invalid token
- *       403:
- *         description: User does not have permission
- *       500:
- *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- */
-
-/**
- * @swagger
- * tags:
- *   name: Audit Logs
- *   description: Searchable audit log APIs
- */
-
-/**
- * @swagger
- * /api/version/v1/dashboards/logs/search:
- *   post:
- *     summary: Search audit logs
- *     tags: [Audit Logs]
- *     security:
- *       - bearerAuth: []
- *     description: Available to ADMIN and MANAGER roles. Supports filtering by resource type, actor, and date range.
- *     requestBody:
- *       required: false
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               resource_type:
- *                 type: string
- *               actor_id:
- *                 type: string
- *                 format: uuid
- *               from:
- *                 type: string
- *                 format: date
- *               to:
- *                 type: string
- *                 format: date
- *               page:
- *                 type: integer
- *                 example: 1
- *               limit:
- *                 type: integer
- *                 example: 20
- *     responses:
- *       200:
- *         description: Audit logs retrieved successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 data:
- *                   $ref: '#/components/schemas/DashboardAuditLogPage'
- *       400:
- *         description: Bad request or validation error
  *         content:
  *           application/json:
  *             schema:

@@ -1,11 +1,9 @@
 import { Router } from 'express';
-import createInformationRouter from './infomationRouterModule/createInformation.router';
 import getInforOfUserRouter from './infomationRouterModule/getInformationOfuser.router';
 import getInformationByIdRouter from './infomationRouterModule/getInformationById.router';
 import searchAllRouter from './infomationRouterModule/getInformationByField.router';
 import deleteInformation from './infomationRouterModule/deleteInformationById.router';
 const informationRouter: Router = Router();
-informationRouter.use('/create', createInformationRouter);
 informationRouter.use('/getinforofuser', getInforOfUserRouter);
 informationRouter.use('/getinforbyid', getInformationByIdRouter);
 informationRouter.use('/getallinforbyfield', searchAllRouter);

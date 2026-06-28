@@ -25,10 +25,6 @@ const get_all_users_of_position_for_admin_controller = async (
 const findAllUserWithFieldControll = async (filed: any) => {
     return await userFindAllWithFieldUse(filed);
 };
-const create = async (user: any) => {
-    return await createNewUser(user);
-};
-
 const update = async (user: any) => {
     return await updateUser(user);
 };
@@ -50,7 +46,6 @@ const findAll = async () => {
 };
 
 export {
-    create,
     update,
     destroy,
     findById,

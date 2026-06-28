@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { create, update, destroy, findById, findAll } from '../../controllers';
+import { update, destroy, findById, findAll } from '../../controllers';
 import { CreateField, UpdateField } from '../../interfaces';
 import { errorResponse, successResponse } from '../../helpers';
 import uploadAvatar from './userRouterModul/uploadRouterModul';
@@ -26,54 +26,6 @@ userRouters.get('/', async (req: Request, res: Response) => {
             return errorResponse(res, 400, users?.message || 'Failed to get users');
         } 
         return successResponse(res, 200, users?.data);
-    } catch (error: any) {
-        return errorResponse(res, 500, error?.message || 'Internal server error');
-    }
-});
-
-userRouters.post('/', async (req: Request, res: Response) => {
-    try {
-        const user: CreateField = req.body;
-
-        if (
-            !user ||
-            !user.name ||
-            !user.email ||
-            !user.user_name ||
-            !user.password ||
-            !user.dob ||
-            !user.employee_id ||
-            !user.department_id ||
-            !user.role ||
-            !user.travel_allowance_pay || 
-            !user.shift_night_pay ||
-            !user.salary_hourly ||
-            !user.paid_days
-
-        ) {
-            const missingFields = [
-                !user.name && 'name',
-                !user.email && 'email',
-                !user.user_name && 'user_name',
-                !user.password && 'password',
-                !user.dob && 'dob',
-                !user.employee_id && 'employee_id',
-                !user.department_id && 'department_id',
-                !user.role && 'role',
-                !user.paid_days && 'paid_days',
-                !user.travel_allowance_pay && 'travel_allowance_pay',
-                !user.shift_night_pay && 'shift_night_pay',
-                !user.salary_hourly && 'salary_hourly'
-            ]
-                .filter(Boolean)
-                .join(', ');
-            return errorResponse(res, 400, `Invalid input: Missing required ${missingFields}`);
-        }
-        const data = await create(user);
-        if (!data?.success) {
-            return errorResponse(res, 200, data?.message || 'Failed to create user');
-        }
-        return successResponse(res, 201, data?.data);
     } catch (error: any) {
         return errorResponse(res, 500, error?.message || 'Internal server error');
     }

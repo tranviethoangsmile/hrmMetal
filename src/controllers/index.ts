@@ -16,7 +16,6 @@ import {
 } from './order/order.controller';
 import {
     findByName,
-    create,
     update,
     destroy,
     findById,
@@ -47,7 +46,6 @@ import { find_group_member_of_user_controller } from './groupMember/groupMember.
 import { create_delete_message_cotroller } from './deleteMessage/deleteMessage.controller';
 import { create_fcm_token_controller } from './fcmToken/fcmToken.controller';
 import {
-    create_events_controller,
     delete_event_controller,
     update_events_controller,
     search_event_by_id_controller,
@@ -175,7 +173,6 @@ export {
     search_notification_controller,
     search_notification_of_user_controller,
     findByName,
-    create,
     update,
     destroy,
     findById,
@@ -192,7 +189,6 @@ export {
     unSend_message_with_id_controller,
     create_delete_message_cotroller,
     create_fcm_token_controller,
-    create_events_controller,
     delete_event_controller,
     update_events_controller,
     search_event_by_id_controller,
