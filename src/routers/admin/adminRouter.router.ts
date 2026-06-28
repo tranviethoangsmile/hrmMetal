@@ -10,6 +10,7 @@ import createUserRouter from './dashboards/adminCreateUser/createUser.router';
 import createOrderRouter from './dashboards/adminCreateOrder/createOrderRouter.router';
 import createEventsRouter from './dashboards/adminCreateEvents/createEvents.router';
 import createInformationRouter from './dashboards/adminCreateInformation/createInformationRouter.router';
+import createNotificationRouter from './dashboards/adminCreateNotification/createNotificationRouter';
 const adminRouter: Router = Router();
 
 adminRouter.use(authJwt);
@@ -24,4 +25,5 @@ adminRouter.use('/create-user', createUserRouter)
 adminRouter.use('/create-order',createOrderRouter)
 adminRouter.use('/create-events', createEventsRouter)
 adminRouter.use('/create-informations', createInformationRouter)
+adminRouter.use('/create-notifications', createNotificationRouter)
 export default adminRouter;

@@ -20,7 +20,7 @@ const create_notification_usecase = async (field: any) => {
         }
         return {
             success: true,
-            data: notification,
+            data: notification?.data,
         };
     } catch (error: any) {
         return {
