@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import {db} from '../dbs';
+import { db } from '../dbs';
 import { User } from '../models';
 class TaxDependent extends Model {
     public id!: string;

@@ -11,6 +11,7 @@ import createOrderRouter from './dashboards/adminCreateOrder/createOrderRouter.r
 import createEventsRouter from './dashboards/adminCreateEvents/createEvents.router';
 import createInformationRouter from './dashboards/adminCreateInformation/createInformationRouter.router';
 import createNotificationRouter from './dashboards/adminCreateNotification/createNotificationRouter';
+import updateStatusTaxDependentRouter from './dashboards/adminUpdateStatusTaxDependent/updateStatusTaxDependent.router';
 const adminRouter: Router = Router();
 
 adminRouter.use(authJwt);
@@ -26,4 +27,5 @@ adminRouter.use('/create-order',createOrderRouter)
 adminRouter.use('/create-events', createEventsRouter)
 adminRouter.use('/create-informations', createInformationRouter)
 adminRouter.use('/create-notifications', createNotificationRouter)
+adminRouter.use('/update-status-tax-dependent', updateStatusTaxDependentRouter)
 export default adminRouter;

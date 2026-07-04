@@ -3,6 +3,7 @@ import { CREATE_ORDER_FOR_ADMIN_CONTROLLER } from "./orders/adminCreateOrderforU
 import { CREATE_INFORMATION_FOR_ADMIN_CONTROLLER } from "./informations/adminCreateInformation.Controller";
 import { CREATE_EVENTS_FOR_ADMIN_CONTROLLER } from "./events/adminCreateEvents.controller";
 import { CREATE_NOTIFICATION_FOR_ADMIN_CONTROLLER } from "./notifications/adminCreateNotification.controller";
+import { UPDATE_STATUS_TAX_DEPENDENT_CONTROLLER } from "./taxDependent/adminUpdateStatusTaxDependent.controller";
 
 export {
     CREATE_USER_FOR_ADMIN_CONTROLLER,
@@ -10,4 +11,5 @@ export {
     CREATE_EVENTS_FOR_ADMIN_CONTROLLER,
     CREATE_INFORMATION_FOR_ADMIN_CONTROLLER,
     CREATE_NOTIFICATION_FOR_ADMIN_CONTROLLER,
+    UPDATE_STATUS_TAX_DEPENDENT_CONTROLLER,
 }
