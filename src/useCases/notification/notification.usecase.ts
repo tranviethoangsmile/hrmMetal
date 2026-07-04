@@ -1,7 +1,8 @@
 import { notification_type } from '../../enum';
-import { validate_create_notification, validation_id } from '../../validates';
+import { isValidEnumValue } from '../../helpers';
 import { findUserById } from '../user/user.useCase';
 import { NotificationRepository } from '../../repositorys';
+import { validate_create_notification, validation_id } from '../../validates';
 const notificationRepo = new NotificationRepository();
 const create_notification_usecase = async (field: any) => {
     try {
@@ -9,7 +10,7 @@ const create_notification_usecase = async (field: any) => {
         if (isValid?.error) {
             throw new Error(`${isValid?.error.message}`);
         }
-        if (!Object.values(notification_type).includes(field?.type)) {
+        if (!isValidEnumValue(field?.type, notification_type)) {
             throw new Error('notification type is not valid');
         }
         const notification = await notificationRepo.create_notification_repo({
