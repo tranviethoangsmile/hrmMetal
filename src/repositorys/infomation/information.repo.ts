@@ -115,12 +115,13 @@ class InformationRepository implements IInformationRepository {
         }
     }
 
-    async search_information_all_with_field_repo(field: any) {
+    async search_information_all_with_field_repo(position: any) {
         try {
             const informations: Information[] | null =
                 await Information.findAll({
                     where: {
-                        ...field,
+                        position: position,
+                        is_public: true,
                     },
                     attributes: [
                         'id',

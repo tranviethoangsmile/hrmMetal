@@ -124,14 +124,14 @@ const search_information_by_id_use = async (id: string) => {
 };
 
 const search_all_information_with_field_use = async (
-    field: search_all_information,
+    POSITION: string,
 ) => {
     try {
-        const valid = validate_search_all_information(field);
+        const valid = validate_search_all_information(POSITION);
         if (valid.error) {
             throw new Error(`${valid?.error.message}`);
         }
-        const KEY_CACHE = `all_information_${JSON.stringify(field)}`;
+        const KEY_CACHE = `all_information_${JSON.stringify(POSITION)}`;
         const information_value = await getCache(KEY_CACHE);
         if (information_value) {
             return {
@@ -141,7 +141,7 @@ const search_all_information_with_field_use = async (
         }
         const informations =
             await informationRepository.search_information_all_with_field_repo(
-                field,
+                POSITION,
             );
         if (!informations?.success) {
             throw new Error(`${informations?.message}`);

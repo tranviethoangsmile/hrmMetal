@@ -3,7 +3,10 @@ import getInforOfUserRouter from './infomationRouterModule/getInformationOfuser.
 import getInformationByIdRouter from './infomationRouterModule/getInformationById.router';
 import searchAllRouter from './infomationRouterModule/getInformationByField.router';
 import deleteInformation from './infomationRouterModule/deleteInformationById.router';
+import { authJwt, requireRoles } from '../../middlewares';
 const informationRouter: Router = Router();
+informationRouter.use(authJwt);
+informationRouter.use(requireRoles(['STAFF', 'LEADER', 'MANAGER','SUPERVISOR']));
 informationRouter.use('/getinforofuser', getInforOfUserRouter);
 informationRouter.use('/getinforbyid', getInformationByIdRouter);
 informationRouter.use('/getallinforbyfield', searchAllRouter);

@@ -14,6 +14,7 @@ import {
     check_picked_order,
     get_all_orders_of_position_in_date_for_admin_controller,
 } from './order/order.controller';
+import { GET_ALL_INFORMATION_WITH_FIELD_CONTROLLER } from './information/information.controller';
 import {
     findByName,
     update,
@@ -277,4 +278,5 @@ export {
     CREATE_INFORMATION_FOR_ADMIN_CONTROLLER,
     CREATE_NOTIFICATION_FOR_ADMIN_CONTROLLER,
     UPDATE_STATUS_TAX_DEPENDENT_CONTROLLER,
+    GET_ALL_INFORMATION_WITH_FIELD_CONTROLLER
 };
