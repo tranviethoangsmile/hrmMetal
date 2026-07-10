@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
+import { delCache } from "../../../../../utils";
 import { successResponse, errorResponse } from "../../../../../helpers";
 import { create_information, IAuditLogsCreate } from "../../../../../interfaces";
 import { CREATE_LOGS_USECASE, create_information_use } from "../../../../../useCases";
 const CREATE_INFORMATION_FOR_ADMIN_CONTROLLER = async (req: Request, res: Response) => {
     try {
         const {media_path, ...rest} = req.body;
-
+        const KEY_CACHE = `all_information_${JSON.stringify(req.user?.position)}`;
         const payload: create_information = {
             ...rest,
             user_id: req.user?.id,
@@ -42,7 +43,7 @@ const CREATE_INFORMATION_FOR_ADMIN_CONTROLLER = async (req: Request, res: Respon
         } catch (error: any) {
             console.log(`${error?.message}`)
         }
-        
+        await delCache(KEY_CACHE);
         return successResponse(res, 201, created_information?.data)
 
     } catch (error: any) {
