@@ -13,19 +13,7 @@ const schema_create_infomation_validate = Joi.object({
     is_event: Joi.boolean(),
 });
 
-const schema_search_all_information_validate = Joi.object({
-    user_id: Joi.string(),
-    title: Joi.string(),
-    content: Joi.string(),
-    date: Joi.date().iso().messages({
-        'date.format': 'Date must be in ISO 8601 format (yyyy-mm-dd)',
-    }),
-    position: Joi.string().required(),
-    media: Joi.string(),
-    is_video: Joi.boolean(),
-    is_public: Joi.boolean(),
-    is_check_safety: Joi.boolean(),
-});
+const schema_search_all_information_validate = Joi.string().required();
 
 const validate_create_information = (value: any) => {
     return schema_create_infomation_validate.validate(value);
