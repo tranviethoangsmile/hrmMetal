@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
-import { update_confirm_from_admin_paid_leave_request_controller } from "../../../../controllers";
-import { successResponse, errorResponse } from "../../../../helpers";
-import { IUpdatePaidLeave } from "../../../../interfaces";
+import { IUpdatePaidLeave } from "../../../../../interfaces";
+import { successResponse, errorResponse } from "../../../../../helpers";
+import { update_confirm_from_admin_paid_leave_request_controller } from "../../../../../controllers";
 const isConfirmPaidLeaveFromAdmin: Router = Router();
 
 

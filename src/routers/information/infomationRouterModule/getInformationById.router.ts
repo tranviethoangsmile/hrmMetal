@@ -6,7 +6,7 @@ const getInformationByIdRouter: Router = Router();
 
 getInformationByIdRouter.post('/', async (req: Request, res: Response) => {
     try {
-        const id: string | undefined = req.body?.id;
+        const id: string = req.body?.id;
         if (!id) {
             return errorResponse(res, 400, 'Missing parameter: id');
         } else {

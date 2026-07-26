@@ -2,8 +2,6 @@ import { Router } from 'express';
 import { authJwt, requireRoles } from '../../middlewares';
 import getInforOfUserRouter from './infomationRouterModule/getInformationOfuser.router';
 import getInformationByIdRouter from './infomationRouterModule/getInformationById.router';
-import searchAllRouter from './infomationRouterModule/getInformationByField.router';
-import deleteInformation from './infomationRouterModule/deleteInformationById.router';
 import getInformationByPositionRouter from './GET_INFORMATION/getInformationByPosition.router';
 const informationRouter: Router = Router();
 informationRouter.use(authJwt);
@@ -11,5 +9,4 @@ informationRouter.use(requireRoles(['STAFF', 'LEADER', 'MANAGER','SUPERVISOR']))
 informationRouter.use('/getinforofuser', getInforOfUserRouter);
 informationRouter.use('/getinforbyid', getInformationByIdRouter);
 informationRouter.use('/getallinforbyfield', getInformationByPositionRouter);
-informationRouter.use('/deleteinformationbyid', deleteInformation);
 export default informationRouter;

@@ -1,8 +1,8 @@
 import { Router, Request, Response } from 'express';
 import {
     get_all_users_of_position_for_admin_controller,
-} from '../../../../controllers';
-import { errorResponse, successResponse } from '../../../../helpers';
+} from '../../../../../controllers';
+import { errorResponse, successResponse } from '../../../../../helpers';
 
 const getUsersRouter = Router();
 

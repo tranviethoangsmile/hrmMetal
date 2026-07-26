@@ -140,6 +140,8 @@ class InformationRepository implements IInformationRepository {
                             attributes: ['id', 'name', 'role', 'avatar'],
                         },
                     ],
+                    limit: 10,
+                    offset: 0
                 });
             if (informations === null) {
                 throw new Error(`information not found`);

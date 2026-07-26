@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
-import { get_all_checkins_of_position_in_date_for_admin_controller } from "../../../../controllers";
-import { errorResponse, successResponse } from "../../../../helpers";
+import { get_all_checkins_of_position_in_date_for_admin_controller } from "../../../../../controllers";
+import { errorResponse, successResponse } from "../../../../../helpers";
 const getCheckinsRouter = Router();
 
 getCheckinsRouter.post('/', async (req: Request, res: Response) => {
