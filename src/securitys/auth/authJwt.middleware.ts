@@ -2,8 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
-import { errorResponse } from '../helpers';
-import { token_payload } from '../interfaces/login/login.interface';
+import { errorResponse } from '../../helpers';
+import { token_payload } from '../../interfaces/login/login.interface';
 
 dotenv.config();
 

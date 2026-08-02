@@ -75,7 +75,6 @@ const search_information_of_user_use = async (id: string) => {
             throw new Error(`${valid_id?.error.message}`);
         }
         const information_value_of_user = await getCache(KEY_CACHE);
-        console.log(information_value_of_user, 'information_value_of_user');
         if (information_value_of_user) {
             return {
                 success: true,

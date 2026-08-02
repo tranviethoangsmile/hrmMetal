@@ -10,9 +10,10 @@ import deleteEventsRouter from './dashboards/events/adminDeleteEvents/deleteEven
 import createEventsRouter from './dashboards/events/adminCreateEvents/createEvents.router';
 import createOrderRouter from './dashboards/orders/adminCreateOrder/createOrderRouter.router';
 import createDepartmentRouter from './dashboards/departments/adminCreateDepartment/create.router';
+import getinformationsRouter from './dashboards/informations/adminGetInformations/getInformations.router';
 import isConfirmPaidLeaveFromAdmin from './dashboards/paidLeaves/adminConfirmPaidleave/paidleave.confirm.router';
 import createNotificationRouter from './dashboards/notifications/adminCreateNotification/createNotificationRouter';
-import informationDeleteRouter from './dashboards/informations/adminDeleteinformation/informationDeleteRouter.router';
+import informationDeleteRouter from './dashboards/informations/adminDeleteinformation/deleteInformationRouter.router';
 import createInformationRouter from './dashboards/informations/adminCreateInformation/createInformationRouter.router';
 import updateStatusTaxDependentRouter from './dashboards/tax_dependents/adminUpdateStatusTaxDependent/updateStatusTaxDependent.router';
 const adminRouter: Router = Router();
@@ -28,6 +29,7 @@ adminRouter.use('/create-order',createOrderRouter)
 adminRouter.use('/get-checkins', getCheckinsRouter)
 adminRouter.use('/delete-events', deleteEventsRouter)
 adminRouter.use('/create-events', createEventsRouter)
+adminRouter.use('/get-informations', getinformationsRouter)
 adminRouter.use('/create-departments', createDepartmentRouter)
 adminRouter.use('/delete-informations', informationDeleteRouter)
 adminRouter.use('/create-informations', createInformationRouter)

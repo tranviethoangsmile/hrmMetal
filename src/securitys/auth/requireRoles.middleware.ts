@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { errorResponse } from '../helpers';
+import { errorResponse } from '../../helpers';
 
 const requireRoles =
     (allowRoles: string[]) =>

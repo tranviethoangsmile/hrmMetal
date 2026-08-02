@@ -32,8 +32,8 @@ const ADMIN_DELETE_INFORMATION_CONTROLLER = async (req: Request, res: Response) 
         return successResponse(res, 200, {
             message: 'Information deleted successfully'
         });
-    } catch (error) {
-        return errorResponse(res, 500, "Internal server error");
+    } catch (error: any) {
+        return errorResponse(res, 500, `Internal server error: ${error?.message}`)
     }
 }
 

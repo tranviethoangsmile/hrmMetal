@@ -1,7 +1,6 @@
-import { Request } from 'express';
 import { rateLimit } from 'express-rate-limit';
 
-export const apiRateLimiter = rateLimit({
+const apiRateLimiter = rateLimit({
     windowMs: 1 * 60 * 1000,
     max: 100,
     message: {
@@ -13,3 +12,5 @@ export const apiRateLimiter = rateLimit({
     skipSuccessfulRequests: false,
     skipFailedRequests: false,
 });
+
+export default apiRateLimiter;
