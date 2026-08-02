@@ -2,7 +2,6 @@ import {
     validate_create_paid,
     validate_update_paid,
     validate_search_paid,
-    validation_id,
     validate_delete_paid_leave,
     validate_update_approve_paid_leave_request
 } from '../../validates';
@@ -12,6 +11,7 @@ import {
 } from '../../repositorys';
 import { CREATE_LOGS_USECASE } from '../auditLogs/auditLogs.usecase';
 import { IAuditLogsCreate } from '../../interfaces';
+import { findUserById } from '../user/user.useCase';
 const paidLeaveRequestRepository = new PaidLeaveRequestRepository();
 
 const checkinRepository = new CheckinRepository();
@@ -28,6 +28,11 @@ const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
 
         if (!pail_leave?.success || !pail_leave?.data?.is_approve) {
             throw new Error(pail_leave?.message || `unApprove this item`);
+        }
+        const user = await findUserById(field?.user_id);
+        
+        if(!user?.success) {
+            throw new Error(`${user?.message}`)
         }
         const checkin_field = {
             user_id: pail_leave?.data?.user_id,
