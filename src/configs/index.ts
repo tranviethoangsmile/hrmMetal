@@ -1,3 +1,6 @@
-import config from './config';
 import redisConfig from './redis';
-export { config, redisConfig };
+import config from './config';
+export {
+    config,
+    redisConfig,
+};

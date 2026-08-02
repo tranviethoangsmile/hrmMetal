@@ -1,3 +1,4 @@
-import apiRateLimiter from "./rateLimit.config";
-
-export { apiRateLimiter };
+import apiRateLimiter from './rateLimit.config';
+export {
+    apiRateLimiter,
+};

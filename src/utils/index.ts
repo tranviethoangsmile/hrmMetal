@@ -1,3 +1,12 @@
+import {
+    delCache,
+    getCache,
+    setCache,
+} from './redis/redis.cache';
 import sendPushNotification from './pushNotification/handlePushNotification';
-import { setCache, getCache, delCache } from './redis/redis.cache';
-export { sendPushNotification, setCache, getCache, delCache };
+export {
+    delCache,
+    getCache,
+    setCache,
+    sendPushNotification,
+};

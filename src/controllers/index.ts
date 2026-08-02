@@ -1,20 +1,16 @@
 import {
-    create_plan_production_controller,
-    update_plan_production_controller,
-    destroy_plan_production_cotroller,
-    search_plan_production_by_id_controller,
-    search_plan_production_seven_day_of_department_controller,
-} from './planProduction/planProduction.controller';
-import {
-    delete_order,
-    search_orders,
-    find_all_order,
-    check_picked_order,
-    search_order_of_user,
-    create_order_controller,
-    get_all_orders_of_position_in_date_for_admin_controller,
-} from './order/order.controller';
-import { GET_ALL_INFORMATION_WITH_FIELD_CONTROLLER } from './information/information.controller';
+    GET_ENUM_FOR_ADMIN_CONTROLLER,
+    CREATE_USER_FOR_ADMIN_CONTROLLER,
+    CREATE_ORDER_FOR_ADMIN_CONTROLLER,
+    ADMIN_CREATE_DEPARTMENT_CONTROLLER,
+    CREATE_EVENTS_FOR_ADMIN_CONTROLLER,
+    DELETE_EVENTS_FOR_ADMIN_CONTROLLER,
+    ADMIN_DELETE_INFORMATION_CONTROLLER,
+    UPDATE_STATUS_TAX_DEPENDENT_CONTROLLER,
+    CREATE_INFORMATION_FOR_ADMIN_CONTROLLER,
+    GET_INFORMATIONS_BY_ADMIN_ID_CONTROLLER,
+    CREATE_NOTIFICATION_FOR_ADMIN_CONTROLLER,
+} from './adminPage';
 import {
     update,
     destroy,
@@ -27,49 +23,14 @@ import {
     get_all_users_of_position_for_admin_controller,
 } from './user/user.controller';
 import {
-    search_notification_controller,
-    update_notification_controller,
-    destroy_notification_controller,
-    search_notification_of_user_controller,
-} from '../controllers/notification/notification.controller';
-import {
-    create_message_controller,
-    unSend_message_with_id_controller,
-    search_all_message_of_conversation_controller,
-} from './message/message.controller';
-import {
-    create_conversation_controller,
-    delete_conversation_controller,
-    create_conversation_group_controller,
-} from './conversation/conversation.controller';
-import { find_group_member_of_user_controller } from './groupMember/groupMember.controller';
-import { create_delete_message_cotroller } from './deleteMessage/deleteMessage.controller';
-import { create_fcm_token_controller } from './fcmToken/fcmToken.controller';
-import {
-    delete_event_controller,
-    update_events_controller,
-    get_all_events_controller,
-    search_event_by_id_controller,
-    get_events_with_position_controller,
-} from './events/events.controller';
-
-import {
-    create_uniform_order_controller,
-    update_uniform_order_controller,
-    delete_uniform_order_with_id_controller,
-    get_uniform_order_detail_by_id_controller,
-    search_uniform_order_with_user_id_controller,
-    search_uniform_order_with_position_controller,
-} from './uniformOrder/uniformOrder.controller';
-
-import {
-    create_safety_report_controller,
-    update_safety_report_controller,
-    delete_safety_report_controller,
-    confirm_safety_report_controller,
-    get_all_safety_report_by_user_id_controller,
-    get_all_safety_report_by_department_id_controller,
-} from './safetyReport/safetyReport.controller';
+    delete_order,
+    search_orders,
+    find_all_order,
+    check_picked_order,
+    search_order_of_user,
+    create_order_controller,
+    get_all_orders_of_position_in_date_for_admin_controller,
+} from './order/order.controller';
 import {
     create_day_off_controller,
     get_all_day_off_controller,
@@ -78,14 +39,96 @@ import {
     update_day_off_by_id_controller,
 } from './dayOff/dayOff.controller';
 import {
+    delete_event_controller,
+    update_events_controller,
+    get_all_events_controller,
+    search_event_by_id_controller,
+    get_events_with_position_controller,
+} from './events/events.controller';
+import {
+    is_checked_controller,
+    create_checkin_controller,
+    update_checkin_controller,
+    get_checkin_in_date_of_position_controller,
+    search_checked_of_user_in_month_controller,
+    get_checkin_detail_in_date_of_user_controller,
+    get_all_checkins_of_position_in_date_for_admin_controller,
+} from './checkin/checkin.controller';
+import { app_login_controller } from './login/app.login.controller';
+import { web_login_controller } from './login/web.login.controller';
+import {
+    create_message_controller,
+    unSend_message_with_id_controller,
+    search_all_message_of_conversation_controller,
+} from './message/message.controller';
+import {
+    create_payroll_controller,
+    update_payroll_controller,
+    destroy_payroll_controller,
+    search_payroll_by_id_controller,
+    search_payroll_of_user_in_month_controller,
+} from './payroll/payroll.controller';
+import { create_fcm_token_controller } from './fcmToken/fcmToken.controller';
+import { SEARCH_LOGS_CONTROLLER } from './auditLogs/auditLogs.controller';
+import {
     create_event_check_controller,
     search_event_checked_controller,
 } from './evenCheck/evenCheck.controller';
+import {
+    create_inventory_controller,
+    update_inventory_controller,
+    get_all_inventory_controller,
+    search_inventory_with_name_controller,
+} from './inventory/inventory.controller';
 import {
     createDep,
     departmentList,
     getDepartmentById,
 } from './department/department.controller';
+import { find_group_member_of_user_controller } from './groupMember/groupMember.controller';
+import { GET_ALL_INFORMATION_WITH_FIELD_CONTROLLER } from './information/information.controller';
+import {
+    create_safety_check_controller,
+    search_safety_checked_controller,
+    getAllUserCheckedSafetyCheckEventController,
+} from './safetyCheck/safetyCheck.controller';
+import {
+    create_conversation_controller,
+    delete_conversation_controller,
+    create_conversation_group_controller,
+} from './conversation/conversation.controller';
+import {
+    create_safety_report_controller,
+    delete_safety_report_controller,
+    update_safety_report_controller,
+    confirm_safety_report_controller,
+    get_all_safety_report_by_user_id_controller,
+    get_all_safety_report_by_department_id_controller,
+} from './safetyReport/safetyReport.controller';
+import {
+    createTaxDependentController,
+    getTaxDependentByUserIdController,
+    deleteTaxDependentWithIdController,
+    updateTaxDependentWithIdController,
+    updateTaxDependentStatusWithIdController,
+} from './taxDependent/taxDependent.controller';
+import {
+    create_uniform_order_controller,
+    update_uniform_order_controller,
+    delete_uniform_order_with_id_controller,
+    get_uniform_order_detail_by_id_controller,
+    search_uniform_order_with_user_id_controller,
+    search_uniform_order_with_position_controller,
+} from './uniformOrder/uniformOrder.controller';
+import { create_delete_message_cotroller } from './deleteMessage/deleteMessage.controller';
+import { findCodeErrorsByDailyReportIdController } from './errorOfReport/errorOfReport.controller';
+import {
+    create_plan_production_controller,
+    destroy_plan_production_cotroller,
+    update_plan_production_controller,
+    search_plan_production_by_id_controller,
+    search_plan_production_seven_day_of_department_controller,
+} from './planProduction/planProduction.controller';
 import {
     create_overtime_request_controller,
     get_all_overtime_request_controller,
@@ -105,65 +148,20 @@ import {
     update_confirm_from_admin_paid_leave_request_controller,
 } from './paidLeaveRequest/paidLeaveRequest.controller';
 import {
-    create_safety_check_controller,
-    search_safety_checked_controller,
-    getAllUserCheckedSafetyCheckEventController,
-} from './safetyCheck/safetyCheck.controller';
+    search_notification_controller,
+    update_notification_controller,
+    destroy_notification_controller,
+    search_notification_of_user_controller,
+} from '../controllers/notification/notification.controller';
 import {
-    update_inventory_controller, 
-    create_inventory_controller,
-    get_all_inventory_controller, 
-    search_inventory_with_name_controller,
-} from './inventory/inventory.controller';
-import { 
-    is_checked_controller, 
-    create_checkin_controller, 
-    update_checkin_controller,
-    search_checked_of_user_in_month_controller,
-    get_checkin_in_date_of_position_controller,
-    get_checkin_detail_in_date_of_user_controller,
-    get_all_checkins_of_position_in_date_for_admin_controller,
-} from './checkin/checkin.controller';
-import { 
-    createTaxDependentController, 
-    getTaxDependentByUserIdController, 
-    deleteTaxDependentWithIdController, 
-    updateTaxDependentWithIdController, 
-    updateTaxDependentStatusWithIdController,
-} from './taxDependent/taxDependent.controller';
-import { 
     get_dependent_support_amount_controller,
-    create_dependent_support_amount_controller, 
-    update_dependent_support_amount_controller, 
+    create_dependent_support_amount_controller,
     delete_dependent_support_amount_controller,
-    update_confirm_dependent_support_amount_controller, 
-    get_dependent_support_amount_by_tax_dependent_id_and_year_controller
+    update_dependent_support_amount_controller,
+    update_confirm_dependent_support_amount_controller,
+    get_dependent_support_amount_by_tax_dependent_id_and_year_controller,
 } from './dependentSupportAmount/dependentSupportAmount.controller';
-import {
-    create_payroll_controller,
-    update_payroll_controller,
-    destroy_payroll_controller,
-    search_payroll_by_id_controller,
-    search_payroll_of_user_in_month_controller,
-} from './payroll/payroll.controller';
-import { web_login_controller } from './login/web.login.controller';
-import { app_login_controller } from './login/app.login.controller';
-import { findCodeErrorsByDailyReportIdController } from './errorOfReport/errorOfReport.controller';
 import { adminDashboardSummaryController } from './adminPage/dashboards/admin/summarys/adminDashboardSummarys.controller';
-import { SEARCH_LOGS_CONTROLLER } from './auditLogs/auditLogs.controller';
-import { 
-    GET_ENUM_FOR_ADMIN_CONTROLLER,
-    CREATE_USER_FOR_ADMIN_CONTROLLER,
-    CREATE_ORDER_FOR_ADMIN_CONTROLLER, 
-    CREATE_EVENTS_FOR_ADMIN_CONTROLLER, 
-    DELETE_EVENTS_FOR_ADMIN_CONTROLLER,
-    ADMIN_CREATE_DEPARTMENT_CONTROLLER,
-    ADMIN_DELETE_INFORMATION_CONTROLLER,
-    UPDATE_STATUS_TAX_DEPENDENT_CONTROLLER,
-    CREATE_INFORMATION_FOR_ADMIN_CONTROLLER,
-    GET_INFORMATIONS_BY_ADMIN_ID_CONTROLLER,
-    CREATE_NOTIFICATION_FOR_ADMIN_CONTROLLER,
-} from './adminPage';
 export {
     update,
     destroy,
@@ -173,117 +171,117 @@ export {
     findByName,
     delete_order,
     search_orders,
-    find_all_order,
     departmentList,
+    find_all_order,
     getDepartmentById,
     check_picked_order,
-    web_login_controller,
-    search_order_of_user,
     app_login_controller,
+    search_order_of_user,
+    web_login_controller,
     is_checked_controller,
     SEARCH_LOGS_CONTROLLER,
     create_order_controller,
     delete_event_controller,
     update_events_controller,
     create_checkin_controller,
-    update_checkin_controller,
-    create_payroll_controller,
-    update_payroll_controller,
-    get_all_events_controller,
     create_day_off_controller,
     create_message_controller,
-    get_all_day_off_controller,
+    create_payroll_controller,
+    get_all_events_controller,
+    update_checkin_controller,
+    update_payroll_controller,
     destroy_payroll_controller,
+    get_all_day_off_controller,
     create_fcm_token_controller,
-    update_inventory_controller,
     create_inventory_controller,
-    get_day_off_by_id_controller,
-    get_all_inventory_controller,
-    createTaxDependentController, 
-    findAllUserWithFieldControll,
+    update_inventory_controller,
     create_paid_leave_controller,
-    GET_ENUM_FOR_ADMIN_CONTROLLER,
+    createTaxDependentController,
+    findAllUserWithFieldControll,
+    get_all_inventory_controller,
+    get_day_off_by_id_controller,
     create_event_check_controller,
     get_all_paid_leave_controller,
+    GET_ENUM_FOR_ADMIN_CONTROLLER,
     search_event_by_id_controller,
-    create_safety_check_controller,
     create_conversation_controller,
+    create_safety_check_controller,
     delete_conversation_controller,
     getUserForLeaveFeatureControll,
     search_notification_controller,
     update_notification_controller,
-    create_delete_message_cotroller,
-    create_uniform_order_controller,
-    search_payroll_by_id_controller,
     adminDashboardSummaryController,
-    update_uniform_order_controller,
+    create_delete_message_cotroller,
     create_safety_report_controller,
-    update_safety_report_controller,
-    delete_safety_report_controller,
+    create_uniform_order_controller,
     delete_day_off_by_id_controller,
-    update_day_off_by_id_controller,
-    search_event_checked_controller,
+    delete_safety_report_controller,
     destroy_notification_controller,
-    search_safety_checked_controller,
-    CREATE_USER_FOR_ADMIN_CONTROLLER,
+    search_event_checked_controller,
+    search_payroll_by_id_controller,
+    update_day_off_by_id_controller,
+    update_safety_report_controller,
+    update_uniform_order_controller,
     confirm_safety_report_controller,
-    unSend_message_with_id_controller,
+    CREATE_USER_FOR_ADMIN_CONTROLLER,
+    search_safety_checked_controller,
+    CREATE_ORDER_FOR_ADMIN_CONTROLLER,
     create_plan_production_controller,
-    update_plan_production_controller,
     destroy_plan_production_cotroller,
     getTaxDependentByUserIdController,
-    CREATE_ORDER_FOR_ADMIN_CONTROLLER,
-    CREATE_EVENTS_FOR_ADMIN_CONTROLLER,
+    unSend_message_with_id_controller,
+    update_plan_production_controller,
     ADMIN_CREATE_DEPARTMENT_CONTROLLER,
-    deleteTaxDependentWithIdController,
-    updateTaxDependentWithIdController,
+    CREATE_EVENTS_FOR_ADMIN_CONTROLLER,
     create_overtime_request_controller,
     DELETE_EVENTS_FOR_ADMIN_CONTROLLER,
+    deleteTaxDependentWithIdController,
+    updateTaxDependentWithIdController,
     ADMIN_DELETE_INFORMATION_CONTROLLER,
-    get_events_with_position_controller,
     get_all_overtime_request_controller,
-    find_group_member_of_user_controller,
+    get_events_with_position_controller,
     create_conversation_group_controller,
+    find_group_member_of_user_controller,
     get_overtime_request_by_id_controller,
-    search_inventory_with_name_controller,
     getAllUserForOtRequestFeatureControll,
+    search_inventory_with_name_controller,
     search_notification_of_user_controller,
-    UPDATE_STATUS_TAX_DEPENDENT_CONTROLLER,
-    search_plan_production_by_id_controller,
     update_is_active_paid_leave_controller,
-    update_approve_leave_request_controller,
-    findCodeErrorsByDailyReportIdController,
+    UPDATE_STATUS_TAX_DEPENDENT_CONTROLLER,
     CREATE_INFORMATION_FOR_ADMIN_CONTROLLER,
-    get_dependent_support_amount_controller,
     delete_uniform_order_with_id_controller,
+    findCodeErrorsByDailyReportIdController,
+    get_dependent_support_amount_controller,
     GET_INFORMATIONS_BY_ADMIN_ID_CONTROLLER,
-    updateTaxDependentStatusWithIdController,
+    search_plan_production_by_id_controller,
+    update_approve_leave_request_controller,
     CREATE_NOTIFICATION_FOR_ADMIN_CONTROLLER,
     delete_overtime_request_by_id_controller,
-    get_uniform_order_detail_by_id_controller,
+    updateTaxDependentStatusWithIdController,
     GET_ALL_INFORMATION_WITH_FIELD_CONTROLLER,
-    search_leave_request_with_field_controller,
-    get_overtime_request_by_user_id_controller,
-    search_payroll_of_user_in_month_controller,
-    delete_paid_leave_request_by_id_controller,
+    get_uniform_order_detail_by_id_controller,
     create_dependent_support_amount_controller,
-    update_dependent_support_amount_controller,
     delete_dependent_support_amount_controller,
-    search_checked_of_user_in_month_controller,
+    delete_paid_leave_request_by_id_controller,
     get_checkin_in_date_of_position_controller,
+    get_overtime_request_by_user_id_controller,
+    search_checked_of_user_in_month_controller,
+    search_leave_request_with_field_controller,
+    search_payroll_of_user_in_month_controller,
+    update_dependent_support_amount_controller,
+    get_all_safety_report_by_user_id_controller,
     getAllUserCheckedSafetyCheckEventController,
     update_isConfirm_ovetime_request_controller,
-    get_all_safety_report_by_user_id_controller,
     search_uniform_order_with_user_id_controller,
+    get_checkin_detail_in_date_of_user_controller,
     search_all_message_of_conversation_controller,
     search_uniform_order_with_position_controller,
-    get_checkin_detail_in_date_of_user_controller,
     get_all_users_of_position_for_admin_controller,
     get_all_safety_report_by_department_id_controller,
     update_approved_admin_overtime_request_controller,
     update_confirm_dependent_support_amount_controller,
-    update_confirm_from_admin_paid_leave_request_controller,
     get_all_orders_of_position_in_date_for_admin_controller,
+    update_confirm_from_admin_paid_leave_request_controller,
     get_all_checkins_of_position_in_date_for_admin_controller,
     search_plan_production_seven_day_of_department_controller,
     get_dependent_support_amount_by_tax_dependent_id_and_year_controller,

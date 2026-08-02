@@ -6,5 +6,7 @@
     "proseWrap": "preserve",
     "useTabs": false,
     "tabWidth": 4,
-    "arrowParens": "avoid"
+    "arrowParens": "avoid",
+    "bracketSpacing": true,
+    "endOfLine": "lf"
 }
