@@ -1,10 +1,10 @@
-import { Router } from "express";
-import { authJwt, requireRoles } from "../../middlewares";
-import handleApprovePaidLeaveRequestRouter from "./paidLeave/handleApproveRouter.router";
-import GetPaidLeaveRequestForLeaderAndOtherRouter from "./paidLeave/GetPaidLeaveRequestRouter.router";
+import { Router } from 'express';
+import paidLeaveRouter from './paidLeave';
+import inventoryRouter from './inventorys';
+import { authJwt, requireRoles } from '../../middlewares';
 const leaderRouter: Router = Router();
 leaderRouter.use(authJwt);
-leaderRouter.use(requireRoles(['LEADER','SUPERVISOR','MANAGER']))
-leaderRouter.use('/approve-paid-leave-request', handleApprovePaidLeaveRequestRouter)
-leaderRouter.use('/get-paid-leave-request', GetPaidLeaveRequestForLeaderAndOtherRouter)
+leaderRouter.use(requireRoles(['LEADER', 'SUPERVISOR', 'MANAGER']));
+leaderRouter.use('/inventorys', inventoryRouter);
+leaderRouter.use('/paidleaves', paidLeaveRouter);
 export default leaderRouter;

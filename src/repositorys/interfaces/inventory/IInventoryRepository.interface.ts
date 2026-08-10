@@ -1,23 +1,28 @@
 import { Inventory } from '../../../models';
 
 export interface IInventoryRepository {
-    create(field: any): Promise<{
+    CREATE(field: any): Promise<{
         success: boolean;
         data?: Inventory;
         message?: string;
     }>;
-    search_inventory_with_name(field: any): Promise<{
+    SEARCH_INVENTORY_WITH_NAME(field: any): Promise<{
         success: boolean;
         data?: Inventory[];
         message?: string;
     }>;
-    get_all_inventory_repo(): Promise<{
+    GET_ALL_INVENTORY(): Promise<{
         success: boolean;
         data?: Inventory[];
         message?: string;
     }>;
-    update_inventory_repo(field: any): Promise<{
+    UPDATE_INVENTORY(field: any): Promise<{
         success: boolean;
         message?: string;
+    }>;
+    GET_INVENTORY_BY_ID(id: string): Promise<{
+        success: boolean;
+        message?: string;
+        data?: Inventory;
     }>;
 }

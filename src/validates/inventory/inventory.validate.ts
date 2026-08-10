@@ -11,9 +11,10 @@ const schema_search_with_name = Joi.object({
 });
 
 const schema_update_inventory = Joi.object({
+    id: Joi.string().guid().required,
     product: Joi.string().required(),
-    quantity: Joi.number().required(),
-    department_id: Joi.string().guid(),
+    quantity: Joi.number(),
+    department_id: Joi.string().guid().required(),
 });
 const validate_create_inventory = (field: any) => {
     return schema_create_inventory.validate(field);

@@ -6,6 +6,7 @@ import {
     CREATE_EVENTS_FOR_ADMIN_CONTROLLER,
     DELETE_EVENTS_FOR_ADMIN_CONTROLLER,
     ADMIN_DELETE_INFORMATION_CONTROLLER,
+    UPDATE_INVENTORY_FOR_LEADER_CONTROLLER,
     UPDATE_STATUS_TAX_DEPENDENT_CONTROLLER,
     CREATE_INFORMATION_FOR_ADMIN_CONTROLLER,
     GET_INFORMATIONS_BY_ADMIN_ID_CONTROLLER,
@@ -29,7 +30,7 @@ import {
     check_picked_order,
     search_order_of_user,
     create_order_controller,
-    get_all_orders_of_position_in_date_for_admin_controller,
+    GET_ALL_ORDERS_OF_POSITION_IN_DATE_FOR_ADMIN_CONTROLLER,
 } from './order/order.controller';
 import {
     create_day_off_controller,
@@ -52,7 +53,7 @@ import {
     get_checkin_in_date_of_position_controller,
     search_checked_of_user_in_month_controller,
     get_checkin_detail_in_date_of_user_controller,
-    get_all_checkins_of_position_in_date_for_admin_controller,
+    GET_ALL_CHECKINS_OF_POSITION_IN_DATE_FOR_ADMIN_CONTROLLER,
 } from './checkin/checkin.controller';
 import { app_login_controller } from './login/app.login.controller';
 import { web_login_controller } from './login/web.login.controller';
@@ -248,6 +249,7 @@ export {
     search_notification_of_user_controller,
     update_is_active_paid_leave_controller,
     UPDATE_STATUS_TAX_DEPENDENT_CONTROLLER,
+    UPDATE_INVENTORY_FOR_LEADER_CONTROLLER,
     CREATE_INFORMATION_FOR_ADMIN_CONTROLLER,
     delete_uniform_order_with_id_controller,
     findCodeErrorsByDailyReportIdController,
@@ -280,9 +282,9 @@ export {
     get_all_safety_report_by_department_id_controller,
     update_approved_admin_overtime_request_controller,
     update_confirm_dependent_support_amount_controller,
-    get_all_orders_of_position_in_date_for_admin_controller,
+    GET_ALL_ORDERS_OF_POSITION_IN_DATE_FOR_ADMIN_CONTROLLER,
     update_confirm_from_admin_paid_leave_request_controller,
-    get_all_checkins_of_position_in_date_for_admin_controller,
+    GET_ALL_CHECKINS_OF_POSITION_IN_DATE_FOR_ADMIN_CONTROLLER,
     search_plan_production_seven_day_of_department_controller,
     get_dependent_support_amount_by_tax_dependent_id_and_year_controller,
 };

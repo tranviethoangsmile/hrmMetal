@@ -14,7 +14,7 @@ const create_order_controller = async (order: any) => {
 
 const find_all_order = async () => {
     return await find_all_order_usecase();
-}
+};
 
 const search_orders = async (order: any) => {
     return await search_order_usecase(order);
@@ -31,13 +31,13 @@ const check_picked_order = async (field: any) => {
     return await checkin_picked_usecase(field);
 };
 
-const get_all_orders_of_position_in_date_for_admin_controller = async (
+const GET_ALL_ORDERS_OF_POSITION_IN_DATE_FOR_ADMIN_CONTROLLER = async (
     position: string,
-    date: string,
+    date: string
 ) => {
     return await get_all_orders_of_position_in_date_for_admin_use(
         position,
-        date,
+        date
     );
 };
 
@@ -48,5 +48,5 @@ export {
     delete_order,
     search_order_of_user,
     check_picked_order,
-    get_all_orders_of_position_in_date_for_admin_controller,
+    GET_ALL_ORDERS_OF_POSITION_IN_DATE_FOR_ADMIN_CONTROLLER,
 };

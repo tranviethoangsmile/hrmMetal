@@ -8,8 +8,9 @@ interface search_inventory_with_name {
     department_id?: string;
 }
 interface update_inventory {
+    id: string;
     product: string;
-    quantity: number;
-    department_id?: string;
+    quantity?: number;
+    department_id: string;
 }
 export { create_inventory, search_inventory_with_name, update_inventory };

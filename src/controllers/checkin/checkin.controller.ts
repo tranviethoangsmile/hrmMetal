@@ -28,8 +28,14 @@ const get_checkin_in_date_of_position_controller = async (field: any) => {
 const get_checkin_detail_in_date_of_user_controller = async (field: any) => {
     return await get_checkin_detail_in_date_of_user_use(field);
 };
-const get_all_checkins_of_position_in_date_for_admin_controller = async (position: string, date: string) => {
-    return await get_all_checkins_of_position_in_date_for_admin_use(position, date);
+const GET_ALL_CHECKINS_OF_POSITION_IN_DATE_FOR_ADMIN_CONTROLLER = async (
+    position: string,
+    date: string
+) => {
+    return await get_all_checkins_of_position_in_date_for_admin_use(
+        position,
+        date
+    );
 };
 export {
     create_checkin_controller,
@@ -38,5 +44,5 @@ export {
     search_checked_of_user_in_month_controller,
     get_checkin_in_date_of_position_controller,
     get_checkin_detail_in_date_of_user_controller,
-    get_all_checkins_of_position_in_date_for_admin_controller,
+    GET_ALL_CHECKINS_OF_POSITION_IN_DATE_FOR_ADMIN_CONTROLLER,
 };

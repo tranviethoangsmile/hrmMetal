@@ -1,3 +1,4 @@
+import { InventoryRepository, DepartmentRepository } from '../../repositorys';
 import {
     create_inventory,
     search_inventory_with_name,
@@ -9,7 +10,7 @@ import {
     validate_update_inventory,
 } from '../../validates';
 import { Products } from '../../enum';
-import { InventoryRepository, DepartmentRepository } from '../../repositorys';
+import { isValidEnumValue } from '../../helpers';
 const departmentRepository = new DepartmentRepository();
 const inventoryRepository = new InventoryRepository();
 const update_inventory_use = async (field: update_inventory) => {
@@ -18,13 +19,22 @@ const update_inventory_use = async (field: update_inventory) => {
         if (isValid?.error) {
             throw new Error(isValid?.error.message);
         }
-        if (
-            typeof field.product !== 'string' &&
-            !Object.values(Products).includes(field?.product)
-        ) {
+        if (!isValidEnumValue(field?.product, Products)) {
             throw new Error('product name not valid');
         }
-        const result = await inventoryRepository.update_inventory_repo(field);
+        const isDepartment = await departmentRepository.getDepartmentById(
+            field.department_id
+        );
+        if (!isDepartment?.success) {
+            throw new Error(`this department not avaiable`);
+        }
+        const isInventory = await inventoryRepository.GET_INVENTORY_BY_ID(
+            field?.id
+        );
+        if (!isInventory?.success) {
+            throw new Error(`${isInventory?.message}`);
+        }
+        const result = await inventoryRepository.UPDATE_INVENTORY(field);
         if (!result?.success) {
             throw new Error(result?.message);
         }
@@ -34,14 +44,14 @@ const update_inventory_use = async (field: update_inventory) => {
     } catch (error: any) {
         return {
             success: false,
-            message: `${error.message} use`,
+            message: `use -- ${error.message}`,
         };
     }
 };
 
 const get_all_inventory_use = async () => {
     try {
-        const inventorys = await inventoryRepository.get_all_inventory_repo();
+        const inventorys = await inventoryRepository.GET_ALL_INVENTORY();
         if (!inventorys?.success) {
             throw new Error(`${inventorys?.message}`);
         }
@@ -57,14 +67,16 @@ const get_all_inventory_use = async () => {
     }
 };
 
-const search_inventory_with_name_use = async (field: search_inventory_with_name) => {
+const search_inventory_with_name_use = async (
+    field: search_inventory_with_name
+) => {
     try {
         const isValid = validate_search_with_name(field);
         if (isValid.error) {
             throw new Error(`${isValid?.error.message}`);
         }
-        const inventorys = await inventoryRepository.search_inventory_with_name(
-            field,
+        const inventorys = await inventoryRepository.SEARCH_INVENTORY_WITH_NAME(
+            field
         );
         if (!inventorys?.success) {
             throw new Error(`${inventorys?.message}`);
@@ -94,12 +106,12 @@ const create_inventory_use = async (field: create_inventory) => {
             throw new Error('Product is not valid');
         }
         const department = await departmentRepository.getDepartmentById(
-            field?.department_id,
+            field?.department_id
         );
         if (!department?.success) {
             throw new Error(`${department?.message}`);
         }
-        const inventory = await inventoryRepository.create(field);
+        const inventory = await inventoryRepository.CREATE(field);
         if (!inventory?.success) {
             throw new Error(`${inventory?.message}`);
         }

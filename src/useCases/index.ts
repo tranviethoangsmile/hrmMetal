@@ -161,6 +161,11 @@ import {
     update_confirm_dependent_support_amount_usecase,
     get_dependent_support_amount_by_tax_dependent_id_and_year_usecase,
 } from './dependentSupportAmount/dependentSupportAmount.useCase';
+import {
+    update_inventory_use,
+    create_inventory_use,
+    get_all_inventory_use,
+} from './inventory/inventory.useCase';
 export {
     deleteUser,
     getDepById,
@@ -193,6 +198,9 @@ export {
     create_order_usecase,
     find_group_of_member,
     search_order_usecase,
+    update_inventory_use,
+    create_inventory_use,
+    get_all_inventory_use,
     get_day_off_by_id_use,
     checkin_picked_usecase,
     create_information_use,

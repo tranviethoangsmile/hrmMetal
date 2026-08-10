@@ -77,14 +77,15 @@ const create_daily_report_use = async (field: create_daily_report) => {
             throw new Error('Shift name not valid');
         }
         const department = await departmentRepository.getDepartmentById(
-            normalizedField.department_id,
+            normalizedField.department_id
         );
         if (!department?.success) {
             throw new Error(department?.message || 'Department not found');
         }
         const report = await dailyReportRepository.daily_report_create(
             normalizedField,
-         t);
+            t
+        );
         if (!report?.success) {
             throw new Error(report?.message || 'Failed to create daily report');
         }
@@ -103,37 +104,40 @@ const create_daily_report_use = async (field: create_daily_report) => {
             }));
 
             codeErrorPayload.forEach(e => {
-                if(!isValidEnumValue(e.code, CodeError)){
-                    throw new Error(`${e.code} not valid`)
+                if (!isValidEnumValue(e.code, CodeError)) {
+                    throw new Error(`${e.code} not valid`);
                 }
             });
 
-            const createCodeErrorsResult =
-                await codeErrorsRepository.CREATE(codeErrorPayload, t);
+            const createCodeErrorsResult = await codeErrorsRepository.CREATE(
+                codeErrorPayload,
+                t
+            );
             if (!createCodeErrorsResult?.success) {
                 throw new Error(
                     createCodeErrorsResult?.message ||
-                        'Failed to create code errors',
+                        'Failed to create code errors'
                 );
             }
         }
         const field_search = {
             product: handleProductName(normalizedField.product),
         };
-        const inventorys = await inventoryRepository.search_inventory_with_name(
+        const inventorys = await inventoryRepository.SEARCH_INVENTORY_WITH_NAME(
             {
                 ...field_search,
-            },
+            }
         );
         if (inventorys?.success) {
             if (user?.data?.department?.name === '加工') {
                 const is_avaliable = inventorys?.data?.some(
                     inventory =>
-                        inventory.department_id === normalizedField.department_id,
+                        inventory.department_id ===
+                        normalizedField.department_id
                 );
                 if (!is_avaliable) {
                     const inventory = inventorys?.data?.[0];
-                    const create_inventory = await inventoryRepository.create({
+                    const create_inventory = await inventoryRepository.CREATE({
                         product: handleProductName(normalizedField.product),
                         quantity: normalizedField.quantity,
                         department_id: normalizedField.department_id,
@@ -143,10 +147,13 @@ const create_daily_report_use = async (field: create_daily_report) => {
                     }
                     if (inventory?.quantity != undefined) {
                         const update_inventory_old =
-                            await inventoryRepository.update_inventory_repo({
+                            await inventoryRepository.UPDATE_INVENTORY({
                                 quantity:
-                                    inventory.quantity - normalizedField.quantity,
-                                product: handleProductName(normalizedField.product),
+                                    inventory.quantity -
+                                    normalizedField.quantity,
+                                product: handleProductName(
+                                    normalizedField.product
+                                ),
                                 department_id: inventory.department_id,
                             });
                         if (!update_inventory_old?.success) {
@@ -173,7 +180,7 @@ const create_daily_report_use = async (field: create_daily_report) => {
                         inventory_old?.quantity != undefined
                     ) {
                         const update_kako =
-                            await inventoryRepository.update_inventory_repo({
+                            await inventoryRepository.UPDATE_INVENTORY({
                                 quantity:
                                     inventory_old_of_kako.quantity +
                                     normalizedField.quantity,
@@ -185,7 +192,7 @@ const create_daily_report_use = async (field: create_daily_report) => {
                             throw new Error(update_kako?.message);
                         }
                         const update_inventory =
-                            await inventoryRepository.update_inventory_repo({
+                            await inventoryRepository.UPDATE_INVENTORY({
                                 quantity:
                                     inventory_old.quantity -
                                     normalizedField.quantity,
@@ -197,7 +204,7 @@ const create_daily_report_use = async (field: create_daily_report) => {
                         }
                     } else {
                         throw new Error(
-                            'inventory_old_of_kako or inventory_old is undefined',
+                            'inventory_old_of_kako or inventory_old is undefined'
                         );
                     }
                 }
@@ -213,7 +220,7 @@ const create_daily_report_use = async (field: create_daily_report) => {
                 });
                 if (inventory_old?.quantity != undefined) {
                     const update_inventory =
-                        await inventoryRepository.update_inventory_repo({
+                        await inventoryRepository.UPDATE_INVENTORY({
                             quantity:
                                 inventory_old.quantity +
                                 normalizedField.quantity,
@@ -228,14 +235,14 @@ const create_daily_report_use = async (field: create_daily_report) => {
                 }
             }
         } else {
-            const create_inventory = await inventoryRepository.create({
+            const create_inventory = await inventoryRepository.CREATE({
                 product: handleProductName(normalizedField.product),
                 quantity: 0,
                 department_id: normalizedField.department_id,
             });
             if (create_inventory?.success) {
                 const update_inventory =
-                    await inventoryRepository.update_inventory_repo({
+                    await inventoryRepository.UPDATE_INVENTORY({
                         quantity: normalizedField.quantity,
                         product: handleProductName(normalizedField.product),
                         department_id: normalizedField.department_id,
@@ -256,7 +263,7 @@ const create_daily_report_use = async (field: create_daily_report) => {
                 message: 'Inventory success',
             };
             const notification = await create_notification_usecase(
-                field_notification,
+                field_notification
             );
             if (!notification?.success) {
                 throw new Error(notification?.message);
