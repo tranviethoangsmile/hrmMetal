@@ -7,14 +7,67 @@
 
 /**
  * @swagger
- * /department:
+ * components:
+ *   schemas:
+ *     DepartmentItem:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *         name:
+ *           type: string
+ *         description:
+ *           type: string
+ *           nullable: true
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/department/create:
+ *   post:
+ *     summary: Create a new department
+ *     tags: [Departments]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Human Resources"
+ *     responses:
+ *       201:
+ *         description: Department created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   $ref: '#/components/schemas/DepartmentItem'
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/department/getall:
  *   get:
  *     summary: Get all departments
  *     tags: [Departments]
- *     description: Retrieve a list of all departments.
  *     responses:
  *       202:
- *         description: List of departments retrieved successfully
+ *         description: Departments retrieved successfully
  *         content:
  *           application/json:
  *             schema:
@@ -26,62 +79,33 @@
  *                 data:
  *                   type: array
  *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                         description: ID of the department
- *                       name:
- *                         type: string
- *                         description: Name of the department
+ *                     $ref: '#/components/schemas/DepartmentItem'
  *       500:
  *         description: Server error
  */
 
 /**
  * @swagger
- * /department:
+ * /api/version/v1/department/getbyid:
  *   post:
- *     summary: Create a new department
+ *     summary: Get a department by ID
  *     tags: [Departments]
- *     description: Endpoint to create a new department.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - id
  *             properties:
- *               name:
+ *               id:
  *                 type: string
- *                 description: Name of the department
- *                 example: "Human Resources"
- *     responses:
- *       201:
- *         description: Department created successfully
- *       400:
- *         description: Bad request (e.g., missing data)
- *       500:
- *         description: Server error
- */
-
-/**
- * @swagger
- * /department/{id}:
- *   get:
- *     summary: Get a department by ID
- *     tags: [Departments]
- *     description: Retrieve details of a specific department by its ID.
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the department
+ *                 format: uuid
+ *                 example: "cab9ec71-1a35-483a-bb64-a76f81080d46"
  *     responses:
  *       202:
- *         description: Department details retrieved successfully
+ *         description: Department retrieved successfully
  *         content:
  *           application/json:
  *             schema:
@@ -91,19 +115,9 @@
  *                   type: boolean
  *                   example: true
  *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                       description: ID of the department
- *                     name:
- *                       type: string
- *                       description: Name of the department
- *                     description:
- *                       type: string
- *                       description: Description of the department
+ *                   $ref: '#/components/schemas/DepartmentItem'
  *       400:
- *         description: Bad request (e.g., invalid ID)
+ *         description: Bad request
  *       500:
  *         description: Server error
  */

@@ -7,11 +7,54 @@
 
 /**
  * @swagger
- * /order:
+ * components:
+ *   schemas:
+ *     OrderUserSummary:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *         name:
+ *           type: string
+ *         employee_id:
+ *           type: integer
+ *         department:
+ *           type: object
+ *           nullable: true
+ *           properties:
+ *             name:
+ *               type: string
+ *     OrderItem:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *         date:
+ *           type: string
+ *           format: date
+ *         dayOrNight:
+ *           type: string
+ *         user_id:
+ *           type: string
+ *           format: uuid
+ *         position:
+ *           type: string
+ *         isConfirmed:
+ *           type: boolean
+ *         isPicked:
+ *           type: boolean
+ *         user:
+ *           $ref: '#/components/schemas/OrderUserSummary'
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/order:
  *   post:
  *     summary: Create a new order
  *     tags: [Orders]
- *     description: Create a new food order for a user
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -28,17 +71,14 @@
  *               user_id:
  *                 type: string
  *                 format: uuid
- *                 description: ID of the user placing the order
  *                 example: "user_id_123"
  *               date:
  *                 type: string
  *                 format: date
- *                 description: Date of the order
  *                 example: "2024-03-20"
  *               dayOrNight:
  *                 type: string
  *                 enum: [DAY, NIGHT]
- *                 description: Whether the order is for day or night shift
  *                 example: "DAY"
  *     responses:
  *       201:
@@ -52,61 +92,44 @@
  *                   type: boolean
  *                   example: true
  *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                       format: uuid
- *                       description: ID of the created order
- *                       example: "order_id_123"
- *                     user_id:
- *                       type: string
- *                       format: uuid
- *                       description: ID of the user who placed the order
- *                       example: "user_id_123"
- *                     date:
- *                       type: string
- *                       format: date
- *                       description: Date of the order
- *                       example: "2024-03-20"
- *                     dayOrNight:
- *                       type: string
- *                       description: Whether the order is for day or night shift
- *                       example: "DAY"
- *                     isPicked:
- *                       type: boolean
- *                       description: Whether the order has been picked up
- *                       example: false
+ *                   $ref: '#/components/schemas/OrderItem'
  *       400:
  *         description: Bad request
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "data not empty"
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "server error: Internal server error"
+ *
  *   get:
  *     summary: Get all orders
  *     tags: [Orders]
- *     description: Retrieve a list of all food orders with user and department details
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Orders retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/OrderItem'
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/order/user:
+ *   post:
+ *     summary: Get orders for the current user
+ *     tags: [Orders]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -123,178 +146,15 @@
  *                 data:
  *                   type: array
  *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                         format: uuid
- *                         description: Order ID
- *                         example: "order_id_123"
- *                       date:
- *                         type: string
- *                         format: date
- *                         description: Date of the order
- *                         example: "2024-03-20"
- *                       dayOrNight:
- *                         type: string
- *                         description: Whether the order is for day or night shift
- *                         example: "DAY"
- *                       isPicked:
- *                         type: boolean
- *                         description: Whether the order has been picked up
- *                         example: false
- *                       user:
- *                         type: object
- *                         properties:
- *                           id:
- *                             type: string
- *                             format: uuid
- *                             description: User ID
- *                             example: "user_id_123"
- *                           name:
- *                             type: string
- *                             description: User's name
- *                             example: "John Doe"
- *                           employee_id:
- *                             type: string
- *                             description: Employee ID
- *                             example: "EMP123"
- *                           department:
- *                             type: object
- *                             properties:
- *                               name:
- *                                 type: string
- *                                 description: Department name
- *                                 example: "Engineering"
- *       500:
- *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "server error: Internal server error"
- */
-
-/**
- * @swagger
- * /order/search:
- *   post:
- *     summary: Search orders
- *     tags: [Orders]
- *     description: Search orders by date and shift
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               date:
- *                 type: string
- *                 format: date
- *                 description: Date to search for
- *                 example: "2024-03-20"
- *               dayOrNight:
- *                 type: string
- *                 enum: [DAY, NIGHT]
- *                 description: Shift to search for
- *                 example: "DAY"
- *     responses:
- *       202:
- *         description: Orders found successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                         format: uuid
- *                         description: Order ID
- *                         example: "order_id_123"
- *                       date:
- *                         type: string
- *                         format: date
- *                         description: Date of the order
- *                         example: "2024-03-20"
- *                       dayOrNight:
- *                         type: string
- *                         description: Whether the order is for day or night shift
- *                         example: "DAY"
- *                       user:
- *                         type: object
- *                         properties:
- *                           id:
- *                             type: string
- *                             format: uuid
- *                             description: User ID
- *                             example: "user_id_123"
- *                           name:
- *                             type: string
- *                             description: User's name
- *                             example: "John Doe"
- *                           employee_id:
- *                             type: string
- *                             description: Employee ID
- *                             example: "EMP123"
- *                           department:
- *                             type: object
- *                             properties:
- *                               name:
- *                                 type: string
- *                                 description: Department name
- *                                 example: "Engineering"
+ *                     $ref: '#/components/schemas/OrderItem'
  *       400:
  *         description: Bad request
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Missing parameters data not empty"
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "server error: Internal server error"
- */
-
-/**
- * @swagger
- * /order/searchorderofuser:
- *   post:
- *     summary: Get user's orders for the month
+ *
+ *   put:
+ *     summary: Mark a user order as picked
  *     tags: [Orders]
- *     description: Retrieve all orders for a specific user in the current month
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -304,107 +164,20 @@
  *           schema:
  *             type: object
  *             required:
- *               - user_id
- *             properties:
- *               user_id:
- *                 type: string
- *                 format: uuid
- *                 description: ID of the user
- *                 example: "user_id_123"
- *     responses:
- *       202:
- *         description: Orders retrieved successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                         format: uuid
- *                         description: Order ID
- *                         example: "order_id_123"
- *                       date:
- *                         type: string
- *                         format: date
- *                         description: Date of the order
- *                         example: "2024-03-20"
- *                       dayOrNight:
- *                         type: string
- *                         description: Whether the order is for day or night shift
- *                         example: "DAY"
- *                       isPicked:
- *                         type: boolean
- *                         description: Whether the order has been picked up
- *                         example: false
- *       400:
- *         description: Bad request
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "id not empty"
- *       500:
- *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "server error: Internal server error"
- */
-
-/**
- * @swagger
- * /order/checkinpicked:
- *   post:
- *     summary: Mark order as picked up
- *     tags: [Orders]
- *     description: Mark a user's order for a specific date as picked up
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - user_id
  *               - date
+ *               - user_id
  *             properties:
- *               user_id:
- *                 type: string
- *                 format: uuid
- *                 description: ID of the user
- *                 example: "user_id_123"
  *               date:
  *                 type: string
  *                 format: date
- *                 description: Date of the order
  *                 example: "2024-03-20"
+ *               user_id:
+ *                 type: string
+ *                 format: uuid
+ *                 example: "user_id_123"
  *     responses:
  *       202:
- *         description: Order marked as picked up successfully
+ *         description: Order updated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -415,39 +188,63 @@
  *                   example: true
  *       400:
  *         description: Bad request
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Missing required fields"
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "server error: Internal server error"
  */
 
 /**
  * @swagger
- * /order/{id}:
+ * /api/version/v1/order/searchorderwithfield:
+ *   post:
+ *     summary: Search orders by field
+ *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 format: uuid
+ *               date:
+ *                 type: string
+ *                 format: date
+ *               user_id:
+ *                 type: string
+ *                 format: uuid
+ *               position:
+ *                 type: string
+ *     responses:
+ *       202:
+ *         description: Orders retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/OrderItem'
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/order/{id}:
  *   delete:
  *     summary: Delete an order
  *     tags: [Orders]
- *     description: Delete a specific order by ID
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -457,8 +254,7 @@
  *         schema:
  *           type: string
  *           format: uuid
- *         description: ID of the order to delete
- *         example: "order_id_123"
+ *         description: Order ID
  *     responses:
  *       202:
  *         description: Order deleted successfully
@@ -472,28 +268,6 @@
  *                   example: true
  *       400:
  *         description: Bad request
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Invalid order ID"
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "server error: Internal server error"
  */

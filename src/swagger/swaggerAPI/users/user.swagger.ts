@@ -7,125 +7,65 @@
 
 /**
  * @swagger
- * /users:
+ * components:
+ *   schemas:
+ *     UserItem:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *         name:
+ *           type: string
+ *         user_name:
+ *           type: string
+ *         email:
+ *           type: string
+ *         role:
+ *           type: string
+ *         position:
+ *           type: string
+ *         employee_id:
+ *           type: integer
+ *         department_id:
+ *           type: string
+ *           format: uuid
+ *         phone:
+ *           type: string
+ *           nullable: true
+ *         avatar:
+ *           type: string
+ *           nullable: true
+ *         begin_date:
+ *           type: string
+ *           format: date
+ *         is_active:
+ *           type: boolean
+ *         is_admin:
+ *           type: boolean
+ *         is_officer:
+ *           type: boolean
+ *         is_offical_staff:
+ *           type: boolean
+ *         salary_hourly:
+ *           type: number
+ *         shift_night_pay:
+ *           type: number
+ *         travel_allowance_pay:
+ *           type: number
+ *         paid_days:
+ *           type: number
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/users:
  *   get:
  *     summary: Get all users
  *     tags: [Users]
  *     responses:
  *       200:
- *         description: List of all users
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                       name:
- *                         type: string
- *                       email:
- *                         type: string
- *       500:
- *         description: Server error
- */
-
-/**
- * @swagger
- * /users:
- *   post:
- *     summary: Create a new user
- *     tags: [Users]
- *     description: Endpoint to create a new user. All fields are required.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - name
- *               - email
- *               - user_name
- *               - password
- *               - dob
- *               - employee_id
- *               - department_id
- *               - salary_hourly
- *               - travel_allowance_pay
- *               - shift_night_pay
- *               - paid_days
- *               - role
- *               - position
- *               - begin_date
- *             properties:
- *               name:
- *                 type: string
- *                 description: Full name of the user
- *                 example: "hoangdev2"
- *               email:
- *                 type: string
- *                 description: Email address of the user
- *                 example: "string@gmail.com"
- *               user_name:
- *                 type: string
- *                 description: Username for the user
- *                 example: "hoangdev3"
- *               password:
- *                 type: string
- *                 description: Password for the user
- *                 example: "000000"
- *               dob:
- *                 type: string
- *                 format: date
- *                 description: Date of birth (format -> yyyy-mm-dd)
- *                 example: "2025-04-20"
- *               employee_id:
- *                 type: number
- *                 description: Employee ID
- *                 example: 6962
- *               department_id:
- *                 type: string
- *                 description: Department ID (UUID format)
- *                 example: "cab9ec71-1a35-483a-bb64-a76f81080d46"
- *               salary_hourly:
- *                 type: number
- *                 description: Hourly salary of the user
- *                 example: 1000
- *               travel_allowance_pay:
- *                 type: number
- *                 description: Travel allowance pay
- *                 example: 1000
- *               shift_night_pay:
- *                 type: number
- *                 description: Night shift pay
- *                 example: 5000
- *               paid_days:
- *                 type: number
- *                 description: Number of paid days
- *                 example: 0
- *               role:
- *                 type: string
- *                 description: Role of the user
- *                 example: "ADMIN"
- *               position:
- *                 type: string
- *                 description: Position of the user
- *                 example: "HINO"
- *               begin_date:
- *                 type: string
- *                 format: date
- *                 description: Begin date of employment (format -> yyyy-mm-dd)
- *                 example: "2000-01-20"
- *     responses:
- *       201:
- *         description: User created successfully
+ *         description: Users retrieved successfully
  *         content:
  *           application/json:
  *             schema:
@@ -135,78 +75,217 @@
  *                   type: boolean
  *                   example: true
  *                 data:
- *                   type: object
- *                   description: Details of the created user
- *       200:
- *         description: Request processed but not successful
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "User creation failed due to invalid data"
- *       400:
- *         description: Bad request (e.g., missing or invalid input)
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Invalid input: Missing required fields"
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/UserItem'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Server error: <error message>"
- */
-/**
- * @swagger
- * tags:
- *   name: Upload
- *   description: API for uploading user avatars
- */
-
-/**
- * @swagger
- * /upload-avatar:
- *   post:
- *     summary: Upload a user avatar
- *     tags: [Upload]
+ *
+ *   put:
+ *     summary: Update a user
+ *     tags: [Users]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - id
+ *             properties:
+ *               id:
+ *                 type: integer
+ *                 description: User ID
+ *                 example: 123
+ *               name:
+ *                 type: string
+ *                 example: "Nguyen Van A"
+ *               user_name:
+ *                 type: string
+ *                 example: "nguyenvana"
+ *               email:
+ *                 type: string
+ *                 example: "a@example.com"
+ *               password:
+ *                 type: string
+ *                 example: "secret123"
+ *               dob:
+ *                 type: string
+ *                 format: date
+ *               phone:
+ *                 type: string
+ *                 example: "0901234567"
+ *               avatar:
+ *                 type: string
+ *                 nullable: true
+ *               ic_id:
+ *                 type: string
+ *               employee_id:
+ *                 type: integer
+ *               is_active:
+ *                 type: boolean
+ *               is_admin:
+ *                 type: boolean
+ *               role:
+ *                 type: string
+ *               position:
+ *                 type: string
+ *               department_id:
+ *                 type: string
+ *                 format: uuid
+ *               begin_date:
+ *                 type: string
+ *                 format: date
+ *               is_offical_staff:
+ *                 type: boolean
+ *               salary_hourly:
+ *                 type: number
+ *               shift_night_pay:
+ *                 type: number
+ *               travel_allowance_pay:
+ *                 type: number
+ *               paid_days:
+ *                 type: number
+ *     responses:
+ *       202:
+ *         description: User updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/users/{id}:
+ *   get:
+ *     summary: Get a user by ID
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User ID
+ *     responses:
+ *       202:
+ *         description: User retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   $ref: '#/components/schemas/UserItem'
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Server error
+ *
+ *   delete:
+ *     summary: Delete a user
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User ID
+ *     responses:
+ *       202:
+ *         description: User deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/users/getuserwithdepartmentid:
+ *   post:
+ *     summary: Get users by department ID
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - department_id
+ *             properties:
+ *               department_id:
+ *                 type: string
+ *                 format: uuid
+ *                 example: "cab9ec71-1a35-483a-bb64-a76f81080d46"
+ *     responses:
+ *       202:
+ *         description: Users retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/UserItem'
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/users/upload-avatar:
+ *   post:
+ *     summary: Upload a user avatar
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *               - media_path
  *             properties:
  *               id:
  *                 type: string
- *                 description: The ID of the user
- *                 example: "12345"
+ *                 format: uuid
+ *                 example: "123e4567-e89b-12d3-a456-426614174000"
  *               media_path:
  *                 type: string
- *                 description: The path to the uploaded media file
  *                 example: "/uploads/avatar.png"
  *     responses:
- *       201:
+ *       202:
  *         description: Avatar uploaded successfully
  *         content:
  *           application/json:
@@ -216,46 +295,17 @@
  *                 success:
  *                   type: boolean
  *                   example: true
- *       200:
- *         description: Failed to upload avatar
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Failed to update user avatar"
+ *       400:
+ *         description: Bad request
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "server error: <error message>"
  */
 
 /**
  * @swagger
- * tags:
- *   name: Users
- *   description: API for managing users by department
- */
-
-/**
- * @swagger
- * /getuserwithdepartmentid:
+ * /api/version/v1/users/finduserwithfield:
  *   post:
- *     summary: Get users by department ID
+ *     summary: Find users by field
  *     tags: [Users]
  *     requestBody:
  *       required: true
@@ -263,14 +313,15 @@
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - position
  *             properties:
- *               department_id:
+ *               position:
  *                 type: string
- *                 description: The ID of the department
- *                 example: "dept123"
+ *                 example: "HINO"
  *     responses:
  *       202:
- *         description: Successfully retrieved users
+ *         description: Users retrieved successfully
  *         content:
  *           application/json:
  *             schema:
@@ -282,69 +333,18 @@
  *                 data:
  *                   type: array
  *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                         description: User ID
- *                       name:
- *                         type: string
- *                         description: User name
- *                       email:
- *                         type: string
- *                         description: User email
- *       200:
- *         description: Failed to retrieve users
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "No users found"
+ *                     $ref: '#/components/schemas/UserItem'
  *       400:
- *         description: Bad request (missing department_id)
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "data not empty"
+ *         description: Bad request
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "server error: <error message>"
- */
-/**
- * @swagger
- * tags:
- *   name: Users
- *   description: API for managing users by department
  */
 
 /**
  * @swagger
- * /getuserwithdepartmentid:
+ * /api/version/v1/users/findbyname:
  *   post:
- *     summary: Get users by department ID
+ *     summary: Find a user by name
  *     tags: [Users]
  *     requestBody:
  *       required: true
@@ -352,14 +352,15 @@
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - name
  *             properties:
- *               department_id:
+ *               name:
  *                 type: string
- *                 description: The ID of the department
- *                 example: "dept123"
+ *                 example: "Nguyen Van A"
  *     responses:
  *       202:
- *         description: Successfully retrieved users
+ *         description: Users retrieved successfully
  *         content:
  *           application/json:
  *             schema:
@@ -371,69 +372,18 @@
  *                 data:
  *                   type: array
  *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                         description: User ID
- *                       name:
- *                         type: string
- *                         description: User name
- *                       email:
- *                         type: string
- *                         description: User email
- *       200:
- *         description: Failed to retrieve users
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "No users found"
+ *                     $ref: '#/components/schemas/UserItem'
  *       400:
- *         description: Bad request (missing department_id)
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "data not empty"
+ *         description: Bad request
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "server error: <error message>"
- */
-/**
- * @swagger
- * tags:
- *   name: Users
- *   description: API for finding users by specific fields
  */
 
 /**
  * @swagger
- * /finduserwithfield:
+ * /api/version/v1/users/getalluserforotrequestfeature:
  *   post:
- *     summary: Find users by specific fields
+ *     summary: Get users for overtime request feature
  *     tags: [Users]
  *     requestBody:
  *       required: true
@@ -441,13 +391,16 @@
  *         application/json:
  *           schema:
  *             type: object
- *             description: Object containing fields to filter users
- *             example:
- *               department_id: "dept123"
- *               role: "admin"
+ *             required:
+ *               - id
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 format: uuid
+ *                 example: "123e4567-e89b-12d3-a456-426614174000"
  *     responses:
  *       202:
- *         description: Successfully found users
+ *         description: Users retrieved successfully
  *         content:
  *           application/json:
  *             schema:
@@ -459,41 +412,9 @@
  *                 data:
  *                   type: array
  *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                         description: User ID
- *                       name:
- *                         type: string
- *                         description: User name
- *                       email:
- *                         type: string
- *                         description: User email
+ *                     $ref: '#/components/schemas/UserItem'
  *       400:
- *         description: Bad request (missing or empty fields)
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "data not empty"
+ *         description: Bad request
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "server error: <error message>"
  */

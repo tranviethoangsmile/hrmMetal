@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /dependent-support-amount/create:
+ * /api/version/v1/dependent-support-amount/create:
  *   post:
  *     summary: Tạo bản ghi số tiền hỗ trợ người phụ thuộc
  *     tags: [DependentSupportAmount]
@@ -121,7 +121,7 @@
 
 /**
  * @swagger
- * /dependent-support-amount/update:
+ * /api/version/v1/dependent-support-amount/update:
  *   post:
  *     summary: Cập nhật bản ghi số tiền hỗ trợ người phụ thuộc
  *     tags: [DependentSupportAmount]
@@ -219,7 +219,7 @@
 
 /**
  * @swagger
- * /dependent-support-amount/confirm:
+ * /api/version/v1/dependent-support-amount/confirm:
  *   post:
  *     summary: Xác nhận bản ghi số tiền hỗ trợ (chỉ Admin)
  *     tags: [DependentSupportAmount]
@@ -304,7 +304,7 @@
 
 /**
  * @swagger
- * /dependent-support-amount/delete:
+ * /api/version/v1/dependent-support-amount/delete:
  *   post:
  *     summary: Xóa bản ghi số tiền hỗ trợ người phụ thuộc
  *     tags: [DependentSupportAmount]
@@ -381,7 +381,7 @@
 
 /**
  * @swagger
- * /dependent-support-amount/getbyid:
+ * /api/version/v1/dependent-support-amount/getbyid:
  *   post:
  *     summary: Lấy bản ghi số tiền hỗ trợ theo ID
  *     tags: [DependentSupportAmount]
@@ -456,7 +456,7 @@
 
 /**
  * @swagger
- * /dependent-support-amount/getbytaxdependentidandyear:
+ * /api/version/v1/dependent-support-amount/getbytaxdependentidandyear:
  *   post:
  *     summary: Get dependent support amount by tax dependent ID and year
  *     tags: [DependentSupportAmount]

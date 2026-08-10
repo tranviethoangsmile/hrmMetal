@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /dayoffs/create:
+ * /api/version/v1/dayoffs/create:
  *   post:
  *     summary: Create a new day off
  *     tags: [Day Offs]
@@ -106,7 +106,7 @@
 
 /**
  * @swagger
- * /dayoffs/getall:
+ * /api/version/v1/dayoffs/getall:
  *   get:
  *     summary: Get all days off
  *     tags: [Day Offs]
@@ -172,7 +172,7 @@
 
 /**
  * @swagger
- * /dayoffs/getbyid:
+ * /api/version/v1/dayoffs/getbyid:
  *   post:
  *     summary: Get day off by ID
  *     tags: [Day Offs]
@@ -263,7 +263,7 @@
 
 /**
  * @swagger
- * /dayoffs/deletebyid:
+ * /api/version/v1/dayoffs/deletebyid:
  *   post:
  *     summary: Delete day off by ID
  *     tags: [Day Offs]
@@ -351,7 +351,7 @@
 
 /**
  * @swagger
- * /dayoffs/update:
+ * /api/version/v1/dayoffs/update:
  *   put:
  *     summary: Update day off
  *     tags: [Day Offs]

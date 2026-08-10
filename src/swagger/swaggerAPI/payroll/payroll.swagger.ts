@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /payroll/create:
+ * /api/version/v1/payroll/create:
  *   post:
  *     summary: Create a new payroll record
  *     tags: [Payroll]
@@ -107,7 +107,7 @@
 
 /**
  * @swagger
- * /payroll/search:
+ * /api/version/v1/payroll/search:
  *   post:
  *     summary: Search payroll records for a user in a specific month
  *     tags: [Payroll]
@@ -215,7 +215,7 @@
 
 /**
  * @swagger
- * /payroll/searchbyid:
+ * /api/version/v1/payroll/searchbyid:
  *   post:
  *     summary: Get payroll record by ID
  *     tags: [Payroll]
@@ -315,7 +315,7 @@
 
 /**
  * @swagger
- * /payroll/update:
+ * /api/version/v1/payroll/update:
  *   post:
  *     summary: Update a payroll record
  *     tags: [Payroll]
@@ -411,7 +411,7 @@
 
 /**
  * @swagger
- * /payroll/destroy:
+ * /api/version/v1/payroll/destroy:
  *   post:
  *     summary: Delete a payroll record
  *     tags: [Payroll]

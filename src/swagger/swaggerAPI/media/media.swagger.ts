@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /media/uploads/{filename}:
+ * /api/version/v1/media/uploads/{filename}:
  *   get:
  *     summary: Get a media file by filename
  *     tags: [Media]

@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /fcmtoken/create:
+ * /api/version/v1/fcmtoken/create:
  *   post:
  *     summary: Create or update FCM token
  *     tags: [FCM Tokens]

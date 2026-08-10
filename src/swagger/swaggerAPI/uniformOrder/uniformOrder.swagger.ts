@@ -74,7 +74,7 @@
 
 /**
  * @swagger
- * /uniformorder/create:
+ * /api/version/v1/uniformorder/create:
  *   post:
  *     summary: Create uniform orders
  *     tags: [UniformOrders]
@@ -144,7 +144,7 @@
 
 /**
  * @swagger
- * /uniformorder/search/withposition:
+ * /api/version/v1/uniformorder/search/withposition:
  *   post:
  *     summary: Search uniform orders by position
  *     tags: [UniformOrders]
@@ -184,7 +184,7 @@
 
 /**
  * @swagger
- * /uniformorder/search/withuserid:
+ * /api/version/v1/uniformorder/search/withuserid:
  *   post:
  *     summary: Search uniform orders by user and status
  *     tags: [UniformOrders]
@@ -218,7 +218,7 @@
 
 /**
  * @swagger
- * /uniformorder/delete:
+ * /api/version/v1/uniformorder/delete:
  *   post:
  *     summary: Delete a uniform order
  *     tags: [UniformOrders]
@@ -247,7 +247,7 @@
 
 /**
  * @swagger
- * /uniformorder/getuniformorderdetail:
+ * /api/version/v1/uniformorder/getuniformorderdetail:
  *   post:
  *     summary: Get uniform order details
  *     tags: [UniformOrders]
@@ -286,7 +286,7 @@
 
 /**
  * @swagger
- * /uniformorder/update:
+ * /api/version/v1/uniformorder/update:
  *   post:
  *     summary: Update a uniform order
  *     tags: [UniformOrders]

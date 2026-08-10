@@ -7,114 +7,7 @@
 
 /**
  * @swagger
- * /notification/create:
- *   post:
- *     summary: Create a new notification
- *     tags: [Notifications]
- *     description: Create a new notification for a user
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - user_id
- *               - type
- *               - title
- *               - message
- *             properties:
- *               user_id:
- *                 type: string
- *                 format: uuid
- *                 description: ID of the user to receive the notification
- *                 example: "user_id_123"
- *               type:
- *                 type: string
- *                 enum: [EVENT, OVERTIME, SAFETY_CHECK, PAID_LEAVE, UNIFORM_ORDER]
- *                 description: Type of notification
- *                 example: "EVENT"
- *               title:
- *                 type: string
- *                 description: Title of the notification
- *                 example: "New Event"
- *               message:
- *                 type: string
- *                 description: Content of the notification
- *                 example: "You have been invited to a new event"
- *     responses:
- *       201:
- *         description: Notification created successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                       format: uuid
- *                       description: ID of the created notification
- *                       example: "notification_id_123"
- *                     user_id:
- *                       type: string
- *                       format: uuid
- *                       description: ID of the recipient
- *                       example: "user_id_123"
- *                     type:
- *                       type: string
- *                       description: Type of notification
- *                       example: "EVENT"
- *                     title:
- *                       type: string
- *                       description: Title of the notification
- *                       example: "New Event"
- *                     message:
- *                       type: string
- *                       description: Content of the notification
- *                       example: "You have been invited to a new event"
- *                     is_readed:
- *                       type: boolean
- *                       description: Whether the notification has been read
- *                       example: false
- *       400:
- *         description: Bad request
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Missing required message, title, type, user_id"
- *       500:
- *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "server error: Internal server error"
- */
-
-/**
- * @swagger
- * /notification/search:
+ * /api/version/v1/notification/search:
  *   post:
  *     summary: Get notification by ID
  *     tags: [Notifications]
@@ -200,7 +93,7 @@
 
 /**
  * @swagger
- * /notification/searchbyuserid:
+ * /api/version/v1/notification/searchById:
  *   post:
  *     summary: Get user's notifications
  *     tags: [Notifications]
@@ -293,7 +186,7 @@
 
 /**
  * @swagger
- * /notification/update:
+ * /api/version/v1/notification/update:
  *   put:
  *     summary: Mark notification as read
  *     tags: [Notifications]
@@ -355,7 +248,7 @@
 
 /**
  * @swagger
- * /notification/destroy:
+ * /api/version/v1/notification/destroy:
  *   post:
  *     summary: Delete a notification
  *     tags: [Notifications]

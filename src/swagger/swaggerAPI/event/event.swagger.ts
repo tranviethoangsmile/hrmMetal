@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /events/delete:
+ * /api/version/v1/events/delete:
  *   post:
  *     summary: Delete an event
  *     tags: [Events]
@@ -53,7 +53,7 @@
 
 /**
  * @swagger
- * /events/update:
+ * /api/version/v1/events/update:
  *   post:
  *     summary: Update an event
  *     tags: [Events]
@@ -119,7 +119,7 @@
 
 /**
  * @swagger
- * /events/getall:
+ * /api/version/v1/events/getall:
  *   get:
  *     summary: Get all events
  *     tags: [Events]
@@ -159,7 +159,7 @@
 
 /**
  * @swagger
- * /events/searchbyid:
+ * /api/version/v1/events/searchbyid:
  *   post:
  *     summary: Search an event by ID
  *     tags: [Events]
@@ -197,7 +197,7 @@
 
 /**
  * @swagger
- * /events/getwithposition:
+ * /api/version/v1/events/getwithposition:
  *   post:
  *     summary: Get events based on position
  *     tags: [Events]

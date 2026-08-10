@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /groupmember/getgroupmemberofuser:
+ * /api/version/v1/groupmember/getgroupmemberofuser:
  *   post:
  *     summary: Get group members of a user
  *     tags: [Group Members]

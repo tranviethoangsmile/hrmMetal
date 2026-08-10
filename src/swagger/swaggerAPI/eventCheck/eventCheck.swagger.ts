@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /eventcheck/create:
+ * /api/version/v1/eventcheck/create:
  *   post:
  *     summary: Create an event check
  *     tags: [Event Checks]
@@ -102,7 +102,7 @@
 
 /**
  * @swagger
- * /eventcheck/searcheventchecked:
+ * /api/version/v1/eventcheck/searcheventchecked:
  *   post:
  *     summary: Search event check
  *     tags: [Event Checks]

@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /taxdependent/create:
+ * /api/version/v1/taxdependent/create:
  *   post:
  *     summary: Create a new tax dependent
  *     tags: [TaxDependent]
@@ -196,7 +196,7 @@
 
 /**
  * @swagger
- * /taxdependent/delete:
+ * /api/version/v1/taxdependent/delete:
  *   post:
  *     summary: Delete a tax dependent
  *     tags: [TaxDependent]
@@ -259,7 +259,7 @@
 
 /**
  * @swagger
- * /taxdependent/update:
+ * /api/version/v1/taxdependent/update:
  *   put:
  *     summary: Update a tax dependent
  *     tags: [TaxDependent]
@@ -394,7 +394,7 @@
 
 /**
  * @swagger
- * /taxdependent/getbyuserid:
+ * /api/version/v1/taxdependent/getbyuserid:
  *   post:
  *     summary: Get all tax dependents by user ID
  *     tags: [TaxDependent]
@@ -527,7 +527,7 @@
 
 /**
  * @swagger
- * /taxdependent/update-status:
+ * /api/version/v1/taxdependent/update-status:
  *   put:
  *     summary: Update tax dependent status (Admin only)
  *     tags: [TaxDependent]

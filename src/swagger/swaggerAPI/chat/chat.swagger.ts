@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /chat:
+ * /api/version/v1/chat:
  *   post:
  *     summary: Send a message to the chatbot
  *     tags: [Chat]

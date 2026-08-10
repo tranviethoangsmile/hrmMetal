@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /checkin/create:
+ * /api/version/v1/checkin/create:
  *   post:
  *     summary: Create or update a check-in record
  *     tags: [Checkin]
@@ -95,7 +95,7 @@
 
 /**
  * @swagger
- * /checkin/search:
+ * /api/version/v1/checkin/search:
  *   post:
  *     summary: Search user's check-in records in a month
  *     tags: [Checkin]
@@ -235,7 +235,7 @@
 
 /**
  * @swagger
- * /checkin/getcheckinindateofposition:
+ * /api/version/v1/checkin/getcheckinindateofposition:
  *   post:
  *     summary: Get check-in records by position and date
  *     tags: [Checkin]
@@ -378,7 +378,7 @@
 
 /**
  * @swagger
- * /checkin/getcheckindetailindateofuser:
+ * /api/version/v1/checkin/getcheckindetailindateofuser:
  *   post:
  *     summary: Get user's check-in details for a specific date
  *     tags: [Checkin]

@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /food:
+ * /api/version/v1/food:
  *   post:
  *     summary: Create a new food item
  *     tags: [Food]
@@ -104,7 +104,7 @@
 
 /**
  * @swagger
- * /food/{id}:
+ * /api/version/v1/food/{id}:
  *   get:
  *     summary: Get a food item by ID
  *     tags: [Food]
@@ -183,7 +183,7 @@
 
 /**
  * @swagger
- * /food:
+ * /api/version/v1/food:
  *   get:
  *     summary: Get all food items
  *     tags: [Food]

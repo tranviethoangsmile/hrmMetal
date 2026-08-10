@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /safetyCheck/create:
+ * /api/version/v1/safetycheck/create:
  *   post:
  *     summary: Create a new safety check
  *     tags: [SafetyChecks]
@@ -134,7 +134,7 @@
 
 /**
  * @swagger
- * /safetyCheck/searchsafetychecked:
+ * /api/version/v1/safetycheck/searchsafetychecked:
  *   post:
  *     summary: Search completed safety check of user for event
  *     tags: [SafetyChecks]
@@ -242,7 +242,7 @@
 
 /**
  * @swagger
- * /safetyCheck/getallusercheckedsafetycheckevent:
+ * /api/version/v1/safetycheck/getallusercheckedsafetycheckevent:
  *   post:
  *     summary: Get all users who have completed safety check for an event
  *     tags: [SafetyChecks]

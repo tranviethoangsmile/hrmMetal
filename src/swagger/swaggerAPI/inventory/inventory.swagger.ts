@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /inventory/create:
+ * /api/version/v1/inventory/create:
  *   post:
  *     summary: Create new inventory
  *     tags: [Inventory]
@@ -100,7 +100,7 @@
 
 /**
  * @swagger
- * /inventory/search:
+ * /api/version/v1/inventory/search:
  *   post:
  *     summary: Search inventory
  *     tags: [Inventory]
@@ -189,7 +189,7 @@
 
 /**
  * @swagger
- * /inventory/getall:
+ * /api/version/v1/inventory/getall:
  *   post:
  *     summary: Get all inventory
  *     tags: [Inventory]
@@ -249,7 +249,7 @@
 
 /**
  * @swagger
- * /inventory/update:
+ * /api/version/v1/inventory/update:
  *   post:
  *     summary: Update inventory
  *     tags: [Inventory]

@@ -6,7 +6,7 @@
  */
 /**
  * @swagger
- * /overtimerequest/create:
+ * /api/version/v1/overtimerequest/create:
  *   post:
  *     summary: Create a new overtime request
  *     tags:
@@ -152,7 +152,7 @@
  */
 /**
  * @swagger
- * /overtimerequest/deletebyid:
+ * /api/version/v1/overtimerequest/deletebyid:
  *   post:
  *     summary: Delete an overtime request
  *     tags:
@@ -231,7 +231,7 @@
  */
 /**
  * @swagger
- * /overtimerequest/getall:
+ * /api/version/v1/overtimerequest/getAll:
  *   post:
  *     summary: Retrieve all overtime requests
  *     tags:
@@ -344,7 +344,7 @@
  */
 /**
  * @swagger
- * /overtimerequest/getbyid:
+ * /api/version/v1/overtimerequest/getbyid:
  *   post:
  *     summary: Retrieve an overtime request by ID
  *     tags:
@@ -479,7 +479,7 @@
  */
 /**
  * @swagger
- * /overtimerequest/updateisapproved:
+ * /api/version/v1/overtimerequest/updateisapproved:
  *   post:
  *     summary: Approve an overtime request by admin
  *     tags:
@@ -558,7 +558,7 @@
  */
 /**
  * @swagger
- * /overtimerequest/updateisconfirm:
+ * /api/version/v1/overtimerequest/updateisconfirm:
  *   post:
  *     summary: Confirm an overtime request by leader
  *     tags:
@@ -637,7 +637,7 @@
  */
 /**
  * @swagger
- * /api/v1/overtimerequest/getbyuserid:
+ * /api/version/v1/overtimerequest/getbyuserid:
  *   post:
  *     tags:
  *       - Overtime Request

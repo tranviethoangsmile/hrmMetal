@@ -521,7 +521,7 @@
 
 /**
  * @swagger
- * /api/version/v1/dashboards/admin/summarys:
+ * /api/version/v1/dashboards/admin/summarys/s:
  *   post:
  *     summary: Get admin dashboard summary
  *     tags: [Dashboards]
@@ -580,7 +580,306 @@
 
 /**
  * @swagger
- * /api/version/v1/dashboards/admin/get-checkins:
+ * /api/version/v1/dashboards/admin/notifications/create-notification:
+ *   post:
+ *     summary: Create a notification as admin
+ *     tags: [Dashboards]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - user_id
+ *               - type
+ *               - title
+ *               - message
+ *             properties:
+ *               user_id:
+ *                 type: string
+ *                 format: uuid
+ *                 example: "user_id_123"
+ *               type:
+ *                 type: string
+ *                 example: "EVENT"
+ *               title:
+ *                 type: string
+ *                 example: "New event"
+ *               message:
+ *                 type: string
+ *                 example: "You have been invited to a new event"
+ *     responses:
+ *       201:
+ *         description: Notification created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       format: uuid
+ *                     user_id:
+ *                       type: string
+ *                       format: uuid
+ *                     type:
+ *                       type: string
+ *                     title:
+ *                       type: string
+ *                     message:
+ *                       type: string
+ *                     is_readed:
+ *                       type: boolean
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/dashboards/admin/tax-dependents/update-status-tax-dependent:
+ *   put:
+ *     summary: Update tax dependent status as admin
+ *     tags: [Dashboards]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *               - status
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 format: uuid
+ *                 example: "123e4567-e89b-12d3-a456-426614174000"
+ *               status:
+ *                 type: string
+ *                 enum: [PENDING, APPROVED, REJECTED]
+ *                 example: "APPROVED"
+ *               user_id:
+ *                 type: string
+ *                 format: uuid
+ *               notes:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Tax dependent status updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/dashboards/leader/inventorys/update-inventory:
+ *   post:
+ *     summary: Update inventory as leader
+ *     tags: [Dashboards]
+ *     security:
+ *       - bearerAuth: []
+ *     description: department_id is injected from the authenticated leader token.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *               - product
+ *               - quantity
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 format: uuid
+ *               product:
+ *                 type: string
+ *               quantity:
+ *                 type: number
+ *     responses:
+ *       200:
+ *         description: Inventory updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/dashboards/leader/paidleaves/get-paid-leave-request:
+ *   get:
+ *     summary: Get paid leave requests for the current leader
+ *     tags: [Dashboards]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       202:
+ *         description: Paid leave requests retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   $ref: '#/components/schemas/PaidLeaveRequestPage'
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/dashboards/leader/paidleaves/approve-paid-leave-request:
+ *   post:
+ *     summary: Approve or reject a paid leave request as leader
+ *     tags: [Dashboards]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *               - is_approve
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 format: uuid
+ *               is_approve:
+ *                 type: boolean
+ *               feedback:
+ *                 type: string
+ *                 nullable: true
+ *     responses:
+ *       202:
+ *         description: Paid leave request updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/PaidLeaveSuccess'
+ *       200:
+ *         description: Request processed but not successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       400:
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/dashboards/logs/search:
+ *   post:
+ *     summary: Search audit logs
+ *     tags: [Dashboards]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               resource_type:
+ *                 type: string
+ *               actor_id:
+ *                 type: string
+ *                 format: uuid
+ *               from:
+ *                 type: string
+ *                 format: date
+ *               to:
+ *                 type: string
+ *                 format: date
+ *               page:
+ *                 type: integer
+ *                 minimum: 1
+ *               limit:
+ *                 type: integer
+ *                 minimum: 1
+ *                 maximum: 100
+ *     responses:
+ *       200:
+ *         description: Logs retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   $ref: '#/components/schemas/DashboardAuditLogPage'
+ *       400:
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/dashboards/admin/checkins/get-checkins:
  *   post:
  *     summary: Get checkins by admin position and date
  *     tags: [Dashboards]
@@ -638,7 +937,7 @@
 
 /**
  * @swagger
- * /api/version/v1/dashboards/admin/get-orders:
+ * /api/version/v1/dashboards/admin/orders/get-orders:
  *   post:
  *     summary: Get orders by admin position and date
  *     tags: [Dashboards]
@@ -696,7 +995,7 @@
 
 /**
  * @swagger
- * /api/version/v1/dashboards/admin/get-users:
+ * /api/version/v1/dashboards/admin/users/get-users:
  *   post:
  *     summary: Get users by admin position
  *     tags: [Dashboards]
@@ -741,7 +1040,7 @@
 
 /**
  * @swagger
- * /api/version/v1/dashboards/admin/create-user:
+ * /api/version/v1/dashboards/admin/users/create-user:
  *   post:
  *     summary: Create a user as admin
  *     tags: [Dashboards]
@@ -789,7 +1088,7 @@
 
 /**
  * @swagger
- * /api/version/v1/dashboards/admin/create-order:
+ * /api/version/v1/dashboards/admin/orders/create-orders:
  *   post:
  *     summary: Create an order as admin
  *     tags: [Dashboards]
@@ -831,7 +1130,7 @@
 
 /**
  * @swagger
- * /api/version/v1/dashboards/admin/create-events:
+ * /api/version/v1/dashboards/admin/events/create-event:
  *   post:
  *     summary: Create an event as admin
  *     tags: [Dashboards]
@@ -873,7 +1172,7 @@
 
 /**
  * @swagger
- * /api/version/v1/dashboards/admin/create-informations:
+ * /api/version/v1/dashboards/admin/informations/create-information:
  *   post:
  *     summary: Create an information post as admin
  *     tags: [Dashboards]
@@ -915,7 +1214,209 @@
 
 /**
  * @swagger
- * /api/version/v1/dashboards/admin/confirm/paid-leave-confirm:
+ * /api/version/v1/dashboards/admin/informations/get-informations:
+ *   get:
+ *     summary: Get information posts for the authenticated admin
+ *     tags: [Dashboards]
+ *     security:
+ *       - bearerAuth: []
+ *     description: Retrieve information posts that belong to the authenticated admin user. The admin id is taken from the JWT payload.
+ *     responses:
+ *       200:
+ *         description: Information retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         format: uuid
+ *                       title:
+ *                         type: string
+ *                       content:
+ *                         type: string
+ *                       date:
+ *                         type: string
+ *                         format: date-time
+ *                       media:
+ *                         type: string
+ *                         nullable: true
+ *                       position:
+ *                         type: string
+ *                       is_public:
+ *                         type: boolean
+ *                       is_video:
+ *                         type: boolean
+ *                       is_event:
+ *                         type: boolean
+ *                       User:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                             format: uuid
+ *                           name:
+ *                             type: string
+ *                           role:
+ *                             type: string
+ *                           avatar:
+ *                             type: string
+ *                           department:
+ *                             type: object
+ *                             properties:
+ *                               name:
+ *                                 type: string
+ *       400:
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *       401:
+ *         description: Authentication token is required or invalid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *       403:
+ *         description: You do not have permission for this action
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/dashboards/admin/informations/delete-informations:
+ *   post:
+ *     summary: Delete an information post as admin
+ *     tags: [Dashboards]
+ *     security:
+ *       - bearerAuth: []
+ *     description: Delete an information post by id. Requires an admin JWT.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 format: uuid
+ *                 example: "b3b7c7e2-8c2e-4e2a-9c2e-4e2a9c2e4e2a"
+ *     responses:
+ *       200:
+ *         description: Information deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       example: Information deleted successfully
+ *       400:
+ *         description: Bad request or validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *       401:
+ *         description: Authentication token is required or invalid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *       403:
+ *         description: You do not have permission for this action
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/dashboards/admin/paidleaves/paid-leave-confirm:
  *   post:
  *     summary: Confirm an approved paid leave request as admin
  *     tags: [Dashboards]
@@ -969,4 +1470,115 @@
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/dashboards/admin/departments/create-department:
+ *   post:
+ *     summary: Create a department as admin
+ *     tags: [Dashboards]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Production
+ *     responses:
+ *       201:
+ *         description: Department created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       format: uuid
+ *                     name:
+ *                       type: string
+ *       400:
+ *         description: Bad request or validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *       401:
+ *         description: Authentication token is required or invalid
+ *       403:
+ *         description: You do not have permission for this action
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /api/version/v1/dashboards/admin/events/delete-event:
+ *   post:
+ *     summary: Delete an event as admin
+ *     tags: [Dashboards]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 format: uuid
+ *                 example: "b3b7c7e2-8c2e-4e2a-9c2e-4e2a9c2e4e2a"
+ *     responses:
+ *       200:
+ *         description: Event deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *       400:
+ *         description: Bad request or validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *       401:
+ *         description: Authentication token is required or invalid
+ *       403:
+ *         description: You do not have permission for this action
+ *       500:
+ *         description: Server error
  */

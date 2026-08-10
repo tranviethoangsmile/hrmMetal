@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /conversations/create:
+ * /api/version/v1/conversations/create:
  *   post:
  *     summary: Create a new one-on-one conversation
  *     tags: [Conversations]
@@ -100,7 +100,7 @@
 
 /**
  * @swagger
- * /conversations/creategroup:
+ * /api/version/v1/conversations/creategroup:
  *   post:
  *     summary: Create a new group conversation
  *     tags: [Conversations]
@@ -180,7 +180,7 @@
 
 /**
  * @swagger
- * /conversations/delete:
+ * /api/version/v1/conversations/delete:
  *   post:
  *     summary: Delete a conversation
  *     tags: [Conversations]

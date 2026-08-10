@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /message/create:
+ * /api/version/v1/message/create:
  *   post:
  *     summary: Create a new message
  *     tags: [Messages]
@@ -128,7 +128,7 @@
 
 /**
  * @swagger
- * /message/searchmessageofconversation:
+ * /api/version/v1/message/searchmessageofconversation:
  *   post:
  *     summary: Get conversation messages
  *     tags: [Messages]
@@ -254,7 +254,7 @@
 
 /**
  * @swagger
- * /message/delete:
+ * /api/version/v1/message/delete:
  *   post:
  *     summary: Delete a message
  *     tags: [Messages]
@@ -322,7 +322,7 @@
 
 /**
  * @swagger
- * /message/unsend:
+ * /api/version/v1/message/unsend:
  *   post:
  *     summary: Unsend a message
  *     tags: [Messages]

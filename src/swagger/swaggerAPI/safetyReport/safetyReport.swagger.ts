@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /safetyReport/create:
+ * /api/version/v1/safetyreport/create:
  *   post:
  *     summary: Create a new safety report
  *     tags: [SafetyReports]
@@ -83,8 +83,8 @@
 
 /**
  * @swagger
- * /safetyReport/update:
- *   put:
+ * /api/version/v1/safetyreport/update:
+ *   post:
  *     summary: Update an existing safety report
  *     tags: [SafetyReports]
  *     description: Update details of an existing safety report.
@@ -94,15 +94,28 @@
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - id
  *             properties:
- *               report_id:
+ *               id:
  *                 type: string
  *                 description: ID of the safety report to update
  *                 example: "report123"
- *               report_details:
+ *               user_id:
  *                 type: string
- *                 description: Updated details of the safety report
- *                 example: "Updated safety issue details"
+ *                 format: uuid
+ *               title:
+ *                 type: string
+ *               content:
+ *                 type: string
+ *               solution:
+ *                 type: string
+ *               corrective_action:
+ *                 type: string
+ *                 nullable: true
+ *               leader_id:
+ *                 type: string
+ *                 format: uuid
  *     responses:
  *       200:
  *         description: Safety report updated successfully
@@ -114,7 +127,7 @@
 
 /**
  * @swagger
- * /safetyReport/confirm:
+ * /api/version/v1/safetyreport/confirm:
  *   post:
  *     summary: Confirm a safety report
  *     tags: [SafetyReports]
@@ -125,11 +138,20 @@
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - id
+ *               - leader_id
  *             properties:
- *               report_id:
+ *               id:
  *                 type: string
  *                 description: ID of the safety report to confirm
  *                 example: "report123"
+ *               leader_id:
+ *                 type: string
+ *                 format: uuid
+ *               corrective_action:
+ *                 type: string
+ *                 nullable: true
  *     responses:
  *       200:
  *         description: Safety report confirmed successfully
@@ -141,18 +163,24 @@
 
 /**
  * @swagger
- * /safetyReport/delete:
- *   delete:
+ * /api/version/v1/safetyreport/delete:
+ *   post:
  *     summary: Delete a safety report
  *     tags: [SafetyReports]
  *     description: Delete a safety report by its ID.
- *     parameters:
- *       - in: query
- *         name: report_id
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the safety report to delete
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 description: ID of the safety report to delete
+ *                 example: "report123"
  *     responses:
  *       200:
  *         description: Safety report deleted successfully
@@ -164,7 +192,7 @@
 
 /**
  * @swagger
- * /safetyReport/getbyuserid:
+ * /api/version/v1/safetyreport/getbyuserid:
  *   post:
  *     summary: Get safety reports by user ID and month
  *     tags: [SafetyReports]
@@ -239,18 +267,24 @@
 
 /**
  * @swagger
- * /safetyReport/getbydepartmentid:
- *   get:
+ * /api/version/v1/safetyreport/getbydepartmentid:
+ *   post:
  *     summary: Get safety reports by department ID
  *     tags: [SafetyReports]
  *     description: Retrieve safety reports for a specific department.
- *     parameters:
- *       - in: query
- *         name: department_id
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the department
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 description: ID of the department
+ *                 example: "dept123"
  *     responses:
  *       200:
  *         description: List of safety reports retrieved successfully

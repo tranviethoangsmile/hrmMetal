@@ -1,14 +1,13 @@
 import { Router, Request, Response } from 'express';
 import { findByName } from '../../../controllers';
-import { IFindByName } from '../../../interfaces';
 import { errorResponse, successResponse } from '../../../helpers';
 
 const userFindByNameRouter: Router = Router();
 
 userFindByNameRouter.post('', async (req: Request, res: Response) => {
     try {
-        const name: IFindByName | undefined = req.body.name;
-        if (!name?.name) {
+        const name: string | undefined = req.body.name;
+        if (!name) {
             return errorResponse(res, 400, 'Name is required');
         }
         const users = await findByName(name);

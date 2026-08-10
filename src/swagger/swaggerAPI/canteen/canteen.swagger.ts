@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /canteen:
+ * /api/version/v1/canteen:
  *   post:
  *     summary: Create a new canteen
  *     tags: [Canteens]
@@ -75,7 +75,7 @@
 
 /**
  * @swagger
- * /canteen/{id}:
+ * /api/version/v1/canteen/{id}:
  *   get:
  *     summary: Get a canteen by ID
  *     tags: [Canteens]
@@ -132,7 +132,7 @@
 
 /**
  * @swagger
- * /canteen:
+ * /api/version/v1/canteen:
  *   get:
  *     summary: Get all canteens
  *     tags: [Canteens]

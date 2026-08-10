@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /api/version/v1/dashboards/admin/options/enums:
+ * /api/version/v1/dashboards/admin/options/get-enums:
  *   get:
  *     summary: Get admin enum options
  *     tags: [Admin Options]
