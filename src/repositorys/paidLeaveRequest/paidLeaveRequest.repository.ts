@@ -1,4 +1,5 @@
 import { Department, PaidLeaveRequest, User } from '../../models';
+import { Transaction } from 'sequelize';
 
 import { IPaidLeaveRequestRepo } from '../interfaces/paidLeaveRequest/IPaidLeaveRequestRepo.interface';
 
@@ -252,7 +253,10 @@ class PaidLeaveRequestRepository implements IPaidLeaveRequestRepo {
         }
     }
 
-    async UPDATE_CONFIRM_PAID_LEAVE_REQUEST_FROM_ADMIN(field: any) {
+    async UPDATE_CONFIRM_PAID_LEAVE_REQUEST_FROM_ADMIN(
+        field: any,
+        transaction?: Transaction,
+    ) {
         try {
             const update_confirm = await PaidLeaveRequest.update(
                 {
@@ -263,6 +267,7 @@ class PaidLeaveRequestRepository implements IPaidLeaveRequestRepo {
                     where: {
                         id: field.id,
                     },
+                    transaction,
                 },
             );
             if (update_confirm.toString() !== '1') {

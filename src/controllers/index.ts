@@ -77,7 +77,7 @@ import { SEARCH_LOGS_CONTROLLER } from './auditLogs/auditLogs.controller';
 import {
     create_event_check_controller,
     search_event_checked_controller,
-} from './evenCheck/evenCheck.controller';
+} from './eventCheck/eventCheck.controller';
 import {
     create_inventory_controller,
     update_inventory_controller,

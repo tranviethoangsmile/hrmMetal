@@ -1,6 +1,12 @@
 import { User } from '../../../models';
+import { Transaction } from 'sequelize';
 
 export interface IUserRepository {
+    DEDUCT_PAID_DAYS_OF_USER(
+        user_id: string,
+        days: number,
+        transaction?: Transaction,
+    ): Promise<{ success: boolean; data?: { paid_days: number }; message?: string }>;
     userCreate(
         user: any,
     ): Promise<{ success: boolean; data?: User; message?: string }>;

@@ -3,7 +3,7 @@ import {
     daily_report_create,
     find_all_report,
     find_report_by_id,
-} from '../../controllers/dailyReport/dailyReport.controler';
+} from '../../controllers/dailyReport/dailyReport.controller';
 import dailyRpRouter from './moduleReportRouter/dailyReport.router';
 import createDailyReportRouter from './create/create';
 import getAllDailyReport from './getAllDailyReport/getAllDailyReport.router';

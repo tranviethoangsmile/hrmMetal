@@ -791,7 +791,7 @@
  *               feedback:
  *                 type: string
  *                 nullable: true
- *     description: `leader_id` and `actor_name` are injected from the authenticated user and do not need to be sent in the request body.
+ *     description: The `leader_id` and `actor_name` fields are injected from the authenticated user and do not need to be sent in the request body.
  *     responses:
  *       202:
  *         description: Paid leave request updated successfully

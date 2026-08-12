@@ -1,4 +1,5 @@
 import { PaidLeaveRequest } from '../../../models';
+import { Transaction } from 'sequelize';
 
 export interface IPaidLeaveRequestRepo {
     CREATE_PAID_LEAVE_REQUEST(
@@ -25,6 +26,7 @@ export interface IPaidLeaveRequestRepo {
     ): Promise<{ success: boolean; message?: string }>;
     UPDATE_CONFIRM_PAID_LEAVE_REQUEST_FROM_ADMIN(
         field: any,
+        transaction?: Transaction,
     ): Promise<{ success: boolean; message?: string }>;
     GET_PAID_LEAVE_REQUEST_BY_ID(
         id: string,

@@ -2,10 +2,10 @@ import { Request, Response, Router } from 'express';
 import { update, destroy, findById, findAll } from '../../controllers';
 import { CreateField, UpdateField } from '../../interfaces';
 import { errorResponse, successResponse } from '../../helpers';
-import uploadAvatar from './userRouterModul/uploadRouterModul';
-import findUser from './userRouterModul/findAllUserWithField';
-import getUserWithDepartmentId from './userRouterModul/getUserWithDepartmentId';
-import userFindByNameRouter from './userRouterModul/findByName';
+import uploadAvatar from './userRouterModule/uploadAvatar.router';
+import findUser from './userRouterModule/findAllUserWithField';
+import getUserWithDepartmentId from './userRouterModule/getUserWithDepartmentId';
+import userFindByNameRouter from './userRouterModule/findByName';
 import getAllUserForOtRequestFeatureRouter from './getAllUserForOtRequestFeature/getAllUserForOtRequestFeature.router';
 
 const userRouters: Router = Router();

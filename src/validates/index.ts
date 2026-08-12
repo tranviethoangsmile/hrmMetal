@@ -44,7 +44,7 @@ import {
 import {
     validate_create_information,
     validate_search_all_information,
-} from './infomation/infomation.validate';
+} from './information/information.validate';
 import {
     valid_create_daily_report,
     valid_search_daily_report,

@@ -1,14 +1,17 @@
 import { Checkin, Department, User } from '../../models';
 import moment from 'moment-timezone';
-import { Op } from 'sequelize';
+import { Op, Transaction } from 'sequelize';
 import { ICheckinRepository } from '../interfaces/checkin/ICheckinRepository.interface';
 
 class CheckinRepository implements ICheckinRepository {
-    async create_checkin(data: any) {
+    async create_checkin(data: any, transaction?: Transaction) {
         try {
-            const create_value_checkin: Checkin | null = await Checkin.create({
-                ...data,
-            });
+            const create_value_checkin: Checkin | null = await Checkin.create(
+                {
+                    ...data,
+                },
+                { transaction },
+            );
             if (create_value_checkin == null) {
                 throw new Error('create checkin not success');
             }
@@ -23,7 +26,7 @@ class CheckinRepository implements ICheckinRepository {
             };
         }
     }
-    async update_checkin(field: any) {
+    async update_checkin(field: any, transaction?: Transaction) {
         try {
             const update_value_checkin = await Checkin.update(
                 {
@@ -38,6 +41,7 @@ class CheckinRepository implements ICheckinRepository {
                         date: field.date,
                         work_shift: field.work_shift,
                     },
+                    transaction,
                 },
             );
             if (update_value_checkin[0] < 1) {

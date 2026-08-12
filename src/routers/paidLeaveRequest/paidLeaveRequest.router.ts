@@ -9,7 +9,7 @@ import {
 
 import { very_role } from '../../middlewares';
 import { errorResponse, successResponse } from '../../helpers';
-import { IUpdatePaidLeave } from '../../interfaces'
+import { IUpdatePaidLeave } from '../../interfaces';
 const paidLeaveRouter: Router = Router();
 paidLeaveRouter.use('/create', create_router);
 paidLeaveRouter.use('/search', searchLeaveRouter);
@@ -18,16 +18,24 @@ paidLeaveRouter.use('/delete', deletePaidLeaveRouter);
 paidLeaveRouter.put('/', very_role, async (req: Request, res: Response) => {
     try {
         const data: IUpdatePaidLeave = req.body;
-        if(!data?.id){
-            return errorResponse(res, 400, `id is required`)
+        if (!data?.id) {
+            return errorResponse(res, 400, `id is required`);
         }
-        const paid_leave = await update_is_active_paid_leave_controller(data)
-        if(!paid_leave?.success){
-            return errorResponse(res, 200, paid_leave?.message || 'Failed to update paid leave')
+        const paid_leave = await update_is_active_paid_leave_controller(data);
+        if (!paid_leave?.success) {
+            return errorResponse(
+                res,
+                400,
+                paid_leave?.message || 'Failed to update paid leave'
+            );
         }
-        return successResponse(res, 202)
+        return successResponse(res, 202);
     } catch (error: any) {
-        return errorResponse(res, 500, error?.message || 'Internal server error');
+        return errorResponse(
+            res,
+            500,
+            error?.message || 'Internal server error'
+        );
     }
 });
 export default paidLeaveRouter;

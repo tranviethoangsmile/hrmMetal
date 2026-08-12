@@ -3,7 +3,7 @@ import createPayrollRouter from './create/create';
 import updatePayrollRouter from './update/update';
 import searchPayrollRouter from './search/search';
 import searchPayrollByIdRouter from './searchById/searchById.router';
-import destroyPayrollRouter from './destroy/destoy';
+import destroyPayrollRouter from './destroy/destroy';
 const payrollRouter: Router = Router();
 payrollRouter.use('/create', createPayrollRouter);
 payrollRouter.use('/update', updatePayrollRouter);

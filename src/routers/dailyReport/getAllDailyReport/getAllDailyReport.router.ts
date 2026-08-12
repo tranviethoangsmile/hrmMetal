@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { find_all_report } from '../../../controllers/dailyReport/dailyReport.controler';
+import { find_all_report } from '../../../controllers/dailyReport/dailyReport.controller';
 import { search_report } from '../../../interfaces/dailyReport/dailyReport.interface';
 import { valid_search_daily_report } from '../../../validates/dailyReport/dailyReport.validate';
 import { Products } from '../../../enum/product.enum';

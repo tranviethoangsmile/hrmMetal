@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import createDepRouter from './create/create.router';
-import getAllDepRouter from './getAll/getall.router';
-import getDepByIdRouter from './getById/getbyid.router';
+import getAllDepRouter from './getAll/getAll.router';
+import getDepByIdRouter from './getById/getById.router';
 const depRouter: Router = Router();
 
 depRouter.use('/create', createDepRouter);

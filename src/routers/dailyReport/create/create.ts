@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { daily_report_create } from '../../../controllers/dailyReport/dailyReport.controler';
+import { daily_report_create } from '../../../controllers/dailyReport/dailyReport.controller';
 import { create_daily_report } from '../../../interfaces/dailyReport/dailyReport.interface';
 import { errorResponse, successResponse } from '../../../helpers';
 

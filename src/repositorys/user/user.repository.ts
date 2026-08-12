@@ -1,4 +1,4 @@
-import { Op } from 'sequelize';
+import { Op, Transaction } from 'sequelize';
 import { User, Department } from '../../models';
 import { IUserRepository } from '../interfaces';
 class UserRepository implements IUserRepository {
@@ -345,6 +345,44 @@ class UserRepository implements IUserRepository {
             return {
                 success: false,
                 message: error?.message,
+            };
+        }
+    }
+    async DEDUCT_PAID_DAYS_OF_USER(
+        user_id: string,
+        days: number,
+        transaction?: Transaction,
+    ) {
+        try {
+            const user: User | null = await User.findByPk(user_id, {
+                attributes: ['id', 'paid_days'],
+                transaction,
+            });
+            if (user === null) {
+                throw new Error(`user not found`);
+            }
+            const currentPaidDays = Number(user.paid_days) || 0;
+            if (currentPaidDays < days) {
+                throw new Error(
+                    `insufficient paid leave days: remaining ${currentPaidDays}, need ${days}`,
+                );
+            }
+            const newPaidDays = currentPaidDays - days;
+            const updated = await User.update(
+                { paid_days: newPaidDays },
+                { where: { id: user_id }, transaction },
+            );
+            if (updated.toString() !== '1') {
+                throw new Error(`update paid days failed`);
+            }
+            return {
+                success: true,
+                data: { paid_days: newPaidDays },
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `repo: ${error?.message}`,
             };
         }
     }

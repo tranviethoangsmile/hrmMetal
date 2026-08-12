@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { find_report } from '../../../controllers/dailyReport/dailyReport.controler';
+import { find_report } from '../../../controllers/dailyReport/dailyReport.controller';
 import moment from 'moment-timezone';
 import { errorResponse, successResponse } from '../../../helpers';
 

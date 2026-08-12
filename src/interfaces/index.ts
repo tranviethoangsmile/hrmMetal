@@ -46,7 +46,7 @@ import {
 import {
     search_event_checked,
     create_event_check_interface,
-} from './evenCheck/eventCheck.interface';
+} from './eventCheck/eventCheck.interface';
 import { CREATE_DEPARETMENT } from './department/IDepartment.interface';
 import {
     search_report,

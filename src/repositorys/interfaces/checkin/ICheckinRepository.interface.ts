@@ -1,9 +1,14 @@
 import { Checkin } from '../../../models';
+import { Transaction } from 'sequelize';
 export interface ICheckinRepository {
     create_checkin(
         data: any,
+        transaction?: Transaction,
     ): Promise<{ success: boolean; data?: Checkin; message?: string }>;
-    update_checkin(field: any): Promise<{ success: boolean; message?: string }>;
+    update_checkin(
+        field: any,
+        transaction?: Transaction,
+    ): Promise<{ success: boolean; message?: string }>;
     isChecked(
         field: any,
     ): Promise<{ success: boolean; data?: Checkin; message?: string }>;

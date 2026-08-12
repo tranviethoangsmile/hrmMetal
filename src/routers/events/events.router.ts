@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import deleteEventsRouter from './delete/delete.router';
 import updateEventsRouter from './update/update.router';
-import searchEventById from './searchById/searchEvenById.router';
+import searchEventById from './searchById/searchEventById.router';
 import getAllEventRouter from './getAll/getAllEvents.router';
-import getEventsWithPositionRouter from './getWithPosition/getWithPostition.router';
+import getEventsWithPositionRouter from './getWithPosition/getWithPosition.router';
 const eventsRouter: Router = Router();
 eventsRouter.use('/delete', deleteEventsRouter);
 eventsRouter.use('/update', updateEventsRouter);

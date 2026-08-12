@@ -3,18 +3,21 @@ import {
     validate_update_paid,
     validate_search_paid,
     validate_delete_paid_leave,
-    validate_update_approve_paid_leave_request
+    validate_update_approve_paid_leave_request,
 } from '../../validates';
 import {
     CheckinRepository,
     PaidLeaveRequestRepository,
+    UserRepository,
 } from '../../repositorys';
 import { CREATE_LOGS_USECASE } from '../auditLogs/auditLogs.usecase';
 import { IAuditLogsCreate } from '../../interfaces';
 import { findUserById } from '../user/user.useCase';
+import { db } from '../../dbs';
 const paidLeaveRequestRepository = new PaidLeaveRequestRepository();
 
 const checkinRepository = new CheckinRepository();
+const userRepository = new UserRepository();
 const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
     try {
         const isValid = validate_update_paid(field);
@@ -23,33 +26,59 @@ const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
         }
         const pail_leave =
             await paidLeaveRequestRepository.GET_PAID_LEAVE_REQUEST_BY_ID(
-                field.id,
+                field.id
             );
 
         if (!pail_leave?.success || !pail_leave?.data?.is_approve) {
             throw new Error(pail_leave?.message || `unApprove this item`);
         }
-        const user = await findUserById(field?.user_id);
-        
-        if(!user?.success) {
-            throw new Error(`${user?.message}`)
-        }
-        const checkin_field = {
-            user_id: pail_leave?.data?.user_id,
-            date: pail_leave?.data?.date_leave,
-            is_paid_leave: true,
-            position: pail_leave?.data?.position
-        };
-        const checkin = await checkinRepository.create_checkin(checkin_field);
-        if (!checkin?.success) {
-            throw new Error(checkin?.message);
-        }
-        const update_confirm =
-            await paidLeaveRequestRepository.UPDATE_CONFIRM_PAID_LEAVE_REQUEST_FROM_ADMIN(
-                field,
+        if (pail_leave?.data?.is_confirm) {
+            throw new Error(
+                `This paid leave request has already been confirmed`
             );
-        if (!update_confirm.success) {
-            throw new Error(update_confirm?.message);
+        }
+        const user = await findUserById(field?.user_id);
+
+        if (!user?.success) {
+            throw new Error(`${user?.message}`);
+        }
+        const days = pail_leave?.data?.is_half ? 0.5 : 1;
+        const transaction_result = await db.transaction(async t => {
+            if (pail_leave?.data?.is_paid !== false) {
+                const deduct = await userRepository.DEDUCT_PAID_DAYS_OF_USER(
+                    pail_leave?.data?.user_id,
+                    days,
+                    t
+                );
+                if (!deduct?.success) {
+                    throw new Error(deduct?.message);
+                }
+            }
+            const checkin_field = {
+                user_id: pail_leave?.data?.user_id,
+                date: pail_leave?.data?.date_leave,
+                is_paid_leave: true,
+                position: pail_leave?.data?.position,
+            };
+            const checkin = await checkinRepository.create_checkin(
+                checkin_field,
+                t
+            );
+            if (!checkin?.success) {
+                throw new Error(checkin?.message);
+            }
+            const update_confirm =
+                await paidLeaveRequestRepository.UPDATE_CONFIRM_PAID_LEAVE_REQUEST_FROM_ADMIN(
+                    field,
+                    t
+                );
+            if (!update_confirm.success) {
+                throw new Error(update_confirm?.message);
+            }
+            return { success: true, message: update_confirm.message };
+        });
+        if (!transaction_result?.success) {
+            throw new Error(`transaction failed`);
         }
         const log: IAuditLogsCreate = {
             actor_id: field?.admin_id,
@@ -59,27 +88,27 @@ const update_confirm_from_admin_paid_leave_request_use = async (field: any) => {
             resource_id: field?.id,
             old_value: {
                 id: field?.id,
-                is_confirm: false
+                is_confirm: false,
             },
             new_value: {
                 id: field?.id,
-                is_confirm: true
-            }
-        }
+                is_confirm: true,
+            },
+        };
 
         try {
             const write_log = await CREATE_LOGS_USECASE(log);
-            if(write_log?.success){
-                console.log(`write log success`)
-            }else {
-                console.log(`write log failed: ${write_log?.message}`)
+            if (write_log?.success) {
+                console.log(`write log success`);
+            } else {
+                console.log(`write log failed: ${write_log?.message}`);
             }
         } catch (error: any) {
-            console.log(`${error?.message}`)
+            console.log(`${error?.message}`);
         }
         return {
             success: true,
-            message: update_confirm?.message,
+            message: transaction_result.message,
         };
     } catch (error: any) {
         return {
@@ -94,13 +123,22 @@ const update_approve_leave_request_use = async (field: any) => {
         if (isValid?.error) {
             throw new Error(`${isValid?.error.message}`);
         }
-        const paidLeaveRequest = await paidLeaveRequestRepository.GET_PAID_LEAVE_REQUEST_BY_ID(field?.id)
-        if(!paidLeaveRequest?.success){
-            throw new Error(`${paidLeaveRequest?.message}`)
+        const paidLeaveRequest =
+            await paidLeaveRequestRepository.GET_PAID_LEAVE_REQUEST_BY_ID(
+                field?.id
+            );
+        if (!paidLeaveRequest?.success || paidLeaveRequest?.data?.is_approve) {
+            throw new Error(
+                `${
+                    paidLeaveRequest?.data?.is_approve
+                        ? 'already approved'
+                        : paidLeaveRequest?.message
+                }`
+            );
         }
         const update =
             await paidLeaveRequestRepository.UPDATE_APPROVE_PAID_LEAVE_REQUEST(
-                field,
+                field
             );
         if (!update?.success) {
             throw new Error(`${update?.message}`);
@@ -113,25 +151,25 @@ const update_approve_leave_request_use = async (field: any) => {
             resource_id: field?.id,
             old_value: {
                 id: field?.id,
-                is_confirm: false
+                is_confirm: false,
             },
             new_value: {
                 id: field?.id,
-                is_confirm: true
-            }
-        }
+                is_confirm: true,
+            },
+        };
         try {
             const write_log = await CREATE_LOGS_USECASE(log);
-            if(write_log?.success){
-                console.log(`write log success`)
-            }else {
-                console.log(`write log failed: ${write_log?.message}`)
+            if (write_log?.success) {
+                console.log(`write log success`);
+            } else {
+                console.log(`write log failed: ${write_log?.message}`);
             }
         } catch (error: any) {
-            console.log(`${error?.message}`)
+            console.log(`${error?.message}`);
         }
         return {
-            success: true
+            success: true,
         };
     } catch (error: any) {
         return {
@@ -148,7 +186,7 @@ const search_leave_request_with_field_use = async (field: any) => {
         }
         const leaves =
             await paidLeaveRequestRepository.SEARCH_PAID_LEAVE_REQUEST_WITH_FIELD(
-                field,
+                field
             );
         if (!leaves?.success) {
             throw new Error(`${leaves?.message}`);
@@ -187,7 +225,9 @@ const create_paid_leave = async (data: any) => {
 const find_paid_leave = async (leader_id: string) => {
     try {
         const paid_leaves =
-            await paidLeaveRequestRepository.GET_ALL_PAID_LEAVE_REQUEST_FOR_LEADER_AND_OTHER(leader_id);
+            await paidLeaveRequestRepository.GET_ALL_PAID_LEAVE_REQUEST_FOR_LEADER_AND_OTHER(
+                leader_id
+            );
         if (!paid_leaves.success) {
             throw new Error(`${paid_leaves?.message}`);
         }
@@ -211,7 +251,7 @@ const update_paid_leave = async (data: any) => {
         }
         const paid_leave =
             await paidLeaveRequestRepository.UPDATE_ACTIVE_PAID_LEAVE_REQUEST(
-                data.id,
+                data.id
             );
         if (!paid_leave?.success) {
             throw new Error(`${paid_leave?.message}`);
@@ -236,7 +276,7 @@ const delete_paid_leave_request_with_by_id_use = async (delete_value: any) => {
         }
         const paid_leave =
             await paidLeaveRequestRepository.GET_PAID_LEAVE_REQUEST_BY_ID(
-                delete_value.id,
+                delete_value.id
             );
         if (!paid_leave?.success) {
             throw new Error(paid_leave?.message);
@@ -246,7 +286,7 @@ const delete_paid_leave_request_with_by_id_use = async (delete_value: any) => {
         }
         const delete_paid_leave =
             await paidLeaveRequestRepository.DELETE_PAID_LEAVE_REQUEST_BY_ID_REPO(
-                delete_value.id,
+                delete_value.id
             );
         if (!delete_paid_leave?.success) {
             throw new Error(`${delete_paid_leave?.message}`);

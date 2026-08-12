@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import getAllOvertimeRequestRouter from './getAll/getallOverRequestRouter.router';
-import getOvertimeRequestByIdRouter from './getById/getById.Router';
+import getAllOvertimeRequestRouter from './getAll/getAllOvertimeRequest.router';
+import getOvertimeRequestByIdRouter from './getById/getById.router';
 import updateIsConfirmOvertimeRequestRouter from './updateIsConfirm/updateIsConfirmRouter.router';
 import getOvertimeByUserIdRouter from './getOTByUserId/getOvertimeByUserId.router';
 import { authAdminRole } from '../../middlewares';

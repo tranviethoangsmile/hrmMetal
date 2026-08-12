@@ -1,6 +1,6 @@
 import enumToArray from './EnumToArray/EnumtoArray';
-import errorResponse from './responeHandle/errorRespone';
-import successResponse from './responeHandle/successRespone';
+import errorResponse from './responseHandle/errorResponse';
+import successResponse from './responseHandle/successResponse';
 import { isValidEnumValue } from './validateEnumValue/validateEnumValue.helpers';
 export {
     enumToArray,

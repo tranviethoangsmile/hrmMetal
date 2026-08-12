@@ -4,7 +4,7 @@ import updateDependentSupportAmountRouter from "./update/updateDependentSupportA
 import updateConfirmDependentSupportAmountRouter from "./update_confirm/updateConfirmDependentSupportAmount.router";
 import deleteDependentSupportAmountRouter from "./delete/deleteDependentSupportAmount.router";
 import getDependentSupportAmountRouter from "./get/getDependentSupportAmount.router";
-import getDependentSupportAmountByTaxDependentIdAndYearRouter from "./getDependentSupportAmountByTaxDependentIDAndYear/getDenpendentSupportAmountByTaxDependentIdAndYear.router";
+import getDependentSupportAmountByTaxDependentIdAndYearRouter from "./getDependentSupportAmountByTaxDependentIDAndYear/getDependentSupportAmountByTaxDependentIdAndYear.router";
 const dependentSupportAmountRouter: Router = Router();
 dependentSupportAmountRouter.use('/create', createDependentSupportAmountRouter)
 dependentSupportAmountRouter.use('/update', updateDependentSupportAmountRouter )
