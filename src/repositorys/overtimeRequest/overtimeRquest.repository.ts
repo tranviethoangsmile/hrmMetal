@@ -121,7 +121,7 @@ class OvertimeRequestRepository implements IOvertimeRequestRepo {
                     where: {
                         id: data.id,
                     },
-                },
+                }
             );
             if (result[0] === 0) {
                 throw new Error('Update failed');
@@ -157,7 +157,7 @@ class OvertimeRequestRepository implements IOvertimeRequestRepo {
             };
         }
     }
-    async UPDATE_APPROVE_ADMIN(data: any) {
+    async UPDATE_APPROVE_ADMIN(id: string) {
         try {
             const result = await OvertimeRequest.update(
                 {
@@ -165,9 +165,9 @@ class OvertimeRequestRepository implements IOvertimeRequestRepo {
                 },
                 {
                     where: {
-                        id: data.id,
+                        id: id,
                     },
-                },
+                }
             );
             if (result[0] === 0) {
                 throw new Error('Update failed');

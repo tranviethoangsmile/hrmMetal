@@ -76,12 +76,12 @@ const create_overtime_request_usecase = async (data: any) => {
                 message: `Overtime Request from ${leader.data?.name} in ${department.data?.name} department`,
             };
             const notification = await create_notification_usecase(
-                field_notification,
+                field_notification
             );
 
             if (!notification?.success) {
                 console.error(
-                    `Notification creation failed: ${notification?.message}`,
+                    `Notification creation failed: ${notification?.message}`
                 );
             }
         } catch (error: any) {
@@ -179,11 +179,11 @@ const delete_overtime_request_by_id_usecase = async (data: any) => {
         if (!request.success) {
             throw new Error(request.message);
         }
-        if (request.data?.leader_id !== data.user_id) {
+        if (request.data?.leader_id !== data.leader_id) {
             throw new Error('You are not allowed to delete this request');
         }
         const overtime_request = await overtimeRequestRepo.DELETE_BY_ID(
-            data.id,
+            data.id
         );
         if (!overtime_request.success) {
             throw new Error(overtime_request.message);
@@ -199,18 +199,18 @@ const delete_overtime_request_by_id_usecase = async (data: any) => {
     }
 };
 
-const update_approved_admin_overtime_request_usecase = async (data: any) => {
+const update_approved_admin_overtime_request_usecase = async (id: string) => {
     try {
-        const isVlalid = validate_update_approved_admin_overtime_request(data);
+        const isVlalid = validation_id(id);
         if (isVlalid.error) {
             throw new Error(isVlalid.error.message);
         }
-        const this_overtime = await overtimeRequestRepo.GET_BY_ID(data.id);
+        const this_overtime = await overtimeRequestRepo.GET_BY_ID(id);
         if (!this_overtime.success) {
             throw new Error(this_overtime.message);
         }
         const overtimeRequest = await overtimeRequestRepo.UPDATE_APPROVE_ADMIN(
-            data,
+            id
         );
         if (!overtimeRequest.success) {
             throw new Error(overtimeRequest.message);
@@ -233,7 +233,7 @@ const get_overtime_request_by_user_id_usecase = async (userId: string) => {
             throw new Error(isVlalid.error.message);
         }
         const overtime_requests = await overtimeRequestRepo.GET_BY_USER_ID(
-            userId,
+            userId
         );
         if (!overtime_requests.success) {
             throw new Error(overtime_requests.message);

@@ -18,5 +18,5 @@ export interface IUpdateOvertimeRequest {
 
 export interface IDeleteOvertimeRequest {
     id: string;
-    user_id: string;
+    leader_id: string;
 }

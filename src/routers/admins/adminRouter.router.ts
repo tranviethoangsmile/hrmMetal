@@ -10,6 +10,7 @@ import departmentRouter from './departments';
 import informationRouter from './informations';
 import notificationRouter from './notifications';
 import taxDependentRouter from './taxDependents';
+import overtimeRequestRouter from './overtimeRequest';
 import { authJwt, requireRoles } from '../../middlewares';
 const adminRouter: Router = Router();
 
@@ -26,4 +27,5 @@ adminRouter.use('/departments', departmentRouter);
 adminRouter.use('/informations', informationRouter);
 adminRouter.use('/notifications', notificationRouter);
 adminRouter.use('/tax-dependents', taxDependentRouter);
+adminRouter.use('/overtime-requests', overtimeRequestRouter);
 export default adminRouter;

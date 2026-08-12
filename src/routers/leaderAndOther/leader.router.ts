@@ -1,10 +1,12 @@
 import { Router } from 'express';
 import paidLeaveRouter from './paidLeave';
 import inventoryRouter from './inventorys';
+import overtimeRequestRouter from './overtimeRequest';
 import { authJwt, requireRoles } from '../../middlewares';
 const leaderRouter: Router = Router();
 leaderRouter.use(authJwt);
 leaderRouter.use(requireRoles(['LEADER', 'SUPERVISOR', 'MANAGER']));
 leaderRouter.use('/inventorys', inventoryRouter);
 leaderRouter.use('/paidleaves', paidLeaveRouter);
+leaderRouter.use('/overtime-requests', overtimeRequestRouter);
 export default leaderRouter;

@@ -26,7 +26,7 @@ const validate_update_is_confirm_overtime_request = (data: any) => {
 
 const delete_overtime_request_schema = Joi.object({
     id: Joi.string().guid().required(),
-    user_id: Joi.string().guid().required(),
+    leader_id: Joi.string().guid().required(),
 });
 
 const validate_delete_overtime_request = (data: any) => {
