@@ -117,7 +117,7 @@
  *                 type: string
  *                 format: uuid
  *     responses:
- *       200:
+ *       202:
  *         description: Safety report updated successfully
  *       400:
  *         description: Bad request
@@ -153,7 +153,7 @@
  *                 type: string
  *                 nullable: true
  *     responses:
- *       200:
+ *       202:
  *         description: Safety report confirmed successfully
  *       400:
  *         description: Bad request
@@ -182,7 +182,7 @@
  *                 description: ID of the safety report to delete
  *                 example: "report123"
  *     responses:
- *       200:
+ *       202:
  *         description: Safety report deleted successfully
  *       400:
  *         description: Bad request
@@ -286,7 +286,7 @@
  *                 description: ID of the department
  *                 example: "dept123"
  *     responses:
- *       200:
+ *       202:
  *         description: List of safety reports retrieved successfully
  *       400:
  *         description: Bad request

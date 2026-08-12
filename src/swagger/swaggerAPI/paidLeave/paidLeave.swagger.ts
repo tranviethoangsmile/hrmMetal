@@ -181,17 +181,8 @@
  *             type: object
  *             required:
  *               - id
- *               - user_id
- *               - admin_id
  *             properties:
  *               id:
- *                 type: string
- *                 format: uuid
- *               user_id:
- *                 type: string
- *                 format: uuid
- *                 description: Used by very_role middleware.
- *               admin_id:
  *                 type: string
  *                 format: uuid
  *               feedback:

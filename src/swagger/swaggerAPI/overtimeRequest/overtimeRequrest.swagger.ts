@@ -6,20 +6,29 @@
  */
 /**
  * @swagger
- * /api/version/v1/overtimerequest/create:
+ * /api/version/v1/dashboards/leader/overtime-requests/create:
  *   post:
  *     summary: Create a new overtime request
  *     tags:
  *       - OvertimeRequest
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - user_id
+ *               - date
+ *               - position
+ *               - overtime_hours
+ *               - description
  *             properties:
  *               user_id:
  *                 type: string
+ *                 format: uuid
  *                 description: ID of the user requesting overtime.
  *                 example: "123e4567-e89b-12d3-a456-426614174000"
  *               date:
@@ -30,11 +39,7 @@
  *               position:
  *                 type: string
  *                 description: Position of the user.
- *                 example: "Software Engineer"
- *               department_id:
- *                 type: string
- *                 description: ID of the department.
- *                 example: "dept-001"
+ *                 example: "MANAGER"
  *               overtime_hours:
  *                 type: number
  *                 description: Number of overtime hours requested.
@@ -43,18 +48,6 @@
  *                 type: string
  *                 description: Description or reason for the overtime request.
  *                 example: "Working on project deadline."
- *               leader_id:
- *                 type: string
- *                 description: ID of the leader approving the request.
- *                 example: "leader-123"
- *             required:
- *               - user_id
- *               - date
- *               - position
- *               - department_id
- *               - overtime_hours
- *               - description
- *               - leader_id
  *     responses:
  *       201:
  *         description: Overtime request created successfully.
@@ -85,9 +78,10 @@
  *                     position:
  *                       type: string
  *                       description: Position of the user.
- *                       example: "Software Engineer"
+ *                       example: "MANAGER"
  *                     department_id:
  *                       type: string
+ *                       format: uuid
  *                       description: ID of the department.
  *                       example: "dept-001"
  *                     overtime_hours:
@@ -100,6 +94,7 @@
  *                       example: "Working on project deadline."
  *                     leader_id:
  *                       type: string
+ *                       format: uuid
  *                       description: ID of the leader approving the request.
  *                       example: "leader-123"
  *                     is_confirm:
@@ -152,12 +147,14 @@
  */
 /**
  * @swagger
- * /api/version/v1/overtimerequest/deletebyid:
+ * /api/version/v1/dashboards/leader/overtime-requests/destroy:
  *   post:
  *     summary: Delete an overtime request
  *     tags:
  *       - OvertimeRequest
  *     description: Delete an overtime request by its ID
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -166,20 +163,14 @@
  *             type: object
  *             required:
  *               - id
- *               - user_id
  *             properties:
  *               id:
  *                 type: string
  *                 format: uuid
  *                 description: ID of the overtime request to delete
  *                 example: "req-001"
- *               user_id:
- *                 type: string
- *                 format: uuid
- *                 description: ID of the user deleting the request
- *                 example: "user-123"
  *     responses:
- *       202:
+ *       200:
  *         description: Overtime request deleted successfully
  *         content:
  *           application/json:
@@ -189,19 +180,6 @@
  *                 success:
  *                   type: boolean
  *                   example: true
- *       200:
- *         description: Request processed but failed to delete
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Failed to delete overtime request"
  *       400:
  *         description: Missing required fields
  *         content:
@@ -214,7 +192,7 @@
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: "Missing values: user_id, id"
+ *                   example: "\"id\" is required"
  *       500:
  *         description: Internal server error
  *         content:
@@ -236,6 +214,8 @@
  *     summary: Retrieve all overtime requests
  *     tags:
  *       - OvertimeRequest
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       202:
  *         description: Successfully retrieved all overtime requests.
@@ -258,6 +238,7 @@
  *                         example: "req-001"
  *                       user_id:
  *                         type: string
+ *                         format: uuid
  *                         description: ID of the user who made the request.
  *                         example: "123e4567-e89b-12d3-a456-426614174000"
  *                       date:
@@ -268,9 +249,10 @@
  *                       position:
  *                         type: string
  *                         description: Position of the user.
- *                         example: "Software Engineer"
+ *                         example: "MANAGER"
  *                       department_id:
  *                         type: string
+ *                         format: uuid
  *                         description: ID of the department.
  *                         example: "dept-001"
  *                       overtime_hours:
@@ -283,6 +265,7 @@
  *                         example: "Working on project deadline."
  *                       leader_id:
  *                         type: string
+ *                         format: uuid
  *                         description: ID of the leader approving the request.
  *                         example: "leader-123"
  *                       is_confirm:
@@ -293,28 +276,36 @@
  *                         type: boolean
  *                         description: Whether the request has been approved by admin.
  *                         example: false
- *                       user:
+ *                       userDetail:
  *                         type: object
  *                         properties:
  *                           id:
  *                             type: string
+ *                             format: uuid
  *                             description: ID of the user.
  *                             example: "123e4567-e89b-12d3-a456-426614174000"
  *                           name:
  *                             type: string
  *                             description: Name of the user.
  *                             example: "John Doe"
- *                           department:
- *                             type: object
- *                             properties:
- *                               id:
- *                                 type: string
- *                                 description: ID of the department.
- *                                 example: "dept-001"
- *                               name:
- *                                 type: string
- *                                 description: Name of the department.
- *                                 example: "Engineering"
+ *                           avatar:
+ *                             type: string
+ *                             nullable: true
+ *                             description: Avatar URL of the user.
+ *                       leaderDetail:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                             format: uuid
+ *                           name:
+ *                             type: string
+ *                       departmentDetail:
+ *                         type: object
+ *                         properties:
+ *                           name:
+ *                             type: string
+ *                             example: "Engineering"
  *       200:
  *         description: Request processed but failed to retrieve overtime requests.
  *         content:
@@ -355,9 +346,12 @@
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - id
  *             properties:
  *               id:
  *                 type: string
+ *                 format: uuid
  *                 description: ID of the overtime request to retrieve.
  *                 example: "req-001"
  *     responses:
@@ -380,6 +374,7 @@
  *                       example: "req-001"
  *                     user_id:
  *                       type: string
+ *                       format: uuid
  *                       description: ID of the user who made the request.
  *                       example: "123e4567-e89b-12d3-a456-426614174000"
  *                     date:
@@ -390,9 +385,10 @@
  *                     position:
  *                       type: string
  *                       description: Position of the user.
- *                       example: "Software Engineer"
+ *                       example: "MANAGER"
  *                     department_id:
  *                       type: string
+ *                       format: uuid
  *                       description: ID of the department.
  *                       example: "dept-001"
  *                     overtime_hours:
@@ -405,6 +401,7 @@
  *                       example: "Working on project deadline."
  *                     leader_id:
  *                       type: string
+ *                       format: uuid
  *                       description: ID of the leader approving the request.
  *                       example: "leader-123"
  *                     is_confirm:
@@ -415,28 +412,36 @@
  *                       type: boolean
  *                       description: Whether the request has been approved by admin.
  *                       example: false
- *                     user:
+ *                     userDetail:
  *                       type: object
  *                       properties:
  *                         id:
  *                           type: string
+ *                           format: uuid
  *                           description: ID of the user.
  *                           example: "123e4567-e89b-12d3-a456-426614174000"
  *                         name:
  *                           type: string
  *                           description: Name of the user.
  *                           example: "John Doe"
- *                         department:
- *                           type: object
- *                           properties:
- *                             id:
- *                               type: string
- *                               description: ID of the department.
- *                               example: "dept-001"
- *                             name:
- *                               type: string
- *                               description: Name of the department.
- *                               example: "Engineering"
+ *                         avatar:
+ *                           type: string
+ *                           nullable: true
+ *                           description: Avatar URL of the user.
+ *                     leaderDetail:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: string
+ *                           format: uuid
+ *                         name:
+ *                           type: string
+ *                     departmentDetail:
+ *                       type: object
+ *                       properties:
+ *                         name:
+ *                           type: string
+ *                           example: "Engineering"
  *       200:
  *         description: Request processed but failed to retrieve the overtime request.
  *         content:
@@ -479,12 +484,14 @@
  */
 /**
  * @swagger
- * /api/version/v1/overtimerequest/updateisapproved:
+ * /api/version/v1/dashboards/admin/overtime-requests/update-approve-overtime-request:
  *   post:
  *     summary: Approve an overtime request by admin
  *     tags:
  *       - OvertimeRequest
  *     description: Admin approves a confirmed overtime request
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -493,20 +500,14 @@
  *             type: object
  *             required:
  *               - id
- *               - user_id
  *             properties:
  *               id:
  *                 type: string
  *                 format: uuid
  *                 description: ID of the overtime request
  *                 example: "req-001"
- *               user_id:
- *                 type: string
- *                 format: uuid
- *                 description: ID of the admin approving the request
- *                 example: "admin-123"
  *     responses:
- *       202:
+ *       200:
  *         description: Overtime request approved successfully
  *         content:
  *           application/json:
@@ -516,19 +517,6 @@
  *                 success:
  *                   type: boolean
  *                   example: true
- *       200:
- *         description: Request processed but failed to approve
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Failed to approve overtime request"
  *       400:
  *         description: Missing required fields
  *         content:
@@ -541,7 +529,7 @@
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: "Missing values: user_id, id"
+ *                   example: "\"value\" must be a valid GUID"
  *       500:
  *         description: Internal server error
  *         content:
@@ -640,7 +628,7 @@
  * /api/version/v1/overtimerequest/getbyuserid:
  *   post:
  *     tags:
- *       - Overtime Request
+ *       - OvertimeRequest
  *     summary: Get overtime requests by user ID
  *     description: Retrieve all overtime requests for a specific user that are not confirmed
  *     requestBody:

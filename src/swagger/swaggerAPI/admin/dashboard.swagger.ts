@@ -745,6 +745,7 @@
  *     tags: [Dashboards]
  *     security:
  *       - bearerAuth: []
+ *     description: Returns paid leave requests for the authenticated leader. `leader_id` is taken from the access token.
  *     responses:
  *       202:
  *         description: Paid leave requests retrieved successfully
@@ -790,6 +791,7 @@
  *               feedback:
  *                 type: string
  *                 nullable: true
+ *     description: `leader_id` and `actor_name` are injected from the authenticated user and do not need to be sent in the request body.
  *     responses:
  *       202:
  *         description: Paid leave request updated successfully

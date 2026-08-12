@@ -227,6 +227,7 @@
  *   post:
  *     summary: Get users by department ID
  *     tags: [Users]
+ *     description: Expected request body includes `department_id`. Current router-level validation only rejects `null` values before forwarding to the controller.
  *     requestBody:
  *       required: true
  *       content:
@@ -283,6 +284,7 @@
  *                 example: "123e4567-e89b-12d3-a456-426614174000"
  *               media_path:
  *                 type: string
+ *                 description: Avatar path passed by the client and mapped to `avatar` in the server.
  *                 example: "/uploads/avatar.png"
  *     responses:
  *       202:
@@ -297,6 +299,17 @@
  *                   example: true
  *       400:
  *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "bad request without avatar, user_id"
  *       500:
  *         description: Server error
  */

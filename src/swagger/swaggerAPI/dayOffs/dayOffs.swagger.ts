@@ -114,7 +114,7 @@
  *     security:
  *       - bearerAuth: []
  *     responses:
- *       202:
+ *       200:
  *         description: Days off retrieved successfully
  *         content:
  *           application/json:
@@ -194,7 +194,7 @@
  *                 description: ID of the day off record
  *                 example: "dayoff_id_123"
  *     responses:
- *       202:
+ *       200:
  *         description: Day off found successfully
  *         content:
  *           application/json:
@@ -245,7 +245,9 @@
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: "ID is required"
+ *                   example: "ID is required and must be a non-empty string"
+ *       404:
+ *         description: Day off not found
  *       500:
  *         description: Server error
  *         content:
@@ -285,7 +287,7 @@
  *                 description: ID of the day off record to delete
  *                 example: "dayoff_id_123"
  *     responses:
- *       202:
+ *       200:
  *         description: Day off deleted successfully
  *         content:
  *           application/json:
@@ -383,7 +385,7 @@
  *                 description: New user ID for the day off
  *                 example: "user_id_456"
  *     responses:
- *       202:
+ *       200:
  *         description: Day off updated successfully
  *         content:
  *           application/json:
