@@ -21,22 +21,22 @@ const validate_create_paid = (data: any) => {
 
 const schema_update = Joi.object({
     user_id: Joi.string().guid().required(),
-    feedback: Joi.string().allow(null),
+    feedback: Joi.string().allow(null).allow(''),
     admin_id: Joi.string().guid().required(),
     id: Joi.string().guid().required(),
-    actor_name: Joi.string().allow(null)
+    actor_name: Joi.string().allow(null),
 });
 const schema_update_approve = Joi.object({
-    feedback: Joi.string().allow(null),
+    feedback: Joi.string().allow(null).allow(''),
     id: Joi.string().guid().required(),
     is_approve: Joi.boolean().required(),
     leader_id: Joi.string().guid().required(),
-    actor_name: Joi.string().allow(null)
-})
+    actor_name: Joi.string().allow(null),
+});
 
 const validate_update_approve_paid_leave_request = (data: any) => {
-    return schema_update_approve.validate(data)
-}
+    return schema_update_approve.validate(data);
+};
 
 const validate_update_paid = (data: any) => {
     return schema_update.validate(data);
@@ -73,5 +73,5 @@ export {
     validate_update_paid,
     validate_search_paid,
     validate_delete_paid_leave,
-    validate_update_approve_paid_leave_request
+    validate_update_approve_paid_leave_request,
 };

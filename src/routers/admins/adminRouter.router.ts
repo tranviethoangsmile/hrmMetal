@@ -11,10 +11,9 @@ import informationRouter from './informations';
 import notificationRouter from './notifications';
 import taxDependentRouter from './taxDependents';
 import overtimeRequestRouter from './overtimeRequest';
-import { authJwt, requireRoles } from '../../middlewares';
+import { requireRoles } from '../../middlewares';
 const adminRouter: Router = Router();
 
-adminRouter.use(authJwt);
 adminRouter.use(requireRoles(['ADMIN']));
 adminRouter.use('/users', userRouter);
 adminRouter.use('/events', eventRouter);

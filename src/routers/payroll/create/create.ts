@@ -2,10 +2,11 @@ import { Request, Response, Router } from 'express';
 import { create_payroll_controller } from '../../../controllers';
 import { create_payroll } from '../../../interfaces';
 import { errorResponse, successResponse } from '../../../helpers';
+import { requireRoles } from '../../../middlewares';
 
 const createPayrollRouter: Router = Router();
 
-createPayrollRouter.post('/', async (req: Request, res: Response) => {
+createPayrollRouter.post('/', requireRoles(['ADMIN', 'MANAGER']), async (req: Request, res: Response) => {
     try {
         const field: create_payroll = req.body;
         if (

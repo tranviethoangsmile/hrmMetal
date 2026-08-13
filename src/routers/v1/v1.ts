@@ -1,4 +1,5 @@
-import { Router } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
+import { authJwt } from '../../middlewares';
 import userRouters from '../user/user.router';
 import depRouter from '../department/department.router';
 import findRouter from '../find/find.router';
@@ -32,6 +33,19 @@ import taxDependentMainRouter from '../taxDependent/taxDependentRouter.router';
 import dependentSupportAmountRouter from '../dependentSupportAmount/dependentSupportAmount.router';
 import dashboardsRouter from '../dashboards/dashboards.router';
 const v1Router: Router = Router();
+
+const PUBLIC_PATHS = ['/login', '/media'];
+
+v1Router.use((req: Request, res: Response, next: NextFunction) => {
+    const isPublic = PUBLIC_PATHS.some(
+        path => req.path === path || req.path.startsWith(`${path}/`),
+    );
+    if (isPublic) {
+        return next();
+    }
+    return authJwt(req, res, next);
+});
+
 v1Router.use('/department', depRouter);
 v1Router.use('/users', userRouters);
 v1Router.use('/find', findRouter);

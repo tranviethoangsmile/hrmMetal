@@ -6,7 +6,6 @@ import {
 } from '../../controllers';
 import {
     timeOrderLimit,
-    authJwt,
     requireRoles
 } from '../../middlewares';
 import orderRouterModule from './moduleOrderRouter/order.router';
@@ -15,7 +14,6 @@ import { errorResponse, successResponse } from '../../helpers';
 import { create_order } from '../../interfaces';
 
 const orderRouter: Router = Router();
-orderRouter.use(authJwt),
 orderRouter.use(requireRoles(['LEADER','STAFF', 'MANAGER', 'SUPERVISOR']))
 orderRouter.use('/user', orderRouterModule);
 orderRouter.use('/searchorderwithfield', search_order_router);

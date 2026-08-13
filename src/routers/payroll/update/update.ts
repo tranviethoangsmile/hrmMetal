@@ -2,10 +2,11 @@ import { Request, Response, Router } from 'express';
 import { update_payroll_controller } from '../../../controllers';
 import { update_payroll } from '../../../interfaces';
 import { errorResponse, successResponse } from '../../../helpers';
+import { requireRoles } from '../../../middlewares';
 
 const updatePayrollRouter: Router = Router();
 
-updatePayrollRouter.post('/', async (req: Request, res: Response) => {
+updatePayrollRouter.post('/', requireRoles(['ADMIN', 'MANAGER']), async (req: Request, res: Response) => {
     try {
         const field: update_payroll = req.body;
         if (!field || !field.id) {

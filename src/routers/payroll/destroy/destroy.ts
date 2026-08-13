@@ -1,10 +1,11 @@
 import { Request, Response, Router } from 'express';
 import { destroy_payroll_controller } from '../../../controllers';
 import { errorResponse, successResponse } from '../../../helpers';
+import { requireRoles } from '../../../middlewares';
 
 const destroyPayrollRouter: Router = Router();
 
-destroyPayrollRouter.post('/', async (req: Request, res: Response) => {
+destroyPayrollRouter.post('/', requireRoles(['ADMIN', 'MANAGER']), async (req: Request, res: Response) => {
     try {
         const id: string | undefined = req.body.id;
         if (!id) {

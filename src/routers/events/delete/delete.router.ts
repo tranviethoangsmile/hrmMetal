@@ -1,10 +1,11 @@
 import { Request, Response, Router } from 'express';
 import { delete_event_controller } from '../../../controllers';
 import { errorResponse, successResponse } from '../../../helpers';
+import { requireRoles } from '../../../middlewares';
 
 const deleteEventsRouter: Router = Router();
 
-deleteEventsRouter.post('/', async (req: Request, res: Response) => {
+deleteEventsRouter.post('/', requireRoles(['ADMIN']), async (req: Request, res: Response) => {
     try {
         const id: string | undefined = req.body.id;
         if (id === undefined || id === null) {

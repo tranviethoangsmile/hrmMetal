@@ -11,11 +11,11 @@ import { errorResponse, successResponse, isValidEnumValue } from '../../../helpe
 import { io } from '../../../socket/socketIO';
 import { check_value_request_checkin, create_checkin_interface } from '../../../interfaces';
 import { create_notification_usecase } from '../../../useCases';
-import { authJwt, requireRoles  } from '../../../middlewares';
+import { requireRoles } from '../../../middlewares';
 
 const createCheckin: Router = Router();
 
-createCheckin.post('/',authJwt, requireRoles(['MANAGER','LEADER','SUPERVISOR','STAFF']), async (req: Request, res: Response) => {
+createCheckin.post('/', requireRoles(['MANAGER','LEADER','SUPERVISOR','STAFF']), async (req: Request, res: Response) => {
     try {
         function handleTime(value: any) {
             const roundedNumber = Math.floor(value * 4) / 4;

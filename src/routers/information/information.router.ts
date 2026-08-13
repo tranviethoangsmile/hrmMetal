@@ -1,10 +1,9 @@
 import { Router } from 'express';
-import { authJwt, requireRoles } from '../../middlewares';
+import { requireRoles } from '../../middlewares';
 import getInforOfUserRouter from './informationRouterModule/getInformationOfUser.router';
 import getInformationByIdRouter from './informationRouterModule/getInformationById.router';
 import getInformationByPositionRouter from './getInformation/getInformationByPosition.router';
 const informationRouter: Router = Router();
-informationRouter.use(authJwt);
 informationRouter.use(requireRoles(['STAFF', 'LEADER', 'MANAGER','SUPERVISOR']));
 informationRouter.use('/getinforofuser', getInforOfUserRouter);
 informationRouter.use('/getinforbyid', getInformationByIdRouter);

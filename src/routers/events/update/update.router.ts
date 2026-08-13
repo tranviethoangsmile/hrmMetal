@@ -2,10 +2,11 @@ import { Request, Response, Router } from 'express';
 import { update_events_controller } from '../../../controllers';
 import { update_events_interface } from '../../../interfaces';
 import { errorResponse, successResponse } from '../../../helpers';
+import { requireRoles } from '../../../middlewares';
 
 const updateEventsRouter: Router = Router();
 
-updateEventsRouter.post('/', async (req: Request, res: Response) => {
+updateEventsRouter.post('/', requireRoles(['ADMIN']), async (req: Request, res: Response) => {
     try {
         const field: update_events_interface = req.body;
         if (!field || !field.id) {
