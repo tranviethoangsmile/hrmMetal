@@ -8,7 +8,7 @@ import {
 } from '../../validates';
 import { Role, Position } from '../../enum';
 import { getDepartmentById } from '../../controllers';
-import { UpdateField, CreateField } from '../../interfaces';
+import { CreateField } from '../../interfaces';
 import { setCache, getCache, delCache } from '../../utils';
 import { UserRepository } from '../../repositorys';
 const userRepository = new UserRepository();
@@ -80,13 +80,21 @@ const get_all_users_of_position_for_admin_use = async (position: string) => {
         };
     }
 };
+const USER_FILTER_FIELDS = ['position', 'department_id', 'role', 'employee_id', 'name'];
+
 const userFindAllWithFieldUse = async (field: any) => {
     try {
         const isValid = valid_user_find_all_with_field(field);
         if (isValid.error) {
             throw new Error(`${isValid?.error.message}`);
         }
-        const users = await userRepository.userFindAllWithFieldRepo(field);
+        const where: any = { is_active: true };
+        for (const key of USER_FILTER_FIELDS) {
+            if (field?.[key] !== undefined && field?.[key] !== null && field?.[key] !== '') {
+                where[key] = field[key];
+            }
+        }
+        const users = await userRepository.userFindAllWithFieldRepo(where);
         if (!users?.success) {
             throw new Error(`${users?.message}`);
         }
@@ -146,39 +154,76 @@ const createNewUser = async (user: any) => {
     }
 };
 
-const updateUser = async (user: any) => {
+const SELF_UPDATABLE_FIELDS = [
+    'name',
+    'user_name',
+    'email',
+    'dob',
+    'phone',
+    'avatar',
+    'ic_id',
+    'password',
+];
+
+const ADMIN_UPDATABLE_FIELDS = [
+    'name',
+    'user_name',
+    'email',
+    'password',
+    'dob',
+    'phone',
+    'avatar',
+    'ic_id',
+    'employee_id',
+    'is_active',
+    'is_admin',
+    'is_officer',
+    'role',
+    'position',
+    'department_id',
+    'begin_date',
+    'is_offical_staff',
+    'salary_hourly',
+    'shift_night_pay',
+    'travel_allowance_pay',
+    'paid_days',
+];
+
+const updateUser = async (user: any, actor: any) => {
     try {
-        console.log(user);
         const valid = valid_user_update(user);
-        console.log(valid.error?.message);
         if (valid.error) {
             throw new Error(`${valid?.error.message}`);
         }
-        if (user.password) {
-            const passBcrypt = await bcrypt.hash(user.password, 10);
-            const userBcrypted: UpdateField = {
-                ...user,
-                password: passBcrypt,
-            };
-            const new_user = await userRepository.userUpdate(userBcrypted);
-            if (!new_user?.success) {
-                throw new Error(`${new_user?.message}`);
-            }
-            return {
-                success: true,
-            };
-        } else {
-            const user_updated: UpdateField = {
-                ...user,
-            };
-            const new_user = await userRepository.userUpdate(user_updated);
-            if (!new_user?.success) {
-                throw new Error(`${new_user?.message}`);
-            }
-            return {
-                success: true,
-            };
+        const targetId = user?.id;
+        const isAdmin = actor?.role === 'ADMIN';
+        if (!isAdmin && actor?.id !== targetId) {
+            throw new Error(`You can only update your own profile`);
         }
+
+        const allowedFields = isAdmin
+            ? ADMIN_UPDATABLE_FIELDS
+            : SELF_UPDATABLE_FIELDS;
+        const sanitized: any = {};
+        for (const key of allowedFields) {
+            if (user[key] !== undefined) {
+                sanitized[key] = user[key];
+            }
+        }
+        if (Object.keys(sanitized).length < 1) {
+            throw new Error(`no updatable fields provided`);
+        }
+        if (sanitized.password) {
+            sanitized.password = await bcrypt.hash(sanitized.password, 10);
+        }
+        const new_user = await userRepository.userUpdate({ ...sanitized, id: targetId });
+        if (!new_user?.success) {
+            throw new Error(`${new_user?.message}`);
+        }
+        await delCache('ALL_USER');
+        return {
+            success: true,
+        };
     } catch (error: any) {
         return {
             success: false,

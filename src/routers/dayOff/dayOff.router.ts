@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import { authAdminRole } from '../../middlewares';
+import { requireRoles } from '../../middlewares';
 import createDayOffRouter from './create/createDayOff.router';
 import getAllDayOffRouter from './getAll/getAll.router';
 import getByIdRouter from './getById/getById.router';
 import deleteByIdRouter from './deleteById/deleteById.router';
 import updateDayOffRouter from './update/update.router';
 const dayOffRouter: Router = Router();
-dayOffRouter.use('/create', authAdminRole, createDayOffRouter);
+dayOffRouter.use('/create', requireRoles(['ADMIN']), createDayOffRouter);
 dayOffRouter.use('/getall', getAllDayOffRouter);
 dayOffRouter.use('/getbyid', getByIdRouter);
-dayOffRouter.use('/deletebyid', authAdminRole, deleteByIdRouter);
-dayOffRouter.use('/update', authAdminRole, updateDayOffRouter);
+dayOffRouter.use('/deletebyid', requireRoles(['ADMIN']), deleteByIdRouter);
+dayOffRouter.use('/update', requireRoles(['ADMIN']), updateDayOffRouter);
 export default dayOffRouter;

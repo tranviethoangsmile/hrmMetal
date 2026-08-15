@@ -1,10 +1,10 @@
 import { Router, Request, Response } from "express";
 import { update_confirm_dependent_support_amount_controller } from "../../../controllers";
 import { errorResponse, successResponse } from "../../../helpers";
-import { authAdminRole } from "../../../middlewares";
+import { requireRoles } from "../../../middlewares";
 const updateConfirmDependentSupportAmountRouter: Router = Router();
 
-updateConfirmDependentSupportAmountRouter.post('/',authAdminRole, async (req: Request, res: Response) => {
+updateConfirmDependentSupportAmountRouter.post('/',requireRoles(['ADMIN']), async (req: Request, res: Response) => {
     try {
         const { id } = req.body;
         if(!id){

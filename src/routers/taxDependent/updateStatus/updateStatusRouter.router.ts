@@ -2,10 +2,10 @@ import { Request, Response, Router } from "express";
 import { updateTaxDependentStatusWithIdController } from "../../../controllers";
 import { errorResponse, successResponse } from "../../../helpers";
 import { IUpdateTaxDependentStatus } from "../../../interfaces";
-import { authAdminRole } from "../../../middlewares";
+import { requireRoles } from "../../../middlewares";
 const updateStatusRouter: Router = Router();
 
-updateStatusRouter.put('/', authAdminRole, async (req: Request, res: Response) => {
+updateStatusRouter.put('/', requireRoles(['ADMIN']), async (req: Request, res: Response) => {
     try {
         const updateStatusValue: IUpdateTaxDependentStatus = req.body;
         if (!updateStatusValue || !updateStatusValue.id || !updateStatusValue.status) {

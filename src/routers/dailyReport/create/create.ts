@@ -21,15 +21,19 @@ createDailyReportRouter.post('/', async (req: Request, res: Response) => {
             (!field.shift || field.shift.trim() === '') && 'shift',
             (field.quantity === undefined || field.quantity === null) &&
                 'quantity',
-            (field.good_quantity === undefined || field.good_quantity === null) &&
+            (field.good_quantity === undefined ||
+                field.good_quantity === null) &&
                 'good_quantity',
-            (field.defective_quantity === undefined || field.defective_quantity === null) &&
+            (field.defective_quantity === undefined ||
+                field.defective_quantity === null) &&
                 'defective_quantity',
             (field.cycle_time === undefined || field.cycle_time === null) &&
                 'cycle_time',
-            (field.operated_time === undefined || field.operated_time === null) &&
+            (field.operated_time === undefined ||
+                field.operated_time === null) &&
                 'operated_time',
-            (field.shutdown_time === undefined || field.shutdown_time === null) &&
+            (field.shutdown_time === undefined ||
+                field.shutdown_time === null) &&
                 'shutdown_time',
             (!field.operator_history || field.operator_history.trim() === '') &&
                 'operator_history',
@@ -39,19 +43,26 @@ createDailyReportRouter.post('/', async (req: Request, res: Response) => {
             return errorResponse(
                 res,
                 400,
-                `Invalid input: Missing required ${missingFields.join(', ')}`,
+                `Invalid input: Missing required ${missingFields.join(', ')}`
             );
         }
 
         const dailyReport = await daily_report_create(field);
-        console.log(dailyReport)
         if (dailyReport?.success) {
             return successResponse(res, 201, dailyReport?.data);
         } else {
-            return errorResponse(res, 200, dailyReport?.message || 'Failed to create daily report');
+            return errorResponse(
+                res,
+                200,
+                dailyReport?.message || 'Failed to create daily report'
+            );
         }
     } catch (error: any) {
-        return errorResponse(res, 500, error?.message || 'Internal server error');
+        return errorResponse(
+            res,
+            500,
+            error?.message || 'Internal server error'
+        );
     }
 });
 

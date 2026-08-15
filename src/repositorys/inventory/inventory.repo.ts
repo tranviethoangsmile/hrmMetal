@@ -5,12 +5,16 @@ const KEY_CACHE = `all_inventory`;
 class InventoryRepository implements IInventoryRepository {
     async UPDATE_INVENTORY(field: any) {
         try {
+            const where = field?.id
+                ? { id: field?.id }
+                : {
+                      product: field?.product,
+                      department_id: field?.department_id,
+                  };
             const result = await Inventory.update(
                 { ...field },
                 {
-                    where: {
-                        id: field?.id,
-                    },
+                    where,
                 }
             );
             if (result.toString() !== '1') {

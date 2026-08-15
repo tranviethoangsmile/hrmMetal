@@ -59,6 +59,10 @@ const schema_user_update = Joi.object({
 
 const schema_user_find_all_with_field = Joi.object({
     position: Joi.string(),
+    department_id: Joi.string().guid(),
+    role: Joi.string(),
+    employee_id: Joi.number().integer().min(1000).max(999999),
+    name: Joi.string().min(1).max(99),
 });
 
 const schema_find_by_name = Joi.string().min(1).max(99).required();

@@ -1,11 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import crypto from 'crypto';
-import dotenv from 'dotenv';
 import { errorResponse } from '../../helpers';
 import { token_payload } from '../../interfaces/login/login.interface';
-
-dotenv.config();
+import { getJwtSecret } from './jwtSecret';
 
 declare global {
     namespace Express {
@@ -14,8 +11,6 @@ declare global {
         }
     }
 }
-
-const SECRET: string = process.env.SECRET || '';
 
 const getBearerToken = (authorization?: string): string => {
     if (!authorization) {
@@ -37,8 +32,7 @@ const authJwt = (req: Request, res: Response, next: NextFunction) => {
     }
 
     try {
-        const secret = crypto.createHash('sha256').update(SECRET).digest('hex');
-        const decoded = jwt.verify(token, secret);
+        const decoded = jwt.verify(token, getJwtSecret());
         if (!decoded || typeof decoded === 'string') {
             return errorResponse(res, 401, 'Invalid authentication token');
         }

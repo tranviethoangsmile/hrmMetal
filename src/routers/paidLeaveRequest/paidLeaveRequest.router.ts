@@ -7,7 +7,7 @@ import {
     update_is_active_paid_leave_controller,
 } from '../../controllers';
 
-import { very_role } from '../../middlewares';
+import { requireRoles } from '../../middlewares';
 import { errorResponse, successResponse } from '../../helpers';
 import { IUpdatePaidLeave } from '../../interfaces';
 const paidLeaveRouter: Router = Router();
@@ -15,7 +15,7 @@ paidLeaveRouter.use('/create', create_router);
 paidLeaveRouter.use('/search', searchLeaveRouter);
 paidLeaveRouter.use('/delete', deletePaidLeaveRouter);
 
-paidLeaveRouter.put('/', very_role, async (req: Request, res: Response) => {
+paidLeaveRouter.put('/', requireRoles(['ADMIN', 'MANAGER', 'LEADER', 'SUPERVISOR']), async (req: Request, res: Response) => {
     try {
         const data: IUpdatePaidLeave = req.body;
         if (!data?.id) {

@@ -223,7 +223,7 @@
  *   post:
  *     summary: Xác nhận bản ghi số tiền hỗ trợ (chỉ Admin)
  *     tags: [DependentSupportAmount]
- *     description: Xác nhận một bản ghi. Yêu cầu quyền admin (authAdminRole).
+ *     description: Xác nhận một bản ghi. Yêu cầu quyền admin (requireRoles).
  *     security:
  *       - bearerAuth: []
  *     requestBody:

@@ -23,11 +23,15 @@ class UserRepository implements IUserRepository {
     }
     async GET_ALL_USERS_OF_POSITION_FOR_ADMIN(position: string) {
         try {
-                const users: { rows: User[]; count: number } = await User.findAndCountAll({ 
-                    where: { position: position, is_active: true, is_admin: false, 
+            const users: { rows: User[]; count: number } =
+                await User.findAndCountAll({
+                    where: {
+                        position: position,
+                        is_active: true,
+                        is_admin: false,
                         role: {
-                                [Op.ne]: 'ADMIN'
-                            } 
+                            [Op.ne]: 'ADMIN',
+                        },
                     },
                     // order:['created_at', 'DESC'],
                     attributes: [
@@ -36,7 +40,7 @@ class UserRepository implements IUserRepository {
                         'email',
                         'dob',
                         'phone',
-                        'avatar'
+                        'avatar',
                     ],
                     include: [
                         {
@@ -46,16 +50,16 @@ class UserRepository implements IUserRepository {
                         },
                     ],
                 });
-                if (users.count < 1) {
-                    throw new Error(`users not found`);
-                }
-                return {
-                    success: true,
-                    data: {
-                        rows: users.rows,
-                        count: users.count,
-                    },
-                };
+            if (users.count < 1) {
+                throw new Error(`users not found`);
+            }
+            return {
+                success: true,
+                data: {
+                    rows: users.rows,
+                    count: users.count,
+                },
+            };
         } catch (error: any) {
             return {
                 success: false,
@@ -66,12 +70,45 @@ class UserRepository implements IUserRepository {
 
     async userUpdate(field: any) {
         try {
-            const updateFields = {
-                ...field,
-            };
+            const id = field?.id;
+            if (!id) {
+                throw new Error(`user id is required`);
+            }
+            const UPDATABLE_FIELDS = [
+                'name',
+                'user_name',
+                'email',
+                'password',
+                'dob',
+                'phone',
+                'avatar',
+                'ic_id',
+                'employee_id',
+                'is_active',
+                'is_admin',
+                'is_officer',
+                'role',
+                'position',
+                'department_id',
+                'begin_date',
+                'is_offical_staff',
+                'salary_hourly',
+                'shift_night_pay',
+                'travel_allowance_pay',
+                'paid_days',
+            ];
+            const updateFields: any = {};
+            for (const key of UPDATABLE_FIELDS) {
+                if (field[key] !== undefined) {
+                    updateFields[key] = field[key];
+                }
+            }
+            if (Object.keys(updateFields).length < 1) {
+                throw new Error(`no updatable fields provided`);
+            }
             const new_user_updated = await User.update(updateFields, {
                 where: {
-                    id: updateFields.id,
+                    id,
                 },
             });
             if (new_user_updated.toString() !== '1') {
@@ -98,11 +135,11 @@ class UserRepository implements IUserRepository {
                     where: {
                         id: id,
                     },
-                },
+                }
             );
             if (userBeforeDelete.toString() !== '1') {
                 throw new Error(
-                    `delete user error because cannot update active to false`,
+                    `delete user error because cannot update active to false`
                 );
             }
             const userDel = await User.destroy({
@@ -154,7 +191,7 @@ class UserRepository implements IUserRepository {
             const user: User | null = await User.findOne({
                 where: {
                     id: id,
-                    is_active: true
+                    is_active: true,
                 },
                 attributes: [
                     'id',
@@ -171,15 +208,15 @@ class UserRepository implements IUserRepository {
                     'is_admin',
                     'avatar',
                     'is_officer',
-                ]
-            })
-            if(user === null) {
-                throw new Error(`user not found`)
+                ],
+            });
+            if (user === null) {
+                throw new Error(`user not found`);
             }
             return {
                 success: true,
-                data: user
-            }
+                data: user,
+            };
         } catch (error: any) {
             return {
                 success: false,
@@ -206,6 +243,14 @@ class UserRepository implements IUserRepository {
                     'is_admin',
                     'avatar',
                     'is_officer',
+                    'paid_days',
+                ],
+                include: [
+                    {
+                        model: Department,
+                        as: 'department',
+                        attributes: ['name'],
+                    },
                 ],
             });
 
@@ -262,8 +307,25 @@ class UserRepository implements IUserRepository {
     }
     async userFindAllWithFieldRepo(field: any) {
         try {
+            const FILTER_FIELDS = [
+                'position',
+                'department_id',
+                'role',
+                'employee_id',
+                'name',
+            ];
+            const where: any = { is_active: true };
+            for (const key of FILTER_FIELDS) {
+                if (
+                    field?.[key] !== undefined &&
+                    field?.[key] !== null &&
+                    field?.[key] !== ''
+                ) {
+                    where[key] = field[key];
+                }
+            }
             const users: User[] | null = await User.findAll({
-                where: { ...field },
+                where,
                 attributes: [
                     'id',
                     'name',
@@ -351,7 +413,7 @@ class UserRepository implements IUserRepository {
     async DEDUCT_PAID_DAYS_OF_USER(
         user_id: string,
         days: number,
-        transaction?: Transaction,
+        transaction?: Transaction
     ) {
         try {
             const user: User | null = await User.findByPk(user_id, {
@@ -364,13 +426,13 @@ class UserRepository implements IUserRepository {
             const currentPaidDays = Number(user.paid_days) || 0;
             if (currentPaidDays < days) {
                 throw new Error(
-                    `insufficient paid leave days: remaining ${currentPaidDays}, need ${days}`,
+                    `insufficient paid leave days: remaining ${currentPaidDays}, need ${days}`
                 );
             }
             const newPaidDays = currentPaidDays - days;
             const updated = await User.update(
                 { paid_days: newPaidDays },
-                { where: { id: user_id }, transaction },
+                { where: { id: user_id }, transaction }
             );
             if (updated.toString() !== '1') {
                 throw new Error(`update paid days failed`);

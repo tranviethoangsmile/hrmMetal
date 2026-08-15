@@ -19,8 +19,11 @@ import config from './configs/config/config.system';
 import swaggerDocs from './swagger/swagger.config';
 import { apiRateLimiter } from './middlewares';
 import { initRedis } from './dbs/redis';
+import { assertStrongSecret } from './securitys/auth/jwtSecret';
 // require('./dbs/db.mongo');
 dotenv.config();
+
+assertStrongSecret();
 
 // Khởi tạo Redis connection
 initRedis();

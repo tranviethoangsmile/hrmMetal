@@ -172,7 +172,9 @@
  *   put:
  *     summary: Mark a paid leave request as approved
  *     tags: [Paid Leave Requests]
- *     description: Legacy approve route guarded by very_role middleware.
+ *     description: Mark a paid leave request as approved. Requires bearer token (ADMIN/MANAGER/LEADER/SUPERVISOR).
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -208,7 +210,9 @@
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *       401:
- *         description: User role is not allowed by very_role middleware
+ *         description: Missing or invalid token
+ *       403:
+ *         description: User role is not allowed
  *       500:
  *         description: Server error
  *         content:

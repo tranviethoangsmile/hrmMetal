@@ -25,8 +25,8 @@ const get_all_users_of_position_for_admin_controller = async (
 const findAllUserWithFieldControll = async (filed: any) => {
     return await userFindAllWithFieldUse(filed);
 };
-const update = async (user: any) => {
-    return await updateUser(user);
+const update = async (user: any, actor: any) => {
+    return await updateUser(user, actor);
 };
 
 const destroy = async (id: string) => {

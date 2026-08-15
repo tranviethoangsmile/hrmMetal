@@ -22,7 +22,7 @@ uploadAvatar.post(
             .join(', ')
             return errorResponse(res, 400, `bad request without ${missingField}`)
         }
-        const result = await update(user_field);
+        const result = await update(user_field, req.user);
             if (!result?.success) {
                 return errorResponse(res, 200, result?.message || 'Failed to upload avatar');
             } 

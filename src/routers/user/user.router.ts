@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express';
 import { update, destroy, findById, findAll } from '../../controllers';
 import { CreateField, UpdateField } from '../../interfaces';
 import { errorResponse, successResponse } from '../../helpers';
+import { requireRoles } from '../../middlewares';
 import uploadAvatar from './userRouterModule/uploadAvatar.router';
 import findUser from './userRouterModule/findAllUserWithField';
 import getUserWithDepartmentId from './userRouterModule/getUserWithDepartmentId';
@@ -19,7 +20,7 @@ userRouters.use(
 );
 
 // add admin id with middleware check role
-userRouters.get('/', async (req: Request, res: Response) => {
+userRouters.get('/', requireRoles(['ADMIN', 'MANAGER']), async (req: Request, res: Response) => {
     try {
         const users = await findAll();
         if (!users?.success) {
@@ -37,7 +38,7 @@ userRouters.put('/', async (req: Request, res: Response) => {
         if(!value_update?.id) {
             return errorResponse(res, 400, 'bad request' )
         }
-        const result = await update(value_update);
+        const result = await update(value_update, req.user);
         if(!result?.success){
             return errorResponse(res, 200, result?.message || 'Failed to update user')
         }
@@ -47,7 +48,7 @@ userRouters.put('/', async (req: Request, res: Response) => {
     }
 });
 
-userRouters.delete('/:id', async (req: Request, res: Response) => {
+userRouters.delete('/:id', requireRoles(['ADMIN']), async (req: Request, res: Response) => {
     try {
         const id: string | undefined = req.params.id;
         if (!id) {

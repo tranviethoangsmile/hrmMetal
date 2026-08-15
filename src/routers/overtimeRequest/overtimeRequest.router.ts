@@ -3,11 +3,11 @@ import getAllOvertimeRequestRouter from './getAll/getAllOvertimeRequest.router';
 import getOvertimeRequestByIdRouter from './getById/getById.router';
 import updateIsConfirmOvertimeRequestRouter from './updateIsConfirm/updateIsConfirmRouter.router';
 import getOvertimeByUserIdRouter from './getOTByUserId/getOvertimeByUserId.router';
-import { authAdminRole } from '../../middlewares';
+import { requireRoles } from '../../middlewares';
 const overtimeRequestRouter: Router = Router();
 overtimeRequestRouter.use(
     '/getAll',
-    authAdminRole,
+    requireRoles(['ADMIN']),
     getAllOvertimeRequestRouter
 );
 overtimeRequestRouter.use('/getbyid', getOvertimeRequestByIdRouter);

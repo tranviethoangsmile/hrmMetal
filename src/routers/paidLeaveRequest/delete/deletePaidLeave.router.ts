@@ -6,7 +6,7 @@ const deletePaidLeaveRouter: Router = Router();
 
 deletePaidLeaveRouter.post('/', async (req: Request, res: Response) => {
     try {
-        const delete_value = req.body;
+        const delete_value = { id: req.body.id, user_id: req.user?.id };
         if (!delete_value.id || !delete_value.user_id) {
             const missingFields = [
                 !delete_value.id && 'id',

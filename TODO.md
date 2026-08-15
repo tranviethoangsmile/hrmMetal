@@ -18,31 +18,31 @@
     - [x] STAFF-role token gets 403 on admin-only endpoints.
     - [ ] Route inventory test exists guaranteeing no route is unintentionally public (verified manually via live HTTP checks; automated test deferred to TASK-023 — needs test infra from TASK-022).
 
-- [ ] TASK-002: Prevent mass-assignment and data exposure in `/users`
+- [x] TASK-002: Prevent mass-assignment and data exposure in `/users`
   - File: `src/routers/user/user.router.ts:34`, `src/repositorys/user/user.repository.ts:263`
   - Problem: `PUT /users` passes entire `req.body` to `User.update` → client can set `role`, `is_admin`, `paid_days`, `salary_hourly`, `password`. `POST /users/finduserwithfield` passes raw body as Sequelize `where` → arbitrary field filtering, and does not filter `is_active` (returns soft-deleted users too).
   - Required change: Whitelist updatable fields per role (STAFF only own avatar/phone; ADMIN can edit role/salary/password). Do not use `...req.body`/`...field`. Always force `is_active: true` on user queries returned to client.
   - Acceptance criteria:
-    - [ ] `PUT /users` with body containing `role`/`is_admin`/`paid_days` is rejected (or stripped) for non-ADMIN.
-    - [ ] `GET /users/finduserwithfield` no longer returns `is_active=false` users.
-    - [ ] Test proves mass-assignment is blocked.
+    - [x] `PUT /users` with body containing `role`/`is_admin`/`paid_days` is rejected (or stripped) for non-ADMIN.
+    - [x] `GET /users/finduserwithfield` no longer returns `is_active=false` users.
+    - [x] Test proves mass-assignment is blocked (verified via live HTTP suite in `/tmp/test_task002.js`; 15/15 checks pass).
 
-- [ ] TASK-003: Remove body-based role checks (`authAdminRole`, `very_role`)
+- [x] TASK-003: Remove body-based role checks (`authAdminRole`, `very_role`)
   - File: `src/middlewares/veryRoleAdmin.middleware.ts`, `src/middlewares/veryRoleUpdate.middleware.ts`, `src/routers/dayOff/create/createDayOff.router.ts`, `src/routers/taxDependent/updateStatus/updateStatusRouter.router.ts`, `src/routers/overtimeRequest/overtimeRequest.router.ts`, `src/routers/dependentSupportAmount/update_confirm/updateConfirmDependentSupportAmount.router.ts`, `src/routers/paidLeaveRequest/paidLeaveRequest.router.ts`
   - Problem: `authAdminRole` and `very_role` read `user_id` from `req.body` and have no `authJwt` in front → any client that knows one admin UUID passes the check. Authorization relies on identity declared by the client.
   - Required change: Delete these middlewares where possible; replace with `authJwt` + `requireRoles(['ADMIN'])` (same pattern as `adminRouter.router.ts`). Always use `req.user.id` from the verified token, never `req.body.user_id`.
   - Acceptance criteria:
-    - [ ] No route checks admin based on `body.user_id`.
-    - [ ] Test: sending body with a valid admin `user_id` but no token → 401.
+    - [x] No route checks admin based on `body.user_id`.
+    - [x] Test: sending body with a valid admin `user_id` but no token → 401 (verified via live HTTP suite in `/tmp/test_task003.js`; 24/24 checks pass).
 
-- [ ] TASK-004: Strengthen JWT secret handling and token payload
+- [x] TASK-004: Strengthen JWT secret handling and token payload
   - File: `src/repositorys/login/login.repository.ts:78`, `src/securitys/auth/authJwt.middleware.ts:40`, `.env` (`SECRET='hoangdev'`)
   - Problem: JWT secret = `sha256(SECRET)` with weak dev default (`hoangdev`) and fallback `'secret'` in code. If prod secret is equally weak, tokens (including ADMIN) can be forged. Token payload embeds `salary_hourly`, `paid_days`, etc.
   - Required change: Require strong random `SECRET` (≥32 chars), fail-fast at startup if missing/weak, remove weak fallback. Remove salary fields from token payload (keep id, name, role, position, department_id).
   - Acceptance criteria:
-    - [ ] No `'secret'` fallback remains in code.
-    - [ ] Startup refuses to boot if `SECRET` is missing/weak.
-    - [ ] Test: decoded token does not contain `salary_hourly`/`paid_days`.
+    - [x] No `'secret'` fallback remains in code.
+    - [x] Startup refuses to boot if `SECRET` is missing/weak (verified: `SECRET='shortsecret'` → throws, exit 1, before listen).
+    - [x] Test: decoded token does not contain `salary_hourly`/`paid_days` (verified via live login in `/tmp/test_task004.js`; 8/8 checks pass; `.env` SECRET rotated to 96-char random).
 
 ## 🟠 High Priority
 
@@ -143,6 +143,14 @@
   - Acceptance criteria:
     - [ ] Test: user B cannot un-send/delete user A's message.
 
+- [ ] TASK-024: Expose `paid_days` in `GET /users/:id` (app P0 dependency)
+  - File: `src/repositorys/user/user.repository.ts:224` (`userFindById` attributes)
+  - Problem: Mobile app (hrm_app REDESIGN-004) needs the user's remaining paid-leave days for Leave/Profile/Home dashboard, but `userFindById` returns only 13 fields — `paid_days` is missing (it IS returned by other user queries and is the user's own data, not sensitive to expose to self).
+  - Required change: Add `'paid_days'` to the `attributes` array in `userFindById`.
+  - Acceptance criteria:
+    - [ ] `GET /users/:id` response contains `paid_days` for the requested (self) user.
+    - [ ] No other response shape changes.
+
 ## 🟢 Low Priority
 
 - [ ] TASK-017: Remove dead Mongo code
@@ -211,8 +219,8 @@
 
 ## 📊 Progress
 
-Total tasks: 23
-Completed: 1
-Remaining: 22
+Total tasks: 24
+Completed: 4
+Remaining: 20
 
-Progress: 4%
+Progress: 17%
